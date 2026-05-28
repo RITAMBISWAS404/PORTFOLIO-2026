@@ -168,7 +168,7 @@ export default function Navbar() {
         border: scrolled
           ? "1px solid rgba(255,255,255,0.13)"
           : "1px solid rgba(255,255,255,0.09)",
-        borderRadius: 18,
+        borderRadius: 16,
         display: "flex", alignItems: "center", gap: 5,
         overflow: "hidden",
         boxShadow: scrolled
