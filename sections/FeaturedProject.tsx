@@ -90,7 +90,7 @@ export default function FeaturedProject() {
         </div>
 
         {/* Stats grid */}
-        <div style={{ display:"grid",gridTemplateColumns:"1fr 1fr",gap:16,marginTop:24 }}>
+        <div className="stats-grid" style={{ display:"grid",gap:16,marginTop:24 }}>
           {zeno.stats.map((s,i) => (
             <Card key={s.label} label={s.label} num={s.num} body={s.body} delay={i*0.08}/>
           ))}
@@ -123,6 +123,8 @@ export default function FeaturedProject() {
           .carousel-wrap { height: 75vh; }
           .carousel-card { width: calc(75vh * 0.75); }
         }
+        .stats-grid { grid-template-columns: 1fr; }
+        @media (min-width: 768px) { .stats-grid { grid-template-columns: 1fr 1fr; } }
         @keyframes tinker {
           from { transform: translateX(0); }
           to   { transform: translateX(-50%); }
