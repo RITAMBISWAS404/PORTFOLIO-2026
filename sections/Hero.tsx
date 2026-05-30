@@ -59,8 +59,8 @@ export default function Hero() {
         <motion.div variants={item} style={{display:"flex",alignItems:"center",gap:16}}>
           <Avatar />
           <div>
-            <div style={{fontSize:16,fontWeight:500,color:C.t1,letterSpacing:"0.01em"}}>{hero.name}</div>
-            <div style={{fontSize:16,fontWeight:400,color:C.t2}}>
+            <div className="f16" style={{fontWeight:500,color:C.t1,letterSpacing:"0.01em"}}>{hero.name}</div>
+            <div className="f16" style={{fontWeight:400,color:C.t2}}>
               {hero.role} <strong style={{color:C.t1,fontWeight:500}}>{hero.roleHighlight}</strong>
             </div>
           </div>
@@ -71,7 +71,7 @@ export default function Hero() {
           style={{background:C.card,border:`1px solid ${C.border}`,borderRadius:16,
             padding:16,display:"flex",flexDirection:"column",gap:8}}>
           <span style={{fontSize:12,fontWeight:500,color:C.t1,letterSpacing:"0.08em"}}>BIO</span>
-          <p style={{fontSize:16,fontWeight:400,color:C.t2,lineHeight:1.6}}
+          <p className="f16" style={{fontWeight:400,color:C.t2,lineHeight:1.6}}
             dangerouslySetInnerHTML={{__html:hero.bio
               .replace(/<b>/g,'<strong style="color:#fff;font-weight:500">')
               .replace(/<\/b>/g,'</strong>')}}/>

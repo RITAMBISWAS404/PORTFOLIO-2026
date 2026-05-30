@@ -25,7 +25,7 @@ function ExpEntry({ e, delay, isFirst }: { e: typeof experience[0]; delay: numbe
     onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.background = ""; }}>
       <div style={{ ...col, padding: "16px 0", borderTop: isFirst ? "none" : `1px solid ${C.border}` }}>
         <div style={{ display:"flex",alignItems:"center",flexWrap:"wrap",gap:8 }}>
-          <span style={{ fontSize:16,fontWeight:500,color:C.t1 }}>{e.role}</span>
+          <span className="f16" style={{ fontWeight:500,color:C.t1 }}>{e.role}</span>
           {e.img
             ? (Array.isArray(e.img) ? e.img : [e.img]).map((src: string, idx: number) => (
                 <div key={idx} style={{ width:24,height:24,borderRadius:6,flexShrink:0,overflow:"hidden" }}>
@@ -35,9 +35,9 @@ function ExpEntry({ e, delay, isFirst }: { e: typeof experience[0]; delay: numbe
             : <div style={{ width:24,height:24,borderRadius:6,flexShrink:0,background:e.logoBg,
                 display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,fontWeight:500,color:"#fff" }}>{e.logo}</div>
           }
-          <span style={{ fontSize:16,fontWeight:500,color:C.t1 }}>{e.company}</span>
+          <span className="f16" style={{ fontWeight:500,color:C.t1 }}>{e.company}</span>
         </div>
-        <p style={{ fontSize:16,fontWeight:400,color:C.t2,lineHeight:1.6,marginTop:8 }}>{e.desc}</p>
+        <p className="f16" style={{ fontWeight:400,color:C.t2,lineHeight:1.6,marginTop:8 }}>{e.desc}</p>
         <div style={{ fontSize:12,fontWeight:500,color:C.t3,marginTop:8 }}>{e.meta}</div>
       </div>
     </div>

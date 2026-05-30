@@ -71,8 +71,8 @@ export default function FeaturedProject() {
               <img src="/images/zeno logo.png" alt="ZENO" style={{width:"100%",height:"100%",objectFit:"cover"}}/>
             </div>
             <div>
-              <div style={{ fontSize:16,fontWeight:500,color:C.t1 }}>{zeno.name}</div>
-              <div style={{ fontSize:16,fontWeight:400,color:C.t2 }}>{zeno.sub}</div>
+              <div className="f16" style={{ fontWeight:500,color:C.t1 }}>{zeno.name}</div>
+              <div className="f16" style={{ fontWeight:400,color:C.t2 }}>{zeno.sub}</div>
             </div>
           </div>
 
@@ -86,7 +86,7 @@ export default function FeaturedProject() {
             ))}
           </div>
 
-          <p style={{ fontSize:16,fontWeight:400,color:C.t2,lineHeight:1.6 }}>{zeno.desc}</p>
+          <p className="f16" style={{ fontWeight:400,color:C.t2,lineHeight:1.6 }}>{zeno.desc}</p>
         </div>
 
         {/* Stats grid */}

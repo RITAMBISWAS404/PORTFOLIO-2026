@@ -28,7 +28,7 @@ export default function Stack(){
         </div>
         <div style={{position:"absolute",top:0,bottom:0,right:0,width:48,background:`linear-gradient(to left,${C.bg},transparent)`,zIndex:2,pointerEvents:"none"}}/>
       </div>
-      <p style={{fontSize:16,fontWeight:400,color:C.t2,lineHeight:1.6,marginTop:24}}>
+      <p className="f16" style={{fontWeight:400,color:C.t2,lineHeight:1.6,marginTop:24}}>
         Using the right mix of tools, systems, and rapid iteration to turn complex ideas into clean and usable digital experiences.
       </p>
       <style>{`@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}`}</style>
