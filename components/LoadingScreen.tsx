@@ -42,7 +42,7 @@ export default function LoadingScreen() {
           transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
           style={{
             position: "fixed", inset: 0, zIndex: 9999,
-            background: "#0d0d0d",
+            background: "var(--c-bg)",
             display: "flex", flexDirection: "column",
             alignItems: "center", justifyContent: "center",
             gap: 36,

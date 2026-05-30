@@ -17,7 +17,7 @@ export default function Card({ label, num, body, delay = 0 }: Props) {
         const r = e.currentTarget.getBoundingClientRect();
         const x = (((e.clientX - r.left) / r.width) * 100).toFixed(1);
         const y = (((e.clientY - r.top) / r.height) * 100).toFixed(1);
-        setGlow(`radial-gradient(circle at ${x}% ${y}%, rgba(255,255,255,0.05) 0%, ${C.card} 65%)`);
+        setGlow(`radial-gradient(circle at ${x}% ${y}%, var(--c-glow) 0%, var(--c-card) 65%)`);
       }}
       onMouseEnter={e => {
         setHovered(true);

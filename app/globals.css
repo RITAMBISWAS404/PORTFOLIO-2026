@@ -1,51 +1,121 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
 @import "tailwindcss";
 
-:root {
-  --color-bg:          #0d0d0d;
-  --color-card:        #121212;
-  --color-input:       #111111;
-  --color-border:      #222222;
-  --color-border-hover:#2a2a2a;
-  --color-text-1:      #ffffff;
-  --color-text-2:      #888888;
-  --color-text-3:      #555555;
-  --color-placeholder: #999999;
-  --color-accent:      #34a853;
-  --color-red:         #f43f5e;
-  --color-yellow:      #fbbc05;
-  --color-blue:        #4285f4;
-  --color-hover:       rgba(255,255,255,0.018);
+/* ── Dark theme (default) ───────────────────────────────────────────────── */
+:root, [data-theme="dark"] {
+  --c-bg:        #0d0d0d;
+  --c-card:      #121212;
+  --c-input:     #111111;
+  --c-border:    #222222;
+  --c-border-hv: #2a2a2a;
+  --c-hover:     rgba(255,255,255,0.018);
+  --c-hover-bg:  rgba(255,255,255,0.03);
+  --c-t1:        #ffffff;
+  --c-t2:        #888888;
+  --c-t3:        #555555;
+  --c-ph:        #999999;
+  --c-accent:    #34a853;
+  --c-red:       #f43f5e;
+  --c-yellow:    #fbbc05;
+  --c-blue:      #4285f4;
+  --c-glow:      rgba(255,255,255,0.05);
+
+  /* Navbar */
+  --nav-bg:                   rgba(10,10,10,0.35);
+  --nav-bg-scrolled:          rgba(10,10,10,0.55);
+  --nav-border:               rgba(255,255,255,0.09);
+  --nav-border-scrolled:      rgba(255,255,255,0.13);
+  --nav-shadow:               0 12px 40px rgba(0,0,0,0.7), 0 1px 0 rgba(255,255,255,0.05) inset;
+  --nav-mobile-bg:            rgba(13,13,13,0.35);
+  --nav-mobile-bg-scrolled:   rgba(10,10,10,0.95);
+  --nav-mobile-border:        rgba(255,255,255,0.05);
+  --nav-mobile-border-scrolled: rgba(255,255,255,0.10);
+  --nav-drawer-bg:            rgba(10,10,10,0.97);
+  --nav-drawer-border:        rgba(255,255,255,0.08);
+  --nav-overlay:              rgba(0,0,0,0.55);
+  --nav-link:                 rgba(255,255,255,0.42);
+  --nav-link-active:          #ffffff;
+  --nav-link-mobile:          rgba(255,255,255,0.5);
+  --nav-link-sep:             rgba(255,255,255,0.06);
+
+  /* Legacy aliases (keep body/scrollbar working) */
+  --color-bg:     #0d0d0d;
+  --color-border: #222222;
+  --color-accent: #34a853;
+
   --radius-xs: 6px;
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
-  /* Desktop floating nav */
   --nav-height-desktop: 54px;
   --nav-top:            18px;
-  /* Mobile sticky nav */
   --nav-height-mobile:  56px;
 }
 
+/* ── Light theme ────────────────────────────────────────────────────────── */
+[data-theme="light"] {
+  --c-bg:        #f6f6f4;
+  --c-card:      #ffffff;
+  --c-input:     #f0f0ee;
+  --c-border:    #e4e4e2;
+  --c-border-hv: #d0d0ce;
+  --c-hover:     rgba(0,0,0,0.025);
+  --c-hover-bg:  rgba(0,0,0,0.04);
+  --c-t1:        #111111;
+  --c-t2:        #717171;
+  --c-t3:        #a8a8a8;
+  --c-ph:        #bbbbbb;
+  --c-accent:    #34a853;
+  --c-red:       #f43f5e;
+  --c-yellow:    #f5ab00;
+  --c-blue:      #4285f4;
+  --c-glow:      rgba(0,0,0,0.03);
+
+  /* Navbar */
+  --nav-bg:                   rgba(246,246,244,0.7);
+  --nav-bg-scrolled:          rgba(255,255,255,0.92);
+  --nav-border:               rgba(0,0,0,0.08);
+  --nav-border-scrolled:      rgba(0,0,0,0.12);
+  --nav-shadow:               0 4px 24px rgba(0,0,0,0.07), 0 1px 0 rgba(255,255,255,0.9) inset;
+  --nav-mobile-bg:            rgba(246,246,244,0.85);
+  --nav-mobile-bg-scrolled:   rgba(255,255,255,0.97);
+  --nav-mobile-border:        rgba(0,0,0,0.06);
+  --nav-mobile-border-scrolled: rgba(0,0,0,0.10);
+  --nav-drawer-bg:            rgba(250,250,248,0.99);
+  --nav-drawer-border:        rgba(0,0,0,0.07);
+  --nav-overlay:              rgba(0,0,0,0.2);
+  --nav-link:                 rgba(0,0,0,0.45);
+  --nav-link-active:          #111111;
+  --nav-link-mobile:          rgba(0,0,0,0.55);
+  --nav-link-sep:             rgba(0,0,0,0.06);
+
+  --color-bg:     #f6f6f4;
+  --color-border: #e4e4e2;
+  --color-accent: #34a853;
+}
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+
+html {
+  scroll-behavior: smooth;
+  transition: background-color 0.3s ease;
+}
 
 body {
-  background: var(--color-bg);
-  color: var(--color-text-1);
+  background: var(--c-bg);
+  color: var(--c-t1);
   font-family: 'Poppins', sans-serif;
-  font-size: 14px;        /* mobile base */
+  font-size: 14px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-  /* Mobile: body offset = sticky nav height */
   padding-top: var(--nav-height-mobile);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 @media (min-width: 768px) {
   body {
-    font-size: 16px;      /* desktop base */
-    /* Desktop: floating nav with top gap */
+    font-size: 16px;
     padding-top: calc(var(--nav-top) + var(--nav-height-desktop) + 8px);
   }
 }
@@ -53,18 +123,18 @@ body {
 section[id], div[id] { scroll-margin-top: 60px; }
 
 ::-webkit-scrollbar              { width: 6px; }
-::-webkit-scrollbar-track        { background: var(--color-bg); }
-::-webkit-scrollbar-thumb        { background: var(--color-border); border-radius: 999px; }
+::-webkit-scrollbar-track        { background: var(--c-bg); }
+::-webkit-scrollbar-thumb        { background: var(--c-border); border-radius: 999px; }
 
-::selection { background: rgba(52,168,83,0.15); color: #fff; }
-:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; border-radius: 4px; }
+::selection { background: rgba(52,168,83,0.15); }
+:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 3px; border-radius: 4px; }
 textarea { resize: none; }
 
-/* Responsive body text: 14px mobile → 16px desktop */
+/* Responsive body text */
 .f16 { font-size: 14px; }
 @media (min-width: 768px) { .f16 { font-size: 16px; } }
 
-/* Responsive buttons: stacked + full width on mobile, row on desktop */
+/* Responsive buttons */
 .btn-row { display: flex; flex-direction: column; gap: 8px; }
 .btn-row > a, .btn-row > button { width: 100%; justify-content: center; }
 @media (min-width: 768px) {
@@ -72,7 +142,7 @@ textarea { resize: none; }
   .btn-row > a, .btn-row > button { width: auto; }
 }
 
-/* ── Mobile menu open: prevent body scroll ─── */
+/* Mobile menu open */
 body.menu-open { overflow: hidden; }
 
 @media (prefers-reduced-motion: reduce) {

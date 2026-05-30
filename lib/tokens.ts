@@ -1,25 +1,37 @@
-// Single source of truth for all design tokens used in inline styles
+// Single source of truth — all values are CSS custom properties
+// so they respond to [data-theme] changes without React re-renders.
 export const C = {
-  bg:      "#0d0d0d",  card:    "#121212",  input:   "#111111",
-  border:  "#222222",  borderHv:"#2a2a2a",  hover:   "rgba(255,255,255,0.018)",
-  hoverBg: "rgba(255,255,255,0.03)",
-  t1:      "#ffffff",  t2:      "#888888",  t3:      "#555555",  ph: "#999999",
-  accent:  "#34a853",  red:     "#f43f5e",  yellow:  "#fbbc05",  blue: "#4285f4",
+  bg:      "var(--c-bg)",
+  card:    "var(--c-card)",
+  input:   "var(--c-input)",
+  border:  "var(--c-border)",
+  borderHv:"var(--c-border-hv)",
+  hover:   "var(--c-hover)",
+  hoverBg: "var(--c-hover-bg)",
+  t1:      "var(--c-t1)",
+  t2:      "var(--c-t2)",
+  t3:      "var(--c-t3)",
+  ph:      "var(--c-ph)",
+  accent:  "var(--c-accent)",
+  red:     "var(--c-red)",
+  yellow:  "var(--c-yellow)",
+  blue:    "var(--c-blue)",
 };
+
 export const ease = "cubic-bezier(.22,1,.36,1)";
 export const col  = { maxWidth: 768, margin: "0 auto" } as const;
 
 export const tagStyle: React.CSSProperties = {
   display:"flex",alignItems:"center",gap:6,padding:"5px 12px 5px 10px",
-  border:`1px solid ${C.border}`,borderRadius:9999,
-  fontSize:12,fontWeight:500,color:C.t1,letterSpacing:"0.08em",
+  border:`1px solid var(--c-border)`,borderRadius:9999,
+  fontSize:12,fontWeight:500,color:"var(--c-t1)",letterSpacing:"0.08em",
   whiteSpace:"nowrap",cursor:"default",
   transition:"border-color 0.25s,background 0.25s",
 };
 export const tagHv=(e:React.MouseEvent,on:boolean)=>{
   const el=e.currentTarget as HTMLElement;
-  el.style.borderColor=on?C.borderHv:C.border;
-  el.style.background =on?C.hoverBg:"";
+  el.style.borderColor=on?"var(--c-border-hv)":"var(--c-border)";
+  el.style.background =on?"var(--c-hover-bg)":"";
 };
 export const revealStyle=(inView:boolean,delay=0):React.CSSProperties=>({
   opacity:inView?1:0,
@@ -28,8 +40,8 @@ export const revealStyle=(inView:boolean,delay=0):React.CSSProperties=>({
   transition:`opacity 0.7s ${ease} ${delay}s, filter 0.7s ${ease} ${delay}s, transform 0.7s ${ease} ${delay}s`,
 });
 export const inputBase:React.CSSProperties={
-  width:"100%",background:C.input,border:`1px solid ${C.border}`,borderRadius:16,
-  padding:12,fontFamily:"Poppins,sans-serif",fontSize:14,fontWeight:400,color:C.t1,
+  width:"100%",background:"var(--c-input)",border:`1px solid var(--c-border)`,borderRadius:16,
+  padding:12,fontFamily:"Poppins,sans-serif",fontSize:14,fontWeight:400,color:"var(--c-t1)",
   outline:"none",WebkitAppearance:"none",appearance:"none",
   transition:"border-color 0.25s,box-shadow 0.25s,transform 0.25s",
 };
