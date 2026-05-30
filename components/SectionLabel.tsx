@@ -12,7 +12,7 @@ export default function SectionLabel({ icon:Icon, label, num, iconColor=C.t3 }: 
   return (
     <div ref={ref} style={{display:"flex",alignItems:"center",gap:8,minHeight:15}}>
       <div style={{display:"flex",alignItems:"center",gap:8,flexShrink:0}}>
-        <Icon size={14} color={iconColor} strokeWidth={1.75}/>
+        <Icon size={14} color={iconColor} strokeWidth={2}/>
         <span style={{fontSize:12,fontWeight:500,color:C.t1,letterSpacing:"0.08em",whiteSpace:"nowrap"}}>{label}</span>
       </div>
       <div style={{flex:1,height:1,background:C.border,transformOrigin:"left center",

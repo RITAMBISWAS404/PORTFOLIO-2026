@@ -49,10 +49,10 @@ export default function Contact() {
 
   const btnBg   = status==="sent" ? "#1a2a1a" : status==="error" ? "#2a1a1a" : "#333";
   const btnCol  = status==="sent" ? C.accent   : status==="error" ? C.red      : C.t1;
-  const btnIcon = status==="sent" ? <Check size={14} strokeWidth={1.75}/>
-                : status==="error"? <AlertCircle size={14} strokeWidth={1.75}/>
+  const btnIcon = status==="sent" ? <Check size={14} strokeWidth={2}/>
+                : status==="error"? <AlertCircle size={14} strokeWidth={2}/>
                 : status==="sending"? null
-                : <Send size={14} strokeWidth={1.75}/>;
+                : <Send size={14} strokeWidth={2}/>;
   const btnLabel= status==="sent" ? "Sent!" : status==="error" ? "Try again"
                 : status==="sending" ? "Sending…" : "Submit";
 

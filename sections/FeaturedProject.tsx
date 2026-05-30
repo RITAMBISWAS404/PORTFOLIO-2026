@@ -22,9 +22,9 @@ const allImgs = Array.from({length: SETS}, () => imgs).flat();
 const halfLen = allImgs.length / 2;
 
 const tags = [
-  { label: "UX DESIGN",  icon: <PenTool  size={12} color={C.accent} strokeWidth={1.75} /> },
-  { label: "EV APP",     icon: <Zap      size={12} color={C.yellow} strokeWidth={1.75} /> },
-  { label: "CASE STUDY", icon: <FileText size={12} color={C.blue}   strokeWidth={1.75} /> },
+  { label: "UX DESIGN",  icon: <PenTool  size={12} color={C.accent} strokeWidth={2} /> },
+  { label: "EV APP",     icon: <Zap      size={12} color={C.yellow} strokeWidth={2} /> },
+  { label: "CASE STUDY", icon: <FileText size={12} color={C.blue}   strokeWidth={2} /> },
 ];
 
 export default function FeaturedProject() {
@@ -99,8 +99,8 @@ export default function FeaturedProject() {
         {/* CTAs */}
         <div className="btn-row" style={{ marginTop:24 }}>
           {[
-            { label:"Read Case Study", icon:<BookOpen size={14} strokeWidth={1.75}/>, bg:C.t1,  color:C.bg },
-            { label:"View in Figma",   icon:<PenTool  size={14} strokeWidth={1.75}/>, bg:"rgba(255,255,255,0.05)", color:C.t1 },
+            { label:"Read Case Study", icon:<BookOpen size={14} strokeWidth={2}/>, bg:C.t1,  color:C.bg },
+            { label:"View in Figma",   icon:<PenTool  size={14} strokeWidth={2}/>, bg:"rgba(255,255,255,0.05)", color:C.t1 },
           ].map(btn => (
             <a key={btn.label} href="#" style={{
               display:"flex",alignItems:"center",gap:10,
