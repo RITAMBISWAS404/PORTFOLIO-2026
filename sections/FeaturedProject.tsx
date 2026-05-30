@@ -97,7 +97,7 @@ export default function FeaturedProject() {
         </div>
 
         {/* CTAs */}
-        <div style={{ display:"flex",gap:8,flexWrap:"wrap",marginTop:24 }}>
+        <div className="btn-row" style={{ marginTop:24 }}>
           {[
             { label:"Read Case Study", icon:<BookOpen size={14} strokeWidth={1.75}/>, bg:C.t1,  color:C.bg },
             { label:"View in Figma",   icon:<PenTool  size={14} strokeWidth={1.75}/>, bg:"rgba(255,255,255,0.05)", color:C.t1 },

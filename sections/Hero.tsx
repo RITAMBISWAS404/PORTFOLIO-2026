@@ -93,7 +93,7 @@ export default function Hero() {
         </motion.div>
 
         {/* CTAs */}
-        <motion.div variants={item} style={{display:"flex",gap:8,flexWrap:"wrap"}}>
+        <motion.div variants={item} className="btn-row">
           <a href="#projects" style={{display:"flex",alignItems:"center",gap:10,
             background:C.t1,color:C.bg,padding:"11px 22px",borderRadius:9999,
             fontSize:14,fontWeight:500,textDecoration:"none",

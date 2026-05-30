@@ -64,6 +64,14 @@ textarea { resize: none; }
 .f16 { font-size: 14px; }
 @media (min-width: 768px) { .f16 { font-size: 16px; } }
 
+/* Responsive buttons: stacked + full width on mobile, row on desktop */
+.btn-row { display: flex; flex-direction: column; gap: 8px; }
+.btn-row > a, .btn-row > button { width: 100%; justify-content: center; }
+@media (min-width: 768px) {
+  .btn-row { flex-direction: row; flex-wrap: wrap; }
+  .btn-row > a, .btn-row > button { width: auto; }
+}
+
 /* ── Mobile menu open: prevent body scroll ─── */
 body.menu-open { overflow: hidden; }
 
