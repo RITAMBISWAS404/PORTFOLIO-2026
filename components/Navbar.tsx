@@ -52,7 +52,7 @@ export default function Navbar() {
     animated.current = true;
     const run = async () => {
       await animate(scope.current, { y: 0 },      { duration: 0.55, ease: [0.22,1,0.36,1] });
-      await animate(scope.current, { width: 672 }, { duration: 0.9,  ease: [0.16,1,0.3,1] });
+      await animate(scope.current, { width: 704 }, { duration: 0.9,  ease: [0.16,1,0.3,1] });
       animate(".nav-link", { opacity: 1, filter: "blur(0px)" }, { duration: 0.3, delay: stagger(0.07) });
     };
     run();

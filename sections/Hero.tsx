@@ -51,7 +51,7 @@ function Avatar() {
 export default function Hero() {
   const { ready } = useAppReady();
   return (
-    <section id="hero" style={{maxWidth:720,margin:"0 auto",padding:"32px 24px 0"}}>
+    <section id="hero" style={{maxWidth:752,margin:"0 auto",padding:"32px 24px 0"}}>
       <motion.div variants={container} initial="hidden" animate={ready ? "show" : "hidden"}
         style={{display:"flex",flexDirection:"column",gap:24}}>
 
