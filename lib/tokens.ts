@@ -22,8 +22,10 @@ export const tagHv=(e:React.MouseEvent,on:boolean)=>{
   el.style.background =on?C.hoverBg:"";
 };
 export const revealStyle=(inView:boolean,delay=0):React.CSSProperties=>({
-  opacity:inView?1:0,transform:inView?"translateY(0)":"translateY(16px)",
-  transition:`opacity 0.7s ${ease} ${delay}s,transform 0.7s ${ease} ${delay}s`,
+  opacity:inView?1:0,
+  filter:inView?"blur(0px)":"blur(6px)",
+  transform:inView?"translateY(0)":"translateY(16px)",
+  transition:`opacity 0.7s ${ease} ${delay}s, filter 0.7s ${ease} ${delay}s, transform 0.7s ${ease} ${delay}s`,
 });
 export const inputBase:React.CSSProperties={
   width:"100%",background:C.input,border:`1px solid ${C.border}`,borderRadius:16,
