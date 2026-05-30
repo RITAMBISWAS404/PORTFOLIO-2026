@@ -7,7 +7,7 @@ export const C = {
   accent:  "#34a853",  red:     "#f43f5e",  yellow:  "#fbbc05",  blue: "#4285f4",
 };
 export const ease = "cubic-bezier(.22,1,.36,1)";
-export const col  = { maxWidth: 752, margin: "0 auto" } as const;
+export const col  = { maxWidth: 768, margin: "0 auto" } as const;
 
 export const tagStyle: React.CSSProperties = {
   display:"flex",alignItems:"center",gap:6,padding:"5px 12px 5px 10px",
