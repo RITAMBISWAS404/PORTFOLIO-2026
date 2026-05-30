@@ -90,7 +90,7 @@ export default function FeaturedProject() {
         </div>
 
         {/* Stats grid */}
-        <div style={{ display:"grid",gridTemplateColumns:"1fr",gap:16,marginTop:24 }}>
+        <div style={{ display:"grid",gridTemplateColumns:"1fr 1fr",gap:16,marginTop:24 }}>
           {zeno.stats.map((s,i) => (
             <Card key={s.label} label={s.label} num={s.num} body={s.body} delay={i*0.08}/>
           ))}
