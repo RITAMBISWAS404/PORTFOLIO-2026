@@ -37,9 +37,9 @@ function Avatar() {
       style={{position:"relative",width:64,height:64,flexShrink:0}}>
       <motion.div style={{width:64,height:64,borderRadius:16,overflow:"hidden",transform}}>
         <div style={{position:"absolute",inset:0,
-          background:"conic-gradient(from 0deg, #1ecc4e, #3d7fff, #ff3333, #ff9500, #1ecc4e)",
+          background:"conic-gradient(from 0deg, #20d455, #4488ff, #ff2626, #ffc200, #20d455)",
           transform:"scale(2.4)",filter:"blur(8px)",
-          animation:"aura 6s linear infinite"}}/>
+          animation:"aura 10s linear infinite"}}/>
         <img src="/images/avatar.png"
           alt="Ritam Biswas"
           style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",borderRadius:16}}/>
