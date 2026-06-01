@@ -48,12 +48,6 @@ export const experience = [
     meta: "Jan 2024 – Present | Remote | Copenhagen, Denmark",
   },
   {
-    role: "Design Collaborator at", company: "Growth",
-    logo: "G", logoBg: "linear-gradient(135deg,#f43f5e,#fb923c)", img: "/images/growth logo.png",
-    desc: "Collaborating with a digital advertising agency on websites, marketing creatives, and campaign visuals. Contributing across both design and frontend implementation for client-facing digital products.",
-    meta: "Jan 2025 – Present | Remote",
-  },
-  {
     role: "Lead Designer at", company: "Status Code 2",
     logo: "SC2", logoBg: "linear-gradient(135deg,#4285f4,#34a853)", img: "/images/status code 2.png",
     desc: "Led the visual identity and branding for an MLH-associated hackathon organised by IIT Kalyani. Designed the event identity system, promotional graphics, and digital assets used across marketing and participant communication.",
