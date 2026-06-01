@@ -48,7 +48,7 @@ export default function Experience() {
   return (
     <section id="experience" style={{ ...col, padding: "64px 24px 0" }}>
       <SectionLabel icon={Briefcase} label="EXPERIENCE" num="04" iconColor={C.accent} />
-      <div style={{ marginTop: 32 }}>
+      <div style={{ marginTop: 16 }}>
         {experience.map((e, i) => (
           <ExpEntry key={e.company} e={e} delay={i * 0.06} isFirst={i === 0} />
         ))}
