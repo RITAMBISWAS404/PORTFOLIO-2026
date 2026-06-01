@@ -15,12 +15,12 @@ export const zeno = {
   name: "ZENO",
   sub: "Smart EV Charging Management",
   tags: ["UX DESIGN", "EV APP", "CASE STUDY"],
-  desc: `ZENO is a smart EV charging management app built to turn overwhelming energy data into decisions users can actually act on. I designed the product end to end, from user research and information architecture to interaction design and high-fidelity prototyping, with a focus on reducing cognitive load without stripping away transparency or control.`,
+  desc: `ZENO is a smart EV charging app built to make complex energy data simple and actionable. I designed the product end to end from a blank file: user research, information architecture, wireframes, UI design, and developer handoff across 50+ screens and 6 user flows for iOS and Android. The core challenge was reducing cognitive load without stripping away the data users actually needed to make decisions.`,
   stats: [
-    { label: "Screens Designed",     num: "40+" , body: "Spans every key user flow from initial onboarding through analytics, history, and account screens." },
-    { label: "Core Product Sections",num: "04",  body: "Four tab system organizing complex EV data into Home, Analytics, Insights, and Account sections." },
-    { label: "Analytics Views Built", num: "03", body: "Cost analysis, energy trends, and 24-hour session history converted into clear, readable patterns." },
-    { label: "Smart Config Controls", num: "02", body: "Target SoC and departure time controls let users fine-tune battery health and overall convenience." },
+    { label: "Screens Designed",   num: "50+", body: "Covers every key user flow from onboarding through dashboard, analytics, and account settings." },
+    { label: "User Flows Mapped",  num: "06",  body: "Onboarding, charging session, analytics, history, insights, and account management." },
+    { label: "Design Iterations",  num: "02",  body: "Two full product iterations shipped, each informed by real user feedback from beta testing." },
+    { label: "Component System",   num: "40+", body: "A full design system built using Figma variables and design tokens for UI consistency." },
   ],
 };
 
