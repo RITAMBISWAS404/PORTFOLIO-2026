@@ -35,15 +35,11 @@ function Avatar() {
   return (
     <div ref={ref} onMouseMove={move} onMouseLeave={leave}
       style={{position:"relative",width:64,height:64,flexShrink:0}}>
-      <motion.div style={{width:64,height:64,borderRadius:16,overflow:"hidden",transform,
-        background:[
-          "radial-gradient(circle at 0% 0%,   #3d7fff 0%, transparent 65%)",
-          "radial-gradient(circle at 100% 0%,  #ff3333 0%, transparent 65%)",
-          "radial-gradient(circle at 0% 100%,  #1ecc4e 0%, transparent 65%)",
-          "radial-gradient(circle at 100% 100%, #ff9500 0%, transparent 65%)",
-          "#1a1a2e",
-        ].join(",")}}>
-        <div style={{position:"absolute",inset:0}}/>
+      <motion.div style={{width:64,height:64,borderRadius:16,overflow:"hidden",transform}}>
+        <div style={{position:"absolute",inset:0,
+          background:"conic-gradient(from 0deg, #1ecc4e, #3d7fff, #ff3333, #ff9500, #1ecc4e)",
+          transform:"scale(2.4)",filter:"blur(8px)",
+          animation:"aura 6s linear infinite"}}/>
         <img src="/images/avatar.png"
           alt="Ritam Biswas"
           style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",borderRadius:16}}/>
@@ -117,6 +113,7 @@ export default function Hero() {
         </motion.div>
       </motion.div>
 
+      <style>{`@keyframes aura{from{transform:scale(2.4) rotate(0deg)}to{transform:scale(2.4) rotate(360deg)}}`}</style>
     </section>
   );
 }
