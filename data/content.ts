@@ -93,9 +93,9 @@ export const stackColors: Record<string,{bg:string;color:string;img:string}> = {
 
 export const socials = [
   { name: "LinkedIn",  handle: "in/ritam404",    href: "https://linkedin.com/in/ritam404" },
+  { name: "X",         handle: "bisaucee",        href: "https://x.com/bisaucee" },
   { name: "Instagram", handle: "_ritam_here",    href: "https://instagram.com/_ritam_here" },
   { name: "Pinterest", handle: "biswasritam404",  href: "https://in.pinterest.com/biswasritam404/" },
-  { name: "X",         handle: "bisaucee",        href: "https://x.com/bisaucee" },
 ];
 
 export const navLinks = [
