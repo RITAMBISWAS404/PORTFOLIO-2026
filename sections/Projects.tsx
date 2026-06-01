@@ -1,7 +1,7 @@
 "use client";
 import { useRef } from "react";
 import { useInView } from "framer-motion";
-import { LayoutGrid,Leaf,FileText,Store,TrainFront,RefreshCw,Zap,Globe,Home,PenTool,Building2 } from "lucide-react";
+import { LayoutGrid,Leaf,FileText,Store,TrainFront,RefreshCw,Zap,Globe,Home,PenTool,Building2,Circle } from "lucide-react";
 import SectionLabel from "@/components/SectionLabel";
 import { projects } from "@/data/content";
 import { C, tagStyle, tagHv, revealStyle, col } from "@/lib/tokens";
@@ -17,6 +17,7 @@ const tagIcons: Record<string,React.ReactNode>={
   "INTERIOR":   <Home       size={12} color="#fdbd39"  strokeWidth={2}/>,
   "LOGO DESIGN":<PenTool    size={12} color={C.accent} strokeWidth={2}/>,
   "AD AGENCY":  <Building2  size={12} color={C.red}    strokeWidth={2}/>,
+  "ONGOING":    <Circle     size={8}  color={C.accent} fill={C.accent}/>,
 };
 
 function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
