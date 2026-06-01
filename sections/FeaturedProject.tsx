@@ -99,10 +99,10 @@ export default function FeaturedProject() {
         {/* CTAs */}
         <div className="btn-row" style={{ marginTop:24 }}>
           {[
-            { label:"Read Case Study", icon:<BookOpen size={14} strokeWidth={2}/>, bg:C.t1,  color:C.bg },
-            { label:"View in Figma",   icon:<PenTool  size={14} strokeWidth={2}/>, bg:"rgba(255,255,255,0.05)", color:C.t1 },
+            { label:"Read Case Study", icon:<BookOpen size={14} strokeWidth={2}/>, bg:C.t1,  color:C.bg, href:"https://www.notion.so/Zeno-37030418f5cc80a29a65f506207b682d?source=copy_link" },
+            { label:"View in Figma",   icon:<PenTool  size={14} strokeWidth={2}/>, bg:"rgba(255,255,255,0.05)", color:C.t1, href:"https://www.figma.com/design/HQiowSEZWtefmjVP5cqZuY/ZENO?node-id=0-1&p=f&t=ZuWU0JArTeGN7yjv-0" },
           ].map(btn => (
-            <a key={btn.label} href="#" style={{
+            <a key={btn.label} href={btn.href} target="_blank" rel="noopener noreferrer" style={{
               display:"flex",alignItems:"center",gap:10,
               background:btn.bg,color:btn.color,padding:"11px 22px",
               borderRadius:9999,fontSize:14,fontWeight:500,textDecoration:"none",
