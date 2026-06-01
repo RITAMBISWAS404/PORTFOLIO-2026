@@ -120,7 +120,7 @@ export default function Navbar() {
           background: "rgba(10,10,10,0.97)",
           backdropFilter: "blur(32px)", WebkitBackdropFilter: "blur(32px)",
           borderBottom: `1px solid rgba(255,255,255,0.08)`,
-          padding: "8px 0 20px",
+          padding: "8px 0 8px",
           transform: menuOpen ? "translateY(0)" : "translateY(-8px)",
           opacity: menuOpen ? 1 : 0,
           pointerEvents: menuOpen ? "all" : "none",
