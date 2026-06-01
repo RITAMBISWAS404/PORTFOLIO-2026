@@ -8,7 +8,7 @@ export default function Socials() {
   return (
     <section id="socials" style={{ ...col, padding: "64px 24px 0" }}>
       <SectionLabel icon={Share2} label="MY SOCIALS" num="08" iconColor={C.blue} />
-      <div style={{ marginTop: 16 }}>
+      <div className="mt-section-card">
         {socials.map((s, i) => (
           <a key={s.name} href={s.href} target="_blank" rel="noopener" style={{
             display: "block", textDecoration: "none", color: "inherit",

@@ -60,6 +60,14 @@ section[id], div[id] { scroll-margin-top: 60px; }
 :focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; border-radius: 4px; }
 textarea { resize: none; }
 
+/* Section heading → first element gap */
+.mt-section      { margin-top: 24px; }
+.mt-section-card { margin-top: 8px;  }
+@media (min-width: 768px) {
+  .mt-section      { margin-top: 32px; }
+  .mt-section-card { margin-top: 16px; }
+}
+
 /* Responsive body text: 14px mobile → 16px desktop */
 .f16 { font-size: 14px; }
 @media (min-width: 768px) { .f16 { font-size: 16px; } }

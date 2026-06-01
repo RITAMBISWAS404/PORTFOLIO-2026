@@ -61,7 +61,7 @@ export default function Contact() {
       <SectionLabel icon={Mail} label="LETS CONNECT" num="07" iconColor={C.accent}/>
 
       <form ref={formRef} onSubmit={handleSubmit}
-        style={{display:"flex",flexDirection:"column",gap:20,marginTop:32}}>
+        className="mt-section" style={{display:"flex",flexDirection:"column",gap:20}}>
 
         <div style={{display:"grid",gridTemplateColumns:"1fr",gap:16}}>
           <div>

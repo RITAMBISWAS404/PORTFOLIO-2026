@@ -9,7 +9,7 @@ export default function Stack(){
   return(
     <section id="stack" style={{...col,padding:"64px 24px 0"}}>
       <SectionLabel icon={Layers} label="MY TECH STACK" num="06" iconColor="#6c57f0"/>
-      <div style={{position:"relative",overflow:"hidden",marginTop:32}}>
+      <div className="mt-section" style={{position:"relative",overflow:"hidden"}}>
         <div style={{position:"absolute",top:0,bottom:0,left:0,width:48,background:`linear-gradient(to right,${C.bg},transparent)`,zIndex:2,pointerEvents:"none"}}/>
         <div style={{display:"flex",gap:24,width:"max-content",animation:"ticker 22s linear infinite",padding:"4px 0"}}>
           {doubled.map((name,i)=>{
