@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { useInView } from "framer-motion";
 import { Layers } from "lucide-react";
 import SectionLabel from "@/components/SectionLabel";
-import { stack, stackColors } from "@/data/content";
+import { stack, stackColors, stackTag } from "@/data/content";
 import { C, revealStyle, col } from "@/lib/tokens";
 
 function StackCard({ name, delay }: { name: string; delay: number }) {
@@ -37,7 +37,8 @@ function StackCard({ name, delay }: { name: string; delay: number }) {
       <div style={{ width: 36, height: 36, borderRadius: 9, overflow: "hidden", flexShrink: 0 }}>
         <img src={c.img} alt={name} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
       </div>
-      <span style={{ fontSize: 14, fontWeight: 500, color: C.t1 }}>{name}</span>
+      <span style={{ fontSize: 14, fontWeight: 500, color: C.t1, flex: 1 }}>{name}</span>
+      <span style={{ fontSize: 12, fontWeight: 500, color: C.t3, letterSpacing: "0.06em", flexShrink: 0 }}>{stackTag[name]}</span>
     </div>
   );
 }

@@ -91,6 +91,23 @@ export const stackColors: Record<string,{bg:string;color:string;img:string}> = {
   Pinterest:     { bg:"#1a0008", color:"#e60023", img:"/images/new tech stack/pinterrest.png" },
 };
 
+export const stackTag: Record<string, string> = {
+  Figma:         "Primary",
+  Framer:        "Prototyping",
+  "Claude Code": "Vibe Coding",
+  Claude:        "AI",
+  Gemini:        "Research",
+  v0:            "Generative",
+  Miro:          "Whiteboard",
+  Stitch:        "AI Design",
+  "VS Code":     "Editor",
+  Notion:        "Planning",
+  Figr:          "Tokens",
+  ProtoPie:      "Motion",
+  Painter:       "Illustration",
+  Pinterest:     "Moodboard",
+};
+
 export const stackDesc: Record<string, string> = {
   Figma:         "Primary design tool for all UI/UX work — components, prototypes, and developer handoff.",
   Framer:        "Building interactive prototypes and production-ready no-code websites.",
