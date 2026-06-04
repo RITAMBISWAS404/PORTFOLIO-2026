@@ -36,10 +36,13 @@ export default function FeaturedProject() {
         onMouseLeave={onMouseLeave}
         style={{ position: "relative", padding: "32px 24px" }}>
 
-        {/* Cursor glow overlay */}
+        {/* Bright dot layer — same pattern, masked to cursor radius */}
         <div style={{
           position: "absolute", inset: 0, pointerEvents: "none", zIndex: 0,
-          background: `radial-gradient(circle 200px at ${cursor.x}px ${cursor.y}px, rgba(255,255,255,0.18), transparent 70%)`,
+          backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.75) 1px, transparent 1px)",
+          backgroundSize: "14px 14px",
+          WebkitMaskImage: `radial-gradient(circle 140px at ${cursor.x}px ${cursor.y}px, black 0%, transparent 100%)`,
+          maskImage: `radial-gradient(circle 140px at ${cursor.x}px ${cursor.y}px, black 0%, transparent 100%)`,
         }}/>
 
         <div style={{ ...col, position: "relative", zIndex: 1 }}>
