@@ -34,7 +34,7 @@ export default function FeaturedProject() {
       <div className="dot-bg"
         onMouseMove={onMouseMove}
         onMouseLeave={onMouseLeave}
-        style={{ position: "relative", padding: "32px 24px" }}>
+        style={{ position: "relative" }}>
 
         {/* Bright dot layer — same pattern, masked to cursor radius */}
         <div style={{
@@ -61,11 +61,12 @@ export default function FeaturedProject() {
         <style>{`
           .feature-img-wrap { aspect-ratio: 4 / 3; }
           @media (min-width: 768px) { .feature-img-wrap { aspect-ratio: 16 / 9; } }
-          .dot-bg { background-color: #0d0d0d; }
+          .dot-bg { background-color: #0d0d0d; padding: 0 24px; }
           @media (min-width: 768px) {
             .dot-bg {
               background-image: radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px);
               background-size: 14px 14px;
+              padding: 32px 24px;
             }
           }
         `}</style>
