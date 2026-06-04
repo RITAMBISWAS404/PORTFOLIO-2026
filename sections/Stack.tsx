@@ -53,7 +53,7 @@ export default function Stack() {
         ))}
       </div>
       <p className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6, marginTop: 24 }}>
-        These are the tools I reach for every day. My wider toolkit goes beyond this list, but these are the ones that power most of my design and build work.
+        From early research and wireframes to high-fidelity UI and developer handoff, these are the primary tools that move my work forward, with AI woven into every stage.
       </p>
       <style>{`
         .stack-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
