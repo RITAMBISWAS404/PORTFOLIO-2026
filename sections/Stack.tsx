@@ -1,5 +1,5 @@
 "use client";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useInView } from "framer-motion";
 import { Layers } from "lucide-react";
 import SectionLabel from "@/components/SectionLabel";
@@ -9,10 +9,17 @@ import { C, revealStyle, col } from "@/lib/tokens";
 function StackCard({ name, delay }: { name: string; delay: number }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-10% 0px" });
+  const [glow, setGlow] = useState("");
   const c = stackColors[name];
 
   return (
     <div ref={ref}
+      onMouseMove={e => {
+        const r = e.currentTarget.getBoundingClientRect();
+        const x = (((e.clientX - r.left) / r.width) * 100).toFixed(1);
+        const y = (((e.clientY - r.top) / r.height) * 100).toFixed(1);
+        setGlow(`radial-gradient(circle at ${x}% ${y}%, rgba(255,255,255,0.05) 0%, ${C.card} 65%)`);
+      }}
       onMouseEnter={e => {
         const el = e.currentTarget;
         el.style.borderColor = "rgba(255,255,255,0.12)";
@@ -20,13 +27,14 @@ function StackCard({ name, delay }: { name: string; delay: number }) {
         el.style.transform = "translateY(-4px)";
       }}
       onMouseLeave={e => {
+        setGlow("");
         const el = e.currentTarget;
         el.style.borderColor = C.border;
         el.style.boxShadow = "";
         el.style.transform = inView ? "translateY(0)" : "translateY(16px)";
       }}
       style={{
-        background: C.card,
+        background: glow || C.card,
         border: `1px solid ${C.border}`,
         borderRadius: 16, padding: 16,
         display: "flex", alignItems: "center", gap: 12,
