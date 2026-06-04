@@ -91,6 +91,23 @@ export const stackColors: Record<string,{bg:string;color:string;img:string}> = {
   Pinterest:     { bg:"#1a0008", color:"#e60023", img:"/images/new tech stack/pinterrest.png" },
 };
 
+export const stackDesc: Record<string, string> = {
+  Figma:         "Primary design tool for all UI/UX work — components, prototypes, and developer handoff.",
+  Framer:        "Building interactive prototypes and production-ready no-code websites.",
+  "Claude Code": "AI coding assistant for vibe coding, debugging, and shipping real products.",
+  Claude:        "AI assistant for research, writing, design thinking, and ideation.",
+  Gemini:        "Google's AI for research, content workflows, and exploring design problems.",
+  v0:            "Rapidly generating and iterating on UI components from natural language.",
+  Miro:          "Collaborative whiteboarding for user flows, journey maps, and workshops.",
+  Stitch:        "Google's AI-powered tool for fast UI generation and design exploration.",
+  "VS Code":     "Code editor for frontend development, vibe coding, and building real products.",
+  Notion:        "Project management, design documentation, and client briefs in one place.",
+  Figr:          "Design system management and design token documentation for scalable UI.",
+  ProtoPie:      "Advanced interaction prototyping for complex animations and micro-interactions.",
+  Painter:       "Digital illustration and visual asset creation for branding and campaigns.",
+  Pinterest:     "Visual inspiration and mood boarding for design research and creative direction.",
+};
+
 export const socials = [
   { name: "LinkedIn",  handle: "in/ritamhere",    href: "https://linkedin.com/in/ritamhere" },
   { name: "X",         handle: "bisaucee",        href: "https://x.com/bisaucee" },
