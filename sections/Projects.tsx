@@ -2,6 +2,7 @@
 import { useRef } from "react";
 import { useInView } from "framer-motion";
 import { LayoutGrid,Leaf,FileText,Store,TrainFront,RefreshCw,Zap,Globe,Home,PenTool,Building2,HardHat } from "lucide-react";
+import { useState } from "react";
 import SectionLabel from "@/components/SectionLabel";
 import { projects } from "@/data/content";
 import { C, tagStyle, tagHv, revealStyle, col } from "@/lib/tokens";
@@ -23,14 +24,17 @@ const tagIcons: Record<string,React.ReactNode>={
 function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
   const ref=useRef(null);
   const inView=useInView(ref,{once:true,margin:"-10% 0px"});
+  const [glow,setGlow]=useState("");
   return(
     <a ref={ref} href={p.href} target="_blank" rel="noopener noreferrer" style={{border:`1px solid ${C.border}`,borderRadius:16,overflow:"hidden",
       display:"flex",flexDirection:"column",color:"inherit",textDecoration:"none",
+      background: glow || C.card,
       ...revealStyle(inView,delay),
       transition:`${revealStyle(inView,delay).transition},border-color 0.15s,box-shadow 0.15s,transform 0.2s cubic-bezier(.22,1,.36,1)`}}
+      onMouseMove={e=>{const r=e.currentTarget.getBoundingClientRect();const x=(((e.clientX-r.left)/r.width)*100).toFixed(1);const y=(((e.clientY-r.top)/r.height)*100).toFixed(1);setGlow(`radial-gradient(circle at ${x}% ${y}%, rgba(255,255,255,0.05) 0%, ${C.card} 65%)`);}}
       onMouseEnter={e=>{const el=e.currentTarget;el.style.borderColor="rgba(255,255,255,0.12)";el.style.boxShadow="0 4px 20px rgba(0,0,0,0.5)";el.style.transform="translateY(-4px)";}}
-      onMouseLeave={e=>{const el=e.currentTarget;el.style.borderColor=C.border;el.style.boxShadow="";el.style.transform="translateY(0)";}}>
-      <div style={{height:192,overflow:"hidden",background:C.card}}>
+      onMouseLeave={e=>{setGlow("");const el=e.currentTarget;el.style.borderColor=C.border;el.style.boxShadow="";el.style.transform="translateY(0)";}}>
+      <div style={{height:192,overflow:"hidden",background:"transparent"}}>
         <img src={p.img} alt={p.title} style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}} loading="lazy"/>
       </div>
       <div style={{padding:"16px 16px 0"}}>
