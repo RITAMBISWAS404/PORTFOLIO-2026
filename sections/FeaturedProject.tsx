@@ -1,5 +1,5 @@
 "use client";
-import { useRef } from "react";
+import { useRef, useState, useCallback } from "react";
 import { useInView } from "framer-motion";
 import { Star, PenTool, Zap, FileText, BookOpen } from "lucide-react";
 import SectionLabel from "@/components/SectionLabel";
@@ -16,6 +16,12 @@ const tags = [
 export default function FeaturedProject() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-10% 0px" });
+  const [cursor, setCursor] = useState({ x: -999, y: -999 });
+  const onMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    setCursor({ x: e.clientX - r.left, y: e.clientY - r.top });
+  }, []);
+  const onMouseLeave = useCallback(() => setCursor({ x: -999, y: -999 }), []);
 
   return (
     <>
@@ -25,13 +31,16 @@ export default function FeaturedProject() {
       </div>
 
       {/* ── Static feature image with dot pattern ── */}
-      <div style={{
-        position: "relative",
-        backgroundColor: C.bg,
-        backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px)",
-        backgroundSize: "14px 14px",
-        padding: "32px 24px",
-      }}>
+      <div className="dot-bg"
+        onMouseMove={onMouseMove}
+        onMouseLeave={onMouseLeave}
+        style={{ position: "relative", padding: "32px 24px" }}>
+
+        {/* Cursor glow overlay */}
+        <div style={{
+          position: "absolute", inset: 0, pointerEvents: "none", zIndex: 0,
+          background: `radial-gradient(circle 200px at ${cursor.x}px ${cursor.y}px, rgba(255,255,255,0.18), transparent 70%)`,
+        }}/>
 
         <div style={{ ...col, position: "relative", zIndex: 1 }}>
           <div className="feature-img-wrap" style={{ borderRadius: 16, overflow: "hidden", width: "100%" }}>
@@ -49,6 +58,13 @@ export default function FeaturedProject() {
         <style>{`
           .feature-img-wrap { aspect-ratio: 4 / 3; }
           @media (min-width: 768px) { .feature-img-wrap { aspect-ratio: 16 / 9; } }
+          .dot-bg { background-color: #0d0d0d; }
+          @media (min-width: 768px) {
+            .dot-bg {
+              background-image: radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px);
+              background-size: 14px 14px;
+            }
+          }
         `}</style>
       </div>
 
