@@ -38,7 +38,7 @@ function Avatar() {
       <motion.div style={{width:64,height:64,borderRadius:16,overflow:"hidden",transform}}>
         <div style={{position:"absolute",inset:0,
           background:"conic-gradient(from 0deg, #20d455, #4488ff, #ff2626, #ffc200, #20d455)",
-          transform:"scale(2.4)",filter:"blur(8px)",
+          filter:"blur(8px)",
           animation:"aura 10s linear infinite"}}/>
         <img src="/images/avatar.png"
           alt="Ritam Biswas"
@@ -113,7 +113,6 @@ export default function Hero() {
         </motion.div>
       </motion.div>
 
-      <style>{`@keyframes aura{from{transform:scale(2.4) rotate(0deg)}to{transform:scale(2.4) rotate(360deg)}}`}</style>
     </section>
   );
 }
