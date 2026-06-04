@@ -7,20 +7,6 @@ import Card from "@/components/Card";
 import { zeno } from "@/data/content";
 import { C, tagStyle, tagHv, revealStyle, col } from "@/lib/tokens";
 
-
-const imgs = [
-  "/images/feature project image - 01.png",
-  "/images/feature project image - 02.png",
-  "/images/feature project image - 03.png",
-  "/images/feature project image - 04.png",
-  "/images/feature project image - 05.png",
-];
-
-// Clone enough times so loop is invisible on any screen
-const SETS   = 4; // 4 × 4 = 16 images total → seamless on wide screens
-const allImgs = Array.from({length: SETS}, () => imgs).flat();
-const halfLen = allImgs.length / 2;
-
 const tags = [
   { label: "UX DESIGN",  icon: <PenTool  size={12} color={C.accent} strokeWidth={2} /> },
   { label: "EV APP",     icon: <Zap      size={12} color={C.yellow} strokeWidth={2} /> },
@@ -38,27 +24,19 @@ export default function FeaturedProject() {
         <SectionLabel icon={Star} label="FEATURED PROJECT" num="01" iconColor={C.yellow} />
       </div>
 
-      {/* ── Carousel ── */}
-      <div className="carousel-wrap" style={{ position: "relative", overflow: "hidden" }}>
-
-        {/* Track */}
-        <div style={{
-          display: "flex", gap: 8, height: "100%",
-          width: "max-content",
-          animation: "tinker 80s linear infinite",
-        }}>
-          {allImgs.map((src, i) => (
-            <div key={i}
-              aria-hidden={i >= halfLen ? true : undefined}
-              className="carousel-card"
-              style={{ flexShrink: 0, borderRadius: 16, overflow: "hidden", background: C.card }}>
-              <img src={src} alt=""
-                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-                loading={i < 4 ? "eager" : "lazy"} />
-            </div>
-          ))}
+      {/* ── Static feature image ── */}
+      <div style={{ ...col, padding: "0 24px" }}>
+        <div style={{ borderRadius: 16, overflow: "hidden", width: "100%" }}>
+          {/* Mobile: square image | Desktop: 16:9 image */}
+          <picture>
+            <source media="(min-width: 768px)" srcSet="/images/FEATURE PC.png" />
+            <img
+              src="/images/FEATURE PHONE.png"
+              alt="ZENO App"
+              style={{ width: "100%", display: "block", objectFit: "cover" }}
+            />
+          </picture>
         </div>
-
       </div>
 
       {/* ── ZENO detail ── */}
@@ -115,20 +93,9 @@ export default function FeaturedProject() {
         </div>
       </div>
 
-      {/* Keyframe: -50% of track width = exactly one set of images */}
       <style>{`
-        .carousel-wrap { height: 50vh; }
-        .carousel-card { width: calc(50vh * 0.75); height: 100%; }
-        @media (min-width: 768px) {
-          .carousel-wrap { height: 75vh; }
-          .carousel-card { width: calc(75vh * 0.75); }
-        }
         .stats-grid { grid-template-columns: 1fr; }
         @media (min-width: 768px) { .stats-grid { grid-template-columns: 1fr 1fr; } }
-        @keyframes tinker {
-          from { transform: translateX(0); }
-          to   { transform: translateX(-50%); }
-        }
       `}</style>
     </>
   );
