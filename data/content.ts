@@ -73,7 +73,7 @@ export const experience = [
   },
 ];
 
-export const stack = ["Figma","Framer","Claude Code","Claude","Gemini","v0","Miro","Stitch","VS Code","Notion","Figr","ProtoPie","Painter","Pinterest"];
+export const stack = ["Figma","Framer","Claude Code","Claude","Gemini","Stitch","VS Code","Notion","Figr","ProtoPie","Painter","Pinterest"];
 export const stackColors: Record<string,{bg:string;color:string;img:string}> = {
   Figma:         { bg:"#0c0a1a", color:"#a259ff", img:"/images/new tech stack/figma.png" },
   Framer:        { bg:"#020d1a", color:"#0055ff", img:"/images/new tech stack/framer.png" },
@@ -93,9 +93,9 @@ export const stackColors: Record<string,{bg:string;color:string;img:string}> = {
 
 export const stackTag: Record<string, string> = {
   Figma:         "Primary",
-  Framer:        "Prototyping",
+  Framer:        "No Code",
   "Claude Code": "Vibe Coding",
-  Claude:        "AI",
+  Claude:        "Usability",
   Gemini:        "Research",
   v0:            "Generative",
   Miro:          "Whiteboard",
