@@ -27,14 +27,17 @@ export default function FeaturedProject() {
       {/* ── Static feature image ── */}
       <div style={{ ...col, padding: "0 24px" }}>
         <div className="feature-img-wrap" style={{ borderRadius: 16, overflow: "hidden", width: "100%" }}>
-          <img
-            src="/images/FEATURE image.png"
-            alt="ZENO App"
-            style={{ width: "100%", height: "100%", display: "block", objectFit: "cover" }}
-          />
+          <picture>
+            <source media="(min-width: 768px)" srcSet="/images/16_9.png" />
+            <img
+              src="/images/4_3.png"
+              alt="ZENO App"
+              style={{ width: "100%", height: "100%", display: "block", objectFit: "cover" }}
+            />
+          </picture>
         </div>
         <style>{`
-          .feature-img-wrap { aspect-ratio: 1 / 1; }
+          .feature-img-wrap { aspect-ratio: 4 / 3; }
           @media (min-width: 768px) { .feature-img-wrap { aspect-ratio: 16 / 9; } }
         `}</style>
       </div>
