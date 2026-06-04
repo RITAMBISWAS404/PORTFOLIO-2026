@@ -29,9 +29,9 @@ export default function FeaturedProject() {
         <div style={{ borderRadius: 16, overflow: "hidden", width: "100%" }}>
           {/* Mobile: square image | Desktop: 16:9 image */}
           <picture>
-            <source media="(min-width: 768px)" srcSet="/images/FEATURE PC.png" />
+            <source media="(min-width: 768px)" srcSet="/images/FEATURE PHONE.png" />
             <img
-              src="/images/FEATURE PHONE.png"
+              src="/images/FEATURE PC.png"
               alt="ZENO App"
               style={{ width: "100%", display: "block", objectFit: "cover" }}
             />
