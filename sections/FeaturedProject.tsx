@@ -28,15 +28,10 @@ export default function FeaturedProject() {
       <div style={{
         position: "relative",
         backgroundColor: C.bg,
-        backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.12) 1px, transparent 1px)",
-        backgroundSize: "22px 22px",
+        backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px)",
+        backgroundSize: "14px 14px",
         padding: "32px 24px",
       }}>
-        {/* Edge vignette */}
-        <div style={{
-          position: "absolute", inset: 0, pointerEvents: "none",
-          background: `radial-gradient(ellipse at center, transparent 30%, ${C.bg} 80%)`,
-        }}/>
 
         <div style={{ ...col, position: "relative", zIndex: 1 }}>
           <div className="feature-img-wrap" style={{ borderRadius: 16, overflow: "hidden", width: "100%" }}>
