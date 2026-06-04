@@ -28,7 +28,7 @@ function StackCard({ name, delay }: { name: string; delay: number }) {
       style={{
         background: C.card,
         border: `1px solid ${C.border}`,
-        borderRadius: 16, padding: "12px 16px",
+        borderRadius: 16, padding: 16,
         display: "flex", alignItems: "center", gap: 12,
         cursor: "default",
         ...revealStyle(inView, delay),
