@@ -24,18 +24,33 @@ export default function FeaturedProject() {
         <SectionLabel icon={Star} label="FEATURED PROJECT" num="01" iconColor={C.yellow} />
       </div>
 
-      {/* ── Static feature image ── */}
-      <div style={{ ...col, padding: "0 24px" }}>
-        <div className="feature-img-wrap" style={{ borderRadius: 16, overflow: "hidden", width: "100%" }}>
-          <picture>
-            <source media="(min-width: 768px)" srcSet="/images/16_9.png" />
-            <img
-              src="/images/4_3.png"
-              alt="ZENO App"
-              style={{ width: "100%", height: "100%", display: "block", objectFit: "cover" }}
-            />
-          </picture>
+      {/* ── Static feature image with dot pattern ── */}
+      <div style={{
+        position: "relative",
+        backgroundColor: C.bg,
+        backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.12) 1px, transparent 1px)",
+        backgroundSize: "22px 22px",
+        padding: "32px 24px",
+      }}>
+        {/* Edge vignette */}
+        <div style={{
+          position: "absolute", inset: 0, pointerEvents: "none",
+          background: `radial-gradient(ellipse at center, transparent 30%, ${C.bg} 80%)`,
+        }}/>
+
+        <div style={{ ...col, position: "relative", zIndex: 1 }}>
+          <div className="feature-img-wrap" style={{ borderRadius: 16, overflow: "hidden", width: "100%" }}>
+            <picture>
+              <source media="(min-width: 768px)" srcSet="/images/16_9.png" />
+              <img
+                src="/images/4_3.png"
+                alt="ZENO App"
+                style={{ width: "100%", height: "100%", display: "block", objectFit: "cover" }}
+              />
+            </picture>
+          </div>
         </div>
+
         <style>{`
           .feature-img-wrap { aspect-ratio: 4 / 3; }
           @media (min-width: 768px) { .feature-img-wrap { aspect-ratio: 16 / 9; } }
