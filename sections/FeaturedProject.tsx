@@ -38,7 +38,7 @@ export default function FeaturedProject() {
         </div>
         <style>{`
           .feature-img-wrap { aspect-ratio: 1 / 1; }
-          @media (min-width: 768px) { .feature-img-wrap { aspect-ratio: 16 / 9; } }
+          @media (min-width: 768px) { .feature-img-wrap { aspect-ratio: 3840 / 2160; } }
         `}</style>
       </div>
 
