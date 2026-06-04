@@ -130,6 +130,7 @@ export const socials = [
   { name: "X",         handle: "bisaucee",        href: "https://x.com/bisaucee" },
   { name: "Instagram", handle: "_ritam_here",    href: "https://instagram.com/_ritam_here" },
   { name: "Pinterest", handle: "biswasritam404",  href: "https://in.pinterest.com/biswasritam404/" },
+  { name: "Dribbble",  handle: "ritam404",        href: "https://dribbble.com/ritam404" },
 ];
 
 export const navLinks = [
