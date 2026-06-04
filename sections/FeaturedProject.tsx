@@ -66,7 +66,7 @@ export default function FeaturedProject() {
             .dot-bg {
               background-image: radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px);
               background-size: 14px 14px;
-              padding: 32px 24px;
+              padding: 40px 24px;
             }
           }
         `}</style>
