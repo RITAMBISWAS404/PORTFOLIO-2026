@@ -391,22 +391,35 @@ export default function ZenoPage() {
             <ImgPlaceholder label="CONCEPT SKETCHES" />
           </Reveal>
           <Reveal delay={0.1}>
-            <div className="zeno-concept-grid">
-              {[
-                { label: "Widget Set", verdict: "REJECTED", color: C.red,    points: ["Every metric in its own card.", "Felt like a cockpit.", "Hard to scan at a glance."] },
-                { label: "Minimal",    verdict: "REJECTED", color: C.red,    points: ["Stripped back, text-heavy.", "Felt like a diagnostic report.", "Clean but emotionally cold."] },
-                { label: "My Way",     verdict: "CHOSEN",   color: C.accent, points: ["Vehicle image anchors the screen.", "Felt personal and immediate.", "Clear hierarchy from first sketch."] },
-              ].map(c => (
-                <div key={c.label} style={{ background: C.card, border: `1px solid ${c.color === C.accent ? "rgba(52,168,83,0.25)" : C.border}`, borderRadius: 16, padding: 16, display: "flex", flexDirection: "column", gap: 10 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <span style={{ fontSize: 13, fontWeight: 500, color: C.t1 }}>{c.label}</span>
-                    <span style={{ fontSize: 10, fontWeight: 600, color: c.color, letterSpacing: "0.1em", padding: "3px 8px", border: `1px solid ${c.color}33`, background: `${c.color}11`, borderRadius: 9999 }}>{c.verdict}</span>
-                  </div>
-                  {c.points.map((pt, i) => (
-                    <p key={i} style={{ fontSize: 13, lineHeight: 1.5, color: i === 2 && c.color === C.accent ? C.t1 : C.t2 }}>{pt}</p>
+            <div style={{ overflowX: "auto" }}>
+              <div style={{ minWidth: 480, border: `1px solid ${C.border}`, borderRadius: 12, overflow: "hidden" }}>
+                {/* Header */}
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}>
+                  {[{ label: "Widget Set", color: C.t1 }, { label: "Minimal", color: C.t1 }, { label: "My Way", color: C.accent }].map((h, i) => (
+                    <div key={h.label} style={{ padding: "10px 16px", fontSize: 12, fontWeight: 600, color: h.color, letterSpacing: "0.08em", background: "rgba(255,255,255,0.03)", borderRight: i < 2 ? `1px solid ${C.border}` : "none" }}>{h.label}</div>
                   ))}
                 </div>
-              ))}
+                {/* Rows */}
+                {[
+                  ["Every metric in its own card.", "Stripped back, text-heavy.",     "Vehicle image anchors the screen."],
+                  ["Felt like a cockpit.",           "Felt like a diagnostic report.", "Felt personal and immediate."],
+                  ["Hard to scan at a glance.",      "Clean but emotionally cold.",    "Clear hierarchy from first sketch."],
+                ].map((row, i) => (
+                  <div key={i} style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}>
+                    {row.map((cell, j) => (
+                      <div key={j} style={{ padding: "12px 16px", fontSize: 13, color: C.t2, lineHeight: 1.5, borderTop: `1px solid ${C.border}`, borderRight: j < 2 ? `1px solid ${C.border}` : "none" }}>{cell}</div>
+                    ))}
+                  </div>
+                ))}
+                {/* Verdict */}
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}>
+                  {[{ label: "REJECTED", color: C.red }, { label: "REJECTED", color: C.red }, { label: "CHOSEN", color: C.accent }].map((v, i) => (
+                    <div key={i} style={{ padding: "10px 16px", borderTop: `1px solid ${C.border}`, borderRight: i < 2 ? `1px solid ${C.border}` : "none" }}>
+                      <span style={{ fontSize: 10, fontWeight: 600, color: v.color, letterSpacing: "0.1em", padding: "3px 8px", border: `1px solid ${v.color}33`, background: `${v.color}11`, borderRadius: 9999, display: "inline-block" }}>{v.label}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </Reveal>
           <Reveal delay={0.14}>
