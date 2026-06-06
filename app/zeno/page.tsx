@@ -277,13 +277,6 @@ export default function ZenoPage() {
             <ZenoCard icon={GitBranch} iconColor={C.blue}   label="Core User Flows"  right="05"  body="Onboarding, charging session, analytics, history, and account management."        delay={0.08} />
             <ZenoCard icon={Clock}     iconColor={C.yellow} label="MVP Timeline"      right="2M"  body="From blank Figma file to production-ready iOS and Android designs in two months."  delay={0.16} />
           </div>
-          <Reveal>
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, padding: "10px 16px" }}>
-              <Smartphone size={14} color={C.blue} strokeWidth={2} />
-              <span style={{ fontSize: 13, fontWeight: 500, color: C.t1 }}>Platform</span>
-              <span style={{ fontSize: 13, color: C.t2 }}>iOS + Android</span>
-            </div>
-          </Reveal>
         </div>
       </section>
 
