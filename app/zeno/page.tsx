@@ -3,7 +3,7 @@ import { useRef, useState, useCallback } from "react";
 import { useInView } from "framer-motion";
 import {
   Zap, Target, Search, LayoutGrid, GitBranch,
-  Smartphone, BookOpen, ArrowLeft, Lock, PenTool, FileText,
+  Smartphone, BookOpen, ArrowUp, Lock, PenTool, FileText,
   MessageCircle, Lightbulb, User, Clock, Layers, Users, Briefcase,
   Eye, LucideIcon,
 } from "lucide-react";
@@ -572,8 +572,27 @@ export default function ZenoPage() {
         </div>
       </section>
 
+      {/* ── BACK TO TOP ─────────────────────────────────────── */}
+      <div style={{ ...col, padding: "48px 24px 0", display: "flex", justifyContent: "center" }}>
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          style={{
+            display: "flex", alignItems: "center", gap: 8,
+            background: "rgba(255,255,255,0.05)", color: C.t2,
+            border: `1px solid ${C.border}`, padding: "10px 22px",
+            borderRadius: 9999, fontSize: 13, fontWeight: 500,
+            cursor: "pointer", fontFamily: "Poppins, sans-serif",
+            transition: "background 0.25s, color 0.25s, transform 0.25s",
+          }}
+          onMouseEnter={e => { const b = e.currentTarget; b.style.background = "rgba(255,255,255,0.09)"; b.style.color = C.t1; b.style.transform = "translateY(-2px)"; }}
+          onMouseLeave={e => { const b = e.currentTarget; b.style.background = "rgba(255,255,255,0.05)"; b.style.color = C.t2; b.style.transform = ""; }}
+        >
+          <ArrowUp size={14} strokeWidth={2} /> Back to top
+        </button>
+      </div>
+
       {/* ── FOOTER ──────────────────────────────────────────── */}
-      <div style={{ marginTop: 64 }}>
+      <div style={{ marginTop: 48 }}>
         <Footer />
       </div>
 
