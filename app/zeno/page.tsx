@@ -693,7 +693,7 @@ export default function ZenoPage() {
         .zeno-sh-line { display: none; }
         @media (min-width: 768px) {
           .zeno-sh-wrap { gap: 16px; }
-          .zeno-sh-num  { order: 2; }
+          .zeno-sh-num  { display: block; order: 2; }
           .zeno-sh-label { order: 0; }
           .zeno-sh-line { display: block; order: 1; }
         }
