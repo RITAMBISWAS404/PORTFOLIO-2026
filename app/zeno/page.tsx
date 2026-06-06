@@ -484,7 +484,6 @@ export default function ZenoPage() {
             <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
               Beta users opened the app, checked battery percentage, glanced at the ready-by time, and closed it. Four seconds. Everything else went unlooked at.
             </p>
-            <ImgPlaceholder label="USAGE ANALYTICS" />
             <div style={{ border: `1px solid ${C.border}`, borderRadius: 12, overflow: "hidden" }}>
               <div className="zeno-cut-grid">
                 {["Stayed on Dashboard", "Moved to Analytics", "Moved to Settings"].map((h, i) => (
@@ -505,6 +504,7 @@ export default function ZenoPage() {
           </Decision>
 
           <Decision num="06" title="The feature we built, shipped, and removed">
+            <ImgPlaceholder label="USAGE ANALYTICS" />
             <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
               We designed a double-ring clock widget showing the algorithm&apos;s charging schedule. Inner ring for today, outer ring for the next day. Electricity price data in Denmark does not reset at midnight, so sessions could spill past 12am. The two rings solved that technically.
             </p>
