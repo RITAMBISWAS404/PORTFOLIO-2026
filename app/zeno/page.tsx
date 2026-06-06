@@ -266,19 +266,6 @@ function PageNav() {
           </button>
         );
       })}
-      <button
-        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        style={{
-          marginTop: 8, background: "none", border: "none", cursor: "pointer", padding: 0,
-          display: "flex", alignItems: "center", gap: 8,
-          fontSize: 12, fontWeight: 400, color: C.t3,
-          fontFamily: "Poppins, sans-serif", transition: "color 0.2s",
-        }}
-        onMouseEnter={e => (e.currentTarget as HTMLButtonElement).style.color = C.t2}
-        onMouseLeave={e => (e.currentTarget as HTMLButtonElement).style.color = C.t3}
-      >
-        back to top
-      </button>
     </nav>
   );
 }
