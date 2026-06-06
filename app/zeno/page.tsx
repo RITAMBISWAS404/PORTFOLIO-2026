@@ -215,21 +215,31 @@ const NAV_SECTIONS = [
 ];
 
 function PageNav() {
-  const [active, setActive] = useState("zeno-overview");
+  const [active,  setActive]  = useState("zeno-overview");
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const obs = new IntersectionObserver(entries => {
+    // Track active section
+    const activeObs = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id); });
     }, { rootMargin: "-40% 0px -55% 0px" });
     NAV_SECTIONS.forEach(({ id }) => {
       const el = document.getElementById(id);
-      if (el) obs.observe(el);
+      if (el) activeObs.observe(el);
     });
-    return () => obs.disconnect();
+
+    // Show nav only after "What Zeno Does" section scrolls out of view
+    const overviewEl = document.getElementById("zeno-overview");
+    const visObs = new IntersectionObserver(entries => {
+      entries.forEach(e => setVisible(!e.isIntersecting));
+    });
+    if (overviewEl) visObs.observe(overviewEl);
+
+    return () => { activeObs.disconnect(); visObs.disconnect(); };
   }, []);
 
   return (
-    <nav className="zeno-page-nav">
+    <nav className="zeno-page-nav" style={{ opacity: visible ? 1 : 0, pointerEvents: visible ? "all" : "none", transition: "opacity 0.4s ease" }}>
       {NAV_SECTIONS.map(({ id, label }) => {
         const isActive = active === id;
         return (
