@@ -365,18 +365,24 @@ export default function ZenoPage() {
             <ZenoCard icon={Users}    iconColor={C.red}     label="Accessibility barrier" right="03" body="Older users hit a wall before trying a single feature. The learning curve was immediate." delay={0.18} />
           </div>
           <Reveal delay={0.12}>
-            <Quote text="This product needed to feel like an assistant, not a control panel." />
+            <ImgPlaceholder label="DESIGN REFERENCES" />
           </Reveal>
           <Reveal delay={0.16}>
+            <Quote text="This product needed to feel like an assistant, not a control panel." />
+          </Reveal>
+          <Reveal delay={0.2}>
             <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
               The onboarding needed to collect a lot from new users: email, password, charger license, serial number, battery size, and connection confirmation. One task per screen with clear conditional logic kept it from feeling heavy.
             </p>
           </Reveal>
-          <Reveal delay={0.2}>
+          <Reveal delay={0.24}>
             <Insight text="Six focused steps felt lighter than any single long form. Users always knew exactly what they were being asked to do." />
           </Reveal>
-          <Reveal delay={0.24}>
-            <ImgPlaceholder label="ONBOARDING FLOW" />
+          <Reveal delay={0.28}>
+            <ImgPlaceholder label="ONBOARDING WIREFRAMES" />
+          </Reveal>
+          <Reveal delay={0.32}>
+            <ImgPlaceholder label="ONBOARDING SCREENS" />
           </Reveal>
         </div>
       </section>
@@ -412,6 +418,9 @@ export default function ZenoPage() {
           <Reveal delay={0.12}>
             <Insight text="The vehicle image was not cosmetic. It told users immediately which car they were managing and made the experience feel personal rather than generic." />
           </Reveal>
+          <Reveal delay={0.16}>
+            <ImgPlaceholder label="CONCEPT SKETCHES" />
+          </Reveal>
         </div>
       </section>
 
@@ -430,6 +439,7 @@ export default function ZenoPage() {
               ]}
             />
             <Lesson text="Good design is often about deciding what not to show separately, not what to cut entirely." />
+            <ImgPlaceholder label="DASHBOARD COMPARISON" />
           </Decision>
 
           <Decision num="02" title="Defending white space">
@@ -452,6 +462,7 @@ export default function ZenoPage() {
               ]}
             />
             <Lesson text="When a setting controls something important, accidental input justifies removing it from the main surface." />
+            <ImgPlaceholder label="INTERACTION DETAIL" />
           </Decision>
 
           <Decision num="04" title="The vehicle image">
@@ -459,12 +470,14 @@ export default function ZenoPage() {
               The vehicle image was in the very first concept sketch, not a late addition. During design review, the CEO and I noticed how Tesla showed your actual car, not a generic icon. I proposed the same. Building it took time: vehicle APIs, custom assets, model cutouts. But the sketch shows I knew from the beginning this was the right direction.
             </p>
             <Lesson text="Sometimes the most impactful decision is not about layout. It is about making someone feel something about their product." />
+            <ImgPlaceholder label="VEHICLE INTEGRATION" />
           </Decision>
 
           <Decision num="05" title="What got cut, and where it went">
             <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
               Beta users opened the app, checked battery percentage, glanced at the ready-by time, and closed it. Four seconds. Everything else went unlooked at.
             </p>
+            <ImgPlaceholder label="USAGE ANALYTICS" />
             <div style={{ border: `1px solid ${C.border}`, borderRadius: 12, overflow: "hidden" }}>
               <div className="zeno-cut-grid">
                 {["Stayed on Dashboard", "Moved to Analytics", "Moved to Settings"].map((h, i) => (
@@ -544,6 +557,9 @@ export default function ZenoPage() {
           </div>
           <Reveal delay={0.2}>
             <Quote text="Simplicity is not the absence of complexity. It is evidence that someone worked very hard to hide it in exactly the right places." />
+          </Reveal>
+          <Reveal delay={0.26}>
+            <ImgPlaceholder label="FINAL HANDOFF" />
           </Reveal>
         </div>
       </section>
