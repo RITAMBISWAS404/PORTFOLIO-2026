@@ -28,9 +28,11 @@ function Quote({ text }: { text: string }) {
     <div style={{
       background: C.card, borderRadius: 12, padding: "16px 20px",
       border: `1px solid ${C.border}`,
-      display: "flex", gap: 12, alignItems: "flex-start",
     }}>
-      <MessageCircle size={14} color={C.t3} strokeWidth={2} style={{ flexShrink: 0, marginTop: 3 }} />
+      <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }}>
+        <MessageCircle size={12} color={C.t3} strokeWidth={2} />
+        <span style={{ fontSize: 11, fontWeight: 600, color: C.t3, letterSpacing: "0.1em" }}>QUOTE</span>
+      </div>
       <p className="f16" style={{ color: C.t2, fontStyle: "italic", lineHeight: 1.7 }}>
         &ldquo;{text}&rdquo;
       </p>
@@ -201,29 +203,31 @@ export default function ZenoPage() {
 
       {/* ── STATS ───────────────────────────────────────────── */}
       <section style={{ ...col, padding: "32px 24px 0" }}>
-        <div className="zeno-stats-grid">
-          <Card label="Screens Designed" num="35"  body="Every key user flow from onboarding through dashboard, analytics, and settings." delay={0}    />
-          <Card label="Core User Flows"  num="05"  body="Onboarding, charging session, analytics, history, and account management."        delay={0.08} />
-          <Card label="MVP Timeline"     num="2M"  body="From blank Figma file to production-ready iOS and Android designs in two months."  delay={0.16} />
-          <Card label="Team Size"        num="01"  body="Sole designer from day one. No handoff, no prior design system to inherit."         delay={0.24} />
-        </div>
-        <Reveal delay={0.1}>
-          <div className="zeno-meta-grid" style={{ marginTop: 12 }}>
-            {[
-              { label: "ROLE",     value: "Sole UX/UI Designer, Freelance" },
-              { label: "PLATFORM", value: "iOS + Android" },
-              { label: "TIMELINE", value: "2 months to MVP" },
-            ].map(item => (
-              <div key={item.label} style={{
-                background: C.card, border: `1px solid ${C.border}`,
-                borderRadius: 12, padding: "12px 16px",
-              }}>
-                <div style={{ fontSize: 11, fontWeight: 600, color: C.t3, letterSpacing: "0.08em", marginBottom: 4 }}>{item.label}</div>
-                <div className="f16" style={{ fontWeight: 400, color: C.t1 }}>{item.value}</div>
-              </div>
-            ))}
+        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          <div className="zeno-stats-grid">
+            <Card label="Screens Designed" num="35"  body="Every key user flow from onboarding through dashboard, analytics, and settings." delay={0}    />
+            <Card label="Core User Flows"  num="05"  body="Onboarding, charging session, analytics, history, and account management."        delay={0.08} />
+            <Card label="MVP Timeline"     num="2M"  body="From blank Figma file to production-ready iOS and Android designs in two months."  delay={0.16} />
+            <Card label="Team Size"        num="01"  body="Sole designer from day one. No handoff, no prior design system to inherit."         delay={0.24} />
           </div>
-        </Reveal>
+          <Reveal>
+            <div className="zeno-meta-grid">
+              {[
+                { label: "ROLE",     value: "Sole UX/UI Designer, Freelance" },
+                { label: "PLATFORM", value: "iOS + Android" },
+                { label: "TIMELINE", value: "2 months to MVP" },
+              ].map(item => (
+                <div key={item.label} style={{
+                  background: C.card, border: `1px solid ${C.border}`,
+                  borderRadius: 12, padding: "12px 16px",
+                }}>
+                  <div style={{ fontSize: 11, fontWeight: 600, color: C.t3, letterSpacing: "0.08em", marginBottom: 4 }}>{item.label}</div>
+                  <div className="f16" style={{ fontWeight: 400, color: C.t1 }}>{item.value}</div>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </div>
       </section>
 
       {/* ── 01 WHAT ZENO DOES ───────────────────────────────── */}
@@ -517,7 +521,7 @@ export default function ZenoPage() {
       <section style={{ ...col, padding: "64px 24px 0" }}>
         <SectionLabel icon={BookOpen} label="REFLECTION" num="07" iconColor={C.blue} />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-          <div className="zeno-stats-grid">
+          <div className="zeno-reflection-grid">
             <Card label="Build the design system first"     num="01"
               body="Manual component updates across 35+ screens for months. Design tokens and component libraries should be day one, not an afterthought."
               delay={0} />
@@ -540,10 +544,11 @@ export default function ZenoPage() {
       </div>
 
       <style>{`
-        .zeno-stats-grid   { display: grid; grid-template-columns: 1fr; gap: 16px; }
-        .zeno-meta-grid    { display: grid; grid-template-columns: 1fr; gap: 12px; }
-        .zeno-concept-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
-        .zeno-cut-grid     { display: grid; grid-template-columns: 1fr 1fr 1fr; }
+        .zeno-stats-grid      { display: grid; grid-template-columns: 1fr; gap: 16px; }
+        .zeno-meta-grid       { display: grid; grid-template-columns: 1fr; gap: 16px; }
+        .zeno-concept-grid    { display: grid; grid-template-columns: 1fr; gap: 16px; }
+        .zeno-reflection-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+        .zeno-cut-grid        { display: grid; grid-template-columns: 1fr 1fr 1fr; }
         @media (min-width: 600px) {
           .zeno-concept-grid { grid-template-columns: 1fr 1fr 1fr; }
           .zeno-meta-grid    { grid-template-columns: 1fr 1fr 1fr; }
