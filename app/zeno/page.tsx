@@ -228,10 +228,16 @@ function PageNav() {
       if (el) activeObs.observe(el);
     });
 
-    // Show nav only after "What Zeno Does" section scrolls out of view
+    // Show nav from "What Zeno Does" section onwards
     const overviewEl = document.getElementById("zeno-overview");
     const visObs = new IntersectionObserver(entries => {
-      entries.forEach(e => setVisible(!e.isIntersecting));
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          setVisible(true);
+        } else {
+          setVisible(e.boundingClientRect.top < 0);
+        }
+      });
     });
     if (overviewEl) visObs.observe(overviewEl);
 
@@ -256,7 +262,6 @@ function PageNav() {
             onMouseEnter={e => (e.currentTarget as HTMLButtonElement).style.color = C.t2}
             onMouseLeave={e => (e.currentTarget as HTMLButtonElement).style.color = isActive ? C.t1 : C.t3}
           >
-            <span style={{ fontSize: 14, opacity: isActive ? 1 : 0, transition: "opacity 0.2s", color: C.t2 }}>—</span>
             {label}
           </button>
         );
@@ -272,7 +277,6 @@ function PageNav() {
         onMouseEnter={e => (e.currentTarget as HTMLButtonElement).style.color = C.t2}
         onMouseLeave={e => (e.currentTarget as HTMLButtonElement).style.color = C.t3}
       >
-        <span style={{ fontSize: 14, opacity: 0 }}>—</span>
         back to top
       </button>
     </nav>
