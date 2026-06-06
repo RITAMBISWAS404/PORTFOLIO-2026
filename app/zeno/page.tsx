@@ -1,37 +1,84 @@
 "use client";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useInView } from "framer-motion";
 import {
   Zap, Target, Search, LayoutGrid, GitBranch,
   Smartphone, BookOpen, ArrowLeft, Lock, PenTool, FileText,
-  MessageCircle, Lightbulb, User,
+  MessageCircle, Lightbulb, User, Clock, Layers, Users, Briefcase,
+  LucideIcon,
 } from "lucide-react";
 import SectionLabel from "@/components/SectionLabel";
-import Card from "@/components/Card";
 import Footer from "@/sections/Footer";
 import { C, col, tagStyle, tagHv, revealStyle } from "@/lib/tokens";
 
-/* ── Reusable helpers ──────────────────────────────────────────── */
+/* ── ZenoCard — the single card layout used throughout this page ─ */
+/* [colored icon] [white label]                    [gray right]     */
+/* gray body                                                         */
 
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-5% 0px" });
+function ZenoCard({
+  icon: Icon, iconColor, label, right, body, delay = 0,
+}: {
+  icon: LucideIcon; iconColor: string; label: string;
+  right?: string; body: string; delay?: number;
+}) {
+  const ref  = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-10% 0px" });
+  const [glow,    setGlow]    = useState("");
+  const [hovered, setHovered] = useState(false);
+
   return (
-    <div ref={ref} style={revealStyle(inView, delay)}>
-      {children}
+    <div ref={ref}
+      onMouseMove={e => {
+        const r = e.currentTarget.getBoundingClientRect();
+        const x = (((e.clientX - r.left) / r.width)  * 100).toFixed(1);
+        const y = (((e.clientY - r.top)  / r.height) * 100).toFixed(1);
+        setGlow(`radial-gradient(circle at ${x}% ${y}%, rgba(255,255,255,0.05) 0%, ${C.card} 65%)`);
+      }}
+      onMouseEnter={e => {
+        setHovered(true);
+        const el = e.currentTarget;
+        el.style.borderColor = "rgba(255,255,255,0.12)";
+        el.style.boxShadow   = "0 4px 20px rgba(0,0,0,0.5)";
+        el.style.transform   = "translateY(-4px)";
+      }}
+      onMouseLeave={e => {
+        setHovered(false); setGlow("");
+        const el = e.currentTarget;
+        el.style.borderColor = C.border;
+        el.style.boxShadow   = "";
+        el.style.transform   = "translateY(0)";
+      }}
+      style={{
+        background: glow || C.card,
+        border: `1px solid ${C.border}`, borderRadius: 16, padding: 16,
+        display: "flex", flexDirection: "column", gap: 8, cursor: "default",
+        ...revealStyle(inView, delay),
+        transition: `${revealStyle(inView, delay).transition}, border-color 0.15s, box-shadow 0.15s, transform 0.2s cubic-bezier(.22,1,.36,1)`,
+      }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <Icon size={14} color={iconColor} strokeWidth={2} />
+          <span style={{ fontSize: 13, fontWeight: 500, color: C.t1 }}>{label}</span>
+        </div>
+        {right && (
+          <span style={{ fontSize: 12, fontWeight: 500, color: hovered ? C.t2 : C.t3, transition: "color 0.15s", flexShrink: 0, marginLeft: 8 }}>
+            {right}
+          </span>
+        )}
+      </div>
+      <p className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6 }}>{body}</p>
     </div>
   );
 }
 
+/* ── Callout variants — same layout, no glow (they're informational) */
+
 function Quote({ text }: { text: string }) {
   return (
-    <div style={{
-      background: C.card, borderRadius: 12, padding: "16px 20px",
-      border: `1px solid ${C.border}`,
-    }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }}>
-        <MessageCircle size={12} color={C.t3} strokeWidth={2} />
-        <span style={{ fontSize: 11, fontWeight: 600, color: C.t3, letterSpacing: "0.1em" }}>QUOTE</span>
+    <div style={{ background: C.card, borderRadius: 12, padding: "16px 20px", border: `1px solid ${C.border}` }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+        <MessageCircle size={14} color={C.t2} strokeWidth={2} />
+        <span style={{ fontSize: 13, fontWeight: 500, color: C.t1 }}>Quote</span>
       </div>
       <p className="f16" style={{ color: C.t2, fontStyle: "italic", lineHeight: 1.7 }}>
         &ldquo;{text}&rdquo;
@@ -42,13 +89,10 @@ function Quote({ text }: { text: string }) {
 
 function Lesson({ text }: { text: string }) {
   return (
-    <div style={{
-      background: C.card, borderRadius: 12, padding: "16px 20px",
-      border: `1px solid ${C.border}`,
-    }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }}>
-        <BookOpen size={12} color={C.t3} strokeWidth={2} />
-        <span style={{ fontSize: 11, fontWeight: 600, color: C.t3, letterSpacing: "0.1em" }}>LESSON</span>
+    <div style={{ background: C.card, borderRadius: 12, padding: "16px 20px", border: `1px solid ${C.border}` }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+        <BookOpen size={14} color={C.blue} strokeWidth={2} />
+        <span style={{ fontSize: 13, fontWeight: 500, color: C.t1 }}>Lesson</span>
       </div>
       <p className="f16" style={{ color: C.t2, lineHeight: 1.6 }}>{text}</p>
     </div>
@@ -57,20 +101,26 @@ function Lesson({ text }: { text: string }) {
 
 function Insight({ text }: { text: string }) {
   return (
-    <div style={{
-      background: C.card, borderRadius: 12, padding: "16px 20px",
-      border: `1px solid ${C.border}`,
-    }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }}>
-        <Lightbulb size={12} color={C.t3} strokeWidth={2} />
-        <span style={{ fontSize: 11, fontWeight: 600, color: C.t3, letterSpacing: "0.1em" }}>INSIGHT</span>
+    <div style={{ background: C.card, borderRadius: 12, padding: "16px 20px", border: `1px solid ${C.border}` }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+        <Lightbulb size={14} color={C.yellow} strokeWidth={2} />
+        <span style={{ fontSize: 13, fontWeight: 500, color: C.t1 }}>Insight</span>
       </div>
       <p className="f16" style={{ color: C.t2, lineHeight: 1.6 }}>{text}</p>
     </div>
   );
 }
 
-/* Fix: only data rows carry borderTop — no borderBottom on headers — prevents doubled border */
+/* ── Scroll reveal wrapper ──────────────────────────────────────── */
+
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-5% 0px" });
+  return <div ref={ref} style={revealStyle(inView, delay)}>{children}</div>;
+}
+
+/* ── Comparison table ───────────────────────────────────────────── */
+
 function TwoColTable({ headers, rows }: { headers: [string, string]; rows: [string, string][] }) {
   return (
     <div style={{ border: `1px solid ${C.border}`, borderRadius: 12, overflow: "hidden" }}>
@@ -86,20 +136,15 @@ function TwoColTable({ headers, rows }: { headers: [string, string]; rows: [stri
       </div>
       {rows.map(([left, right], i) => (
         <div key={i} style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
-          <div style={{
-            padding: "12px 16px", fontSize: 14, color: C.t2, lineHeight: 1.6,
-            borderTop: `1px solid ${C.border}`,
-            borderRight: `1px solid ${C.border}`,
-          }}>{left}</div>
-          <div style={{
-            padding: "12px 16px", fontSize: 14, color: C.t1, lineHeight: 1.6,
-            borderTop: `1px solid ${C.border}`,
-          }}>{right}</div>
+          <div style={{ padding: "12px 16px", fontSize: 14, color: C.t2, lineHeight: 1.6, borderTop: `1px solid ${C.border}`, borderRight: `1px solid ${C.border}` }}>{left}</div>
+          <div style={{ padding: "12px 16px", fontSize: 14, color: C.t1, lineHeight: 1.6, borderTop: `1px solid ${C.border}` }}>{right}</div>
         </div>
       ))}
     </div>
   );
 }
+
+/* ── Decision block ─────────────────────────────────────────────── */
 
 function Decision({ num, title, first = false, children }: {
   num: string; title: string; first?: boolean; children: React.ReactNode;
@@ -110,9 +155,7 @@ function Decision({ num, title, first = false, children }: {
     <>
       {!first && <div style={{ height: 1, background: C.border, margin: "40px 0" }} />}
       <div ref={ref} style={{ display: "flex", flexDirection: "column", gap: 16, ...revealStyle(inView) }}>
-        <span style={{ fontSize: 11, fontWeight: 600, color: C.t3, letterSpacing: "0.12em" }}>
-          DECISION {num}
-        </span>
+        <span style={{ fontSize: 11, fontWeight: 600, color: C.t3, letterSpacing: "0.12em" }}>DECISION {num}</span>
         <h3 className="f16" style={{ fontWeight: 500, color: C.t1, lineHeight: 1.5 }}>{title}</h3>
         {children}
       </div>
@@ -120,14 +163,14 @@ function Decision({ num, title, first = false, children }: {
   );
 }
 
+/* ── Image placeholder ──────────────────────────────────────────── */
+
 function ImgPlaceholder({ label }: { label: string }) {
   return (
     <div style={{
       width: "100%", aspectRatio: "16 / 9",
-      background: C.card, border: `1px dashed ${C.border}`,
-      borderRadius: 16,
-      display: "flex", flexDirection: "column",
-      alignItems: "center", justifyContent: "center", gap: 8,
+      background: C.card, border: `1px dashed ${C.border}`, borderRadius: 16,
+      display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8,
     }}>
       <Smartphone size={20} color={C.t3} strokeWidth={1.5} />
       <span style={{ fontSize: 11, fontWeight: 500, color: C.t3, letterSpacing: "0.1em" }}>{label}</span>
@@ -145,12 +188,7 @@ export default function ZenoPage() {
       <section style={{ ...col, padding: "48px 24px 0" }}>
         <Reveal>
           <a href="/"
-            style={{
-              display: "inline-flex", alignItems: "center", gap: 6,
-              fontSize: 13, fontWeight: 500, color: C.t3,
-              textDecoration: "none", marginBottom: 32,
-              transition: "color 0.2s",
-            }}
+            style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13, fontWeight: 500, color: C.t3, textDecoration: "none", marginBottom: 32, transition: "color 0.2s" }}
             onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.color = C.t2}
             onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.color = C.t3}
           >
@@ -167,11 +205,7 @@ export default function ZenoPage() {
             </div>
           </div>
 
-          <h1 style={{
-            fontSize: "clamp(22px, 4vw, 32px)", fontWeight: 500,
-            color: C.t1, lineHeight: 1.35, marginBottom: 24,
-            fontFamily: "Poppins, sans-serif",
-          }}>
+          <h1 style={{ fontSize: "clamp(22px, 4vw, 32px)", fontWeight: 500, color: C.t1, lineHeight: 1.35, marginBottom: 24, fontFamily: "Poppins, sans-serif" }}>
             How I Turned a Data-Heavy EV App Into a Four-Second Experience.
           </h1>
 
@@ -181,18 +215,13 @@ export default function ZenoPage() {
               { label: "EV APP",     icon: <Zap      size={12} color={C.yellow} strokeWidth={2} /> },
               { label: "CASE STUDY", icon: <FileText size={12} color={C.blue}   strokeWidth={2} /> },
             ].map(t => (
-              <div key={t.label} style={tagStyle}
-                onMouseEnter={e => tagHv(e, true)} onMouseLeave={e => tagHv(e, false)}>
+              <div key={t.label} style={tagStyle} onMouseEnter={e => tagHv(e, true)} onMouseLeave={e => tagHv(e, false)}>
                 {t.icon} {t.label}
               </div>
             ))}
           </div>
 
-          <div style={{
-            background: C.card, border: `1px solid ${C.border}`,
-            borderRadius: 12, padding: "12px 16px",
-            display: "flex", alignItems: "flex-start", gap: 10,
-          }}>
+          <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, padding: "12px 16px", display: "flex", alignItems: "flex-start", gap: 10 }}>
             <Lock size={14} color={C.t3} strokeWidth={2} style={{ marginTop: 3, flexShrink: 0 }} />
             <p style={{ fontSize: 13, color: C.t2, lineHeight: 1.6 }}>
               Zeno is a portfolio-safe recreation of a product I designed for a Copenhagen-based EV startup. With the company&apos;s permission, I rebuilt it under a new brand. Every decision, constraint, and insight here is real. Only the branding changed.
@@ -205,24 +234,24 @@ export default function ZenoPage() {
       <section style={{ ...col, padding: "32px 24px 0" }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div className="zeno-stats-grid">
-            <Card label="Screens Designed" num="35"  body="Every key user flow from onboarding through dashboard, analytics, and settings." delay={0}    />
-            <Card label="Core User Flows"  num="05"  body="Onboarding, charging session, analytics, history, and account management."        delay={0.08} />
-            <Card label="MVP Timeline"     num="2M"  body="From blank Figma file to production-ready iOS and Android designs in two months."  delay={0.16} />
-            <Card label="Team Size"        num="01"  body="Sole designer from day one. No handoff, no prior design system to inherit."         delay={0.24} />
+            <ZenoCard icon={Layers}    iconColor={C.accent} label="Screens Designed" right="35"  body="Every key user flow from onboarding through dashboard, analytics, and settings." delay={0}    />
+            <ZenoCard icon={GitBranch} iconColor={C.blue}   label="Core User Flows"  right="05"  body="Onboarding, charging session, analytics, history, and account management."        delay={0.08} />
+            <ZenoCard icon={Clock}     iconColor={C.yellow} label="MVP Timeline"      right="2M"  body="From blank Figma file to production-ready iOS and Android designs in two months."  delay={0.16} />
+            <ZenoCard icon={User}      iconColor={C.t2}     label="Team Size"         right="01"  body="Sole designer from day one. No handoff, no prior design system to inherit."         delay={0.24} />
           </div>
           <Reveal>
             <div className="zeno-meta-grid">
               {[
-                { label: "ROLE",     value: "Sole UX/UI Designer, Freelance" },
-                { label: "PLATFORM", value: "iOS + Android" },
-                { label: "TIMELINE", value: "2 months to MVP" },
+                { label: "Role",     value: "Sole UX/UI Designer, Freelance", icon: <Briefcase size={14} color={C.t2}     strokeWidth={2} /> },
+                { label: "Platform", value: "iOS + Android",                  icon: <Smartphone size={14} color={C.blue}  strokeWidth={2} /> },
+                { label: "Timeline", value: "2 months to MVP",                icon: <Clock      size={14} color={C.yellow} strokeWidth={2} /> },
               ].map(item => (
-                <div key={item.label} style={{
-                  background: C.card, border: `1px solid ${C.border}`,
-                  borderRadius: 12, padding: "12px 16px",
-                }}>
-                  <div style={{ fontSize: 11, fontWeight: 600, color: C.t3, letterSpacing: "0.08em", marginBottom: 4 }}>{item.label}</div>
-                  <div className="f16" style={{ fontWeight: 400, color: C.t1 }}>{item.value}</div>
+                <div key={item.label} style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, padding: "12px 16px", display: "flex", flexDirection: "column", gap: 6 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    {item.icon}
+                    <span style={{ fontSize: 13, fontWeight: 500, color: C.t1 }}>{item.label}</span>
+                  </div>
+                  <p className="f16" style={{ color: C.t2, lineHeight: 1.5 }}>{item.value}</p>
                 </div>
               ))}
             </div>
@@ -243,9 +272,9 @@ export default function ZenoPage() {
             <Quote text="You set the departure time. You set the target charge. The algorithm finds the cheapest hour and does the rest." />
           </Reveal>
           <Reveal delay={0.12}>
-            <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }}>
-              <User size={12} color={C.t3} strokeWidth={2} />
-              <span style={{ fontSize: 11, fontWeight: 600, color: C.t3, letterSpacing: "0.08em" }}>MY ROLE</span>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+              <User size={14} color={C.t2} strokeWidth={2} />
+              <span style={{ fontSize: 13, fontWeight: 500, color: C.t1 }}>My Role</span>
             </div>
             <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
               Sole designer from day one. No existing product, no design system, no prior work to inherit. Only a vision from the CEO and CTO and a blank Figma file. What I know now about design systems, component thinking, and stakeholder communication came directly from the pressure of this project. Everything here was built from scratch.
@@ -298,11 +327,7 @@ export default function ZenoPage() {
                 { num: "02", text: "Every metric visible at once. Overwhelming to scan." },
                 { num: "03", text: "Older users hit a barrier before trying a single feature." },
               ].map(item => (
-                <div key={item.num} style={{
-                  display: "flex", gap: 16, alignItems: "flex-start",
-                  background: C.card, border: `1px solid ${C.border}`,
-                  borderRadius: 12, padding: "14px 16px",
-                }}>
+                <div key={item.num} style={{ display: "flex", gap: 16, alignItems: "flex-start", background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, padding: "14px 16px" }}>
                   <span style={{ fontSize: 11, fontWeight: 600, color: C.t3, letterSpacing: "0.1em", flexShrink: 0, paddingTop: 2 }}>{item.num}</span>
                   <p className="f16" style={{ color: C.t2, lineHeight: 1.6 }}>{item.text}</p>
                 </div>
@@ -338,40 +363,17 @@ export default function ZenoPage() {
           <Reveal delay={0.08}>
             <div className="zeno-concept-grid">
               {[
-                {
-                  label: "Widget Set", verdict: "REJECTED", color: C.red,
-                  points: ["Every metric in its own card.", "Felt like a cockpit.", "Hard to scan at a glance."],
-                },
-                {
-                  label: "Minimal", verdict: "REJECTED", color: C.red,
-                  points: ["Stripped back, text-heavy.", "Felt like a diagnostic report.", "Clean but emotionally cold."],
-                },
-                {
-                  label: "My Way", verdict: "CHOSEN", color: C.accent,
-                  points: ["Vehicle image anchors the screen.", "Felt personal and immediate.", "Clear hierarchy from first sketch."],
-                },
+                { label: "Widget Set", verdict: "REJECTED", color: C.red,    points: ["Every metric in its own card.", "Felt like a cockpit.", "Hard to scan at a glance."] },
+                { label: "Minimal",    verdict: "REJECTED", color: C.red,    points: ["Stripped back, text-heavy.", "Felt like a diagnostic report.", "Clean but emotionally cold."] },
+                { label: "My Way",     verdict: "CHOSEN",   color: C.accent, points: ["Vehicle image anchors the screen.", "Felt personal and immediate.", "Clear hierarchy from first sketch."] },
               ].map(c => (
-                <div key={c.label} style={{
-                  background: C.card,
-                  border: `1px solid ${c.color === C.accent ? "rgba(52,168,83,0.25)" : C.border}`,
-                  borderRadius: 16, padding: 16,
-                  display: "flex", flexDirection: "column", gap: 10,
-                }}>
+                <div key={c.label} style={{ background: C.card, border: `1px solid ${c.color === C.accent ? "rgba(52,168,83,0.25)" : C.border}`, borderRadius: 16, padding: 16, display: "flex", flexDirection: "column", gap: 10 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                     <span style={{ fontSize: 13, fontWeight: 500, color: C.t1 }}>{c.label}</span>
-                    <span style={{
-                      fontSize: 10, fontWeight: 600, color: c.color,
-                      letterSpacing: "0.1em", padding: "3px 8px",
-                      border: `1px solid ${c.color}33`,
-                      background: `${c.color}11`,
-                      borderRadius: 9999,
-                    }}>{c.verdict}</span>
+                    <span style={{ fontSize: 10, fontWeight: 600, color: c.color, letterSpacing: "0.1em", padding: "3px 8px", border: `1px solid ${c.color}33`, background: `${c.color}11`, borderRadius: 9999 }}>{c.verdict}</span>
                   </div>
                   {c.points.map((pt, i) => (
-                    <p key={i} style={{
-                      fontSize: 13, lineHeight: 1.5,
-                      color: i === 2 && c.color === C.accent ? C.t1 : C.t2,
-                    }}>{pt}</p>
+                    <p key={i} style={{ fontSize: 13, lineHeight: 1.5, color: i === 2 && c.color === C.accent ? C.t1 : C.t2 }}>{pt}</p>
                   ))}
                 </div>
               ))}
@@ -436,11 +438,7 @@ export default function ZenoPage() {
             <div style={{ border: `1px solid ${C.border}`, borderRadius: 12, overflow: "hidden" }}>
               <div className="zeno-cut-grid">
                 {["Stayed on Dashboard", "Moved to Analytics", "Moved to Settings"].map((h, i) => (
-                  <div key={i} style={{
-                    padding: "10px 14px", fontSize: 11, fontWeight: 600, color: C.t1,
-                    letterSpacing: "0.08em", background: "rgba(255,255,255,0.03)",
-                    borderRight: i < 2 ? `1px solid ${C.border}` : "none",
-                  }}>{h}</div>
+                  <div key={i} style={{ padding: "10px 14px", fontSize: 11, fontWeight: 600, color: C.t1, letterSpacing: "0.08em", background: "rgba(255,255,255,0.03)", borderRight: i < 2 ? `1px solid ${C.border}` : "none" }}>{h}</div>
                 ))}
               </div>
               <div className="zeno-cut-grid">
@@ -449,12 +447,7 @@ export default function ZenoPage() {
                   "Cost savings, energy usage, session history",
                   "Connection status, vehicle management\n\nAccount, language, security",
                 ].map((cell, i) => (
-                  <div key={i} style={{
-                    padding: "12px 14px", fontSize: 13, color: C.t2, lineHeight: 1.6,
-                    borderTop: `1px solid ${C.border}`,
-                    borderRight: i < 2 ? `1px solid ${C.border}` : "none",
-                    whiteSpace: "pre-line",
-                  }}>{cell}</div>
+                  <div key={i} style={{ padding: "12px 14px", fontSize: 13, color: C.t2, lineHeight: 1.6, borderTop: `1px solid ${C.border}`, borderRight: i < 2 ? `1px solid ${C.border}` : "none", whiteSpace: "pre-line" }}>{cell}</div>
                 ))}
               </div>
             </div>
@@ -491,22 +484,15 @@ export default function ZenoPage() {
               35 screens across 5 core flows: onboarding, dashboard, charging session, analytics, and settings. Designed for iOS and Android.
             </p>
           </Reveal>
-          <Reveal delay={0.06}><ImgPlaceholder label="ONBOARDING" /></Reveal>
-          <Reveal delay={0.1}> <ImgPlaceholder label="DASHBOARD"  /></Reveal>
-          <Reveal delay={0.14}><ImgPlaceholder label="ANALYTICS"  /></Reveal>
-          <Reveal delay={0.18}><ImgPlaceholder label="SETTINGS"   /></Reveal>
+          <Reveal delay={0.06}> <ImgPlaceholder label="ONBOARDING" /></Reveal>
+          <Reveal delay={0.1}>  <ImgPlaceholder label="DASHBOARD"  /></Reveal>
+          <Reveal delay={0.14}> <ImgPlaceholder label="ANALYTICS"  /></Reveal>
+          <Reveal delay={0.18}> <ImgPlaceholder label="SETTINGS"   /></Reveal>
           <Reveal delay={0.22}>
             <div className="btn-row">
-              <a
-                href="https://www.figma.com/design/HQiowSEZWtefmjVP5cqZuY/ZENO?node-id=0-1&p=f&t=ZuWU0JArTeGN7yjv-0"
+              <a href="https://www.figma.com/design/HQiowSEZWtefmjVP5cqZuY/ZENO?node-id=0-1&p=f&t=ZuWU0JArTeGN7yjv-0"
                 target="_blank" rel="noopener noreferrer"
-                style={{
-                  display: "flex", alignItems: "center", gap: 10,
-                  background: "rgba(255,255,255,0.05)", color: C.t1,
-                  padding: "11px 22px", borderRadius: 9999,
-                  fontSize: 14, fontWeight: 500, textDecoration: "none",
-                  transition: "background 0.25s, transform 0.25s",
-                }}
+                style={{ display: "flex", alignItems: "center", gap: 10, background: "rgba(255,255,255,0.05)", color: C.t1, padding: "11px 22px", borderRadius: 9999, fontSize: 14, fontWeight: 500, textDecoration: "none", transition: "background 0.25s, transform 0.25s" }}
                 onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.09)"; (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-2px)"; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.05)"; (e.currentTarget as HTMLAnchorElement).style.transform = ""; }}
               >
@@ -522,15 +508,9 @@ export default function ZenoPage() {
         <SectionLabel icon={BookOpen} label="REFLECTION" num="07" iconColor={C.blue} />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div className="zeno-reflection-grid">
-            <Card label="Build the design system first"     num="01"
-              body="Manual component updates across 35+ screens for months. Design tokens and component libraries should be day one, not an afterthought."
-              delay={0} />
-            <Card label="Test with real users earlier"      num="02"
-              body="Decisions debated for days became obvious the first time a real user touched the screen."
-              delay={0.08} />
-            <Card label="Document decisions as they happen" num="03"
-              body="One sentence per key decision, written at the time, would have made this case study significantly more accurate."
-              delay={0.16} />
+            <ZenoCard icon={Layers}   iconColor={C.accent} label="Build the design system first"      right="01" body="Manual component updates across 35+ screens for months. Design tokens and component libraries should be day one, not an afterthought." delay={0}    />
+            <ZenoCard icon={Users}    iconColor={C.blue}   label="Test with real users earlier"        right="02" body="Decisions debated for days became obvious the first time a real user touched the screen."                                              delay={0.08} />
+            <ZenoCard icon={FileText} iconColor={C.yellow} label="Document decisions as they happen"   right="03" body="One sentence per key decision, written at the time, would have made this case study significantly more accurate."                       delay={0.16} />
           </div>
           <Reveal delay={0.2}>
             <Quote text="Simplicity is not the absence of complexity. It is evidence that someone worked very hard to hide it in exactly the right places." />
