@@ -370,33 +370,43 @@ export default function ZenoPage() {
           <Reveal delay={0.16}>
             <Quote text="This product needed to feel like an assistant, not a control panel." />
           </Reveal>
-          <Reveal delay={0.2}>
+        </div>
+      </section>
+
+      {/* ── 04 ONBOARDING FLOW ──────────────────────────────── */}
+      <section style={{ ...col, padding: "64px 24px 0" }}>
+        <SectionLabel icon={Smartphone} label="ONBOARDING FLOW" num="04" iconColor={C.yellow} />
+        <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          <Reveal>
             <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
               The onboarding needed to collect a lot from new users: email, password, charger license, serial number, battery size, and connection confirmation. One task per screen with clear conditional logic kept it from feeling heavy.
             </p>
           </Reveal>
-          <Reveal delay={0.24}>
+          <Reveal delay={0.08}>
             <Insight text="Six focused steps felt lighter than any single long form. Users always knew exactly what they were being asked to do." />
           </Reveal>
-          <Reveal delay={0.28}>
+          <Reveal delay={0.12}>
             <ImgPlaceholder label="ONBOARDING WIREFRAMES" />
           </Reveal>
-          <Reveal delay={0.32}>
+          <Reveal delay={0.16}>
             <ImgPlaceholder label="ONBOARDING SCREENS" />
           </Reveal>
         </div>
       </section>
 
-      {/* ── 04 DASHBOARD EXPLORATION ────────────────────────── */}
+      {/* ── 05 DASHBOARD EXPLORATION ────────────────────────── */}
       <section style={{ ...col, padding: "64px 24px 0" }}>
-        <SectionLabel icon={LayoutGrid} label="DASHBOARD EXPLORATION" num="04" iconColor={C.accent} />
+        <SectionLabel icon={LayoutGrid} label="DASHBOARD EXPLORATION" num="05" iconColor={C.accent} />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
             <p className="f16" style={{ color: C.t2, lineHeight: 1.6 }}>
               Three concepts were explored before landing on the final direction.
             </p>
           </Reveal>
-          <Reveal delay={0.08}>
+          <Reveal delay={0.06}>
+            <ImgPlaceholder label="CONCEPT SKETCHES" />
+          </Reveal>
+          <Reveal delay={0.1}>
             <div className="zeno-concept-grid">
               {[
                 { label: "Widget Set", verdict: "REJECTED", color: C.red,    points: ["Every metric in its own card.", "Felt like a cockpit.", "Hard to scan at a glance."] },
@@ -415,21 +425,19 @@ export default function ZenoPage() {
               ))}
             </div>
           </Reveal>
-          <Reveal delay={0.12}>
+          <Reveal delay={0.14}>
             <Insight text="The vehicle image was not cosmetic. It told users immediately which car they were managing and made the experience feel personal rather than generic." />
-          </Reveal>
-          <Reveal delay={0.16}>
-            <ImgPlaceholder label="CONCEPT SKETCHES" />
           </Reveal>
         </div>
       </section>
 
       {/* ── 05 DECISION JOURNEY ─────────────────────────────── */}
       <section style={{ ...col, padding: "64px 24px 0" }}>
-        <SectionLabel icon={GitBranch} label="THE DECISION JOURNEY" num="05" iconColor={C.blue} />
+        <SectionLabel icon={GitBranch} label="THE DECISION JOURNEY" num="06" iconColor={C.blue} />
         <div className="mt-section">
 
           <Decision num="01" title="From widgets to grouped components" first>
+            <ImgPlaceholder label="DASHBOARD COMPARISON" />
             <TwoColTable
               headers={["Widget Concept", "Final Grouped Dashboard"]}
               rows={[
@@ -439,7 +447,6 @@ export default function ZenoPage() {
               ]}
             />
             <Lesson text="Good design is often about deciding what not to show separately, not what to cut entirely." />
-            <ImgPlaceholder label="DASHBOARD COMPARISON" />
           </Decision>
 
           <Decision num="02" title="Defending white space">
@@ -453,6 +460,7 @@ export default function ZenoPage() {
           </Decision>
 
           <Decision num="03" title="Target SoC and Departure Time hidden behind a tap">
+            <ImgPlaceholder label="INTERACTION DETAIL" />
             <TwoColTable
               headers={["Problem with surface placement", "Solution"]}
               rows={[
@@ -462,15 +470,14 @@ export default function ZenoPage() {
               ]}
             />
             <Lesson text="When a setting controls something important, accidental input justifies removing it from the main surface." />
-            <ImgPlaceholder label="INTERACTION DETAIL" />
           </Decision>
 
           <Decision num="04" title="The vehicle image">
+            <ImgPlaceholder label="VEHICLE INTEGRATION" />
             <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
               The vehicle image was in the very first concept sketch, not a late addition. During design review, the CEO and I noticed how Tesla showed your actual car, not a generic icon. I proposed the same. Building it took time: vehicle APIs, custom assets, model cutouts. But the sketch shows I knew from the beginning this was the right direction.
             </p>
             <Lesson text="Sometimes the most impactful decision is not about layout. It is about making someone feel something about their product." />
-            <ImgPlaceholder label="VEHICLE INTEGRATION" />
           </Decision>
 
           <Decision num="05" title="What got cut, and where it went">
@@ -520,7 +527,7 @@ export default function ZenoPage() {
 
       {/* ── 06 FINAL PRODUCT ────────────────────────────────── */}
       <section style={{ ...col, padding: "64px 24px 0" }}>
-        <SectionLabel icon={Smartphone} label="THE FINAL PRODUCT" num="06" iconColor={C.accent} />
+        <SectionLabel icon={Smartphone} label="THE FINAL PRODUCT" num="07" iconColor={C.accent} />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
             <p className="f16" style={{ color: C.t2, lineHeight: 1.6 }}>
@@ -548,7 +555,7 @@ export default function ZenoPage() {
 
       {/* ── 07 REFLECTION ───────────────────────────────────── */}
       <section style={{ ...col, padding: "64px 24px 0" }}>
-        <SectionLabel icon={BookOpen} label="REFLECTION" num="07" iconColor={C.blue} />
+        <SectionLabel icon={BookOpen} label="REFLECTION" num="08" iconColor={C.blue} />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div className="zeno-reflection-grid">
             <ZenoCard icon={Layers}   iconColor={C.accent} label="Build the design system first"      right="01" body="Manual component updates across 35+ screens for months. Design tokens and component libraries should be day one, not an afterthought." delay={0}    />
