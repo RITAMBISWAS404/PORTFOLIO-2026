@@ -27,7 +27,7 @@ export default function FeaturedProject() {
     <>
       {/* Section label */}
       <div id="featured" style={{ ...col, padding: "64px 24px 32px" }}>
-        <SectionLabel icon={Star} label="FEATURED PROJECT" num="01" iconColor={C.yellow} />
+        <SectionLabel icon={Star} label="FEATURED PROJECT" num="01" iconColor={C.yellow} iconHref="/zeno" />
       </div>
 
       {/* ── Static feature image with dot pattern ── */}
