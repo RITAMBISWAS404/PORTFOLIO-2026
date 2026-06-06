@@ -276,23 +276,12 @@ export default function ZenoPage() {
             <ZenoCard icon={Layers}    iconColor={C.accent} label="Screens Designed" right="35"  body="Every key user flow from onboarding through dashboard, analytics, and settings." delay={0}    />
             <ZenoCard icon={GitBranch} iconColor={C.blue}   label="Core User Flows"  right="05"  body="Onboarding, charging session, analytics, history, and account management."        delay={0.08} />
             <ZenoCard icon={Clock}     iconColor={C.yellow} label="MVP Timeline"      right="2M"  body="From blank Figma file to production-ready iOS and Android designs in two months."  delay={0.16} />
-            <ZenoCard icon={User}      iconColor={C.accent} label="Team Size"         right="01"  body="Sole designer from day one. No handoff, no prior design system to inherit."         delay={0.24} />
           </div>
           <Reveal>
-            <div className="zeno-meta-grid">
-              {[
-                { label: "Role",     value: "Sole UX/UI Designer, Freelance", icon: <Briefcase size={14} color={C.t2}     strokeWidth={2} /> },
-                { label: "Platform", value: "iOS + Android",                  icon: <Smartphone size={14} color={C.blue}  strokeWidth={2} /> },
-                { label: "Timeline", value: "2 months to MVP",                icon: <Clock      size={14} color={C.yellow} strokeWidth={2} /> },
-              ].map(item => (
-                <div key={item.label} style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, padding: "12px 16px", display: "flex", flexDirection: "column", gap: 6 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                    {item.icon}
-                    <span style={{ fontSize: 13, fontWeight: 500, color: C.t1 }}>{item.label}</span>
-                  </div>
-                  <p className="f16" style={{ color: C.t2, lineHeight: 1.5 }}>{item.value}</p>
-                </div>
-              ))}
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, padding: "10px 16px" }}>
+              <Smartphone size={14} color={C.blue} strokeWidth={2} />
+              <span style={{ fontSize: 13, fontWeight: 500, color: C.t1 }}>Platform</span>
+              <span style={{ fontSize: 13, color: C.t2 }}>iOS + Android</span>
             </div>
           </Reveal>
         </div>
@@ -589,8 +578,8 @@ export default function ZenoPage() {
             padding: 40px 24px;
           }
         }
-        .zeno-stats-grid      { display: grid; grid-template-columns: 1fr; gap: 16px; }
-        .zeno-meta-grid       { display: grid; grid-template-columns: 1fr; gap: 16px; }
+        .zeno-stats-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+        .zeno-meta-grid  { display: grid; grid-template-columns: 1fr; gap: 16px; }
         .zeno-concept-grid    { display: grid; grid-template-columns: 1fr; gap: 16px; }
         .zeno-reflection-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
         .zeno-cut-grid        { display: grid; grid-template-columns: 1fr 1fr 1fr; }
@@ -598,8 +587,8 @@ export default function ZenoPage() {
           .zeno-concept-grid { grid-template-columns: 1fr 1fr 1fr; }
           .zeno-meta-grid    { grid-template-columns: 1fr 1fr 1fr; }
         }
-        @media (min-width: 768px) {
-          .zeno-stats-grid { grid-template-columns: 1fr 1fr; }
+        @media (min-width: 600px) {
+          .zeno-stats-grid { grid-template-columns: 1fr 1fr 1fr; }
         }
         @media (max-width: 540px) {
           .zeno-cut-grid { grid-template-columns: 1fr; }
