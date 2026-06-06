@@ -7,7 +7,6 @@ import {
   MessageCircle, Lightbulb, User, Clock, Layers, Users, Briefcase,
   Eye, LucideIcon,
 } from "lucide-react";
-import SectionLabel from "@/components/SectionLabel";
 import Footer from "@/sections/Footer";
 import { C, col, tagStyle, tagHv, revealStyle } from "@/lib/tokens";
 
@@ -174,6 +173,26 @@ function ZenoImg({ src, alt }: { src: string; alt: string }) {
   );
 }
 
+/* ── Section heading — large, scannable ────────────────────────── */
+
+function SectionHeading({ icon: Icon, iconColor, label, num }: {
+  icon: LucideIcon; iconColor: string; label: string; num: string;
+}) {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+        <Icon size={13} color={iconColor} strokeWidth={2} />
+        <span style={{ fontSize: 11, fontWeight: 600, color: C.t3, letterSpacing: "0.12em" }}>{num}</span>
+      </div>
+      <h2 style={{
+        fontSize: "clamp(20px, 3.5vw, 26px)", fontWeight: 500,
+        color: C.t1, lineHeight: 1.2, letterSpacing: "0.02em",
+        fontFamily: "Poppins, sans-serif", margin: 0,
+      }}>{label}</h2>
+    </div>
+  );
+}
+
 /* ── Page ──────────────────────────────────────────────────────── */
 
 export default function ZenoPage() {
@@ -278,7 +297,7 @@ export default function ZenoPage() {
 
       {/* ── 01 WHAT ZENO DOES ───────────────────────────────── */}
       <section style={{ ...col, padding: "64px 24px 0" }}>
-        <SectionLabel icon={Zap} label="WHAT ZENO DOES" num="01" iconColor={C.yellow} />
+        <SectionHeading icon={Zap} label="WHAT ZENO DOES" num="01" iconColor={C.yellow} />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
             <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
@@ -304,7 +323,7 @@ export default function ZenoPage() {
 
       {/* ── 02 THE PROBLEM ──────────────────────────────────── */}
       <section style={{ ...col, padding: "64px 24px 0" }}>
-        <SectionLabel icon={Target} label="THE PROBLEM" num="02" iconColor={C.red} />
+        <SectionHeading icon={Target} label="THE PROBLEM" num="02" iconColor={C.red} />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
             <Insight text="Make a product built around a smart algorithm and dense real-time data feel effortless for someone who just wants their car ready in the morning." />
@@ -332,7 +351,7 @@ export default function ZenoPage() {
 
       {/* ── 03 RESEARCH ─────────────────────────────────────── */}
       <section style={{ ...col, padding: "64px 24px 0" }}>
-        <SectionLabel icon={Search} label="RESEARCH AND EARLY THINKING" num="03" iconColor={C.blue} />
+        <SectionHeading icon={Search} label="RESEARCH AND EARLY THINKING" num="03" iconColor={C.blue} />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
             <p className="f16" style={{ color: C.t2, lineHeight: 1.6 }}>
@@ -355,7 +374,7 @@ export default function ZenoPage() {
 
       {/* ── 04 ONBOARDING FLOW ──────────────────────────────── */}
       <section style={{ ...col, padding: "64px 24px 0" }}>
-        <SectionLabel icon={Smartphone} label="ONBOARDING FLOW" num="04" iconColor={C.yellow} />
+        <SectionHeading icon={Smartphone} label="ONBOARDING FLOW" num="04" iconColor={C.yellow} />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
             <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
@@ -376,7 +395,7 @@ export default function ZenoPage() {
 
       {/* ── 05 DASHBOARD EXPLORATION ────────────────────────── */}
       <section style={{ ...col, padding: "64px 24px 0" }}>
-        <SectionLabel icon={LayoutGrid} label="DASHBOARD EXPLORATION" num="05" iconColor={C.accent} />
+        <SectionHeading icon={LayoutGrid} label="DASHBOARD EXPLORATION" num="05" iconColor={C.accent} />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
             <p className="f16" style={{ color: C.t2, lineHeight: 1.6 }}>
@@ -418,7 +437,7 @@ export default function ZenoPage() {
 
       {/* ── 05 DECISION JOURNEY ─────────────────────────────── */}
       <section style={{ ...col, padding: "64px 24px 0" }}>
-        <SectionLabel icon={GitBranch} label="THE DECISION JOURNEY" num="06" iconColor={C.blue} />
+        <SectionHeading icon={GitBranch} label="THE DECISION JOURNEY" num="06" iconColor={C.blue} />
         <div className="mt-section">
 
           <Decision num="01" title="From widgets to grouped components" first>
@@ -512,7 +531,7 @@ export default function ZenoPage() {
 
       {/* ── 06 FINAL PRODUCT ────────────────────────────────── */}
       <section style={{ ...col, padding: "64px 24px 0" }}>
-        <SectionLabel icon={Smartphone} label="THE FINAL PRODUCT" num="07" iconColor={C.accent} />
+        <SectionHeading icon={Smartphone} label="THE FINAL PRODUCT" num="07" iconColor={C.accent} />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
             <p className="f16" style={{ color: C.t2, lineHeight: 1.6 }}>
@@ -540,7 +559,7 @@ export default function ZenoPage() {
 
       {/* ── 07 REFLECTION ───────────────────────────────────── */}
       <section style={{ ...col, padding: "64px 24px 0" }}>
-        <SectionLabel icon={BookOpen} label="REFLECTION" num="08" iconColor={C.blue} />
+        <SectionHeading icon={BookOpen} label="REFLECTION" num="08" iconColor={C.blue} />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div className="zeno-reflection-grid">
             <ZenoCard icon={Layers}   iconColor={C.accent} label="Build the design system first"      right="01" body="Manual component updates across 35+ screens for months. Design tokens and component libraries should be day one, not an afterthought." delay={0}    />
