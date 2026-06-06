@@ -669,7 +669,7 @@ export default function ZenoPage() {
       <style>{`
         /* Section heading: mobile = "01 LABEL", desktop = "LABEL ——— 01" */
         .zeno-sh-wrap { display: flex; align-items: center; gap: 8px; }
-        .zeno-sh-num  { order: 0; }
+        .zeno-sh-num  { display: none; }
         .zeno-sh-label { order: 1; }
         .zeno-sh-line { display: none; }
         @media (min-width: 768px) {
