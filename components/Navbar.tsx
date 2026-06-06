@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState, useCallback, useRef } from "react";
+import { usePathname } from "next/navigation";
 import { useAnimate, stagger } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { navLinks } from "@/data/content";
@@ -14,6 +15,10 @@ export default function Navbar() {
   const [scope, animate] = useAnimate();
   const animated = useRef(false);
   const { ready } = useAppReady();
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+  // On non-home pages prefix hash links with "/" so they navigate back to the landing page
+  const resolveHref = (href: string) => isHome ? href : `/${href}`;
 
   // Detect mobile
   useEffect(() => {
@@ -78,7 +83,7 @@ export default function Navbar() {
           transition: "background 0.3s, border-color 0.3s",
         }}>
           {/* Logo */}
-          <a href="#hero" onClick={closeMenu} style={{
+          <a href={resolveHref("#hero")} onClick={closeMenu} style={{
             width: 36, height: 36,
             display: "flex", alignItems: "center", justifyContent: "center",
             textDecoration: "none",
@@ -130,7 +135,7 @@ export default function Navbar() {
             const sid = href.replace("#", "");
             const isActive = active === sid || (sid === "featured" && active === "projects");
             return (
-              <a key={label} href={href} onClick={closeMenu} style={{
+              <a key={label} href={resolveHref(href)} onClick={closeMenu} style={{
                 display: "flex", alignItems: "center",
                 height: 52, padding: "0 24px",
                 fontSize: 13, fontWeight: 500,
@@ -177,7 +182,7 @@ export default function Navbar() {
         transition: "background 0.25s, border-color 0.25s, box-shadow 0.25s",
       }}>
         {/* Logo chip */}
-        <a href="#hero" style={{
+        <a href={resolveHref("#hero")} style={{
           flexShrink: 0, width: 44, height: 44,
           display: "flex", alignItems: "center", justifyContent: "center",
           textDecoration: "none",
@@ -191,7 +196,7 @@ export default function Navbar() {
             const sid = href.replace("#", "");
             const isActive = active === sid || (sid === "featured" && active === "projects");
             return (
-              <a key={label} href={href} className="nav-link" style={{
+              <a key={label} href={resolveHref(href)} className="nav-link" style={{
                 display: "flex", alignItems: "center",
                 height: 34, padding: "0 12px", borderRadius: 8,
                 fontSize: 12, fontWeight: 500,
