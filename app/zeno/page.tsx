@@ -358,9 +358,9 @@ export default function ZenoPage() {
       <section style={{ ...col, padding: "32px 24px 0" }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div className="zeno-stats-grid">
-            <ZenoCard icon={Layers}    iconColor={C.accent} label="Screens Designed" right="35"  body="Every key user flow from onboarding through dashboard, analytics, and settings." delay={0}    />
-            <ZenoCard icon={GitBranch} iconColor={C.blue}   label="Core User Flows"  right="05"  body="Onboarding, charging session, analytics, history, and account management."        delay={0.08} />
-            <ZenoCard icon={Clock}     iconColor={C.yellow} label="MVP Timeline"      right="2M"  body="From blank Figma file to production-ready iOS and Android designs in two months."  delay={0.16} />
+            <ZenoCard icon={Layers}    iconColor={C.accent} label="Screens Designed" right="35"  body="Across 5 flows for iOS and Android."                          delay={0}    />
+            <ZenoCard icon={GitBranch} iconColor={C.blue}   label="Core User Flows"  right="05"  body="Onboarding, dashboard, analytics, settings, account."              delay={0.08} />
+            <ZenoCard icon={Clock}     iconColor={C.yellow} label="MVP Timeline"      right="2M"  body="Blank file to production-ready designs."                           delay={0.16} />
           </div>
         </div>
       </section>
@@ -433,7 +433,12 @@ export default function ZenoPage() {
             <ZenoCard icon={Eye}      iconColor={C.yellow}  label="Information overload"  right="02" body="Every metric visible at once. No hierarchy, no breathing room. Overwhelming to scan." delay={0.12} />
             <ZenoCard icon={Users}    iconColor={C.red}     label="Accessibility barrier" right="03" body="Older users hit a wall before trying a single feature. The learning curve was immediate." delay={0.18} />
           </div>
-          <Reveal delay={0.12}>
+          <Reveal delay={0.1}>
+            <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
+              These three patterns shaped one clear direction. The product needed to surface what mattered now and let everything else wait quietly until it was needed.
+            </p>
+          </Reveal>
+          <Reveal delay={0.14}>
             <ZenoImg src="/images/zeno/design-references.png" alt="Design References" />
           </Reveal>
           <Reveal delay={0.16}>
@@ -610,10 +615,22 @@ export default function ZenoPage() {
               35 screens across 5 core flows: onboarding, dashboard, charging session, analytics, and settings. Designed for iOS and Android.
             </p>
           </Reveal>
-          <Reveal delay={0.06}> <ZenoImg src="/images/zeno/final-onboarding.png" alt="Onboarding" /></Reveal>
-          <Reveal delay={0.1}>  <ZenoImg src="/images/zeno/final-dashboard.png"  alt="Dashboard"  /></Reveal>
-          <Reveal delay={0.14}> <ZenoImg src="/images/zeno/final-analytics.png"  alt="Analytics"  /></Reveal>
-          <Reveal delay={0.18}> <ZenoImg src="/images/zeno/final-settings.png"   alt="Settings"   /></Reveal>
+          <Reveal delay={0.06}>
+            <p className="f16" style={{ color: C.t2, lineHeight: 1.6 }}>One task per screen. Clear conditional logic at every step.</p>
+          </Reveal>
+          <Reveal delay={0.08}> <ZenoImg src="/images/zeno/final-onboarding.png" alt="Onboarding" /></Reveal>
+          <Reveal delay={0.12}>
+            <p className="f16" style={{ color: C.t2, lineHeight: 1.6 }}>One screen. Everything visible immediately. No hunting, no scrolling.</p>
+          </Reveal>
+          <Reveal delay={0.14}> <ZenoImg src="/images/zeno/final-dashboard.png"  alt="Dashboard"  /></Reveal>
+          <Reveal delay={0.18}>
+            <p className="f16" style={{ color: C.t2, lineHeight: 1.6 }}>Everything removed from the dashboard lives here.</p>
+          </Reveal>
+          <Reveal delay={0.20}> <ZenoImg src="/images/zeno/final-analytics.png"  alt="Analytics"  /></Reveal>
+          <Reveal delay={0.24}>
+            <p className="f16" style={{ color: C.t2, lineHeight: 1.6 }}>Assembly rather than invention. The design system paid off here.</p>
+          </Reveal>
+          <Reveal delay={0.26}> <ZenoImg src="/images/zeno/final-settings.png"   alt="Settings"   /></Reveal>
           <Reveal delay={0.22}>
             <div className="btn-row">
               <a href="https://www.figma.com/design/HQiowSEZWtefmjVP5cqZuY/ZENO?node-id=0-1&p=f&t=ZuWU0JArTeGN7yjv-0"
