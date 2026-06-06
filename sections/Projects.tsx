@@ -55,7 +55,7 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
 export default function Projects(){
   return(
     <section id="projects" style={{...col,padding:"64px 24px 0"}}>
-      <SectionLabel icon={LayoutGrid} label="PROJECTS GRID" num="02" iconColor={C.blue}/>
+      <SectionLabel icon={LayoutGrid} label="SELECTED PROJECTS" num="02" iconColor={C.blue}/>
       <div className="mt-section" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))",gap:16}}>
         {projects.map((p,i)=><ProjectCard key={p.title} p={p} delay={i*0.06}/>)}
       </div>
