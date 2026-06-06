@@ -165,16 +165,12 @@ function Decision({ num, title, first = false, children }: {
 
 /* ── Image placeholder ──────────────────────────────────────────── */
 
-function ImgPlaceholder({ label }: { label: string }) {
+function ZenoImg({ src, alt }: { src: string; alt: string }) {
   return (
-    <div style={{
-      width: "100%", aspectRatio: "16 / 9",
-      background: C.card, border: `1px dashed ${C.border}`, borderRadius: 16,
-      display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8,
-    }}>
-      <Smartphone size={20} color={C.t3} strokeWidth={1.5} />
-      <span style={{ fontSize: 11, fontWeight: 500, color: C.t3, letterSpacing: "0.1em" }}>{label}</span>
-    </div>
+    <img
+      src={src} alt={alt} loading="lazy"
+      style={{ width: "100%", height: "auto", display: "block", borderRadius: 16, border: `1px solid ${C.border}` }}
+    />
   );
 }
 
@@ -349,7 +345,7 @@ export default function ZenoPage() {
             <ZenoCard icon={Users}    iconColor={C.red}     label="Accessibility barrier" right="03" body="Older users hit a wall before trying a single feature. The learning curve was immediate." delay={0.18} />
           </div>
           <Reveal delay={0.12}>
-            <ImgPlaceholder label="DESIGN REFERENCES" />
+            <ZenoImg src="/images/zeno/design-references.png" alt="Design References" />
           </Reveal>
           <Reveal delay={0.16}>
             <Quote text="This product needed to feel like an assistant, not a control panel." />
@@ -370,10 +366,10 @@ export default function ZenoPage() {
             <Insight text="Six focused steps felt lighter than any single long form. Users always knew exactly what they were being asked to do." />
           </Reveal>
           <Reveal delay={0.12}>
-            <ImgPlaceholder label="ONBOARDING WIREFRAMES" />
+            <ZenoImg src="/images/zeno/onboarding-wireframes.png" alt="Onboarding Wireframes" />
           </Reveal>
           <Reveal delay={0.16}>
-            <ImgPlaceholder label="ONBOARDING SCREENS" />
+            <ZenoImg src="/images/zeno/onboarding-screens.png" alt="Onboarding Screens" />
           </Reveal>
         </div>
       </section>
@@ -388,7 +384,7 @@ export default function ZenoPage() {
             </p>
           </Reveal>
           <Reveal delay={0.06}>
-            <ImgPlaceholder label="CONCEPT SKETCHES" />
+            <ZenoImg src="/images/zeno/concept-sketches.png" alt="Concept Sketches" />
           </Reveal>
           <Reveal delay={0.1}>
             <div style={{ overflowX: "auto" }}>
@@ -426,7 +422,7 @@ export default function ZenoPage() {
         <div className="mt-section">
 
           <Decision num="01" title="From widgets to grouped components" first>
-            <ImgPlaceholder label="DASHBOARD COMPARISON" />
+            <ZenoImg src="/images/zeno/dashboard-comparison.png" alt="Dashboard Comparison" />
             <TwoColTable
               headers={["Widget Concept", "Final Grouped Dashboard"]}
               rows={[
@@ -449,7 +445,7 @@ export default function ZenoPage() {
           </Decision>
 
           <Decision num="03" title="Target SoC and Departure Time hidden behind a tap">
-            <ImgPlaceholder label="INTERACTION DETAIL" />
+            <ZenoImg src="/images/zeno/interaction-detail.png" alt="Interaction Detail" />
             <TwoColTable
               headers={["Problem with surface placement", "Solution"]}
               rows={[
@@ -462,7 +458,7 @@ export default function ZenoPage() {
           </Decision>
 
           <Decision num="04" title="The vehicle image">
-            <ImgPlaceholder label="VEHICLE INTEGRATION" />
+            <ZenoImg src="/images/zeno/vehicle-integration.png" alt="Vehicle Integration" />
             <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
               The vehicle image was in the very first concept sketch, not a late addition. During design review, the CEO and I noticed how Tesla showed your actual car, not a generic icon. I proposed the same. Building it took time: vehicle APIs, custom assets, model cutouts. But the sketch shows I knew from the beginning this was the right direction.
             </p>
@@ -493,7 +489,7 @@ export default function ZenoPage() {
           </Decision>
 
           <Decision num="06" title="The feature we built, shipped, and removed">
-            <ImgPlaceholder label="USAGE ANALYTICS" />
+            <ZenoImg src="/images/zeno/usage-analytics.png" alt="Usage Analytics" />
             <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
               We designed a double-ring clock widget showing the algorithm&apos;s charging schedule. Inner ring for today, outer ring for the next day. Electricity price data in Denmark does not reset at midnight, so sessions could spill past 12am. The two rings solved that technically.
             </p>
@@ -523,10 +519,10 @@ export default function ZenoPage() {
               35 screens across 5 core flows: onboarding, dashboard, charging session, analytics, and settings. Designed for iOS and Android.
             </p>
           </Reveal>
-          <Reveal delay={0.06}> <ImgPlaceholder label="ONBOARDING" /></Reveal>
-          <Reveal delay={0.1}>  <ImgPlaceholder label="DASHBOARD"  /></Reveal>
-          <Reveal delay={0.14}> <ImgPlaceholder label="ANALYTICS"  /></Reveal>
-          <Reveal delay={0.18}> <ImgPlaceholder label="SETTINGS"   /></Reveal>
+          <Reveal delay={0.06}> <ZenoImg src="/images/zeno/final-onboarding.png" alt="Onboarding" /></Reveal>
+          <Reveal delay={0.1}>  <ZenoImg src="/images/zeno/final-dashboard.png"  alt="Dashboard"  /></Reveal>
+          <Reveal delay={0.14}> <ZenoImg src="/images/zeno/final-analytics.png"  alt="Analytics"  /></Reveal>
+          <Reveal delay={0.18}> <ZenoImg src="/images/zeno/final-settings.png"   alt="Settings"   /></Reveal>
           <Reveal delay={0.22}>
             <div className="btn-row">
               <a href="https://www.figma.com/design/HQiowSEZWtefmjVP5cqZuY/ZENO?node-id=0-1&p=f&t=ZuWU0JArTeGN7yjv-0"
