@@ -217,14 +217,6 @@ export default function ZenoPage() {
       {/* ── HERO ────────────────────────────────────────────── */}
       <section style={{ ...col, padding: "48px 24px 0" }}>
         <Reveal>
-          <a href="/"
-            style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13, fontWeight: 500, color: C.t3, textDecoration: "none", marginBottom: 32, transition: "color 0.2s" }}
-            onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.color = C.t2}
-            onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.color = C.t3}
-          >
-            <ArrowLeft size={14} strokeWidth={2} /> Back to Portfolio
-          </a>
-
           <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 24 }}>
             <div style={{ width: 64, height: 64, borderRadius: 16, overflow: "hidden", flexShrink: 0 }}>
               <img src="/images/zeno logo.png" alt="ZENO" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
