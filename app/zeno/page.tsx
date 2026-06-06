@@ -78,9 +78,9 @@ function Quote({ text }: { text: string }) {
     <div style={{ background: C.card, borderRadius: 12, padding: "16px 20px", border: `1px solid ${C.border}` }}>
       <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
         <MessageCircle size={14} color={C.accent} strokeWidth={2} />
-        <span style={{ fontSize: 13, fontWeight: 500, color: C.t1 }}>Quote</span>
+        <span style={{ fontSize: 13, fontWeight: 500, color: C.t1 }}>Perspective</span>
       </div>
-      <p className="f16" style={{ color: C.t2, fontStyle: "italic", lineHeight: 1.7 }}>
+      <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
         &ldquo;{text}&rdquo;
       </p>
     </div>
