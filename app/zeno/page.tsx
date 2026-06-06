@@ -554,9 +554,6 @@ export default function ZenoPage() {
           <Reveal delay={0.2}>
             <Quote text="Simplicity is not the absence of complexity. It is evidence that someone worked very hard to hide it in exactly the right places." />
           </Reveal>
-          <Reveal delay={0.26}>
-            <ImgPlaceholder label="FINAL HANDOFF" />
-          </Reveal>
         </div>
       </section>
 
