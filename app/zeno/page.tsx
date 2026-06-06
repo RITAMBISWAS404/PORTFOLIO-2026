@@ -179,24 +179,24 @@ function SectionHeading({ label, num }: { label: string; num: string; icon?: Luc
   const ref  = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-20% 0px" });
   return (
-    <div ref={ref} style={{ display: "flex", alignItems: "center", gap: 16 }}>
-      <h2 style={{
-        fontSize: "clamp(20px, 3.5vw, 26px)", fontWeight: 500,
-        color: C.t1, lineHeight: 1.2, letterSpacing: "0.02em",
-        fontFamily: "Poppins, sans-serif", margin: 0, flexShrink: 0,
-      }}>{label}</h2>
-      <div style={{
-        flex: 1, height: 1, background: C.border,
-        transformOrigin: "left center",
-        transform: inView ? "scaleX(1)" : "scaleX(0)",
-        transition: "transform 0.9s cubic-bezier(.22,1,.36,1) 0.15s",
-      }} />
-      <span style={{
+    <div ref={ref} className="zeno-sh-wrap">
+      <span className="zeno-sh-num" style={{
         fontSize: "clamp(20px, 3.5vw, 26px)", fontWeight: 500,
         color: C.t3, flexShrink: 0, letterSpacing: "0.02em",
         fontFamily: "Poppins, sans-serif",
         opacity: inView ? 1 : 0, transition: "opacity 0.6s ease 0.5s",
       }}>{num}</span>
+      <h2 className="zeno-sh-label" style={{
+        fontSize: "clamp(20px, 3.5vw, 26px)", fontWeight: 500,
+        color: C.t1, lineHeight: 1.2, letterSpacing: "0.02em",
+        fontFamily: "Poppins, sans-serif", margin: 0, flexShrink: 0,
+      }}>{label}</h2>
+      <div className="zeno-sh-line" style={{
+        flex: 1, height: 1, background: C.border,
+        transformOrigin: "left center",
+        transform: inView ? "scaleX(1)" : "scaleX(0)",
+        transition: "transform 0.9s cubic-bezier(.22,1,.36,1) 0.15s",
+      }} />
     </div>
   );
 }
@@ -667,6 +667,17 @@ export default function ZenoPage() {
       </div>
 
       <style>{`
+        /* Section heading: mobile = "01 LABEL", desktop = "LABEL ——— 01" */
+        .zeno-sh-wrap { display: flex; align-items: center; gap: 8px; }
+        .zeno-sh-num  { order: 0; }
+        .zeno-sh-label { order: 1; }
+        .zeno-sh-line { display: none; }
+        @media (min-width: 768px) {
+          .zeno-sh-wrap { gap: 16px; }
+          .zeno-sh-num  { order: 2; }
+          .zeno-sh-label { order: 0; }
+          .zeno-sh-line { display: block; order: 1; }
+        }
         .zeno-page-nav {
           display: none;
           position: fixed;
