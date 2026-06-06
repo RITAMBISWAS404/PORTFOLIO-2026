@@ -358,7 +358,7 @@ export default function ZenoPage() {
       <section style={{ ...col, padding: "32px 24px 0" }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div className="zeno-stats-grid">
-            <ZenoCard icon={Layers}    iconColor={C.accent} label="Screens Designed" right="35"  body="Across 5 flows for iOS and Android."                          delay={0}    />
+            <ZenoCard icon={Layers}    iconColor={C.accent} label="Screens Designed" right="35+"  body="Across 5 flows for iOS and Android."                          delay={0}    />
             <ZenoCard icon={GitBranch} iconColor={C.blue}   label="Core User Flows"  right="05"  body="Onboarding, dashboard, analytics, settings, account."              delay={0.08} />
             <ZenoCard icon={Clock}     iconColor={C.yellow} label="MVP Timeline"      right="2M"  body="Blank file to production-ready designs."                           delay={0.16} />
           </div>
