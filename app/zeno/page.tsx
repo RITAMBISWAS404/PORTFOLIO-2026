@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
 import { useInView } from "framer-motion";
 import {
   Zap, Target, Search, LayoutGrid, GitBranch,
@@ -201,6 +201,74 @@ function SectionHeading({ label, num }: { label: string; num: string; icon?: Luc
   );
 }
 
+/* ── Page-level section navigator ──────────────────────────────── */
+
+const NAV_SECTIONS = [
+  { id: "zeno-overview",   label: "Overview" },
+  { id: "zeno-problem",    label: "The Problem" },
+  { id: "zeno-research",   label: "Research" },
+  { id: "zeno-onboarding", label: "Onboarding" },
+  { id: "zeno-dashboard",  label: "Dashboard" },
+  { id: "zeno-decisions",  label: "Decisions" },
+  { id: "zeno-product",    label: "Final Product" },
+  { id: "zeno-reflection", label: "Reflection" },
+];
+
+function PageNav() {
+  const [active, setActive] = useState("zeno-overview");
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id); });
+    }, { rootMargin: "-40% 0px -55% 0px" });
+    NAV_SECTIONS.forEach(({ id }) => {
+      const el = document.getElementById(id);
+      if (el) obs.observe(el);
+    });
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <nav className="zeno-page-nav">
+      {NAV_SECTIONS.map(({ id, label }) => {
+        const isActive = active === id;
+        return (
+          <button key={id}
+            onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })}
+            style={{
+              background: "none", border: "none", cursor: "pointer", padding: 0,
+              display: "flex", alignItems: "center", gap: 8, textAlign: "left",
+              fontSize: 12, fontWeight: isActive ? 500 : 400,
+              color: isActive ? C.t1 : C.t3,
+              fontFamily: "Poppins, sans-serif",
+              transition: "color 0.2s",
+            }}
+            onMouseEnter={e => (e.currentTarget as HTMLButtonElement).style.color = C.t2}
+            onMouseLeave={e => (e.currentTarget as HTMLButtonElement).style.color = isActive ? C.t1 : C.t3}
+          >
+            <span style={{ fontSize: 14, opacity: isActive ? 1 : 0, transition: "opacity 0.2s", color: C.t2 }}>—</span>
+            {label}
+          </button>
+        );
+      })}
+      <button
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        style={{
+          marginTop: 8, background: "none", border: "none", cursor: "pointer", padding: 0,
+          display: "flex", alignItems: "center", gap: 8,
+          fontSize: 12, fontWeight: 400, color: C.t3,
+          fontFamily: "Poppins, sans-serif", transition: "color 0.2s",
+        }}
+        onMouseEnter={e => (e.currentTarget as HTMLButtonElement).style.color = C.t2}
+        onMouseLeave={e => (e.currentTarget as HTMLButtonElement).style.color = C.t3}
+      >
+        <span style={{ fontSize: 14, opacity: 0 }}>—</span>
+        back to top
+      </button>
+    </nav>
+  );
+}
+
 /* ── Page ──────────────────────────────────────────────────────── */
 
 export default function ZenoPage() {
@@ -213,6 +281,7 @@ export default function ZenoPage() {
 
   return (
     <main>
+      <PageNav />
 
       {/* ── HERO ────────────────────────────────────────────── */}
       <section style={{ ...col, padding: "48px 24px 0" }}>
@@ -296,7 +365,7 @@ export default function ZenoPage() {
       </section>
 
       {/* ── 01 WHAT ZENO DOES ───────────────────────────────── */}
-      <section style={{ ...col, padding: "64px 24px 0" }}>
+      <section id="zeno-overview" style={{ ...col, padding: "64px 24px 0" }}>
         <SectionHeading icon={Zap} label="WHAT ZENO DOES" num="01" iconColor={C.yellow} />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
@@ -322,7 +391,7 @@ export default function ZenoPage() {
       </section>
 
       {/* ── 02 THE PROBLEM ──────────────────────────────────── */}
-      <section style={{ ...col, padding: "64px 24px 0" }}>
+      <section id="zeno-problem" style={{ ...col, padding: "64px 24px 0" }}>
         <SectionHeading icon={Target} label="THE PROBLEM" num="02" iconColor={C.red} />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
@@ -350,7 +419,7 @@ export default function ZenoPage() {
       </section>
 
       {/* ── 03 RESEARCH ─────────────────────────────────────── */}
-      <section style={{ ...col, padding: "64px 24px 0" }}>
+      <section id="zeno-research" style={{ ...col, padding: "64px 24px 0" }}>
         <SectionHeading icon={Search} label="RESEARCH AND EARLY THINKING" num="03" iconColor={C.blue} />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
@@ -373,7 +442,7 @@ export default function ZenoPage() {
       </section>
 
       {/* ── 04 ONBOARDING FLOW ──────────────────────────────── */}
-      <section style={{ ...col, padding: "64px 24px 0" }}>
+      <section id="zeno-onboarding" style={{ ...col, padding: "64px 24px 0" }}>
         <SectionHeading icon={Smartphone} label="ONBOARDING FLOW" num="04" iconColor={C.yellow} />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
@@ -394,7 +463,7 @@ export default function ZenoPage() {
       </section>
 
       {/* ── 05 DASHBOARD EXPLORATION ────────────────────────── */}
-      <section style={{ ...col, padding: "64px 24px 0" }}>
+      <section id="zeno-dashboard" style={{ ...col, padding: "64px 24px 0" }}>
         <SectionHeading icon={LayoutGrid} label="DASHBOARD EXPLORATION" num="05" iconColor={C.accent} />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
@@ -436,7 +505,7 @@ export default function ZenoPage() {
       </section>
 
       {/* ── 05 DECISION JOURNEY ─────────────────────────────── */}
-      <section style={{ ...col, padding: "64px 24px 0" }}>
+      <section id="zeno-decisions" style={{ ...col, padding: "64px 24px 0" }}>
         <SectionHeading icon={GitBranch} label="THE DECISION JOURNEY" num="06" iconColor={C.blue} />
         <div className="mt-section">
 
@@ -530,7 +599,7 @@ export default function ZenoPage() {
       </section>
 
       {/* ── 06 FINAL PRODUCT ────────────────────────────────── */}
-      <section style={{ ...col, padding: "64px 24px 0" }}>
+      <section id="zeno-product" style={{ ...col, padding: "64px 24px 0" }}>
         <SectionHeading icon={Smartphone} label="THE FINAL PRODUCT" num="07" iconColor={C.accent} />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
@@ -558,7 +627,7 @@ export default function ZenoPage() {
       </section>
 
       {/* ── 07 REFLECTION ───────────────────────────────────── */}
-      <section style={{ ...col, padding: "64px 24px 0" }}>
+      <section id="zeno-reflection" style={{ ...col, padding: "64px 24px 0" }}>
         <SectionHeading icon={BookOpen} label="REFLECTION" num="08" iconColor={C.blue} />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div className="zeno-reflection-grid">
@@ -597,6 +666,17 @@ export default function ZenoPage() {
       </div>
 
       <style>{`
+        .zeno-page-nav {
+          display: none;
+          position: fixed;
+          left: calc(50% + 408px);
+          top: 50%;
+          transform: translateY(-50%);
+          flex-direction: column;
+          gap: 14px;
+          z-index: 100;
+        }
+        @media (min-width: 1200px) { .zeno-page-nav { display: flex; } }
         .zeno-hero-img-wrap { aspect-ratio: 4 / 3; }
         @media (min-width: 768px) { .zeno-hero-img-wrap { aspect-ratio: 16 / 9; } }
         .zeno-dot-bg { background-color: #0d0d0d; padding: 0 24px; }
