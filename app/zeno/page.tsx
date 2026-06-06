@@ -238,7 +238,7 @@ function PageNav() {
           setVisible(e.boundingClientRect.top < 0);
         }
       });
-    }, { rootMargin: "0px 0px -40% 0px" });
+    }, { rootMargin: "0px 0px -60% 0px" });
     if (overviewEl) visObs.observe(overviewEl);
 
     return () => { activeObs.disconnect(); visObs.disconnect(); };
