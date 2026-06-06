@@ -5,7 +5,7 @@ import {
   Zap, Target, Search, LayoutGrid, GitBranch,
   Smartphone, BookOpen, ArrowLeft, Lock, PenTool, FileText,
   MessageCircle, Lightbulb, User, Clock, Layers, Users, Briefcase,
-  LucideIcon,
+  Eye, LucideIcon,
 } from "lucide-react";
 import SectionLabel from "@/components/SectionLabel";
 import Footer from "@/sections/Footer";
@@ -221,8 +221,11 @@ export default function ZenoPage() {
             ))}
           </div>
 
-          <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, padding: "12px 16px", display: "flex", alignItems: "flex-start", gap: 10 }}>
-            <Lock size={14} color={C.t3} strokeWidth={2} style={{ marginTop: 3, flexShrink: 0 }} />
+          <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, padding: "14px 16px", display: "flex", flexDirection: "column", gap: 8 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <Lock size={14} color={C.yellow} strokeWidth={2} />
+              <span style={{ fontSize: 13, fontWeight: 500, color: C.t1 }}>Confidential Note</span>
+            </div>
             <p style={{ fontSize: 13, color: C.t2, lineHeight: 1.6 }}>
               Zeno is a portfolio-safe recreation of a product I designed for a Copenhagen-based EV startup. With the company&apos;s permission, I rebuilt it under a new brand. Every decision, constraint, and insight here is real. Only the branding changed.
             </p>
@@ -237,7 +240,7 @@ export default function ZenoPage() {
             <ZenoCard icon={Layers}    iconColor={C.accent} label="Screens Designed" right="35"  body="Every key user flow from onboarding through dashboard, analytics, and settings." delay={0}    />
             <ZenoCard icon={GitBranch} iconColor={C.blue}   label="Core User Flows"  right="05"  body="Onboarding, charging session, analytics, history, and account management."        delay={0.08} />
             <ZenoCard icon={Clock}     iconColor={C.yellow} label="MVP Timeline"      right="2M"  body="From blank Figma file to production-ready iOS and Android designs in two months."  delay={0.16} />
-            <ZenoCard icon={User}      iconColor={C.t2}     label="Team Size"         right="01"  body="Sole designer from day one. No handoff, no prior design system to inherit."         delay={0.24} />
+            <ZenoCard icon={User}      iconColor={C.accent} label="Team Size"         right="01"  body="Sole designer from day one. No handoff, no prior design system to inherit."         delay={0.24} />
           </div>
           <Reveal>
             <div className="zeno-meta-grid">
@@ -273,7 +276,7 @@ export default function ZenoPage() {
           </Reveal>
           <Reveal delay={0.12}>
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
-              <User size={14} color={C.t2} strokeWidth={2} />
+              <User size={14} color={C.accent} strokeWidth={2} />
               <span style={{ fontSize: 13, fontWeight: 500, color: C.t1 }}>My Role</span>
             </div>
             <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
@@ -320,20 +323,11 @@ export default function ZenoPage() {
               Before designing a single screen, I audited the competitive landscape. Every existing EV app had the same three problems.
             </p>
           </Reveal>
-          <Reveal delay={0.06}>
-            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {[
-                { num: "01", text: "Built for engineers. Technical vocabulary with no softening." },
-                { num: "02", text: "Every metric visible at once. Overwhelming to scan." },
-                { num: "03", text: "Older users hit a barrier before trying a single feature." },
-              ].map(item => (
-                <div key={item.num} style={{ display: "flex", gap: 16, alignItems: "flex-start", background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, padding: "14px 16px" }}>
-                  <span style={{ fontSize: 11, fontWeight: 600, color: C.t3, letterSpacing: "0.1em", flexShrink: 0, paddingTop: 2 }}>{item.num}</span>
-                  <p className="f16" style={{ color: C.t2, lineHeight: 1.6 }}>{item.text}</p>
-                </div>
-              ))}
-            </div>
-          </Reveal>
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            <ZenoCard icon={FileText} iconColor={C.blue}   label="Built for engineers"   right="01" body="Technical vocabulary with no softening. Everything assumed power-user knowledge." delay={0.06} />
+            <ZenoCard icon={Eye}      iconColor={C.yellow}  label="Information overload"  right="02" body="Every metric visible at once. No hierarchy, no breathing room. Overwhelming to scan." delay={0.12} />
+            <ZenoCard icon={Users}    iconColor={C.red}     label="Accessibility barrier" right="03" body="Older users hit a wall before trying a single feature. The learning curve was immediate." delay={0.18} />
+          </div>
           <Reveal delay={0.12}>
             <Quote text="This product needed to feel like an assistant, not a control panel." />
           </Reveal>
