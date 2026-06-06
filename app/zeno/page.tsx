@@ -4,6 +4,7 @@ import { useInView } from "framer-motion";
 import {
   Zap, Target, Search, LayoutGrid, GitBranch,
   Smartphone, BookOpen, ArrowLeft, Lock, PenTool, FileText,
+  MessageCircle, Lightbulb, User,
 } from "lucide-react";
 import SectionLabel from "@/components/SectionLabel";
 import Card from "@/components/Card";
@@ -26,8 +27,10 @@ function Quote({ text }: { text: string }) {
   return (
     <div style={{
       background: C.card, borderRadius: 12, padding: "16px 20px",
-      border: `1px solid ${C.border}`, borderLeft: `3px solid ${C.accent}`,
+      border: `1px solid ${C.border}`,
+      display: "flex", gap: 12, alignItems: "flex-start",
     }}>
+      <MessageCircle size={14} color={C.t3} strokeWidth={2} style={{ flexShrink: 0, marginTop: 3 }} />
       <p className="f16" style={{ color: C.t2, fontStyle: "italic", lineHeight: 1.7 }}>
         &ldquo;{text}&rdquo;
       </p>
@@ -39,9 +42,12 @@ function Lesson({ text }: { text: string }) {
   return (
     <div style={{
       background: C.card, borderRadius: 12, padding: "16px 20px",
-      border: `1px solid ${C.border}`, borderLeft: `3px solid ${C.blue}`,
+      border: `1px solid ${C.border}`,
     }}>
-      <div style={{ fontSize: 11, fontWeight: 600, color: C.blue, letterSpacing: "0.1em", marginBottom: 8 }}>LESSON</div>
+      <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }}>
+        <BookOpen size={12} color={C.t3} strokeWidth={2} />
+        <span style={{ fontSize: 11, fontWeight: 600, color: C.t3, letterSpacing: "0.1em" }}>LESSON</span>
+      </div>
       <p className="f16" style={{ color: C.t2, lineHeight: 1.6 }}>{text}</p>
     </div>
   );
@@ -51,14 +57,18 @@ function Insight({ text }: { text: string }) {
   return (
     <div style={{
       background: C.card, borderRadius: 12, padding: "16px 20px",
-      border: `1px solid ${C.border}`, borderLeft: `3px solid ${C.yellow}`,
+      border: `1px solid ${C.border}`,
     }}>
-      <div style={{ fontSize: 11, fontWeight: 600, color: C.yellow, letterSpacing: "0.1em", marginBottom: 8 }}>INSIGHT</div>
+      <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }}>
+        <Lightbulb size={12} color={C.t3} strokeWidth={2} />
+        <span style={{ fontSize: 11, fontWeight: 600, color: C.t3, letterSpacing: "0.1em" }}>INSIGHT</span>
+      </div>
       <p className="f16" style={{ color: C.t2, lineHeight: 1.6 }}>{text}</p>
     </div>
   );
 }
 
+/* Fix: only data rows carry borderTop — no borderBottom on headers — prevents doubled border */
 function TwoColTable({ headers, rows }: { headers: [string, string]; rows: [string, string][] }) {
   return (
     <div style={{ border: `1px solid ${C.border}`, borderRadius: 12, overflow: "hidden" }}>
@@ -68,7 +78,6 @@ function TwoColTable({ headers, rows }: { headers: [string, string]; rows: [stri
             padding: "10px 16px", fontSize: 12, fontWeight: 600,
             color: C.t1, letterSpacing: "0.08em",
             background: "rgba(255,255,255,0.03)",
-            borderBottom: `1px solid ${C.border}`,
             borderRight: i === 0 ? `1px solid ${C.border}` : "none",
           }}>{h}</div>
         ))}
@@ -96,26 +105,25 @@ function Decision({ num, title, first = false, children }: {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-5% 0px" });
   return (
-    <div ref={ref} style={{
-      display: "flex", flexDirection: "column", gap: 16,
-      paddingTop: first ? 0 : 32,
-      borderTop: first ? "none" : `1px solid ${C.border}`,
-      ...revealStyle(inView),
-    }}>
-      <span style={{ fontSize: 11, fontWeight: 600, color: C.t3, letterSpacing: "0.12em" }}>
-        DECISION {num}
-      </span>
-      <h3 className="f16" style={{ fontWeight: 500, color: C.t1, lineHeight: 1.5 }}>{title}</h3>
-      {children}
-    </div>
+    <>
+      {!first && <div style={{ height: 1, background: C.border, margin: "40px 0" }} />}
+      <div ref={ref} style={{ display: "flex", flexDirection: "column", gap: 16, ...revealStyle(inView) }}>
+        <span style={{ fontSize: 11, fontWeight: 600, color: C.t3, letterSpacing: "0.12em" }}>
+          DECISION {num}
+        </span>
+        <h3 className="f16" style={{ fontWeight: 500, color: C.t1, lineHeight: 1.5 }}>{title}</h3>
+        {children}
+      </div>
+    </>
   );
 }
 
 function ImgPlaceholder({ label }: { label: string }) {
   return (
     <div style={{
+      width: "100%", aspectRatio: "16 / 9",
       background: C.card, border: `1px dashed ${C.border}`,
-      borderRadius: 16, minHeight: 220,
+      borderRadius: 16,
       display: "flex", flexDirection: "column",
       alignItems: "center", justifyContent: "center", gap: 8,
     }}>
@@ -134,7 +142,6 @@ export default function ZenoPage() {
       {/* ── HERO ────────────────────────────────────────────── */}
       <section style={{ ...col, padding: "48px 24px 0" }}>
         <Reveal>
-          {/* Back link */}
           <a href="/"
             style={{
               display: "inline-flex", alignItems: "center", gap: 6,
@@ -148,7 +155,6 @@ export default function ZenoPage() {
             <ArrowLeft size={14} strokeWidth={2} /> Back to Portfolio
           </a>
 
-          {/* Identity */}
           <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 24 }}>
             <div style={{ width: 64, height: 64, borderRadius: 16, overflow: "hidden", flexShrink: 0 }}>
               <img src="/images/zeno logo.png" alt="ZENO" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
@@ -159,7 +165,6 @@ export default function ZenoPage() {
             </div>
           </div>
 
-          {/* Headline */}
           <h1 style={{
             fontSize: "clamp(22px, 4vw, 32px)", fontWeight: 500,
             color: C.t1, lineHeight: 1.35, marginBottom: 24,
@@ -168,7 +173,6 @@ export default function ZenoPage() {
             How I Turned a Data-Heavy EV App Into a Four-Second Experience.
           </h1>
 
-          {/* Tags */}
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 24 }}>
             {[
               { label: "UX DESIGN",  icon: <PenTool  size={12} color={C.accent} strokeWidth={2} /> },
@@ -182,7 +186,6 @@ export default function ZenoPage() {
             ))}
           </div>
 
-          {/* Confidentiality note */}
           <div style={{
             background: C.card, border: `1px solid ${C.border}`,
             borderRadius: 12, padding: "12px 16px",
@@ -236,12 +239,13 @@ export default function ZenoPage() {
             <Quote text="You set the departure time. You set the target charge. The algorithm finds the cheapest hour and does the rest." />
           </Reveal>
           <Reveal delay={0.12}>
-            <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, padding: "16px 20px" }}>
-              <div style={{ fontSize: 12, fontWeight: 600, color: C.t1, letterSpacing: "0.08em", marginBottom: 10 }}>MY ROLE</div>
-              <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
-                Sole designer from day one. No existing product, no design system, no prior work to inherit — only a vision from the CEO and CTO and a blank Figma file. What I know now about design systems, component thinking, and stakeholder communication came directly from the pressure of this project. Everything here was built from scratch.
-              </p>
+            <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }}>
+              <User size={12} color={C.t3} strokeWidth={2} />
+              <span style={{ fontSize: 11, fontWeight: 600, color: C.t3, letterSpacing: "0.08em" }}>MY ROLE</span>
             </div>
+            <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
+              Sole designer from day one. No existing product, no design system, no prior work to inherit. Only a vision from the CEO and CTO and a blank Figma file. What I know now about design systems, component thinking, and stakeholder communication came directly from the pressure of this project. Everything here was built from scratch.
+            </p>
           </Reveal>
         </div>
       </section>
@@ -305,7 +309,15 @@ export default function ZenoPage() {
             <Quote text="This product needed to feel like an assistant, not a control panel." />
           </Reveal>
           <Reveal delay={0.16}>
-            <Insight text="Six focused onboarding steps felt lighter than any single long form. One task per screen with clear conditional logic meant users always knew exactly what they were being asked to do." />
+            <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
+              The onboarding needed to collect a lot from new users: email, password, charger license, serial number, battery size, and connection confirmation. One task per screen with clear conditional logic kept it from feeling heavy.
+            </p>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <Insight text="Six focused steps felt lighter than any single long form. Users always knew exactly what they were being asked to do." />
+          </Reveal>
+          <Reveal delay={0.24}>
+            <ImgPlaceholder label="ONBOARDING FLOW" />
           </Reveal>
         </div>
       </section>
@@ -370,7 +382,7 @@ export default function ZenoPage() {
       {/* ── 05 DECISION JOURNEY ─────────────────────────────── */}
       <section style={{ ...col, padding: "64px 24px 0" }}>
         <SectionLabel icon={GitBranch} label="THE DECISION JOURNEY" num="05" iconColor={C.blue} />
-        <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+        <div className="mt-section">
 
           <Decision num="01" title="From widgets to grouped components" first>
             <TwoColTable
@@ -388,10 +400,9 @@ export default function ZenoPage() {
             <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
               Stakeholders suggested reducing spacing around the charging indicator to fit more data. I pushed back with user reasoning, not preference. Older users reading a dense screen work harder to find what they need. White space was doing real usability work.
             </p>
-            <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, padding: "12px 16px" }}>
-              <span style={{ fontSize: 13, fontWeight: 600, color: C.t1 }}>Resolution: </span>
-              <span style={{ fontSize: 13, color: C.t2 }}>Secondary controls moved to modals. White space stayed.</span>
-            </div>
+            <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
+              <strong style={{ color: C.t1, fontWeight: 500 }}>Resolution:</strong> Secondary controls moved to modals. White space stayed.
+            </p>
             <Lesson text='"This looks cleaner" loses. "Here is what our user is doing at 7am" wins.' />
           </Decision>
 
@@ -409,7 +420,7 @@ export default function ZenoPage() {
 
           <Decision num="04" title="The vehicle image">
             <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
-              The vehicle image was in the very first concept sketch — not a late addition. During design review, the CEO and I noticed how Tesla showed your actual car, not a generic icon. I proposed the same. Building it took time — vehicle APIs, custom assets, model cutouts — but the sketch shows I knew from the beginning this was the right direction.
+              The vehicle image was in the very first concept sketch, not a late addition. During design review, the CEO and I noticed how Tesla showed your actual car, not a generic icon. I proposed the same. Building it took time: vehicle APIs, custom assets, model cutouts. But the sketch shows I knew from the beginning this was the right direction.
             </p>
             <Lesson text="Sometimes the most impactful decision is not about layout. It is about making someone feel something about their product." />
           </Decision>
@@ -424,19 +435,19 @@ export default function ZenoPage() {
                   <div key={i} style={{
                     padding: "10px 14px", fontSize: 11, fontWeight: 600, color: C.t1,
                     letterSpacing: "0.08em", background: "rgba(255,255,255,0.03)",
-                    borderBottom: `1px solid ${C.border}`,
                     borderRight: i < 2 ? `1px solid ${C.border}` : "none",
                   }}>{h}</div>
                 ))}
               </div>
               <div className="zeno-cut-grid">
                 {[
-                  "Battery %, time remaining,\nready-by\n\nAuto, On/Off, Cable Lock",
-                  "Cost savings, energy usage,\nsession history",
-                  "Connection status,\nvehicle management\n\nAccount, language, security",
+                  "Battery %, time remaining, ready-by\n\nAuto, On/Off, Cable Lock",
+                  "Cost savings, energy usage, session history",
+                  "Connection status, vehicle management\n\nAccount, language, security",
                 ].map((cell, i) => (
                   <div key={i} style={{
                     padding: "12px 14px", fontSize: 13, color: C.t2, lineHeight: 1.6,
+                    borderTop: `1px solid ${C.border}`,
                     borderRight: i < 2 ? `1px solid ${C.border}` : "none",
                     whiteSpace: "pre-line",
                   }}>{cell}</div>
@@ -448,7 +459,7 @@ export default function ZenoPage() {
 
           <Decision num="06" title="The feature we built, shipped, and removed">
             <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
-              We designed a double-ring clock widget showing the algorithm&apos;s charging schedule. Inner ring for today, outer ring for the next day. Electricity price data in Denmark does not reset at midnight, so sessions could spill past 12am — the two rings solved that technically.
+              We designed a double-ring clock widget showing the algorithm&apos;s charging schedule. Inner ring for today, outer ring for the next day. Electricity price data in Denmark does not reset at midnight, so sessions could spill past 12am. The two rings solved that technically.
             </p>
             <TwoColTable
               headers={["What we assumed", "What users experienced"]}
@@ -459,7 +470,7 @@ export default function ZenoPage() {
               ]}
             />
             <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
-              Beta users found it mentally taxing. The deeper problem was not the visual — it was the concept. The algorithm&apos;s job is to remove decisions from the user, not explain its own logic to them. We removed the feature entirely. Trust came back when the complexity disappeared.
+              Beta users found it mentally taxing. The deeper problem was not the visual. It was the concept. The algorithm&apos;s job is to remove decisions from the user, not explain its own logic to them. We removed the feature entirely. Trust came back when the complexity disappeared.
             </p>
             <Lesson text="A feature that requires explanation has already failed. The best interface for a smart system is one that makes the system feel invisible." />
           </Decision>
@@ -473,18 +484,14 @@ export default function ZenoPage() {
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
             <p className="f16" style={{ color: C.t2, lineHeight: 1.6 }}>
-              35 screens across 5 core flows — onboarding, dashboard, charging session, analytics, and settings — designed for iOS and Android.
+              35 screens across 5 core flows: onboarding, dashboard, charging session, analytics, and settings. Designed for iOS and Android.
             </p>
           </Reveal>
-          <Reveal delay={0.06}>
-            <div className="zeno-img-grid">
-              <ImgPlaceholder label="ONBOARDING" />
-              <ImgPlaceholder label="DASHBOARD" />
-              <ImgPlaceholder label="ANALYTICS" />
-              <ImgPlaceholder label="SETTINGS" />
-            </div>
-          </Reveal>
-          <Reveal delay={0.1}>
+          <Reveal delay={0.06}><ImgPlaceholder label="ONBOARDING" /></Reveal>
+          <Reveal delay={0.1}> <ImgPlaceholder label="DASHBOARD"  /></Reveal>
+          <Reveal delay={0.14}><ImgPlaceholder label="ANALYTICS"  /></Reveal>
+          <Reveal delay={0.18}><ImgPlaceholder label="SETTINGS"   /></Reveal>
+          <Reveal delay={0.22}>
             <div className="btn-row">
               <a
                 href="https://www.figma.com/design/HQiowSEZWtefmjVP5cqZuY/ZENO?node-id=0-1&p=f&t=ZuWU0JArTeGN7yjv-0"
@@ -511,10 +518,10 @@ export default function ZenoPage() {
         <SectionLabel icon={BookOpen} label="REFLECTION" num="07" iconColor={C.blue} />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div className="zeno-stats-grid">
-            <Card label="Build the design system first"    num="01"
-              body="Manual component updates across 35+ screens for months. Design tokens and component libraries learned during the project, not before it. If I started again, this is day one."
+            <Card label="Build the design system first"     num="01"
+              body="Manual component updates across 35+ screens for months. Design tokens and component libraries should be day one, not an afterthought."
               delay={0} />
-            <Card label="Test with real users earlier"     num="02"
+            <Card label="Test with real users earlier"      num="02"
               body="Decisions debated for days became obvious the first time a real user touched the screen."
               delay={0.08} />
             <Card label="Document decisions as they happen" num="03"
@@ -536,7 +543,6 @@ export default function ZenoPage() {
         .zeno-stats-grid   { display: grid; grid-template-columns: 1fr; gap: 16px; }
         .zeno-meta-grid    { display: grid; grid-template-columns: 1fr; gap: 12px; }
         .zeno-concept-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
-        .zeno-img-grid     { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .zeno-cut-grid     { display: grid; grid-template-columns: 1fr 1fr 1fr; }
         @media (min-width: 600px) {
           .zeno-concept-grid { grid-template-columns: 1fr 1fr 1fr; }
@@ -546,7 +552,6 @@ export default function ZenoPage() {
           .zeno-stats-grid { grid-template-columns: 1fr 1fr; }
         }
         @media (max-width: 540px) {
-          .zeno-img-grid { grid-template-columns: 1fr; }
           .zeno-cut-grid { grid-template-columns: 1fr; }
         }
       `}</style>
