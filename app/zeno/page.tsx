@@ -311,13 +311,15 @@ export default function ZenoPage() {
             <Quote text="You set the departure time. You set the target charge. The algorithm finds the cheapest hour and does the rest." />
           </Reveal>
           <Reveal delay={0.12}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
-              <User size={14} color={C.accent} strokeWidth={2} />
-              <span style={{ fontSize: 13, fontWeight: 500, color: C.t1 }}>My Role</span>
+            <div style={{ background: C.card, borderRadius: 12, padding: "16px 20px", border: `1px solid ${C.border}` }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+                <User size={14} color={C.accent} strokeWidth={2} />
+                <span style={{ fontSize: 13, fontWeight: 500, color: C.t1 }}>My Role</span>
+              </div>
+              <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
+                Sole designer from day one. No existing product, no design system, no prior work to inherit. Only a vision from the CEO and CTO and a blank Figma file. What I know now about design systems, component thinking, and stakeholder communication came directly from the pressure of this project. Everything here was built from scratch.
+              </p>
             </div>
-            <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
-              Sole designer from day one. No existing product, no design system, no prior work to inherit. Only a vision from the CEO and CTO and a blank Figma file. What I know now about design systems, component thinking, and stakeholder communication came directly from the pressure of this project. Everything here was built from scratch.
-            </p>
           </Reveal>
         </div>
       </section>
