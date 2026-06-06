@@ -558,20 +558,22 @@ export default function ZenoPage() {
             <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
               Beta users opened the app, checked battery percentage, glanced at the ready-by time, and closed it. Four seconds. Everything else went unlooked at.
             </p>
-            <div style={{ border: `1px solid ${C.border}`, borderRadius: 12, overflow: "hidden" }}>
-              <div className="zeno-cut-grid">
-                {["Stayed on Dashboard", "Moved to Analytics", "Moved to Settings"].map((h, i) => (
-                  <div key={i} style={{ padding: "10px 14px", fontSize: 11, fontWeight: 600, color: C.t1, letterSpacing: "0.08em", background: "rgba(255,255,255,0.03)", borderRight: i < 2 ? `1px solid ${C.border}` : "none" }}>{h}</div>
-                ))}
-              </div>
-              <div className="zeno-cut-grid">
-                {[
-                  "Battery %, time remaining, ready-by\n\nAuto, On/Off, Cable Lock",
-                  "Cost savings, energy usage, session history",
-                  "Connection status, vehicle management\n\nAccount, language, security",
-                ].map((cell, i) => (
-                  <div key={i} style={{ padding: "12px 14px", fontSize: 13, color: C.t2, lineHeight: 1.6, borderTop: `1px solid ${C.border}`, borderRight: i < 2 ? `1px solid ${C.border}` : "none", whiteSpace: "pre-line" }}>{cell}</div>
-                ))}
+            <div style={{ overflowX: "auto" }}>
+              <div style={{ minWidth: 480, border: `1px solid ${C.border}`, borderRadius: 12, overflow: "hidden" }}>
+                <div className="zeno-cut-grid">
+                  {["Stayed on Dashboard", "Moved to Analytics", "Moved to Settings"].map((h, i) => (
+                    <div key={i} style={{ padding: "10px 14px", fontSize: 11, fontWeight: 600, color: C.t1, letterSpacing: "0.08em", background: "rgba(255,255,255,0.03)", borderRight: i < 2 ? `1px solid ${C.border}` : "none" }}>{h}</div>
+                  ))}
+                </div>
+                <div className="zeno-cut-grid">
+                  {[
+                    "Battery %, time remaining, ready-by\n\nAuto, On/Off, Cable Lock",
+                    "Cost savings, energy usage, session history",
+                    "Connection status, vehicle management\n\nAccount, language, security",
+                  ].map((cell, i) => (
+                    <div key={i} style={{ padding: "12px 14px", fontSize: 13, color: C.t2, lineHeight: 1.6, borderTop: `1px solid ${C.border}`, borderRight: i < 2 ? `1px solid ${C.border}` : "none", whiteSpace: "pre-line" }}>{cell}</div>
+                  ))}
+                </div>
               </div>
             </div>
             <Insight text="A dashboard answers the most important question the user has right now. Everything else waits one tap away." />
@@ -710,9 +712,6 @@ export default function ZenoPage() {
         }
         @media (min-width: 600px) {
           .zeno-stats-grid { grid-template-columns: 1fr 1fr 1fr; }
-        }
-        @media (max-width: 540px) {
-          .zeno-cut-grid { grid-template-columns: 1fr; }
         }
       `}</style>
     </main>
