@@ -228,7 +228,7 @@ function PageNav() {
       if (el) activeObs.observe(el);
     });
 
-    // Show nav from "What Zeno Does" section onwards
+    // Show nav only once "What Zeno Does" is well into the viewport
     const overviewEl = document.getElementById("zeno-overview");
     const visObs = new IntersectionObserver(entries => {
       entries.forEach(e => {
@@ -238,7 +238,7 @@ function PageNav() {
           setVisible(e.boundingClientRect.top < 0);
         }
       });
-    });
+    }, { rootMargin: "0px 0px -40% 0px" });
     if (overviewEl) visObs.observe(overviewEl);
 
     return () => { activeObs.disconnect(); visObs.disconnect(); };
