@@ -395,7 +395,7 @@ export default function ZenoPage() {
               <div style={{ minWidth: 480, border: `1px solid ${C.border}`, borderRadius: 12, overflow: "hidden" }}>
                 {/* Header */}
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}>
-                  {[{ label: "Widget Set", color: C.t1 }, { label: "Minimal", color: C.t1 }, { label: "My Way", color: C.accent }].map((h, i) => (
+                  {[{ label: "Widget Set", color: C.t1 }, { label: "Minimal", color: C.t1 }, { label: "My Way", color: C.t1 }].map((h, i) => (
                     <div key={h.label} style={{ padding: "10px 16px", fontSize: 12, fontWeight: 600, color: h.color, letterSpacing: "0.08em", background: "rgba(255,255,255,0.03)", borderRight: i < 2 ? `1px solid ${C.border}` : "none" }}>{h.label}</div>
                   ))}
                 </div>
@@ -411,14 +411,6 @@ export default function ZenoPage() {
                     ))}
                   </div>
                 ))}
-                {/* Verdict */}
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}>
-                  {[{ label: "REJECTED", color: C.red }, { label: "REJECTED", color: C.red }, { label: "CHOSEN", color: C.accent }].map((v, i) => (
-                    <div key={i} style={{ padding: "10px 16px", borderTop: `1px solid ${C.border}`, borderRight: i < 2 ? `1px solid ${C.border}` : "none" }}>
-                      <span style={{ fontSize: 10, fontWeight: 600, color: v.color, letterSpacing: "0.1em", padding: "3px 8px", border: `1px solid ${v.color}33`, background: `${v.color}11`, borderRadius: 9999, display: "inline-block" }}>{v.label}</span>
-                    </div>
-                  ))}
-                </div>
               </div>
             </div>
           </Reveal>
