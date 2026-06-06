@@ -175,20 +175,28 @@ function ZenoImg({ src, alt }: { src: string; alt: string }) {
 
 /* ── Section heading — large, scannable ────────────────────────── */
 
-function SectionHeading({ icon: Icon, iconColor, label, num }: {
-  icon: LucideIcon; iconColor: string; label: string; num: string;
-}) {
+function SectionHeading({ label, num }: { label: string; num: string; icon?: LucideIcon; iconColor?: string; }) {
+  const ref  = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-20% 0px" });
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-        <Icon size={13} color={iconColor} strokeWidth={2} />
-        <span style={{ fontSize: 11, fontWeight: 600, color: C.t3, letterSpacing: "0.12em" }}>{num}</span>
-      </div>
+    <div ref={ref} style={{ display: "flex", alignItems: "center", gap: 16 }}>
       <h2 style={{
         fontSize: "clamp(20px, 3.5vw, 26px)", fontWeight: 500,
         color: C.t1, lineHeight: 1.2, letterSpacing: "0.02em",
-        fontFamily: "Poppins, sans-serif", margin: 0,
+        fontFamily: "Poppins, sans-serif", margin: 0, flexShrink: 0,
       }}>{label}</h2>
+      <div style={{
+        flex: 1, height: 1, background: C.border,
+        transformOrigin: "left center",
+        transform: inView ? "scaleX(1)" : "scaleX(0)",
+        transition: "transform 0.9s cubic-bezier(.22,1,.36,1) 0.15s",
+      }} />
+      <span style={{
+        fontSize: "clamp(20px, 3.5vw, 26px)", fontWeight: 500,
+        color: C.t3, flexShrink: 0, letterSpacing: "0.02em",
+        fontFamily: "Poppins, sans-serif",
+        opacity: inView ? 1 : 0, transition: "opacity 0.6s ease 0.5s",
+      }}>{num}</span>
     </div>
   );
 }
