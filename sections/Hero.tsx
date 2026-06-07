@@ -1,5 +1,5 @@
 "use client";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { ArrowRight, MessageCircle, Handshake, Calendar, Smartphone, Network } from "lucide-react";
 import { hero } from "@/data/content";
@@ -26,21 +26,22 @@ function Avatar() {
   const transform = useTransform(
     [sRx,sRy], ([x,y]) => `perspective(400px) rotateX(${y}deg) rotateY(${x}deg)`,
   );
+  const [egg, setEgg] = useState(false);
   const move=(e:React.MouseEvent)=>{
     const r=ref.current!.getBoundingClientRect();
     rx.set(((e.clientX-r.left)/r.width-0.5)*12);
     ry.set(-((e.clientY-r.top)/r.height-0.5)*12);
   };
-  const leave=()=>{ rx.set(0); ry.set(0); };
+  const leave=()=>{ rx.set(0); ry.set(0); setEgg(false); };
   return (
-    <div ref={ref} onMouseMove={move} onMouseLeave={leave}
+    <div ref={ref} onMouseMove={move} onMouseLeave={leave} onMouseEnter={()=>setEgg(true)}
       style={{position:"relative",width:64,height:64,flexShrink:0}}>
       <motion.div style={{width:64,height:64,borderRadius:16,overflow:"hidden",transform}}>
         <div style={{position:"absolute",inset:0,
           background:"conic-gradient(from 0deg, #20d455, #4488ff, #ff2626, #ffc200, #20d455)",
           filter:"blur(8px)",
           animation:"aura 10s linear infinite"}}/>
-        <img src="/images/avatar.png"
+        <img src={egg ? "/images/happy-catto.gif" : "/images/avatar.png"}
           alt="Ritam Biswas"
           style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",borderRadius:16}}/>
       </motion.div>
