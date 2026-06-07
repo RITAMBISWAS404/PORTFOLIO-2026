@@ -12,13 +12,17 @@ export default function Process(){
   const inView=useInView(ref,{once:true,margin:"-10% 0px"});
   return(
     <section id="process" style={{...col,padding:"64px 24px 0"}}>
-      <SectionLabel icon={Lightbulb} label="PROCESS AND PERSPECTIVE" num="03" iconColor={C.yellow}/>
+      <SectionLabel icon={Lightbulb} label="HOW I WORK" num="03" iconColor={C.yellow}/>
       <p ref={ref} className="f16 mt-section" style={{fontWeight:400,color:C.t2,lineHeight:1.6,...revealStyle(inView)}}>
-        I believe great digital products come from balancing clarity, functionality, and thoughtful systems thinking. My process focuses on understanding problems deeply, exploring structured ideas quickly, and designing scalable experiences that feel intuitive for users and practical for engineering teams.
+        Good design doesn&apos;t happen by accident. I follow a clear headspace when approaching any problem, starting with understanding, moving through exploration, and always ending with something that actually ships.
       </p>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))",gap:16,marginTop:24}}>
+      <div className="process-grid" style={{gap:16,marginTop:24}}>
         {pd.map((p,i)=><Card key={p.label} label={p.label} num={p.num} body={p.body} delay={i*0.08}/>)}
       </div>
+      <style>{`
+        .process-grid { display: grid; grid-template-columns: 1fr; }
+        @media (min-width: 768px) { .process-grid { grid-template-columns: 1fr 1fr 1fr; } }
+      `}</style>
     </section>
   );
 }

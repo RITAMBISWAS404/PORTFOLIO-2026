@@ -33,10 +33,9 @@ export const projects = [
 ];
 
 export const process = [
-  { label: "Understand Clearly", num: "01", body: "Understanding user needs, business goals, and product direction before making design decisions." },
-  { label: "Explore Structure",  num: "02", body: "Collecting references, exploring interaction patterns, and building clear visual foundations." },
-  { label: "Iterate Rapidly",    num: "03", body: "Designing fast, refining continuously, and improving flows through constant feedback loops." },
-  { label: "Ship Thoughtfully",  num: "04", body: "Collaborating closely with developers to ensure scalable and production-ready experiences." },
+  { label: "Understand Clearly", num: "01", body: "I dig into user needs, business goals, and product context before touching Figma. The clearer the problem, the sharper the solution." },
+  { label: "Iterate Rapidly",    num: "02", body: "I design fast, test often, and refine through real feedback. Loops over perfection, always." },
+  { label: "Ship Thoughtfully",  num: "03", body: "I work closely with developers from early on, making sure what gets designed actually gets built, without losing the intent." },
 ];
 
 export const experience = [
