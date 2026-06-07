@@ -51,8 +51,7 @@ export default function Experience() {
         ))}
       </div>
       <p className="f16" style={{ fontWeight:400, color:C.t2, lineHeight:1.6, marginTop:24 }}>
-        Startups, open source, and student communities: every role here shaped how I think about design.
-        For the full story behind each one,{" "}
+        Every role here taught me something the classroom couldn&apos;t. For the full story behind each one,{" "}
         <a href="/experience"
           style={{ color:C.blue, textDecoration:"underline", fontWeight:400 }}>
           view more
