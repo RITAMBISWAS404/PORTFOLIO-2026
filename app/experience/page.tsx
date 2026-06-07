@@ -1,8 +1,6 @@
 "use client";
 import { useRef } from "react";
 import { useInView } from "framer-motion";
-import { Briefcase } from "lucide-react";
-import SectionLabel from "@/components/SectionLabel";
 import Footer from "@/sections/Footer";
 import { C, col, revealStyle } from "@/lib/tokens";
 
@@ -139,11 +137,20 @@ function ExpDetailEntry({ e, isFirst }: { e: ExpEntry; isFirst: boolean }) {
 export default function ExperiencePage() {
   return (
     <main>
-      <section style={{ ...col, padding: "64px 24px 0" }}>
-        <SectionLabel icon={Briefcase} label="EXPERIENCE" num="04" iconColor={C.accent} />
+      <section style={{ ...col, padding: "48px 24px 0" }}>
+        <h1 style={{
+          fontSize: "clamp(22px, 4vw, 32px)", fontWeight: 500,
+          color: C.t1, lineHeight: 1.35, fontFamily: "Poppins, sans-serif",
+          marginBottom: 12,
+        }}>
+          The Journey So Far
+        </h1>
+        <p className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6 }}>
+          Startups, open source, and student communities, each one sharpened something different.
+        </p>
       </section>
 
-      <div style={{ marginTop: 8 }}>
+      <div style={{ marginTop: 32 }}>
         {experiences.map((e, i) => (
           <ExpDetailEntry key={e.company} e={e} isFirst={i === 0} />
         ))}
