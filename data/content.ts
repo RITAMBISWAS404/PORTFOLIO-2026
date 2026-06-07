@@ -2,7 +2,7 @@ export const hero = {
   name: "Ritam Biswas",
   role: "Final Year CSE Student at",
   roleHighlight: "IIIT Kalyani",
-  bio: `Namaste, I'm a Product & UX/UI Designer with <b>2+ years</b> building mobile-first experiences for <b>data-heavy digital products</b>. I design scalable interfaces through research, systems thinking, and close collaboration with engineering teams using <b>AI-assisted workflows</b>.`,
+  bio: `Most apps that handle complex data feel like a spreadsheet someone dressed up. I'm the designer trying to fix that. <b>Product & UX/UI Designer</b> with <b>2+ years</b> shipping mobile-first products, working directly with founders and engineers to get things live.`,
   badges: [
     { label: "OPEN TO COLLABORATIONS", color: "#34a853" },
     { label: "2+ YEARS EXP" },
