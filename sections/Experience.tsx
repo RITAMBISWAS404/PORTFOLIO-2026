@@ -9,6 +9,8 @@ import { C, revealStyle, col } from "@/lib/tokens";
 function ExpEntry({ e, delay, isFirst }: { e: typeof experience[0]; delay: number; isFirst: boolean }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-5% 0px" });
+  const [date, ...rest] = e.meta.split(' | ');
+  const details = rest.join(' | ');
 
   return (
     <div ref={ref} style={{
@@ -37,9 +39,13 @@ function ExpEntry({ e, delay, isFirst }: { e: typeof experience[0]; delay: numbe
             }
             <span className="f16" style={{ fontWeight:500, color:C.t1 }}>{e.company}</span>
           </div>
-          {/* Right: date — below on mobile, right-aligned on desktop */}
-          <span className="exp-meta f16" style={{ fontWeight:400, color:C.t3 }}>{e.meta}</span>
+          {/* Date — desktop right side only */}
+          <span className="exp-date f16" style={{ fontWeight:400, color:C.t3 }}>{date}</span>
         </div>
+        {/* Mobile: full meta below */}
+        <div className="exp-meta-mobile" style={{ fontSize:12, fontWeight:500, color:C.t3, marginTop:4 }}>{e.meta}</div>
+        {/* Desktop: mode + location below */}
+        <div className="exp-details-desktop" style={{ fontSize:12, fontWeight:500, color:C.t3, marginTop:4 }}>{details}</div>
       </div>
     </div>
   );
@@ -55,24 +61,15 @@ export default function Experience() {
         ))}
       </div>
       <style>{`
-        .exp-entry-row {
-          display: flex;
-          flex-direction: column;
-          gap: 4px;
-        }
-        .exp-meta {
-          display: block;
-        }
+        .exp-entry-row { display: flex; flex-direction: column; gap: 4px; }
+        .exp-date { display: none; }
+        .exp-meta-mobile { display: block; }
+        .exp-details-desktop { display: none; }
         @media (min-width: 768px) {
-          .exp-entry-row {
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-          }
-          .exp-meta {
-            flex-shrink: 0;
-          }
+          .exp-entry-row { flex-direction: row; align-items: center; justify-content: space-between; gap: 16px; }
+          .exp-date { display: block; flex-shrink: 0; }
+          .exp-meta-mobile { display: none; }
+          .exp-details-desktop { display: block; }
         }
       `}</style>
     </section>
