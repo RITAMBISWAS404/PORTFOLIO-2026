@@ -1,6 +1,7 @@
 "use client";
 import { useRef } from "react";
 import { useInView } from "framer-motion";
+import { ArrowLeft } from "lucide-react";
 import Footer from "@/sections/Footer";
 import { C, col, revealStyle } from "@/lib/tokens";
 
@@ -138,6 +139,20 @@ export default function ExperiencePage() {
   return (
     <main>
       <section style={{ ...col, padding: "48px 24px 0" }}>
+        <a href="/"
+          style={{
+            display: "inline-flex", alignItems: "center", gap: 8,
+            background: "rgba(255,255,255,0.05)", color: C.t2,
+            border: `1px solid ${C.border}`, padding: "8px 16px",
+            borderRadius: 9999, fontSize: 13, fontWeight: 500,
+            textDecoration: "none", marginBottom: 32,
+            transition: "background 0.25s, color 0.25s, transform 0.25s",
+          }}
+          onMouseEnter={e => { const a = e.currentTarget; a.style.background = "rgba(255,255,255,0.09)"; a.style.color = C.t1; a.style.transform = "translateY(-2px)"; }}
+          onMouseLeave={e => { const a = e.currentTarget; a.style.background = "rgba(255,255,255,0.05)"; a.style.color = C.t2; a.style.transform = ""; }}
+        >
+          <ArrowLeft size={13} strokeWidth={2} /> Back to Portfolio
+        </a>
         <h1 style={{
           fontSize: "clamp(22px, 4vw, 32px)", fontWeight: 500,
           color: C.t1, lineHeight: 1.35, fontFamily: "Poppins, sans-serif",
