@@ -15,7 +15,7 @@ export const zeno = {
   name: "ZENO",
   sub: "Smart EV Charging Management",
   tags: ["UX DESIGN", "EV APP", "CASE STUDY"],
-  desc: `ZENO is a smart EV charging app for iOS and Android. I owned the product end to end from a blank file: user research, information architecture, wireframes, UI design, and developer handoff across 50+ screens and 6 user flows. The core challenge was reducing cognitive load without stripping away the data users actually needed.`,
+  desc: `ZENO is a smart EV charging app for iOS and Android. I owned the product end to end from a blank file: user research, information architecture, wireframes, UI design, and developer handoff across 35+ screens and 6 user flows. The core challenge was reducing cognitive load without stripping away the data users actually needed.`,
   stats: [
     { label: "Screens Designed",   num: "35+", body: "Covers every key user flow from onboarding through dashboard, analytics, and account settings." },
     { label: "User Flows Mapped",  num: "06",  body: "Onboarding, charging session, analytics, history, insights, and account management." },
