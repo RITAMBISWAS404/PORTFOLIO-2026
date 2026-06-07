@@ -63,7 +63,7 @@ export default function Stack() {
         From early research and wireframes to high-fidelity UI and developer handoff, these are the primary tools that move my work forward, with AI woven into every stage.
       </p>
       <style>{`
-        .stack-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .stack-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         @media (min-width: 768px) { .stack-grid { grid-template-columns: 1fr 1fr 1fr; } }
       `}</style>
     </section>
