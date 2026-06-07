@@ -35,9 +35,10 @@ function Avatar() {
     setCursor({x:e.clientX, y:e.clientY});
   };
   const leave=()=>{ rx.set(0); ry.set(0); setEgg(false); setCursor(null); };
+  const enter=(e:React.MouseEvent)=>{ setEgg(true); setCursor({x:e.clientX, y:e.clientY}); };
   return (
     <>
-      <div ref={ref} onMouseMove={move} onMouseLeave={leave} onMouseEnter={()=>setEgg(true)}
+      <div ref={ref} onMouseMove={move} onMouseLeave={leave} onMouseEnter={enter}
         style={{position:"relative",width:64,height:64,flexShrink:0}}>
         <motion.div style={{width:64,height:64,borderRadius:16,overflow:"hidden",transform}}>
           <div style={{position:"absolute",inset:0,
