@@ -22,20 +22,24 @@ function ExpEntry({ e, delay, isFirst }: { e: typeof experience[0]; delay: numbe
     onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.background = C.hover; }}
     onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.background = ""; }}>
       <div style={{ ...col, padding: "16px 0", borderTop: isFirst ? "none" : `1px solid ${C.border}` }}>
-        <div style={{ display:"flex", alignItems:"center", flexWrap:"wrap", gap:8 }}>
-          <span className="f16" style={{ fontWeight:500, color:C.t1 }}>{e.role}</span>
-          {e.img
-            ? (Array.isArray(e.img) ? e.img : [e.img]).map((src: string, idx: number) => (
-                <div key={idx} style={{ width:24, height:24, borderRadius:6, flexShrink:0, overflow:"hidden" }}>
-                  <img src={src} alt={e.company} style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}}/>
-                </div>
-              ))
-            : <div style={{ width:24, height:24, borderRadius:6, flexShrink:0, background:e.logoBg,
-                display:"flex", alignItems:"center", justifyContent:"center", fontSize:10, fontWeight:500, color:"#fff" }}>{e.logo}</div>
-          }
-          <span className="f16" style={{ fontWeight:500, color:C.t1 }}>{e.company}</span>
+        <div className="exp-entry-row">
+          {/* Left: role + logos + company */}
+          <div style={{ display:"flex", alignItems:"center", flexWrap:"wrap", gap:8 }}>
+            <span className="f16" style={{ fontWeight:500, color:C.t1 }}>{e.role}</span>
+            {e.img
+              ? (Array.isArray(e.img) ? e.img : [e.img]).map((src: string, idx: number) => (
+                  <div key={idx} style={{ width:24, height:24, borderRadius:6, flexShrink:0, overflow:"hidden" }}>
+                    <img src={src} alt={e.company} style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}}/>
+                  </div>
+                ))
+              : <div style={{ width:24, height:24, borderRadius:6, flexShrink:0, background:e.logoBg,
+                  display:"flex", alignItems:"center", justifyContent:"center", fontSize:10, fontWeight:500, color:"#fff" }}>{e.logo}</div>
+            }
+            <span className="f16" style={{ fontWeight:500, color:C.t1 }}>{e.company}</span>
+          </div>
+          {/* Right: date — below on mobile, right-aligned on desktop */}
+          <span className="exp-meta f16" style={{ fontWeight:400, color:C.t3 }}>{e.meta}</span>
         </div>
-        <div style={{ fontSize:12, fontWeight:500, color:C.t3, marginTop:8 }}>{e.meta}</div>
       </div>
     </div>
   );
@@ -44,19 +48,33 @@ function ExpEntry({ e, delay, isFirst }: { e: typeof experience[0]; delay: numbe
 export default function Experience() {
   return (
     <section id="experience" style={{ ...col, padding: "64px 24px 0" }}>
-      <SectionLabel icon={Briefcase} label="EXPERIENCE" num="04" iconColor={C.accent} iconHref="/experience" />
+      <SectionLabel icon={Briefcase} label="EXPERIENCE" num="04" iconColor={C.accent} />
       <div className="mt-section-card">
         {experience.map((e, i) => (
           <ExpEntry key={e.company} e={e} delay={i * 0.06} isFirst={i === 0} />
         ))}
       </div>
-      <p className="f16" style={{ fontWeight:400, color:C.t2, lineHeight:1.6, marginTop:24 }}>
-        Every role here taught me something the classroom couldn&apos;t. For the full story behind each one,{" "}
-        <a href="/experience"
-          style={{ color:C.blue, textDecoration:"underline", fontWeight:400 }}>
-          view more
-        </a>.
-      </p>
+      <style>{`
+        .exp-entry-row {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+        }
+        .exp-meta {
+          display: block;
+        }
+        @media (min-width: 768px) {
+          .exp-entry-row {
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+          }
+          .exp-meta {
+            flex-shrink: 0;
+          }
+        }
+      `}</style>
     </section>
   );
 }
