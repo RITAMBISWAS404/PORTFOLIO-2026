@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useInView } from "framer-motion";
 import { Briefcase, ArrowRight } from "lucide-react";
 import SectionLabel from "@/components/SectionLabel";
@@ -9,44 +9,35 @@ import { C, revealStyle, col } from "@/lib/tokens";
 function ExpEntry({ e, delay, isFirst }: { e: typeof experience[0]; delay: number; isFirst: boolean }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-5% 0px" });
-  const [hovered, setHovered] = useState(false);
 
   return (
-    <a ref={ref} href="/experience" target="_blank" rel="noopener noreferrer"
-      style={{
-        display: "block", textDecoration: "none", color: "inherit",
-        marginLeft: "calc(-50vw + 50%)",
-        marginRight: "calc(-50vw + 50%)",
-        paddingLeft: "calc(50vw - 50%)",
-        paddingRight: "calc(50vw - 50%)",
-        background: hovered ? C.hover : "",
-        ...revealStyle(inView, delay),
-        transition: `${revealStyle(inView, delay).transition}, background 0.25s`,
-      }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}>
+    <div ref={ref} style={{
+      marginLeft: "calc(-50vw + 50%)",
+      marginRight: "calc(-50vw + 50%)",
+      paddingLeft: "calc(50vw - 50%)",
+      paddingRight: "calc(50vw - 50%)",
+      ...revealStyle(inView, delay),
+      transition: `${revealStyle(inView, delay).transition}, background 0.25s`,
+    }}
+    onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.background = C.hover; }}
+    onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.background = ""; }}>
       <div style={{ ...col, padding: "16px 0", borderTop: isFirst ? "none" : `1px solid ${C.border}` }}>
-        <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", gap:8 }}>
-          <div style={{ display:"flex", alignItems:"center", flexWrap:"wrap", gap:8 }}>
-            <span className="f16" style={{ fontWeight:500, color:C.t1 }}>{e.role}</span>
-            {e.img
-              ? (Array.isArray(e.img) ? e.img : [e.img]).map((src: string, idx: number) => (
-                  <div key={idx} style={{ width:24, height:24, borderRadius:6, flexShrink:0, overflow:"hidden" }}>
-                    <img src={src} alt={e.company} style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}}/>
-                  </div>
-                ))
-              : <div style={{ width:24, height:24, borderRadius:6, flexShrink:0, background:e.logoBg,
-                  display:"flex", alignItems:"center", justifyContent:"center", fontSize:10, fontWeight:500, color:"#fff" }}>{e.logo}</div>
-            }
-            <span className="f16" style={{ fontWeight:500, color:C.t1 }}>{e.company}</span>
-          </div>
-          <div style={{ opacity: hovered ? 1 : 0, transition: "opacity 0.2s", flexShrink: 0 }}>
-            <ArrowRight size={14} color={C.t3} strokeWidth={2} />
-          </div>
+        <div style={{ display:"flex", alignItems:"center", flexWrap:"wrap", gap:8 }}>
+          <span className="f16" style={{ fontWeight:500, color:C.t1 }}>{e.role}</span>
+          {e.img
+            ? (Array.isArray(e.img) ? e.img : [e.img]).map((src: string, idx: number) => (
+                <div key={idx} style={{ width:24, height:24, borderRadius:6, flexShrink:0, overflow:"hidden" }}>
+                  <img src={src} alt={e.company} style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}}/>
+                </div>
+              ))
+            : <div style={{ width:24, height:24, borderRadius:6, flexShrink:0, background:e.logoBg,
+                display:"flex", alignItems:"center", justifyContent:"center", fontSize:10, fontWeight:500, color:"#fff" }}>{e.logo}</div>
+          }
+          <span className="f16" style={{ fontWeight:500, color:C.t1 }}>{e.company}</span>
         </div>
         <div style={{ fontSize:12, fontWeight:500, color:C.t3, marginTop:8 }}>{e.meta}</div>
       </div>
-    </a>
+    </div>
   );
 }
 
@@ -58,6 +49,19 @@ export default function Experience() {
         {experience.map((e, i) => (
           <ExpEntry key={e.company} e={e} delay={i * 0.06} isFirst={i === 0} />
         ))}
+      </div>
+      <div className="btn-row" style={{ marginTop: 24 }}>
+        <a href="/experience" target="_blank" rel="noopener noreferrer" style={{
+          display:"flex", alignItems:"center", gap:10,
+          background:"rgba(255,255,255,0.05)", color:C.t1,
+          padding:"11px 22px", borderRadius:9999,
+          fontSize:14, fontWeight:500, textDecoration:"none",
+          transition:"background 0.25s, transform 0.25s",
+        }}
+        onMouseEnter={e => { const a = e.currentTarget; a.style.background="rgba(255,255,255,0.09)"; a.style.transform="translateY(-2px)"; }}
+        onMouseLeave={e => { const a = e.currentTarget; a.style.background="rgba(255,255,255,0.05)"; a.style.transform=""; }}>
+          <ArrowRight size={14} strokeWidth={2}/> View Full Experience
+        </a>
       </div>
     </section>
   );
