@@ -44,7 +44,7 @@ function ExpEntry({ e, delay, isFirst }: { e: typeof experience[0]; delay: numbe
 export default function Experience() {
   return (
     <section id="experience" style={{ ...col, padding: "64px 24px 0" }}>
-      <SectionLabel icon={Briefcase} label="EXPERIENCE" num="04" iconColor={C.accent} iconHref="/experience" iconTarget="_blank" />
+      <SectionLabel icon={Briefcase} label="EXPERIENCE" num="04" iconColor={C.accent} iconHref="/experience" />
       <div className="mt-section-card">
         {experience.map((e, i) => (
           <ExpEntry key={e.company} e={e} delay={i * 0.06} isFirst={i === 0} />
@@ -53,7 +53,7 @@ export default function Experience() {
       <p className="f16" style={{ fontWeight:400, color:C.t2, lineHeight:1.6, marginTop:24 }}>
         Startups, open source, and student communities: every role here shaped how I think about design.
         For the full story behind each one,{" "}
-        <a href="/experience" target="_blank" rel="noopener noreferrer"
+        <a href="/experience"
           style={{ color:C.blue, textDecoration:"underline", fontWeight:400 }}>
           view more
         </a>.
