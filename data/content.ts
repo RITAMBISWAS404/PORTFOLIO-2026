@@ -131,10 +131,11 @@ export const stackDesc: Record<string, string> = {
 };
 
 export const socials = [
-  { name: "LinkedIn",  handle: "in/ritamhere",    href: "https://linkedin.com/in/ritamhere" },
-  { name: "X",         handle: "bisaucee",        href: "https://x.com/bisaucee" },
-  { name: "Instagram", handle: "_ritam_here",    href: "https://instagram.com/_ritam_here" },
-  { name: "Pinterest", handle: "biswasritam404",  href: "https://in.pinterest.com/biswasritam404/" },
+  { name: "Email",     handle: "biswasritam404@gmail.com", href: "mailto:biswasritam404@gmail.com" },
+  { name: "LinkedIn",  handle: "in/ritamhere",             href: "https://linkedin.com/in/ritamhere" },
+  { name: "X",         handle: "bisaucee",                 href: "https://x.com/bisaucee" },
+  { name: "Instagram", handle: "_ritam_here",              href: "https://instagram.com/_ritam_here" },
+  { name: "Pinterest", handle: "biswasritam404",           href: "https://in.pinterest.com/biswasritam404/" },
 ];
 
 export const navLinks = [
