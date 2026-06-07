@@ -96,7 +96,12 @@ function ExpDetailEntry({ e, isFirst }: { e: ExpEntry; isFirst: boolean }) {
       onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.background = C.hover; }}
       onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.background = ""; }}
     >
-      <div style={{ ...col, padding: "24px 24px", borderTop: isFirst ? "none" : `1px solid ${C.border}` }}>
+      {!isFirst && (
+        <div style={{ ...col, padding: "0 24px" }}>
+          <div style={{ height: 1, background: C.border }} />
+        </div>
+      )}
+      <div style={{ ...col, padding: "24px 24px" }}>
 
         {/* Role + logos + company */}
         <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
