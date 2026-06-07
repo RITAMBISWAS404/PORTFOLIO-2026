@@ -2,7 +2,7 @@ export const hero = {
   name: "Ritam Biswas",
   role: "Final Year CSE Student at",
   roleHighlight: "IIIT Kalyani",
-  bio: `Most apps that handle complex data feel like a spreadsheet someone dressed up. I'm the designer trying to fix that. <b>Product & UX/UI Designer</b> with <b>2+ years</b> shipping mobile-first products, working directly with founders and engineers to get things live.`,
+  bio: `Namaste. Complex data doesn't have to feel complex. I'm a <b>Product & UX/UI Designer</b> specializing in turning information-heavy products into clean, minimal experiences. With <b>2+ years</b> building for startups, I bring systems thinking and <b>AI-native workflows</b> to every project, so teams move faster without losing design quality.`,
   badges: [
     { label: "OPEN TO COLLABORATIONS", color: "#34a853" },
     { label: "2+ YEARS EXP" },
