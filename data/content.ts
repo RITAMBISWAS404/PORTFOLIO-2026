@@ -34,7 +34,7 @@ export const projects = [
 
 export const process = [
   { label: "Understand Clearly", num: "01", body: "I dig into user needs, business goals, and product context before touching Figma. The clearer the problem, the sharper the solution." },
-  { label: "Iterate Rapidly",    num: "02", body: "I design fast, test often, and refine through real feedback. Loops over perfection, always." },
+  { label: "Iterate Rapidly",    num: "02", body: "I design fast, test often, and refine through real feedback. No attachment to first drafts. Loops over perfection, always." },
   { label: "Ship Thoughtfully",  num: "03", body: "I work closely with developers from early on, making sure what gets designed actually gets built, without losing the intent." },
 ];
 
