@@ -37,7 +37,6 @@ function ExpEntry({ e, delay, isFirst }: { e: typeof experience[0]; delay: numbe
           }
           <span className="f16" style={{ fontWeight:500,color:C.t1 }}>{e.company}</span>
         </div>
-        <p className="f16" style={{ fontWeight:400,color:C.t2,lineHeight:1.6,marginTop:8 }}>{e.desc}</p>
         <div style={{ fontSize:12,fontWeight:500,color:C.t3,marginTop:8 }}>{e.meta}</div>
       </div>
     </div>
