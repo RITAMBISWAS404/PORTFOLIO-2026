@@ -25,30 +25,55 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
   const ref=useRef(null);
   const inView=useInView(ref,{once:true,margin:"-10% 0px"});
   const [glow,setGlow]=useState("");
+  const [cursor,setCursor]=useState<{x:number;y:number}|null>(null);
   return(
-    <a ref={ref} href={p.href} target="_blank" rel="noopener noreferrer" style={{border:`1px solid ${C.border}`,borderRadius:16,overflow:"hidden",
-      display:"flex",flexDirection:"column",color:"inherit",textDecoration:"none",
-      background: glow || C.card,
-      ...revealStyle(inView,delay),
-      transition:`${revealStyle(inView,delay).transition},border-color 0.15s,box-shadow 0.15s,transform 0.2s cubic-bezier(.22,1,.36,1)`}}
-      onMouseMove={e=>{const r=e.currentTarget.getBoundingClientRect();const x=(((e.clientX-r.left)/r.width)*100).toFixed(1);const y=(((e.clientY-r.top)/r.height)*100).toFixed(1);setGlow(`radial-gradient(circle at ${x}% ${y}%, rgba(255,255,255,0.05) 0%, ${C.card} 65%)`);}}
-      onMouseEnter={e=>{const el=e.currentTarget;el.style.borderColor="rgba(255,255,255,0.12)";el.style.boxShadow="0 4px 20px rgba(0,0,0,0.5)";el.style.transform="translateY(-4px)";}}
-      onMouseLeave={e=>{setGlow("");const el=e.currentTarget;el.style.borderColor=C.border;el.style.boxShadow="";el.style.transform="translateY(0)";}}>
-      <div style={{height:192,overflow:"hidden",background:"transparent"}}>
-        <img src={p.img} alt={p.title} style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}} loading="lazy"/>
-      </div>
-      <div style={{padding:"16px 16px 0"}}>
-        <div className="f16" style={{fontWeight:500,color:C.t1}}>{p.title}</div>
-        <div className="f16" style={{fontWeight:400,color:C.t2,marginTop:4}}>{p.sub}</div>
-      </div>
-      <div style={{padding:16,display:"flex",flexWrap:"wrap",gap:8}}>
-        {p.tags.map(t=>(
-          <div key={t} style={tagStyle} onMouseEnter={e=>tagHv(e,true)} onMouseLeave={e=>tagHv(e,false)}>
-            {tagIcons[t]}{t}
-          </div>
-        ))}
-      </div>
-    </a>
+    <>
+      <a ref={ref} href={p.href} target="_blank" rel="noopener noreferrer" style={{border:`1px solid ${C.border}`,borderRadius:16,overflow:"hidden",
+        display:"flex",flexDirection:"column",color:"inherit",textDecoration:"none",
+        position:"relative",
+        background: glow || C.card,
+        ...revealStyle(inView,delay),
+        transition:`${revealStyle(inView,delay).transition},border-color 0.15s,box-shadow 0.15s,transform 0.2s cubic-bezier(.22,1,.36,1)`}}
+        onMouseMove={e=>{
+          const r=e.currentTarget.getBoundingClientRect();
+          const x=(((e.clientX-r.left)/r.width)*100).toFixed(1);
+          const y=(((e.clientY-r.top)/r.height)*100).toFixed(1);
+          setGlow(`radial-gradient(circle at ${x}% ${y}%, rgba(255,255,255,0.05) 0%, ${C.card} 65%)`);
+          setCursor({x:e.clientX,y:e.clientY});
+        }}
+        onMouseEnter={e=>{const el=e.currentTarget;el.style.borderColor="rgba(255,255,255,0.12)";el.style.boxShadow="0 4px 20px rgba(0,0,0,0.5)";el.style.transform="translateY(-4px)";}}
+        onMouseLeave={e=>{setGlow("");setCursor(null);const el=e.currentTarget;el.style.borderColor=C.border;el.style.boxShadow="";el.style.transform="translateY(0)";}}>
+        <div style={{height:192,overflow:"hidden",background:"transparent"}}>
+          <img src={p.img} alt={p.title} style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}} loading="lazy"/>
+        </div>
+        <div style={{padding:"16px 16px 0"}}>
+          <div className="f16" style={{fontWeight:500,color:C.t1}}>{p.title}</div>
+          <div className="f16" style={{fontWeight:400,color:C.t2,marginTop:4}}>{p.sub}</div>
+        </div>
+        <div style={{padding:16,display:"flex",flexWrap:"wrap",gap:8}}>
+          {p.tags.map(t=>(
+            <div key={t} style={tagStyle} onMouseEnter={e=>tagHv(e,true)} onMouseLeave={e=>tagHv(e,false)}>
+              {tagIcons[t]}{t}
+            </div>
+          ))}
+        </div>
+      </a>
+      {cursor && (
+        <div style={{
+          position:"fixed", left:cursor.x, top:cursor.y,
+          pointerEvents:"none", zIndex:9999,
+          display:"flex", alignItems:"center",
+          padding:"6px 14px",
+          background:C.card,
+          border:`1px solid ${C.borderHv}`,
+          borderRadius:"0 9999px 9999px 9999px",
+          fontSize:12, fontWeight:500, color:C.t1,
+          letterSpacing:"0.08em", whiteSpace:"nowrap",
+        }}>
+          view project
+        </div>
+      )}
+    </>
   );
 }
 
