@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { ArrowRight, MessageCircle, Handshake, Calendar, Smartphone, Network } from "lucide-react";
 import { hero } from "@/data/content";
@@ -17,7 +17,7 @@ const item = {
              transition: { duration: 0.75, ease: [0.22,1,0.36,1] as [number,number,number,number] } },
 };
 
-// Subtle parallax tilt on the avatar + easter egg
+// Subtle parallax tilt on the avatar
 function Avatar() {
   const ref = useRef<HTMLDivElement>(null);
   const rx = useMotionValue(0), ry = useMotionValue(0);
@@ -26,51 +26,25 @@ function Avatar() {
   const transform = useTransform(
     [sRx,sRy], ([x,y]) => `perspective(400px) rotateX(${y}deg) rotateY(${x}deg)`,
   );
-  const [cursor, setCursor] = useState<{x:number;y:number}|null>(null);
-  const egg = cursor !== null;
-
   const move=(e:React.MouseEvent)=>{
     const r=ref.current!.getBoundingClientRect();
     rx.set(((e.clientX-r.left)/r.width-0.5)*12);
     ry.set(-((e.clientY-r.top)/r.height-0.5)*12);
-    setCursor({x:e.clientX, y:e.clientY});
   };
-  const leave=()=>{ rx.set(0); ry.set(0); setCursor(null); };
-
+  const leave=()=>{ rx.set(0); ry.set(0); };
   return (
-    <>
-      <div ref={ref} onMouseMove={move} onMouseLeave={leave}
-        style={{position:"relative",width:64,height:64,flexShrink:0}}>
-        <motion.div style={{width:64,height:64,borderRadius:16,overflow:"hidden",transform}}>
-          <div style={{position:"absolute",inset:0,
-            background:"conic-gradient(from 0deg, #20d455, #4488ff, #ff2626, #ffc200, #20d455)",
-            filter:"blur(8px)",
-            animation:"aura 10s linear infinite",
-            opacity: egg ? 0 : 1,
-            transition:"opacity 0.15s"}}/>
-          <img
-            src={egg ? "/images/happy-catto.gif" : "/images/avatar.png"}
-            alt="Ritam Biswas"
-            style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",borderRadius:16}}/>
-        </motion.div>
-      </div>
-      {egg && (
-        <div style={{
-          position:"fixed", left:cursor!.x, top:cursor!.y,
-          transform:"translate(12px, 12px)",
-          pointerEvents:"none", zIndex:9999,
-          display:"flex", alignItems:"center",
-          padding:"6px 14px",
-          background:C.card,
-          border:`1px solid ${C.borderHv}`,
-          borderRadius:"0 9999px 9999px 9999px",
-          fontSize:12, fontWeight:500, color:C.t1,
-          letterSpacing:"0.08em", whiteSpace:"nowrap",
-        }}>
-          Yippee!!!
-        </div>
-      )}
-    </>
+    <div ref={ref} onMouseMove={move} onMouseLeave={leave}
+      style={{position:"relative",width:64,height:64,flexShrink:0}}>
+      <motion.div style={{width:64,height:64,borderRadius:16,overflow:"hidden",transform}}>
+        <div style={{position:"absolute",inset:0,
+          background:"conic-gradient(from 0deg, #20d455, #4488ff, #ff2626, #ffc200, #20d455)",
+          filter:"blur(8px)",
+          animation:"aura 10s linear infinite"}}/>
+        <img src="/images/avatar.png"
+          alt="Ritam Biswas"
+          style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",borderRadius:16}}/>
+      </motion.div>
+    </div>
   );
 }
 
