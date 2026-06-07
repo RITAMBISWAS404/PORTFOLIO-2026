@@ -6,6 +6,7 @@ import Footer from "@/sections/Footer";
 import { C, col, revealStyle } from "@/lib/tokens";
 
 type ExpEntry = {
+  id: string;
   role: string;
   company: string;
   logo?: string;
@@ -17,6 +18,7 @@ type ExpEntry = {
 
 const experiences: ExpEntry[] = [
   {
+    id: "startup",
     role: "Product Designer at",
     company: "Europe-based Smart Energy Startup",
     logo: "🔒", logoBg: "#1a1a1a", img: "/images/stealth.png",
@@ -29,6 +31,7 @@ const experiences: ExpEntry[] = [
     ],
   },
   {
+    id: "statuscode2",
     role: "Lead Designer at",
     company: "StatusCode2 (MLH)",
     logo: "SC2", logoBg: "linear-gradient(135deg,#4285f4,#34a853)", img: "/images/status code 2.png",
@@ -41,6 +44,7 @@ const experiences: ExpEntry[] = [
     ],
   },
   {
+    id: "gdg",
     role: "Creative Lead at",
     company: "GDG IIIT Kalyani & Winter of Code 4.0",
     logo: "G", logoBg: "linear-gradient(135deg,#4285f4,#34a853)", img: ["/images/gdg.png", "/images/woc.png"],
@@ -52,6 +56,7 @@ const experiences: ExpEntry[] = [
     ],
   },
   {
+    id: "sukriya",
     role: "UI/UX Design Intern at",
     company: "Sukriya",
     logo: "Su", logoBg: "linear-gradient(135deg,#0ea5e9,#6366f1)", img: "/images/sukriya.png",
@@ -64,6 +69,7 @@ const experiences: ExpEntry[] = [
     ],
   },
   {
+    id: "foss",
     role: "Lead Designer at",
     company: "FOSS United Kolkata & FOSS IIIT-K",
     logo: "F", logoBg: "#1a1a2e", img: ["/images/Foss 1.png", "/images/Foss 2.png"],
@@ -84,6 +90,7 @@ function ExpDetailEntry({ e, isFirst }: { e: ExpEntry; isFirst: boolean }) {
 
   return (
     <div
+      id={e.id}
       ref={ref}
       style={{
         marginLeft: "calc(-50vw + 50%)",

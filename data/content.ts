@@ -42,30 +42,35 @@ export const process = [
 
 export const experience = [
   {
+    id: "startup",
     role: "Product Designer at", company: "Europe-based Smart Energy Startup",
     logo: "🔒", logoBg: "#1a1a1a", img: "/images/stealth.png",
     desc: "Designed and shipped two full iterations of a smart EV charging app for iOS and Android, owning the product end-to-end: user research, information architecture, wireframes, UI design, and developer handoff. Built a 40+ component design system using Figma variables and design tokens. Now live with 3,000+ registered users.",
     meta: "Jan 2024 – Present | Remote | Europe",
   },
   {
+    id: "statuscode2",
     role: "Lead Designer at", company: "StatusCode2 (MLH)",
     logo: "SC2", logoBg: "linear-gradient(135deg,#4285f4,#34a853)", img: "/images/status code 2.png",
     desc: "Led end-to-end visual identity and branding for StatusCode2, the flagship MLH-associated hackathon of IIIT Kalyani. Designed the event identity system, promotional graphics, and digital assets used across marketing and participant communication for 4,000+ applicants and 500+ selected participants.",
     meta: "May 2025 – Aug 2025 | Hybrid | IIIT Kalyani",
   },
   {
+    id: "gdg",
     role: "Creative Lead at", company: "GDG & WOC 4.0",
     logo: "G", logoBg: "linear-gradient(135deg,#4285f4,#34a853)", img: ["/images/gdg.png", "/images/woc.png"] as string[],
     desc: "Directed visual design and branding for 10+ developer community events at GDG IIIT Kalyani. Also led the complete visual identity for WOC 4.0, a Google Summer of Code-inspired open-source contribution program, designing outreach and onboarding assets for 500+ contributors.",
     meta: "Oct 2024 – Dec 2025 | Hybrid | IIIT Kalyani",
   },
   {
+    id: "sukriya",
     role: "UI/UX Intern at", company: "Sukriya",
     logo: "Su", logoBg: "linear-gradient(135deg,#0ea5e9,#6366f1)", img: "/images/sukriya.png",
     desc: "Independently owned the full UX process for a freelance marketplace platform: researched 10+ competing platforms, defined product strategy, and designed 27 iOS screens in Figma. Built dual role-based flows for two personas covering onboarding, discovery, messaging, payments, and project management, along with a reusable component library and Dev Mode specs for developer handoff.",
     meta: "Sep 2024 – Mar 2025 | Remote | Kolkata, India",
   },
   {
+    id: "foss",
     role: "Core Team Member at", company: "FOSS",
     logo: "F", logoBg: "#1a1a2e", img: ["/images/Foss 1.png", "/images/Foss 2.png"] as string[],
     desc: "Contributed to two chapters of FOSS United, India's leading open-source community. Served as Lead Designer at the IIIT Kalyani campus club and supported the Kolkata city chapter, creating event posters, promotional creatives, and digital assets across meetups, workshops, and community campaigns.",
