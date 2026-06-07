@@ -61,6 +61,7 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
       {cursor && (
         <div style={{
           position:"fixed", left:cursor.x, top:cursor.y,
+          transform:"translate(12px, 12px)",
           pointerEvents:"none", zIndex:9999,
           display:"flex", alignItems:"center",
           padding:"6px 14px",
