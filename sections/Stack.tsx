@@ -3,7 +3,7 @@ import { useRef, useState } from "react";
 import { useInView } from "framer-motion";
 import { Layers } from "lucide-react";
 import SectionLabel from "@/components/SectionLabel";
-import { stack, stackColors, stackTag } from "@/data/content";
+import { stack, stackColors } from "@/data/content";
 import { C, revealStyle, col } from "@/lib/tokens";
 
 function StackCard({ name, delay }: { name: string; delay: number }) {
@@ -45,8 +45,7 @@ function StackCard({ name, delay }: { name: string; delay: number }) {
       <div style={{ width: 36, height: 36, borderRadius: 9, overflow: "hidden", flexShrink: 0 }}>
         <img src={c.img} alt={name} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
       </div>
-      <span style={{ fontSize: 14, fontWeight: 500, color: C.t1, flex: 1 }}>{name}</span>
-      <span style={{ fontSize: 12, fontWeight: 500, color: C.t3, letterSpacing: "0.06em", flexShrink: 0 }}>{stackTag[name]}</span>
+      <span style={{ fontSize: 14, fontWeight: 500, color: C.t1 }}>{name}</span>
     </div>
   );
 }
@@ -64,8 +63,8 @@ export default function Stack() {
         From early research and wireframes to high-fidelity UI and developer handoff, these are the primary tools that move my work forward, with AI woven into every stage.
       </p>
       <style>{`
-        .stack-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
-        @media (min-width: 768px) { .stack-grid { grid-template-columns: 1fr 1fr; } }
+        .stack-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        @media (min-width: 768px) { .stack-grid { grid-template-columns: 1fr 1fr 1fr; } }
       `}</style>
     </section>
   );
