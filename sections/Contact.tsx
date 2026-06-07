@@ -5,7 +5,7 @@ import SectionLabel from "@/components/SectionLabel";
 import { C, inputBase, col } from "@/lib/tokens";
 
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/mredrnrp";
-const REACH_OUT_OPTIONS = ["Collaboration", "Internship Opportunity", "Freelance Project", "Just saying hi"];
+const REACH_OUT_OPTIONS = ["Product Design", "UX/UI Design", "Branding & Identity", "Design Systems", "Web Design"];
 
 type Status = "idle" | "sending" | "sent" | "error";
 
@@ -55,22 +55,12 @@ export default function Contact() {
 
   return (
     <section id="contact" style={{ ...col, padding: "64px 24px 0" }}>
-      <SectionLabel icon={Mail} label="LETS CONNECT" num="07" iconColor={C.accent} />
+      <SectionLabel icon={Mail} label="LETS BUILD TOGETHER" num="07" iconColor={C.accent} />
 
-      {/* Heading + subheading */}
-      <div style={{ marginTop: 24, marginBottom: 32 }}>
-        <h2 style={{
-          fontSize: "clamp(22px, 4vw, 32px)", fontWeight: 500,
-          color: C.t1, lineHeight: 1.35,
-          fontFamily: "Poppins, sans-serif", marginBottom: 12,
-        }}>
-          <span className="contact-heading-full">Let&apos;s build something together.</span>
-          <span className="contact-heading-short">Let&apos;s build</span>
-        </h2>
-        <p className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6 }}>
-          Whether it&apos;s a collaboration, an opportunity, or just a conversation, I&apos;m always open. Tell me what&apos;s on your mind.
-        </p>
-      </div>
+      {/* Subheading */}
+      <p className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6, marginTop: 24, marginBottom: 32 }}>
+        Whether it&apos;s a collaboration, an opportunity, or just a conversation, I&apos;m always open. Tell me what&apos;s on your mind.
+      </p>
 
       <form ref={formRef} onSubmit={handleSubmit}
         style={{ display: "flex", flexDirection: "column", gap: 20 }}>
@@ -105,7 +95,7 @@ export default function Contact() {
 
         {/* Checkbox pills */}
         <div>
-          <label style={lbl}>What are you reaching out for?</label>
+          <label style={lbl}>What can I help you with?</label>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
             {REACH_OUT_OPTIONS.map(opt => {
               const active = selected.includes(opt);
@@ -152,12 +142,8 @@ export default function Contact() {
       </form>
 
       <style>{`
-        .contact-heading-full { display: none; }
-        .contact-heading-short { display: inline; }
         .contact-name-email { display: grid; grid-template-columns: 1fr; gap: 16px; }
         @media (min-width: 768px) {
-          .contact-heading-full { display: inline; }
-          .contact-heading-short { display: none; }
           .contact-name-email { grid-template-columns: 1fr 1fr; }
         }
       `}</style>
