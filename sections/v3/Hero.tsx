@@ -214,7 +214,15 @@ function DotMatrix() {
     textDotsRef.current.clear();
     const p1Start = performance.now() + 550;
     const p1Dur   = stamp("DRAW", p1Start, 0.88);
-    stamp("HERE",  p1Start + p1Dur + 350, 0.78);
+
+    // Stamp HERE only AFTER DRAW has fully faded — prevents dot-index collision
+    // (both words center at the same columns, so stamping both upfront overwrites DRAW's timing)
+    const msUntilHere = (p1Start + p1Dur + 350) - performance.now() - 100;
+    const tid = setTimeout(() => {
+      textDotsRef.current.clear();
+      stamp("HERE", performance.now() + 100, 0.78);
+    }, Math.max(0, msUntilHere));
+    return () => clearTimeout(tid);
   }, [ready]);
 
   useEffect(() => {
