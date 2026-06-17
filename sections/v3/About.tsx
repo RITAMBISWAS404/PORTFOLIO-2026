@@ -9,10 +9,10 @@ import { stack, stackColors } from "@/data/content";
 const EMAIL = "biswasritam404@gmail.com";
 
 const info = [
-  { label: "Designation", value: "PRODUCT DESIGNER" },
+  { label: "Designation", value: "Product Designer" },
   { label: "Experience",  value: "2 years 6 months" },
   { label: "Location",    value: "Kolkata, WB" },
-  { label: "Education",   value: "IIIT KALYANI '27" },
+  { label: "Education",   value: "IIIT Kalyani '27" },
   { label: "Email",       value: EMAIL },
 ];
 
