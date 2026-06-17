@@ -245,7 +245,7 @@ function DotMatrix() {
         const picked = cands.slice(0, Math.min(n, cands.length));
         const starMap = new Map<number, number>();
         picked.forEach(([r2, c2], idx) => starMap.set(r2 * cols + c2, idx * 90));
-        constsRef.current.push({ starMap, t0: ts, spkD, totalD: picked.length * 90 + spkD + 200 });
+        constsRef.current.push({ stars: starMap, t0: ts, spkD, totalD: picked.length * 90 + spkD + 200 });
       }
 
       // ── Cull expired events ───────────────────────────────────────────────────
