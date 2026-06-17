@@ -77,8 +77,8 @@ const cull = <T extends { t0: number; dur: number }>(arr: T[], ts: number): T[] 
   arr.filter(e => ts - e.t0 < e.dur);
 
 const makeDot = (): Dot => ({
-  base:  0.04 + Math.random() * 0.10,
-  amp:   0.02 + Math.random() * 0.07,
+  base:  0.02 + Math.random() * 0.04,
+  amp:   0.02 + Math.random() * 0.06,
   phase: Math.random() * Math.PI * 2,
   freq:  0.12 + Math.random() * 0.50,
   spk: 0, spkT: -1, spkD: 400,
