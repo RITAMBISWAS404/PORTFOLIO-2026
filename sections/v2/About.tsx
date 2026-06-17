@@ -1,17 +1,19 @@
 "use client";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useInView } from "framer-motion";
-import { User } from "lucide-react";
+import { User, Copy, Check } from "lucide-react";
 import SectionLabel from "@/components/SectionLabel";
 import { C, revealStyle, col } from "@/lib/tokensV2";
 import { stack, stackColors } from "@/data/content";
+
+const EMAIL = "biswasritam404@gmail.com";
 
 const info = [
   { label: "Designation", value: "PRODUCT DESIGNER" },
   { label: "Experience",  value: "2 years 6 months" },
   { label: "Location",    value: "Kolkata, WB" },
   { label: "Education",   value: "IIIT KALYANI '27" },
-  { label: "Status",      value: "Open to Collaboration" },
+  { label: "Email",       value: EMAIL },
 ];
 
 const cards = [
@@ -30,6 +32,13 @@ export default function About() {
   const bentRef = useRef(null);
   const bioInView  = useInView(bioRef,  { once: true, margin: "-10% 0px" });
   const bentInView = useInView(bentRef, { once: true, margin: "-10% 0px" });
+  const [copied, setCopied] = useState(false);
+
+  function copyEmail() {
+    navigator.clipboard.writeText(EMAIL);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
 
   return (
     <section id="about" style={{ ...col, padding: "64px 24px 0" }}>
@@ -53,7 +62,7 @@ export default function About() {
       {/* Bento grid */}
       <div ref={bentRef} className="about-bento" style={{ marginTop: 24 }}>
 
-        {/* Image card — 1:1 on mobile, fills row height on desktop */}
+        {/* Image card */}
         <div className="about-img-cell" style={{ ...revealStyle(bentInView, 0.04) }}>
           <div className="about-img-inner" style={{
             border: `1px solid ${C.border}`,
@@ -70,7 +79,7 @@ export default function About() {
           </div>
         </div>
 
-        {/* Info card — flex-column, hugs content */}
+        {/* Info card */}
         <div className="about-info-cell" style={{
           border: `1px solid ${C.border}`,
           borderRadius: 16,
@@ -84,14 +93,34 @@ export default function About() {
           ...revealStyle(bentInView, 0.10),
         }}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px 16px" }}>
-            {info.map(({ label, value }, i) => (
-              <div key={label} style={i === info.length - 1 && info.length % 2 !== 0 ? { gridColumn: "1 / -1" } : {}}>
-                <div style={{ fontSize: 11, fontWeight: 500, color: C.t3, letterSpacing: "0.05em", marginBottom: 4 }}>
-                  {label}
+            {info.map(({ label, value }, i) => {
+              const isLast = i === info.length - 1 && info.length % 2 !== 0;
+              const isEmail = label === "Email";
+              return (
+                <div key={label} style={isLast ? { gridColumn: "1 / -1" } : {}}>
+                  <div style={{ fontSize: 11, fontWeight: 500, color: C.t3, letterSpacing: "0.05em", marginBottom: 4 }}>
+                    {label}
+                  </div>
+                  {isEmail ? (
+                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                      <div className="f16" style={{ fontWeight: 500, color: C.t1 }}>{value}</div>
+                      <button onClick={copyEmail} title="Copy email" style={{
+                        background: "none", border: "none", cursor: "pointer", padding: 4,
+                        color: copied ? C.accent : C.t3,
+                        display: "flex", alignItems: "center",
+                        borderRadius: 6,
+                        transition: "color 0.2s",
+                        flexShrink: 0,
+                      }}>
+                        {copied ? <Check size={14} strokeWidth={2.5} /> : <Copy size={14} strokeWidth={2} />}
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="f16" style={{ fontWeight: 500, color: C.t1 }}>{value}</div>
+                  )}
                 </div>
-                <div className="f16" style={{ fontWeight: 500, color: C.t1 }}>{value}</div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           <div style={{ marginTop: 20 }}>
@@ -122,7 +151,7 @@ export default function About() {
           </div>
         </div>
 
-        {/* Bottom cards row — always 50/50 regardless of top grid ratio */}
+        {/* Bottom cards row */}
         <div className="about-cards-row">
           {cards.map((card, i) => (
             <div key={card.title} style={{
@@ -139,39 +168,23 @@ export default function About() {
         </div>
       </div>
 
-      {/* CTA */}
-      <p className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6, marginTop: 32, ...revealStyle(bentInView, 0.30) }}>
-        Wanna get in touch for a cool project? Email me,{" "}
-        <a href="mailto:biswasritam404@gmail.com"
-          style={{ color: C.t1, fontWeight: 500, textDecoration: "underline", textUnderlineOffset: 3, textDecorationColor: C.border }}>
-          biswasritam404@gmail.com
-        </a>
-      </p>
-
       <style>{`
-        /* Mobile: single column stack */
         .about-bento       { display: grid; gap: 16px; grid-template-columns: 1fr; }
         .about-img-cell    { grid-column: 1; }
         .about-info-cell   { grid-column: 1; }
         .about-cards-row   { grid-column: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-
-        /* Mobile image is 1:1 */
         .about-img-inner   { aspect-ratio: 1 / 1; }
 
-        /* Desktop: 3-column feel — image 1fr, info 2fr, cards row spans full */
         @media (min-width: 600px) {
           .about-bento       { grid-template-columns: 1fr 2fr; }
           .about-img-cell    { grid-column: 1; grid-row: 1; }
           .about-info-cell   { grid-column: 2; grid-row: 1; }
           .about-cards-row   { grid-column: 1 / -1; grid-row: 2; }
-          /* Image fills the row height instead of staying 1:1 */
           .about-img-inner   { aspect-ratio: auto; height: 100%; }
         }
 
         .toolkit-track {
-          display: flex;
-          gap: 8px;
-          width: max-content;
+          display: flex; gap: 8px; width: max-content;
           animation: toolkit-scroll 18s linear infinite;
         }
         .toolkit-track:hover { animation-play-state: paused; }
