@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState, useCallback, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useInView } from "framer-motion";
 import {
   Zap, Target, Search, LayoutGrid, GitBranch,
@@ -273,12 +273,6 @@ function PageNav() {
 /* ── Page ──────────────────────────────────────────────────────── */
 
 export default function ZenoPage() {
-  const [cursor, setCursor] = useState({ x: -999, y: -999 });
-  const onDotMove  = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const r = e.currentTarget.getBoundingClientRect();
-    setCursor({ x: e.clientX - r.left, y: e.clientY - r.top });
-  }, []);
-  const onDotLeave = useCallback(() => setCursor({ x: -999, y: -999 }), []);
 
   return (
     <main>
@@ -325,32 +319,17 @@ export default function ZenoPage() {
         </Reveal>
       </section>
 
-      {/* ── HERO IMAGE (dot pattern) ────────────────────────── */}
-      <div className="zeno-dot-bg"
-        onMouseMove={onDotMove}
-        onMouseLeave={onDotLeave}
-        style={{ position: "relative", marginTop: 32 }}>
-
-        {/* Bright dot layer masked to cursor position */}
-        <div style={{
-          position: "absolute", inset: 0, pointerEvents: "none", zIndex: 0,
-          backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.75) 1px, transparent 1px)",
-          backgroundSize: "14px 14px",
-          WebkitMaskImage: `radial-gradient(circle 140px at ${cursor.x}px ${cursor.y}px, black 0%, transparent 100%)`,
-          maskImage:        `radial-gradient(circle 140px at ${cursor.x}px ${cursor.y}px, black 0%, transparent 100%)`,
-        }} />
-
-        <div style={{ ...col, position: "relative", zIndex: 1 }}>
-          <div className="zeno-hero-img-wrap" style={{ borderRadius: 8, overflow: "hidden", width: "100%" }}>
-            <picture>
-              <source media="(min-width: 768px)" srcSet="/images/16_9.png" />
-              <img
-                src="/images/4_3.png"
-                alt="ZENO App"
-                style={{ width: "100%", height: "100%", display: "block", objectFit: "cover" }}
-              />
-            </picture>
-          </div>
+      {/* ── HERO IMAGE ──────────────────────────────────────── */}
+      <div style={{ ...col, padding: "0 24px", marginTop: 32 }}>
+        <div className="zeno-hero-img-wrap" style={{ borderRadius: 8, overflow: "hidden", width: "100%" }}>
+          <picture>
+            <source media="(min-width: 768px)" srcSet="/images/16_9.png" />
+            <img
+              src="/images/4_3.png"
+              alt="ZENO App"
+              style={{ width: "100%", height: "100%", display: "block", objectFit: "cover" }}
+            />
+          </picture>
         </div>
       </div>
 
@@ -710,14 +689,6 @@ export default function ZenoPage() {
         @media (min-width: 1200px) { .zeno-page-nav { display: flex; } }
         .zeno-hero-img-wrap { aspect-ratio: 4 / 3; }
         @media (min-width: 768px) { .zeno-hero-img-wrap { aspect-ratio: 16 / 9; } }
-        .zeno-dot-bg { background-color: #0d0d0d; padding: 0 24px; }
-        @media (min-width: 768px) {
-          .zeno-dot-bg {
-            background-image: radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px);
-            background-size: 14px 14px;
-            padding: 40px 24px;
-          }
-        }
         .zeno-stats-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
         .zeno-meta-grid  { display: grid; grid-template-columns: 1fr; gap: 16px; }
         .zeno-concept-grid    { display: grid; grid-template-columns: 1fr; gap: 16px; }
