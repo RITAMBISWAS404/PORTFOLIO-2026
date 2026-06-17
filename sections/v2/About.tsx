@@ -19,11 +19,11 @@ const info = [
 const cards = [
   {
     title: "Currently Building",
-    body:  "Outside the day job, I'm building [X], because [real reason].",
+    body:  "A dating app concept I'm not ready to talk about, except that it isn't another swipe deck. More soon.",
   },
   {
     title: "Outside of Design",
-    body:  "Re-reading the same five sci-fi novels because I'm bad at finishing new ones.",
+    body:  "Outside of design, you'll probably find me rereading Jhumpa Lahiri's books. New releases keep losing to old favorites.",
   },
 ];
 
