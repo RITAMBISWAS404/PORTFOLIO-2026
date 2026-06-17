@@ -10,7 +10,7 @@ import Footer from "@/sections/v3/Footer";
 
 export default function NewHome() {
   return (
-    <main>
+    <main className="r8">
       <Hero />
       <FeaturedProject />
       <Projects />
