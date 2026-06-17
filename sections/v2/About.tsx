@@ -172,14 +172,14 @@ export default function About() {
         .about-bento       { display: grid; gap: 16px; grid-template-columns: 1fr; }
         .about-img-cell    { grid-column: 1; }
         .about-info-cell   { grid-column: 1; }
-        .about-cards-row   { grid-column: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .about-cards-row   { grid-column: 1; display: grid; grid-template-columns: 1fr; gap: 16px; }
         .about-img-inner   { aspect-ratio: 1 / 1; }
 
         @media (min-width: 600px) {
           .about-bento       { grid-template-columns: 1fr 2fr; }
           .about-img-cell    { grid-column: 1; grid-row: 1; }
           .about-info-cell   { grid-column: 2; grid-row: 1; }
-          .about-cards-row   { grid-column: 1 / -1; grid-row: 2; }
+          .about-cards-row   { grid-column: 1 / -1; grid-row: 2; grid-template-columns: 1fr 1fr; }
           .about-img-inner   { aspect-ratio: auto; height: 100%; }
         }
 

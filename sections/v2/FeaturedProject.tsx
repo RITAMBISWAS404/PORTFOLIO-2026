@@ -109,7 +109,8 @@ export default function FeaturedProject() {
       </div>
 
       <style>{`
-        .stats-grid { grid-template-columns: 1fr 1fr; }
+        .stats-grid { grid-template-columns: 1fr; }
+        @media (min-width: 600px) { .stats-grid { grid-template-columns: 1fr 1fr; } }
         .feature-img-wrap { aspect-ratio: 4 / 3; }
         @media (min-width: 768px) { .feature-img-wrap { aspect-ratio: 16 / 9; } }
       `}</style>
