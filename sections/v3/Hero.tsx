@@ -77,10 +77,14 @@ type Ripple    = { x: number; y: number; maxR: number; peak: number; t0: number;
 const cull = <T extends { t0: number; dur: number }>(arr: T[], ts: number): T[] =>
   arr.filter(e => ts - e.t0 < e.dur);
 
-// ── Pixel text fonts ──────────────────────────────────────────────────────────
-type TextDot = { fadeInStart: number; fadeInEnd: number; holdEnd: number; fadeOutEnd: number; peak: number };
+// ── LED ticker ────────────────────────────────────────────────────────────────
+type TickerState = {
+  bitmap: boolean[][]; width: number;
+  startRow: number; charH: number;
+  startTs: number; speed: number; peak: number;
+};
 
-// 3×5 — mobile fallback
+// 3×5 — mobile
 const FONT3x5: Record<string, number[][]> = {
   H: [[1,0,1],[1,0,1],[1,1,1],[1,0,1],[1,0,1]],
   E: [[1,1,1],[1,0,0],[1,1,1],[1,0,0],[1,1,1]],
@@ -90,8 +94,16 @@ const FONT3x5: Record<string, number[][]> = {
   R: [[1,1,0],[1,0,1],[1,1,0],[1,0,1],[1,0,1]],
   A: [[0,1,0],[1,0,1],[1,1,1],[1,0,1],[1,0,1]],
   W: [[1,0,1],[1,0,1],[1,1,1],[1,1,1],[1,0,1]],
+  Y: [[1,0,1],[1,0,1],[0,1,0],[0,1,0],[0,1,0]],
+  I: [[1,1,1],[0,1,0],[0,1,0],[0,1,0],[1,1,1]],
+  S: [[0,1,1],[1,0,0],[0,1,0],[0,0,1],[1,1,0]],
+  T: [[1,1,1],[0,1,0],[0,1,0],[0,1,0],[0,1,0]],
+  G: [[0,1,1],[1,0,0],[1,0,1],[1,0,1],[0,1,1]],
+  N: [[1,0,1],[1,1,1],[1,0,1],[1,0,1],[1,0,1]],
+  ".": [[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,1,0]],
+  "?": [[0,1,1],[0,0,1],[0,1,0],[0,0,0],[0,1,0]],
 };
-// 5×7 — desktop (3-dot internal gap makes H/O unmistakable)
+// 5×7 — desktop
 const FONT5x7: Record<string, number[][]> = {
   H: [[1,0,0,0,1],[1,0,0,0,1],[1,0,0,0,1],[1,1,1,1,1],[1,0,0,0,1],[1,0,0,0,1],[1,0,0,0,1]],
   E: [[1,1,1,1,1],[1,0,0,0,0],[1,0,0,0,0],[1,1,1,1,0],[1,0,0,0,0],[1,0,0,0,0],[1,1,1,1,1]],
@@ -101,7 +113,33 @@ const FONT5x7: Record<string, number[][]> = {
   R: [[1,1,1,1,0],[1,0,0,0,1],[1,0,0,0,1],[1,1,1,1,0],[1,0,1,0,0],[1,0,0,1,0],[1,0,0,0,1]],
   A: [[0,0,1,0,0],[0,1,0,1,0],[1,0,0,0,1],[1,0,0,0,1],[1,1,1,1,1],[1,0,0,0,1],[1,0,0,0,1]],
   W: [[1,0,0,0,1],[1,0,0,0,1],[1,0,0,0,1],[1,0,1,0,1],[1,0,1,0,1],[1,1,0,1,1],[0,1,0,1,0]],
+  Y: [[1,0,0,0,1],[1,0,0,0,1],[0,1,0,1,0],[0,0,1,0,0],[0,0,1,0,0],[0,0,1,0,0],[0,0,1,0,0]],
+  I: [[1,1,1,1,1],[0,0,1,0,0],[0,0,1,0,0],[0,0,1,0,0],[0,0,1,0,0],[0,0,1,0,0],[1,1,1,1,1]],
+  S: [[0,1,1,1,1],[1,0,0,0,0],[1,0,0,0,0],[0,1,1,1,0],[0,0,0,0,1],[0,0,0,0,1],[1,1,1,1,0]],
+  T: [[1,1,1,1,1],[0,0,1,0,0],[0,0,1,0,0],[0,0,1,0,0],[0,0,1,0,0],[0,0,1,0,0],[0,0,1,0,0]],
+  G: [[0,1,1,1,0],[1,0,0,0,1],[1,0,0,0,0],[1,0,1,1,1],[1,0,0,0,1],[1,0,0,0,1],[0,1,1,1,0]],
+  N: [[1,0,0,0,1],[1,1,0,0,1],[1,0,1,0,1],[1,0,0,1,1],[1,0,0,0,1],[1,0,0,0,1],[1,0,0,0,1]],
+  ".": [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,1,0,0]],
+  "?": [[0,1,1,1,0],[1,0,0,0,1],[0,0,0,0,1],[0,0,1,1,0],[0,0,1,0,0],[0,0,0,0,0],[0,0,1,0,0]],
 };
+
+function buildTickerBitmap(
+  text: string, font: Record<string, number[][]>,
+  charW: number, charH: number, charGap: number, spaceW: number,
+): { bitmap: boolean[][]; width: number } {
+  const segs: boolean[][] = []; // segs[col][row]
+  const blank = (): boolean[] => new Array(charH).fill(false);
+  for (const ch of text.toUpperCase()) {
+    if (ch === " ") { for (let i = 0; i < spaceW; i++) segs.push(blank()); continue; }
+    const glyph = font[ch];
+    if (!glyph)    { for (let i = 0; i < charGap;  i++) segs.push(blank()); continue; }
+    for (let c = 0; c < charW; c++) segs.push(glyph.map(row => !!row[c]));
+    for (let g = 0; g < charGap;  g++) segs.push(blank());
+  }
+  const width = segs.length;
+  const bitmap: boolean[][] = Array.from({ length: charH }, (_, r) => segs.map(col => col[r]));
+  return { bitmap, width };
+}
 
 const makeDot = (): Dot => ({
   base:  0.02 + Math.random() * 0.04,
@@ -126,7 +164,7 @@ function DotMatrix() {
   const nextSpkRef  = useRef(0);
   const nextStarRef = useRef(Infinity);
   const nextRipRef  = useRef(Infinity);
-  const textDotsRef = useRef<Map<number, TextDot>>(new Map());
+  const tickerRef = useRef<TickerState | null>(null);
   const { ready } = useAppReady();
 
   const resize = useCallback(() => {
@@ -146,7 +184,7 @@ function DotMatrix() {
     cellHRef.current = h / rows;
     dotsRef.current  = Array.from({ length: cols * rows }, makeDot);
     trailRef.current.clear();
-    textDotsRef.current.clear();
+    tickerRef.current = null;
     starsRef.current = [];
     ripsRef.current  = [];
   }, []);
@@ -158,71 +196,32 @@ function DotMatrix() {
     return () => ro.disconnect();
   }, [resize]);
 
-  // ── Text stamp: "HELLO" then "DRAW" after page loads ─────────────────────────
+  // ── LED ticker: scrolls text right-to-left like a metro board ───────────────
   useEffect(() => {
     if (!ready) return;
-    const FADE_IN = 280, HOLD = 1900, FADE_OUT = 480;
+    const cols = colsRef.current, rows = rowsRef.current;
+    if (!cols || !rows) return;
 
-    function stamp(text: string, phaseStart: number, peak: number): number {
-      const cols = colsRef.current, rows = rowsRef.current;
-      if (!cols || !rows) return 0;
+    const large  = cols >= 30;
+    const font   = large ? FONT5x7 : FONT3x5;
+    const charW  = large ? 5 : 3;
+    const charH  = large ? 7 : 5;
+    const charGap = large ? 2 : 1;
+    const spaceW  = large ? 4 : 3;
 
-      // Start with 5×7 on desktop, fall back to 3×5 if text doesn't fit
-      let large    = cols >= 30;
-      let font     = large ? FONT5x7 : FONT3x5;
-      let CHAR_W   = large ? 5 : 3;
-      let CHAR_H   = large ? 7 : 5;
-      let CHAR_GAP = large ? 2 : 1;
-      let STAGGER  = large ? 35 : 40;
+    const { bitmap, width } = buildTickerBitmap(
+      "HEY. HOW IS IT GOING?", font, charW, charH, charGap, spaceW,
+    );
 
-      const chars = text.toUpperCase().split("").filter(c => !!font[c]);
-      if (!chars.length) return 0;
-
-      let textW = chars.length * CHAR_W + (chars.length - 1) * CHAR_GAP;
-      // Fall back to compact font if 5×7 text overflows the grid
-      if (large && textW > cols) {
-        large = false; font = FONT3x5; CHAR_W = 3; CHAR_H = 5; CHAR_GAP = 1; STAGGER = 40;
-        textW = chars.length * CHAR_W + (chars.length - 1) * CHAR_GAP;
-      }
-
-      const startC = Math.max(0, Math.floor((cols - textW) / 2));
-      const startR = Math.max(0, Math.floor((rows - CHAR_H) / 2));
-      const maxColDelay = Math.max(0, textW - 1) * STAGGER;
-
-      chars.forEach((ch, ci) => {
-        const bitmap = font[ch];
-        if (!bitmap) return;
-        const charC = startC + ci * (CHAR_W + CHAR_GAP);
-        for (let r = 0; r < CHAR_H; r++) {
-          for (let c = 0; c < CHAR_W; c++) {
-            if (!bitmap[r][c]) continue;
-            const gc = charC + c, gr = startR + r;
-            if (gc >= cols || gr >= rows) continue;
-            const colDelay    = (gc - startC) * STAGGER;
-            const fadeInStart = phaseStart + colDelay;
-            const fadeInEnd   = fadeInStart + FADE_IN;
-            const holdEnd     = phaseStart + maxColDelay + FADE_IN + HOLD;
-            const fadeOutEnd  = holdEnd + FADE_OUT;
-            textDotsRef.current.set(gr * cols + gc, { fadeInStart, fadeInEnd, holdEnd, fadeOutEnd, peak });
-          }
-        }
-      });
-
-      return maxColDelay + FADE_IN + HOLD + FADE_OUT;
-    }
-
-    textDotsRef.current.clear();
-    const p1Start = performance.now() + 550;
-    const p1Dur   = stamp("DRAW", p1Start, 0.88);
-
-    // Stamp HERE only AFTER DRAW has fully faded — prevents dot-index collision
-    // (both words center at the same columns, so stamping both upfront overwrites DRAW's timing)
-    const msUntilHere = (p1Start + p1Dur + 350) - performance.now() - 100;
-    const tid = setTimeout(() => {
-      textDotsRef.current.clear();
-      stamp("HERE", performance.now() + 100, 0.78);
-    }, Math.max(0, msUntilHere));
-    return () => clearTimeout(tid);
+    tickerRef.current = {
+      bitmap,
+      width,
+      startRow: Math.max(0, Math.floor((rows - charH) / 2)),
+      charH,
+      startTs: performance.now() + 600,
+      speed:   0.010,   // dot-cols per ms  ≈ 10 dot-cols / sec
+      peak:    0.90,
+    };
   }, [ready]);
 
   useEffect(() => {
@@ -326,19 +325,20 @@ function DotMatrix() {
             }
           }
 
-          // Text animation glow
+          // LED ticker glow
           let textGlow = 0;
-          const txd = textDotsRef.current.get(i);
-          if (txd) {
-            const { fadeInStart, fadeInEnd, holdEnd, fadeOutEnd, peak } = txd;
-            if (ts >= fadeInStart && ts < fadeInEnd) {
-              textGlow = peak * (ts - fadeInStart) / (fadeInEnd - fadeInStart);
-            } else if (ts >= fadeInEnd && ts < holdEnd) {
-              textGlow = peak;
-            } else if (ts >= holdEnd && ts < fadeOutEnd) {
-              textGlow = peak * (1 - (ts - holdEnd) / (fadeOutEnd - holdEnd));
-            } else if (ts > fadeOutEnd) {
-              textDotsRef.current.delete(i);
+          const ticker = tickerRef.current;
+          if (ticker && ts >= ticker.startTs) {
+            const scrolled    = (ts - ticker.startTs) * ticker.speed;
+            const textLeftCol = cols - scrolled;          // grid col of bitmap col 0
+            const bCol        = Math.round(c - textLeftCol);
+            const bRow        = r - ticker.startRow;
+            if (bRow >= 0 && bRow < ticker.charH && bCol >= 0 && bCol < ticker.width) {
+              if (ticker.bitmap[bRow][bCol]) textGlow = ticker.peak;
+            }
+            // Loop: restart once text has fully scrolled off-screen
+            if (c === 0 && r === 0 && scrolled >= cols + ticker.width + cols * 0.4) {
+              tickerRef.current = { ...ticker, startTs: ts + 800 };
             }
           }
 
