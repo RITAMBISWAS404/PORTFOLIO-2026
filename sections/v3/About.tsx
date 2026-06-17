@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import { useInView } from "framer-motion";
 import { User, Copy, Check } from "lucide-react";
 import SectionLabel from "@/components/SectionLabel";
+import Card from "@/components/Card";
 import { C, revealStyle, col } from "@/lib/tokensV2";
 import { stack, stackColors } from "@/data/content";
 
@@ -154,16 +155,7 @@ export default function About() {
         {/* Bottom cards row */}
         <div className="about-cards-row">
           {cards.map((card, i) => (
-            <div key={card.title} style={{
-              background: C.card,
-              border: `1px solid ${C.border}`,
-              borderRadius: 8,
-              padding: 20,
-              ...revealStyle(bentInView, 0.16 + i * 0.08),
-            }}>
-              <div style={{ fontSize: 14, fontWeight: 500, color: C.t1, marginBottom: 10 }}>{card.title}</div>
-              <p className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6, margin: 0 }}>{card.body}</p>
-            </div>
+            <Card key={card.title} label={card.title} num="" body={card.body} delay={0.16 + i * 0.08} />
           ))}
         </div>
       </div>
