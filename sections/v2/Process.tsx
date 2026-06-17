@@ -19,7 +19,7 @@ export default function Process() {
 
   return (
     <section id="process" style={{ ...col, padding: "64px 24px 0" }}>
-      <SectionLabel icon={Lightbulb} label="HOW I WORK" num="03" iconColor={C.yellow} />
+      <SectionLabel icon={Lightbulb} label="HOW I WORK" num="04" iconColor={C.yellow} />
       <p ref={ref} className="f16 mt-section" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6, ...revealStyle(inView) }}>
         Good design doesn&apos;t happen by accident. I follow the same four-step rhythm on every
         project: understand the problem deeply, wireframe and iterate fast, build a system that

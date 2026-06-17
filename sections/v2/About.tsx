@@ -42,7 +42,7 @@ export default function About() {
 
   return (
     <section id="about" style={{ ...col, padding: "64px 24px 0" }}>
-      <SectionLabel icon={User} label="ABOUT ME" num="05" iconColor={C.accent} />
+      <SectionLabel icon={User} label="ABOUT ME" num="03" iconColor={C.accent} />
 
       {/* Bio */}
       <p ref={bioRef} className="f16"
