@@ -58,7 +58,7 @@ export default function NavbarV2() {
 
   // Active section tracker
   useEffect(() => {
-    const ids = ["hero","featured","process","experience","stack","contact","socials"];
+    const ids = ["hero","featured","about","process","experience","contact","socials"];
     const obs = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id); });
     }, { rootMargin: "-40% 0px -55% 0px" });
