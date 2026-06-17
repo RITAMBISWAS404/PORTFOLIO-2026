@@ -1,7 +1,7 @@
 "use client";
 import { useState, useRef } from "react";
-import { Icon } from "@iconify/react";
-import SectionLabelV2 from "@/components/SectionLabelV2";
+import { Mail, Check } from "lucide-react";
+import SectionLabel from "@/components/SectionLabel";
 import { C, inputBase, col } from "@/lib/tokensV2";
 
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/mredrnrp";
@@ -55,7 +55,7 @@ export default function Contact() {
 
   return (
     <section id="contact" style={{ ...col, padding: "64px 24px 0" }}>
-      <SectionLabelV2 icon="solar:letter-bold" label="LETS BUILD TOGETHER" num="07" iconColor={C.accent} />
+      <SectionLabel icon={Mail} label="LETS BUILD TOGETHER" num="07" iconColor={C.accent} />
 
       {/* Subheading */}
       <p className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6, marginTop: 24, marginBottom: 32 }}>
@@ -114,7 +114,7 @@ export default function Contact() {
                     fontFamily: "Poppins, sans-serif",
                     transition: "border-color 0.2s, background 0.2s, color 0.2s",
                   }}>
-                  {active && <Icon icon="solar:check-circle-bold" width={11} />}
+                  {active && <Check size={11} strokeWidth={2.5} />}
                   {opt}
                 </button>
               );

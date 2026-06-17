@@ -1,7 +1,8 @@
 "use client";
 import { useRef } from "react";
 import { useInView } from "framer-motion";
-import SectionLabelV2 from "@/components/SectionLabelV2";
+import { Briefcase } from "lucide-react";
+import SectionLabel from "@/components/SectionLabel";
 import { experience } from "@/data/content";
 import { C, revealStyle, col } from "@/lib/tokensV2";
 
@@ -53,7 +54,7 @@ function ExpEntry({ e, delay, isFirst }: { e: typeof experience[0]; delay: numbe
 export default function Experience() {
   return (
     <section id="experience" style={{ ...col, padding: "64px 24px 0" }}>
-      <SectionLabelV2 icon="solar:bag-bold" label="EXPERIENCE" num="04" iconColor={C.accent} />
+      <SectionLabel icon={Briefcase} label="EXPERIENCE" num="04" iconColor={C.accent} />
       <div className="mt-section-card">
         {experience.map((e, i) => (
           <ExpEntry key={e.company} e={e} delay={i * 0.06} isFirst={i === 0} />

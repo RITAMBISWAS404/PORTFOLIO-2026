@@ -1,16 +1,16 @@
 "use client";
 import { useRef, useState, useCallback } from "react";
 import { useInView } from "framer-motion";
-import { Icon } from "@iconify/react";
-import SectionLabelV2 from "@/components/SectionLabelV2";
+import { Star, PenTool, Zap, FileText, BookOpen } from "lucide-react";
+import SectionLabel from "@/components/SectionLabel";
 import Card from "@/components/Card";
 import { zeno } from "@/data/content";
 import { C, tagStyle, tagHv, revealStyle, col } from "@/lib/tokensV2";
 
 const tags = [
-  { label: "UX DESIGN",  icon: <Icon icon="solar:pen-new-square-bold" width={12} color={C.accent} /> },
-  { label: "EV APP",     icon: <Icon icon="solar:bolt-bold"           width={12} color={C.yellow} /> },
-  { label: "CASE STUDY", icon: <Icon icon="solar:file-text-bold"      width={12} color={C.blue}   /> },
+  { label: "UX DESIGN",  icon: <PenTool  size={12} color={C.accent} strokeWidth={2} /> },
+  { label: "EV APP",     icon: <Zap      size={12} color={C.yellow} strokeWidth={2} /> },
+  { label: "CASE STUDY", icon: <FileText size={12} color={C.blue}   strokeWidth={2} /> },
 ];
 
 export default function FeaturedProject() {
@@ -27,7 +27,7 @@ export default function FeaturedProject() {
     <>
       {/* Section label */}
       <div id="featured" style={{ ...col, padding: "64px 24px 32px" }}>
-        <SectionLabelV2 icon="solar:star-bold" label="FEATURED PROJECT" num="01" iconColor={C.yellow} />
+        <SectionLabel icon={Star} label="FEATURED PROJECT" num="01" iconColor={C.yellow} />
       </div>
 
       {/* ── Static feature image with dot pattern ── */}
@@ -110,8 +110,8 @@ export default function FeaturedProject() {
         {/* CTAs */}
         <div className="btn-row" style={{ marginTop:24 }}>
           {[
-            { label:"Read Case Study", icon:<Icon icon="solar:book-bold"           width={14}/>, bg:C.t1,  color:C.bg, href:"/zeno" },
-            { label:"View in Figma",   icon:<Icon icon="solar:pen-new-square-bold" width={14}/>, bg:"rgba(255,255,255,0.05)", color:C.t1, href:"https://www.figma.com/design/HQiowSEZWtefmjVP5cqZuY/ZENO?node-id=0-1&p=f&t=ZuWU0JArTeGN7yjv-0" },
+            { label:"Read Case Study", icon:<BookOpen size={14} strokeWidth={2}/>, bg:C.t1,  color:C.bg, href:"/zeno" },
+            { label:"View in Figma",   icon:<PenTool  size={14} strokeWidth={2}/>, bg:"rgba(255,255,255,0.05)", color:C.t1, href:"https://www.figma.com/design/HQiowSEZWtefmjVP5cqZuY/ZENO?node-id=0-1&p=f&t=ZuWU0JArTeGN7yjv-0" },
           ].map(btn => (
             <a key={btn.label} href={btn.href} target="_blank" rel="noopener noreferrer" style={{
               display:"flex",alignItems:"center",gap:10,

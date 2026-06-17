@@ -1,7 +1,8 @@
 "use client";
 import { useRef } from "react";
 import { useInView } from "framer-motion";
-import SectionLabelV2 from "@/components/SectionLabelV2";
+import { Lightbulb } from "lucide-react";
+import SectionLabel from "@/components/SectionLabel";
 import Card from "@/components/Card";
 import { process as pd } from "@/data/content";
 import { C, revealStyle, col } from "@/lib/tokensV2";
@@ -11,7 +12,7 @@ export default function Process(){
   const inView=useInView(ref,{once:true,margin:"-10% 0px"});
   return(
     <section id="process" style={{...col,padding:"64px 24px 0"}}>
-      <SectionLabelV2 icon="solar:lightbulb-bold" label="HOW I WORK" num="03" iconColor={C.yellow}/>
+      <SectionLabel icon={Lightbulb} label="HOW I WORK" num="03" iconColor={C.yellow}/>
       <p ref={ref} className="f16 mt-section" style={{fontWeight:400,color:C.t2,lineHeight:1.6,...revealStyle(inView)}}>
         Good design doesn&apos;t happen by accident. I follow a clear headspace when approaching any problem, starting with understanding, moving through exploration, and always ending with something that actually ships.
       </p>
