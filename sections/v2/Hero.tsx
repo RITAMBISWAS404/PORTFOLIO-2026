@@ -74,6 +74,78 @@ type Burst     = { x: number; y: number; t0: number };
 type ShootStar = { x: number; y: number; dx: number; dy: number; spd: number; trail: number; peak: number; t0: number; dur: number };
 type Ripple    = { x: number; y: number; maxR: number; peak: number; t0: number; dur: number };
 
+// ── LED ticker ────────────────────────────────────────────────────────────────
+type TickerState = {
+  bitmap: boolean[][]; width: number;
+  startRow: number; charH: number;
+  startTs: number; speed: number; peak: number;
+};
+
+const FONT3x5: Record<string, number[][]> = {
+  H: [[1,0,1],[1,0,1],[1,1,1],[1,0,1],[1,0,1]],
+  E: [[1,1,1],[1,0,0],[1,1,1],[1,0,0],[1,1,1]],
+  L: [[1,0,0],[1,0,0],[1,0,0],[1,0,0],[1,1,1]],
+  O: [[1,1,1],[1,0,1],[1,0,1],[1,0,1],[1,1,1]],
+  D: [[1,1,0],[1,0,1],[1,0,1],[1,0,1],[1,1,0]],
+  R: [[1,1,0],[1,0,1],[1,1,0],[1,0,1],[1,0,1]],
+  A: [[0,1,0],[1,0,1],[1,1,1],[1,0,1],[1,0,1]],
+  W: [[1,0,1],[1,0,1],[1,1,1],[1,1,1],[1,0,1]],
+  Y: [[1,0,1],[1,0,1],[0,1,0],[0,1,0],[0,1,0]],
+  I: [[1,1,1],[0,1,0],[0,1,0],[0,1,0],[1,1,1]],
+  S: [[0,1,1],[1,0,0],[0,1,0],[0,0,1],[1,1,0]],
+  T: [[1,1,1],[0,1,0],[0,1,0],[0,1,0],[0,1,0]],
+  G: [[0,1,1],[1,0,0],[1,0,1],[1,0,1],[0,1,1]],
+  N: [[1,0,1],[1,1,1],[1,0,1],[1,0,1],[1,0,1]],
+  V: [[1,0,1],[1,0,1],[1,0,1],[1,0,1],[0,1,0]],
+  B: [[1,1,0],[1,0,1],[1,1,0],[1,0,1],[1,1,0]],
+  C: [[0,1,1],[1,0,0],[1,0,0],[1,0,0],[0,1,1]],
+  M: [[1,0,1],[1,1,1],[1,0,1],[1,0,1],[1,0,1]],
+  U: [[1,0,1],[1,0,1],[1,0,1],[1,0,1],[1,1,1]],
+  ".": [[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,1,0]],
+  "'": [[0,1,0],[0,1,0],[0,0,0],[0,0,0],[0,0,0]],
+};
+const FONT5x7: Record<string, number[][]> = {
+  H: [[1,0,0,0,1],[1,0,0,0,1],[1,0,0,0,1],[1,1,1,1,1],[1,0,0,0,1],[1,0,0,0,1],[1,0,0,0,1]],
+  E: [[1,1,1,1,1],[1,0,0,0,0],[1,0,0,0,0],[1,1,1,1,0],[1,0,0,0,0],[1,0,0,0,0],[1,1,1,1,1]],
+  L: [[1,0,0,0,0],[1,0,0,0,0],[1,0,0,0,0],[1,0,0,0,0],[1,0,0,0,0],[1,0,0,0,0],[1,1,1,1,1]],
+  O: [[0,1,1,1,0],[1,0,0,0,1],[1,0,0,0,1],[1,0,0,0,1],[1,0,0,0,1],[1,0,0,0,1],[0,1,1,1,0]],
+  D: [[1,1,1,1,0],[1,0,0,0,1],[1,0,0,0,1],[1,0,0,0,1],[1,0,0,0,1],[1,0,0,0,1],[1,1,1,1,0]],
+  R: [[1,1,1,1,0],[1,0,0,0,1],[1,0,0,0,1],[1,1,1,1,0],[1,0,1,0,0],[1,0,0,1,0],[1,0,0,0,1]],
+  A: [[0,0,1,0,0],[0,1,0,1,0],[1,0,0,0,1],[1,0,0,0,1],[1,1,1,1,1],[1,0,0,0,1],[1,0,0,0,1]],
+  W: [[1,0,0,0,1],[1,0,0,0,1],[1,0,0,0,1],[1,0,1,0,1],[1,0,1,0,1],[1,1,0,1,1],[0,1,0,1,0]],
+  Y: [[1,0,0,0,1],[1,0,0,0,1],[0,1,0,1,0],[0,0,1,0,0],[0,0,1,0,0],[0,0,1,0,0],[0,0,1,0,0]],
+  I: [[1,1,1,1,1],[0,0,1,0,0],[0,0,1,0,0],[0,0,1,0,0],[0,0,1,0,0],[0,0,1,0,0],[1,1,1,1,1]],
+  S: [[0,1,1,1,1],[1,0,0,0,0],[1,0,0,0,0],[0,1,1,1,0],[0,0,0,0,1],[0,0,0,0,1],[1,1,1,1,0]],
+  T: [[1,1,1,1,1],[0,0,1,0,0],[0,0,1,0,0],[0,0,1,0,0],[0,0,1,0,0],[0,0,1,0,0],[0,0,1,0,0]],
+  G: [[0,1,1,1,0],[1,0,0,0,1],[1,0,0,0,0],[1,0,1,1,1],[1,0,0,0,1],[1,0,0,0,1],[0,1,1,1,0]],
+  N: [[1,0,0,0,1],[1,1,0,0,1],[1,0,1,0,1],[1,0,0,1,1],[1,0,0,0,1],[1,0,0,0,1],[1,0,0,0,1]],
+  V: [[1,0,0,0,1],[1,0,0,0,1],[1,0,0,0,1],[0,1,0,1,0],[0,1,0,1,0],[0,0,1,0,0],[0,0,1,0,0]],
+  B: [[1,1,1,1,0],[1,0,0,0,1],[1,0,0,0,1],[1,1,1,1,0],[1,0,0,0,1],[1,0,0,0,1],[1,1,1,1,0]],
+  C: [[0,1,1,1,0],[1,0,0,0,1],[1,0,0,0,0],[1,0,0,0,0],[1,0,0,0,0],[1,0,0,0,1],[0,1,1,1,0]],
+  M: [[1,0,0,0,1],[1,1,0,1,1],[1,0,1,0,1],[1,0,0,0,1],[1,0,0,0,1],[1,0,0,0,1],[1,0,0,0,1]],
+  U: [[1,0,0,0,1],[1,0,0,0,1],[1,0,0,0,1],[1,0,0,0,1],[1,0,0,0,1],[1,0,0,0,1],[0,1,1,1,0]],
+  ".": [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,1,0,0]],
+  "'": [[0,0,1,0,0],[0,0,1,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]],
+};
+
+function buildTickerBitmap(
+  text: string, font: Record<string, number[][]>,
+  charW: number, charH: number, charGap: number, spaceW: number,
+): { bitmap: boolean[][]; width: number } {
+  const segs: boolean[][] = [];
+  const blank = (): boolean[] => new Array(charH).fill(false);
+  for (const ch of text.toUpperCase()) {
+    if (ch === " ") { for (let i = 0; i < spaceW; i++) segs.push(blank()); continue; }
+    const glyph = font[ch];
+    if (!glyph)    { for (let i = 0; i < charGap;  i++) segs.push(blank()); continue; }
+    for (let c = 0; c < charW; c++) segs.push(glyph.map(row => !!row[c]));
+    for (let g = 0; g < charGap;  g++) segs.push(blank());
+  }
+  const width = segs.length;
+  const bitmap: boolean[][] = Array.from({ length: charH }, (_, r) => segs.map(col => col[r]));
+  return { bitmap, width };
+}
+
 const cull = <T extends { t0: number; dur: number }>(arr: T[], ts: number): T[] =>
   arr.filter(e => ts - e.t0 < e.dur);
 
@@ -100,6 +172,8 @@ function DotMatrix() {
   const nextSpkRef  = useRef(0);
   const nextStarRef = useRef(Infinity);
   const nextRipRef  = useRef(Infinity);
+  const tickerRef   = useRef<TickerState | null>(null);
+  const { ready }   = useAppReady();
 
   const resize = useCallback(() => {
     const wrap = wrapRef.current, canvas = canvasRef.current;
@@ -118,6 +192,7 @@ function DotMatrix() {
     cellHRef.current = h / rows;
     dotsRef.current  = Array.from({ length: cols * rows }, makeDot);
     trailRef.current.clear();
+    tickerRef.current = null;
     starsRef.current = [];
     ripsRef.current  = [];
   }, []);
@@ -128,6 +203,30 @@ function DotMatrix() {
     if (wrapRef.current) ro.observe(wrapRef.current);
     return () => ro.disconnect();
   }, [resize]);
+
+  // ── LED ticker: plays once on load ───────────────────────────────────────────
+  useEffect(() => {
+    if (!ready) return;
+    const cols = colsRef.current, rows = rowsRef.current;
+    if (!cols || !rows) return;
+    const large   = cols >= 30;
+    const font    = large ? FONT5x7 : FONT3x5;
+    const charW   = large ? 5 : 3;
+    const charH   = large ? 7 : 5;
+    const charGap = large ? 2 : 1;
+    const spaceW  = large ? 4 : 3;
+    const { bitmap, width } = buildTickerBitmap(
+      "GOOD DESIGN IS INVISIBLE. YOU'RE WELCOME", font, charW, charH, charGap, spaceW,
+    );
+    tickerRef.current = {
+      bitmap, width,
+      startRow: Math.max(0, Math.floor((rows - charH) / 2)),
+      charH,
+      startTs: performance.now() + 600,
+      speed:   0.014,
+      peak:    0.90,
+    };
+  }, [ready]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -266,7 +365,23 @@ function DotMatrix() {
               extra = Math.max(extra, (1 - dRing / rw) * Math.pow(1 - prog, 0.55) * 0.95);
           }
 
-          const alpha = Math.min(1, osc + spark + cGlow + extra);
+          // LED ticker glow
+          let textGlow = 0;
+          const ticker = tickerRef.current;
+          if (ticker && ts >= ticker.startTs) {
+            const scrolled    = (ts - ticker.startTs) * ticker.speed;
+            const textLeftCol = cols - scrolled;
+            const bCol        = Math.round(c - textLeftCol);
+            const bRow        = r - ticker.startRow;
+            if (bRow >= 0 && bRow < ticker.charH && bCol >= 0 && bCol < ticker.width) {
+              if (ticker.bitmap[bRow][bCol]) textGlow = ticker.peak;
+            }
+            if (c === 0 && r === 0 && scrolled >= cols + ticker.width) {
+              tickerRef.current = null;
+            }
+          }
+
+          const alpha = Math.min(1, osc + spark + Math.max(cGlow, textGlow) + extra);
           ctx.beginPath();
           ctx.arc(px * dpr, py * dpr, DOT_R * dpr, 0, Math.PI * 2);
           ctx.fillStyle = `rgba(255,255,255,${alpha.toFixed(3)})`;
