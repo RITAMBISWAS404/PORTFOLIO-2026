@@ -32,7 +32,7 @@ export default function FeaturedProject() {
       </div>
 
       {/* Feature image */}
-      <div style={{ padding: "0 24px" }}>
+      <div style={{ ...col, padding: "0 24px" }}>
         <div style={{ aspectRatio: "4 / 3", borderRadius: 16, overflow: "hidden", width: "100%" }}>
           <img src="/images/zeno-hero.png" alt="ZENO App"
             style={{ width: "100%", height: "100%", display: "block", objectFit: "cover" }} />
