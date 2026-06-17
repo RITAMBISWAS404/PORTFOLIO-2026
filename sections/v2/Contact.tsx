@@ -2,7 +2,7 @@
 import { useState, useRef } from "react";
 import { Mail, Check } from "lucide-react";
 import SectionLabel from "@/components/SectionLabel";
-import { C, inputBase, col } from "@/lib/tokens";
+import { C, inputBase, col } from "@/lib/tokensV2";
 
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/mredrnrp";
 const REACH_OUT_OPTIONS = ["Product Design", "UX/UI Design", "Branding & Identity", "Design Systems", "Web Design"];

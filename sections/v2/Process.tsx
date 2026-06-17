@@ -5,7 +5,7 @@ import { Lightbulb } from "lucide-react";
 import SectionLabel from "@/components/SectionLabel";
 import Card from "@/components/Card";
 import { process as pd } from "@/data/content";
-import { C, revealStyle, col } from "@/lib/tokens";
+import { C, revealStyle, col } from "@/lib/tokensV2";
 
 export default function Process(){
   const ref=useRef(null);

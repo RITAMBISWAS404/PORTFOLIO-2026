@@ -4,7 +4,7 @@ import { useInView } from "framer-motion";
 import { Briefcase } from "lucide-react";
 import SectionLabel from "@/components/SectionLabel";
 import { experience } from "@/data/content";
-import { C, revealStyle, col } from "@/lib/tokens";
+import { C, revealStyle, col } from "@/lib/tokensV2";
 
 function ExpEntry({ e, delay, isFirst }: { e: typeof experience[0]; delay: number; isFirst: boolean }) {
   const ref = useRef(null);

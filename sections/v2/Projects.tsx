@@ -5,7 +5,7 @@ import { LayoutGrid,Leaf,FileText,Store,TrainFront,RefreshCw,Zap,Globe,Home,PenT
 import { useState } from "react";
 import SectionLabel from "@/components/SectionLabel";
 import { projects } from "@/data/content";
-import { C, tagStyle, tagHv, revealStyle, col } from "@/lib/tokens";
+import { C, tagStyle, tagHv, revealStyle, col } from "@/lib/tokensV2";
 
 const tagIcons: Record<string,React.ReactNode>={
   "AGRICULTURE":<Leaf       size={12} color={C.accent} strokeWidth={2}/>,
@@ -38,10 +38,10 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
           const r=e.currentTarget.getBoundingClientRect();
           const x=(((e.clientX-r.left)/r.width)*100).toFixed(1);
           const y=(((e.clientY-r.top)/r.height)*100).toFixed(1);
-          setGlow(`radial-gradient(circle at ${x}% ${y}%, rgba(255,255,255,0.05) 0%, ${C.card} 65%)`);
+          setGlow(`radial-gradient(circle at ${x}% ${y}%, var(--color-card-glow) 0%, var(--color-card) 65%)`);
           setCursor({x:e.clientX,y:e.clientY});
         }}
-        onMouseEnter={e=>{const el=e.currentTarget;el.style.borderColor="rgba(255,255,255,0.12)";el.style.boxShadow="0 4px 20px rgba(0,0,0,0.5)";el.style.transform="translateY(-4px)";}}
+        onMouseEnter={e=>{const el=e.currentTarget;el.style.borderColor="var(--color-card-hover-border)";el.style.boxShadow="var(--shadow-card-hover)";el.style.transform="translateY(-4px)";}}
         onMouseLeave={e=>{setGlow("");setCursor(null);const el=e.currentTarget;el.style.borderColor=C.border;el.style.boxShadow="";el.style.transform="translateY(0)";}}>
         <div style={{height:192,overflow:"hidden",background:"transparent"}}>
           <img src={p.img} alt={p.title} style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}} loading="lazy"/>

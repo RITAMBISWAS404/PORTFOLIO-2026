@@ -4,7 +4,7 @@ import { useInView } from "framer-motion";
 import { Layers } from "lucide-react";
 import SectionLabel from "@/components/SectionLabel";
 import { stack, stackColors } from "@/data/content";
-import { C, revealStyle, col } from "@/lib/tokens";
+import { C, revealStyle, col } from "@/lib/tokensV2";
 
 function StackCard({ name, delay }: { name: string; delay: number }) {
   const ref = useRef(null);
@@ -18,12 +18,12 @@ function StackCard({ name, delay }: { name: string; delay: number }) {
         const r = e.currentTarget.getBoundingClientRect();
         const x = (((e.clientX - r.left) / r.width) * 100).toFixed(1);
         const y = (((e.clientY - r.top) / r.height) * 100).toFixed(1);
-        setGlow(`radial-gradient(circle at ${x}% ${y}%, rgba(255,255,255,0.05) 0%, ${C.card} 65%)`);
+        setGlow(`radial-gradient(circle at ${x}% ${y}%, var(--color-card-glow) 0%, var(--color-card) 65%)`);
       }}
       onMouseEnter={e => {
         const el = e.currentTarget;
-        el.style.borderColor = "rgba(255,255,255,0.12)";
-        el.style.boxShadow = "0 4px 20px rgba(0,0,0,0.5)";
+        el.style.borderColor = "var(--color-card-hover-border)";
+        el.style.boxShadow = "var(--shadow-card-hover)";
         el.style.transform = "translateY(-4px)";
       }}
       onMouseLeave={e => {

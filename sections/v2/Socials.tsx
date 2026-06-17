@@ -2,7 +2,7 @@
 import { Share2 } from "lucide-react";
 import SectionLabel from "@/components/SectionLabel";
 import { socials } from "@/data/content";
-import { C, col } from "@/lib/tokens";
+import { C, col } from "@/lib/tokensV2";
 
 export default function Socials() {
   return (

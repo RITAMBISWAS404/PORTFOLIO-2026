@@ -3,7 +3,7 @@ import { useRef, useState } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { ArrowRight, MessageCircle, Handshake, Calendar, Smartphone, Network } from "lucide-react";
 import { hero } from "@/data/content";
-import { C, tagStyle, tagHv } from "@/lib/tokens";
+import { C, tagStyle, tagHv } from "@/lib/tokensV2";
 import { useAppReady } from "@/lib/AppReadyContext";
 
 // Staggered entry variants

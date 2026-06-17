@@ -16,6 +16,14 @@
   --color-yellow:      #fbbc05;
   --color-blue:        #4285f4;
   --color-hover:       rgba(255,255,255,0.018);
+  --color-hover-bg:    rgba(255,255,255,0.03);
+  /* Card interaction */
+  --color-card-glow:        rgba(255,255,255,0.05);
+  --color-card-hover-border:rgba(255,255,255,0.12);
+  --shadow-card-hover:      0 4px 20px rgba(0,0,0,0.5);
+  /* Feature section dot pattern */
+  --color-dot:         rgba(255,255,255,0.15);
+  --color-dot-bright:  rgba(255,255,255,0.75);
   --radius-xs: 6px;
   --radius-sm: 8px;
   --radius-md: 12px;
@@ -26,6 +34,34 @@
   /* Mobile sticky nav */
   --nav-height-mobile:  56px;
 }
+
+/* ── Light mode ── */
+[data-theme="light"] {
+  --color-bg:               #f4f3ee;
+  --color-card:             #ffffff;
+  --color-input:            #f9f9f7;
+  --color-border:           #e4e3dd;
+  --color-border-hover:     #c8c7c0;
+  --color-hover:            rgba(0,0,0,0.025);
+  --color-hover-bg:         rgba(0,0,0,0.04);
+  --color-text-1:           #111111;
+  --color-text-2:           #606060;
+  --color-text-3:           #9c9c9c;
+  --color-placeholder:      #b8b8b8;
+  --color-accent:           #1a7a3c;
+  --color-red:              #d62b45;
+  --color-yellow:           #b07d0a;
+  --color-blue:             #1a5fc8;
+  --color-card-glow:        rgba(0,0,0,0.03);
+  --color-card-hover-border:rgba(0,0,0,0.14);
+  --shadow-card-hover:      0 4px 16px rgba(0,0,0,0.10);
+  --color-dot:              rgba(0,0,0,0.08);
+  --color-dot-bright:       rgba(0,0,0,0.40);
+}
+
+[data-theme="light"] ::selection { background: rgba(26,122,60,0.18); color: #111111; }
+
+::placeholder { color: var(--color-placeholder); opacity: 1; }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }

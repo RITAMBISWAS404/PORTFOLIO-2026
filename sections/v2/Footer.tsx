@@ -1,5 +1,5 @@
 "use client";
-import { C, col } from "@/lib/tokens";
+import { C, col } from "@/lib/tokensV2";
 
 export default function Footer(){
   return(

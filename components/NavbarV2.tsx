@@ -2,12 +2,12 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { useAnimate, stagger } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Sun, Moon } from "lucide-react";
 import { navLinks } from "@/data/content";
-import { C } from "@/lib/tokens";
 import { useAppReady } from "@/lib/AppReadyContext";
+import { useTheme } from "@/lib/ThemeContext";
 
-export default function Navbar() {
+export default function NavbarV2() {
   const [scrolled,  setScrolled]  = useState(false);
   const [active,    setActive]    = useState("");
   const [menuOpen,  setMenuOpen]  = useState(false);
@@ -15,10 +15,31 @@ export default function Navbar() {
   const [scope, animate] = useAnimate();
   const animated = useRef(false);
   const { ready } = useAppReady();
+  const { theme, toggle } = useTheme();
   const pathname = usePathname();
-  const isHome = pathname === "/";
-  // On non-home pages prefix hash links with "/" so they navigate back to the landing page
+  const isHome = pathname === "/new" || pathname === "/new/";
   const resolveHref = (href: string) => isHome ? href : `/${href}`;
+  const isLight = theme === "light";
+
+  // Theme-aware nav colors
+  const navBg = isLight
+    ? (scrolled ? "rgba(244,243,238,0.92)" : "rgba(244,243,238,0.68)")
+    : (scrolled ? "rgba(10,10,10,0.70)"    : "rgba(10,10,10,0.35)");
+  const navBorder = isLight
+    ? (scrolled ? "rgba(0,0,0,0.10)" : "rgba(0,0,0,0.07)")
+    : (scrolled ? "rgba(255,255,255,0.13)" : "rgba(255,255,255,0.09)");
+  const navShadow = scrolled
+    ? (isLight
+        ? "0 8px 32px rgba(0,0,0,0.10), 0 1px 0 rgba(0,0,0,0.04) inset"
+        : "0 12px 40px rgba(0,0,0,0.7), 0 1px 0 rgba(255,255,255,0.05) inset")
+    : "none";
+  const linkActive   = isLight ? "#111111"              : "#ffffff";
+  const linkInactive = isLight ? "rgba(0,0,0,0.42)"    : "rgba(255,255,255,0.42)";
+  const linkHover    = isLight ? "rgba(0,0,0,0.85)"    : "rgba(255,255,255,0.95)";
+  const toggleColor  = isLight ? "rgba(0,0,0,0.45)"    : "rgba(255,255,255,0.45)";
+  const toggleHover  = isLight ? "rgba(0,0,0,0.85)"    : "rgba(255,255,255,0.92)";
+  const sepColor     = isLight ? "rgba(0,0,0,0.10)"    : "rgba(255,255,255,0.10)";
+  const logoFilter   = isLight ? "brightness(0)" : "none";
 
   // Detect mobile
   useEffect(() => {
@@ -51,7 +72,7 @@ export default function Navbar() {
     return () => document.body.classList.remove("menu-open");
   }, [menuOpen]);
 
-  // Desktop entry animation — waits for loading screen to finish
+  // Desktop entry animation — waits for loading screen
   useEffect(() => {
     if (isMobile || animated.current || !scope.current || !ready) return;
     animated.current = true;
@@ -65,69 +86,68 @@ export default function Navbar() {
 
   const closeMenu = useCallback(() => setMenuOpen(false), []);
 
-  // /new has its own NavbarV2 — suppress root navbar there
-  if (pathname.startsWith('/new')) return null;
-
   // ─── MOBILE NAV ────────────────────────────────────────────────────────────
   if (isMobile) {
     return (
       <>
-        {/* Sticky top bar */}
         <header style={{
           position: "fixed", top: 0, left: 0, right: 0, zIndex: 1000,
           height: 56,
-          background: scrolled
-            ? "rgba(10,10,10,0.55)"
-            : "rgba(13,13,13,0.35)",
+          background: navBg,
           backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)",
-          borderBottom: `1px solid ${scrolled ? "rgba(255,255,255,0.10)" : "rgba(255,255,255,0.05)"}`,
+          borderBottom: `1px solid ${navBorder}`,
           display: "flex", alignItems: "center", justifyContent: "space-between",
           padding: "0 20px",
           transition: "background 0.3s, border-color 0.3s",
         }}>
-          {/* Logo */}
           <a href={resolveHref("#hero")} onClick={closeMenu} style={{
             width: 36, height: 36,
             display: "flex", alignItems: "center", justifyContent: "center",
             textDecoration: "none",
           }}>
-            <img src="/images/logo.png" alt="Ritam Biswas" style={{ width: 19, height: 19, objectFit: "contain" }} />
+            <img src="/images/logo.png" alt="Ritam Biswas" style={{ width: 19, height: 19, objectFit: "contain", filter: logoFilter, transition: "filter 0.3s" }} />
           </a>
 
-          {/* Hamburger */}
-          <button
-            onClick={() => setMenuOpen(o => !o)}
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
-            style={{
+          <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+            {/* Theme toggle */}
+            <button onClick={toggle} aria-label="Toggle theme" style={{
               background: "none", border: "none",
               display: "flex", alignItems: "center", justifyContent: "center",
-              cursor: "pointer", color: "#fff", padding: 4,
+              cursor: "pointer", color: toggleColor, padding: 6,
+              transition: "color 0.25s",
             }}>
-            {menuOpen
-              ? <X size={20} strokeWidth={1.5} />
-              : <Menu size={20} strokeWidth={1.5} />}
-          </button>
+              {theme === "dark" ? <Sun size={18} strokeWidth={1.5}/> : <Moon size={18} strokeWidth={1.5}/>}
+            </button>
+            {/* Hamburger */}
+            <button
+              onClick={() => setMenuOpen(o => !o)}
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              style={{
+                background: "none", border: "none",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                cursor: "pointer", color: isLight ? "#333" : "#fff", padding: 4,
+              }}>
+              {menuOpen ? <X size={20} strokeWidth={1.5}/> : <Menu size={20} strokeWidth={1.5}/>}
+            </button>
+          </div>
         </header>
 
         {/* Drawer overlay */}
-        <div
-          onClick={closeMenu}
-          style={{
-            position: "fixed", inset: 0, zIndex: 998,
-            background: "rgba(0,0,0,0.55)",
-            backdropFilter: "blur(2px)",
-            opacity: menuOpen ? 1 : 0,
-            pointerEvents: menuOpen ? "all" : "none",
-            transition: "opacity 0.3s ease",
-          }}
-        />
+        <div onClick={closeMenu} style={{
+          position: "fixed", inset: 0, zIndex: 998,
+          background: isLight ? "rgba(0,0,0,0.25)" : "rgba(0,0,0,0.55)",
+          backdropFilter: "blur(2px)",
+          opacity: menuOpen ? 1 : 0,
+          pointerEvents: menuOpen ? "all" : "none",
+          transition: "opacity 0.3s ease",
+        }}/>
 
         {/* Drawer panel */}
         <nav style={{
           position: "fixed", top: 56, left: 0, right: 0, zIndex: 999,
-          background: "rgba(10,10,10,0.97)",
+          background: isLight ? "rgba(244,243,238,0.97)" : "rgba(10,10,10,0.97)",
           backdropFilter: "blur(32px)", WebkitBackdropFilter: "blur(32px)",
-          borderBottom: `1px solid rgba(255,255,255,0.08)`,
+          borderBottom: `1px solid ${navBorder}`,
           padding: "8px 0 8px",
           transform: menuOpen ? "translateY(0)" : "translateY(-8px)",
           opacity: menuOpen ? 1 : 0,
@@ -142,14 +162,14 @@ export default function Navbar() {
                 display: "flex", alignItems: "center",
                 height: 52, padding: "0 24px",
                 fontSize: 13, fontWeight: 500,
-                color: isActive ? C.t1 : "rgba(255,255,255,0.5)",
+                color: isActive ? linkActive : linkInactive,
                 letterSpacing: "0.1em", textTransform: "uppercase",
                 textDecoration: "none",
                 borderBottom: i < navLinks.length - 1
-                  ? `1px solid rgba(255,255,255,0.06)` : "none",
+                  ? `1px solid ${isLight ? "rgba(0,0,0,0.06)" : "rgba(255,255,255,0.06)"}` : "none",
                 transition: "color 0.2s, background 0.2s",
               }}
-              onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.04)"; }}
+              onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = isLight ? "rgba(0,0,0,0.03)" : "rgba(255,255,255,0.04)"; }}
               onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = ""; }}>
                 {label}
               </a>
@@ -171,17 +191,13 @@ export default function Navbar() {
         pointerEvents: "all",
         width: 54, height: 54, padding: 5,
         transform: "translateY(-70px)",
-        background: scrolled ? "rgba(10,10,10,0.55)" : "rgba(10,10,10,0.35)",
+        background: navBg,
         backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)",
-        border: scrolled
-          ? "1px solid rgba(255,255,255,0.13)"
-          : "1px solid rgba(255,255,255,0.09)",
+        border: `1px solid ${navBorder}`,
         borderRadius: 16,
         display: "flex", alignItems: "center", gap: 5,
         overflow: "hidden",
-        boxShadow: scrolled
-          ? "0 12px 40px rgba(0,0,0,0.7), 0 1px 0 rgba(255,255,255,0.05) inset"
-          : "none",
+        boxShadow: navShadow,
         transition: "background 0.25s, border-color 0.25s, box-shadow 0.25s",
       }}>
         {/* Logo chip */}
@@ -190,10 +206,10 @@ export default function Navbar() {
           display: "flex", alignItems: "center", justifyContent: "center",
           textDecoration: "none",
         }}>
-          <img src="/images/logo.png" alt="Ritam Biswas" style={{ width: 21, height: 21, objectFit: "contain" }} />
+          <img src="/images/logo.png" alt="Ritam Biswas" style={{ width: 21, height: 21, objectFit: "contain", filter: logoFilter, transition: "filter 0.3s" }} />
         </a>
 
-        {/* Links — right aligned */}
+        {/* Links + toggle */}
         <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 2, height: 44 }}>
           {navLinks.map(({ label, href }) => {
             const sid = href.replace("#", "");
@@ -203,18 +219,37 @@ export default function Navbar() {
                 display: "flex", alignItems: "center",
                 height: 34, padding: "0 12px", borderRadius: 8,
                 fontSize: 12, fontWeight: 500,
-                color: isActive ? "#ffffff" : "rgba(255,255,255,0.42)",
+                color: isActive ? linkActive : linkInactive,
                 letterSpacing: "0.08em", textTransform: "uppercase",
                 textDecoration: "none", whiteSpace: "nowrap",
                 opacity: 0, filter: "blur(4px)",
                 transition: "color 0.25s",
               }}
-              onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = "rgba(255,255,255,0.95)"; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = isActive ? "#ffffff" : "rgba(255,255,255,0.42)"; }}>
+              onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = linkHover; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = isActive ? linkActive : linkInactive; }}>
                 {label}
               </a>
             );
           })}
+
+          {/* Separator */}
+          <div style={{ width: 1, height: 16, background: sepColor, margin: "0 4px", flexShrink: 0 }}/>
+
+          {/* Theme toggle — animates in with nav links via .nav-link class */}
+          <button onClick={toggle} className="nav-link" aria-label="Toggle theme" style={{
+            display: "flex", alignItems: "center", justifyContent: "center",
+            width: 34, height: 34, borderRadius: 8,
+            background: "none", border: "none",
+            cursor: "pointer",
+            color: toggleColor,
+            opacity: 0, filter: "blur(4px)",
+            fontFamily: "Poppins, sans-serif",
+            transition: "color 0.25s",
+          }}
+          onMouseEnter={e => { e.currentTarget.style.color = toggleHover; }}
+          onMouseLeave={e => { e.currentTarget.style.color = toggleColor; }}>
+            {theme === "dark" ? <Sun size={14} strokeWidth={1.5}/> : <Moon size={14} strokeWidth={1.5}/>}
+          </button>
         </div>
       </nav>
     </div>

@@ -5,7 +5,7 @@ import { Star, PenTool, Zap, FileText, BookOpen } from "lucide-react";
 import SectionLabel from "@/components/SectionLabel";
 import Card from "@/components/Card";
 import { zeno } from "@/data/content";
-import { C, tagStyle, tagHv, revealStyle, col } from "@/lib/tokens";
+import { C, tagStyle, tagHv, revealStyle, col } from "@/lib/tokensV2";
 
 const tags = [
   { label: "UX DESIGN",  icon: <PenTool  size={12} color={C.accent} strokeWidth={2} /> },
@@ -39,7 +39,7 @@ export default function FeaturedProject() {
         {/* Bright dot layer — same pattern, masked to cursor radius */}
         <div style={{
           position: "absolute", inset: 0, pointerEvents: "none", zIndex: 0,
-          backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.75) 1px, transparent 1px)",
+          backgroundImage: "radial-gradient(circle, var(--color-dot-bright) 1px, transparent 1px)",
           backgroundSize: "14px 14px",
           WebkitMaskImage: `radial-gradient(circle 140px at ${cursor.x}px ${cursor.y}px, black 0%, transparent 100%)`,
           maskImage: `radial-gradient(circle 140px at ${cursor.x}px ${cursor.y}px, black 0%, transparent 100%)`,
@@ -61,10 +61,10 @@ export default function FeaturedProject() {
         <style>{`
           .feature-img-wrap { aspect-ratio: 4 / 3; }
           @media (min-width: 768px) { .feature-img-wrap { aspect-ratio: 16 / 9; } }
-          .dot-bg { background-color: #0d0d0d; padding: 0 24px; }
+          .dot-bg { background-color: var(--color-bg); padding: 0 24px; }
           @media (min-width: 768px) {
             .dot-bg {
-              background-image: radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px);
+              background-image: radial-gradient(circle, var(--color-dot) 1px, transparent 1px);
               background-size: 14px 14px;
               padding: 40px 24px;
             }
