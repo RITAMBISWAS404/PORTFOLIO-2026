@@ -1,8 +1,7 @@
 "use client";
 import { useRef, useState } from "react";
 import { useInView } from "framer-motion";
-import { Layers } from "lucide-react";
-import SectionLabel from "@/components/SectionLabel";
+import SectionLabelV2 from "@/components/SectionLabelV2";
 import { stack, stackColors } from "@/data/content";
 import { C, revealStyle, col } from "@/lib/tokensV2";
 
@@ -53,7 +52,7 @@ function StackCard({ name, delay }: { name: string; delay: number }) {
 export default function Stack() {
   return (
     <section id="stack" style={{ ...col, padding: "64px 24px 0" }}>
-      <SectionLabel icon={Layers} label="PRIMARY TOOLS" num="06" iconColor="#6c57f0" />
+      <SectionLabelV2 icon="solar:layers-bold" label="PRIMARY TOOLS" num="06" iconColor="#6c57f0" />
       <div className="stack-grid mt-section">
         {stack.map((name, i) => (
           <StackCard key={name} name={name} delay={i * 0.05} />

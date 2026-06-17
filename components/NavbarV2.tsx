@@ -2,7 +2,7 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { useAnimate, stagger } from "framer-motion";
-import { Menu, X, Sun, Moon } from "lucide-react";
+import { Icon } from "@iconify/react";
 import { navLinks } from "@/data/content";
 import { useAppReady } from "@/lib/AppReadyContext";
 import { useTheme } from "@/lib/ThemeContext";
@@ -116,7 +116,7 @@ export default function NavbarV2() {
               cursor: "pointer", color: toggleColor, padding: 6,
               transition: "color 0.25s",
             }}>
-              {theme === "dark" ? <Sun size={18} strokeWidth={1.5}/> : <Moon size={18} strokeWidth={1.5}/>}
+              {theme === "dark" ? <Icon icon="solar:sun-2-linear" width={18}/> : <Icon icon="solar:moon-linear" width={18}/>}
             </button>
             {/* Hamburger */}
             <button
@@ -127,7 +127,7 @@ export default function NavbarV2() {
                 display: "flex", alignItems: "center", justifyContent: "center",
                 cursor: "pointer", color: isLight ? "#333" : "#fff", padding: 4,
               }}>
-              {menuOpen ? <X size={20} strokeWidth={1.5}/> : <Menu size={20} strokeWidth={1.5}/>}
+              {menuOpen ? <Icon icon="solar:close-circle-linear" width={20}/> : <Icon icon="solar:hamburger-menu-linear" width={20}/>}
             </button>
           </div>
         </header>
@@ -248,7 +248,7 @@ export default function NavbarV2() {
           }}
           onMouseEnter={e => { e.currentTarget.style.color = toggleHover; }}
           onMouseLeave={e => { e.currentTarget.style.color = toggleColor; }}>
-            {theme === "dark" ? <Sun size={14} strokeWidth={1.5}/> : <Moon size={14} strokeWidth={1.5}/>}
+            {theme === "dark" ? <Icon icon="solar:sun-2-linear" width={14}/> : <Icon icon="solar:moon-linear" width={14}/>}
           </button>
         </div>
       </nav>

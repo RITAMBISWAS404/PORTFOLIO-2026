@@ -1,24 +1,24 @@
 "use client";
 import { useRef } from "react";
 import { useInView } from "framer-motion";
-import { LayoutGrid,Leaf,FileText,Store,TrainFront,RefreshCw,Zap,Globe,Home,PenTool,Building2,HardHat } from "lucide-react";
+import { Icon } from "@iconify/react";
 import { useState } from "react";
-import SectionLabel from "@/components/SectionLabel";
+import SectionLabelV2 from "@/components/SectionLabelV2";
 import { projects } from "@/data/content";
 import { C, tagStyle, tagHv, revealStyle, col } from "@/lib/tokensV2";
 
 const tagIcons: Record<string,React.ReactNode>={
-  "AGRICULTURE":<Leaf       size={12} color={C.accent} strokeWidth={2}/>,
-  "CASE STUDY": <FileText   size={12} color={C.blue}   strokeWidth={2}/>,
-  "RETAIL":     <Store      size={12} color={C.yellow} strokeWidth={2}/>,
-  "TRANSIT":    <TrainFront size={12} color={C.blue}   strokeWidth={2}/>,
-  "REDESIGN":   <RefreshCw  size={12} color={C.accent} strokeWidth={2}/>,
-  "EV TECH":    <Zap        size={12} color={C.yellow} strokeWidth={2}/>,
-  "WEB DESIGN": <Globe      size={12} color={C.blue}   strokeWidth={2}/>,
-  "INTERIOR":   <Home       size={12} color="#fdbd39"  strokeWidth={2}/>,
-  "LOGO DESIGN":<PenTool    size={12} color={C.accent} strokeWidth={2}/>,
-  "AD AGENCY":  <Building2  size={12} color={C.red}    strokeWidth={2}/>,
-  "IN PROGRESS":<HardHat    size={12} color={C.yellow} strokeWidth={2}/>,
+  "AGRICULTURE":<Icon icon="solar:leaf-bold"             width={12} color={C.accent} />,
+  "CASE STUDY": <Icon icon="solar:file-text-bold"        width={12} color={C.blue}   />,
+  "RETAIL":     <Icon icon="solar:shop-bold"             width={12} color={C.yellow} />,
+  "TRANSIT":    <Icon icon="solar:tram-bold"             width={12} color={C.blue}   />,
+  "REDESIGN":   <Icon icon="solar:restart-bold"          width={12} color={C.accent} />,
+  "EV TECH":    <Icon icon="solar:bolt-bold"             width={12} color={C.yellow} />,
+  "WEB DESIGN": <Icon icon="solar:earth-bold"            width={12} color={C.blue}   />,
+  "INTERIOR":   <Icon icon="solar:home-bold"             width={12} color="#fdbd39"  />,
+  "LOGO DESIGN":<Icon icon="solar:pen-new-square-bold"   width={12} color={C.accent} />,
+  "AD AGENCY":  <Icon icon="solar:buildings-bold"        width={12} color={C.red}    />,
+  "IN PROGRESS":<Icon icon="solar:hard-hat-bold"         width={12} color={C.yellow} />,
 };
 
 function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
@@ -81,7 +81,7 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
 export default function Projects(){
   return(
     <section id="projects" style={{...col,padding:"64px 24px 0"}}>
-      <SectionLabel icon={LayoutGrid} label="SELECTED PROJECTS" num="02" iconColor={C.blue}/>
+      <SectionLabelV2 icon="solar:widget-4-bold" label="SELECTED PROJECTS" num="02" iconColor={C.blue}/>
       <div className="mt-section" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))",gap:16}}>
         {projects.map((p,i)=><ProjectCard key={p.title} p={p} delay={i*0.06}/>)}
       </div>

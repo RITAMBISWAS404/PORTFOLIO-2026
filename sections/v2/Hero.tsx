@@ -1,7 +1,7 @@
 "use client";
 import { useRef, useState, useEffect, useCallback } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { ArrowRight, MessageCircle, Handshake, Calendar, Smartphone, Network } from "lucide-react";
+import { Icon } from "@iconify/react";
 import { C, tagStyle, tagHv } from "@/lib/tokensV2";
 import { useAppReady } from "@/lib/AppReadyContext";
 
@@ -346,10 +346,10 @@ export default function Hero() {
         {/* Badges */}
         <motion.div variants={item} style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
           {[
-            { label: "OPEN TO COLLABORATIONS", icon: <Handshake  size={12} color={C.accent} strokeWidth={2} /> },
-            { label: "2+ YEARS EXP",           icon: <Calendar   size={12} color={C.yellow} strokeWidth={2} /> },
-            { label: "MOBILE + WEB UX",        icon: <Smartphone size={12} color={C.blue}   strokeWidth={2} /> },
-            { label: "SYSTEMS THINKING",       icon: <Network    size={12} color={C.red}     strokeWidth={2} /> },
+            { label: "OPEN TO COLLABORATIONS", icon: <Icon icon="solar:hand-shake-bold"  width={12} color={C.accent} /> },
+            { label: "2+ YEARS EXP",           icon: <Icon icon="solar:calendar-bold"    width={12} color={C.yellow} /> },
+            { label: "MOBILE + WEB UX",        icon: <Icon icon="solar:smartphone-bold"  width={12} color={C.blue}   /> },
+            { label: "SYSTEMS THINKING",       icon: <Icon icon="solar:share-bold"       width={12} color={C.red}    /> },
           ].map(b => (
             <div key={b.label} style={tagStyle}
               onMouseEnter={e => tagHv(e, true)} onMouseLeave={e => tagHv(e, false)}>
@@ -379,7 +379,7 @@ export default function Hero() {
           }}
             onMouseEnter={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.opacity = "0.9"; a.style.transform = "translateY(-2px)"; a.style.boxShadow = "0 4px 16px rgba(0,0,0,0.6)"; }}
             onMouseLeave={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.opacity = "1"; a.style.transform = ""; a.style.boxShadow = ""; }}>
-            <ArrowRight size={14} strokeWidth={2} /> View my Work
+            <Icon icon="solar:arrow-right-bold" width={14} /> View my Work
           </a>
           <a href="#contact" style={{
             display: "flex", alignItems: "center", gap: 10,
@@ -389,7 +389,7 @@ export default function Hero() {
           }}
             onMouseEnter={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.background = "rgba(255,255,255,0.09)"; a.style.transform = "translateY(-2px)"; }}
             onMouseLeave={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.background = "rgba(255,255,255,0.05)"; a.style.transform = ""; }}>
-            <MessageCircle size={14} strokeWidth={2} /> Let&apos;s Talk
+            <Icon icon="solar:chat-round-bold" width={14} /> Let&apos;s Talk
           </a>
         </motion.div>
       </motion.div>
