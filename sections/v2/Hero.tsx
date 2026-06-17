@@ -68,8 +68,13 @@ function gridHeight(w: number): number {
   return 260;                                 // desktop: fixed
 }
 
-type Dot   = { base: number; amp: number; phase: number; freq: number; spk: number; spkT: number; spkD: number };
-type Burst = { x: number; y: number; t0: number };
+type Dot       = { base: number; amp: number; phase: number; freq: number; spk: number; spkT: number; spkD: number };
+type Burst     = { x: number; y: number; t0: number };
+type ShootStar = { x: number; y: number; dx: number; dy: number; spd: number; trail: number; peak: number; t0: number; dur: number };
+type Ripple    = { x: number; y: number; maxR: number; peak: number; t0: number; dur: number };
+
+const cull = <T extends { t0: number; dur: number }>(arr: T[], ts: number): T[] =>
+  arr.filter(e => ts - e.t0 < e.dur);
 
 const makeDot = (): Dot => ({
   base:  0.04 + Math.random() * 0.10,
@@ -86,8 +91,12 @@ function DotMatrix() {
   const rowsRef   = useRef(0);
   const dotsRef   = useRef<Dot[]>([]);
   const curRef    = useRef({ x: -1, y: -1, on: false });
-  const burstsRef = useRef<Burst[]>([]);
-  const nextSpkRef = useRef(0);
+  const burstsRef  = useRef<Burst[]>([]);
+  const starsRef   = useRef<ShootStar[]>([]);
+  const ripsRef    = useRef<Ripple[]>([]);
+  const nextSpkRef  = useRef(0);
+  const nextStarRef = useRef(Infinity);
+  const nextRipRef  = useRef(Infinity);
 
   const resize = useCallback(() => {
     const wrap = wrapRef.current, canvas = canvasRef.current;
@@ -103,6 +112,8 @@ function DotMatrix() {
     colsRef.current = cols;
     rowsRef.current = rows;
     dotsRef.current = Array.from({ length: cols * rows }, makeDot);
+    starsRef.current = [];
+    ripsRef.current  = [];
   }, []);
 
   useEffect(() => {
@@ -118,7 +129,15 @@ function DotMatrix() {
     const ctx = canvas.getContext("2d")!;
     let rafId: number;
 
+    let firstFrame = true;
+
     const draw = (ts: number) => {
+      if (firstFrame) {
+        firstFrame = false;
+        nextStarRef.current = ts + 300  + Math.random() * 400;   // 0.3–0.7 s wow
+        nextRipRef.current  = ts + 6000 + Math.random() * 5000;  // 6–11 s
+      }
+
       const dpr  = Math.min(window.devicePixelRatio || 1, 2);
       const cols = colsRef.current;
       const rows = rowsRef.current;
@@ -139,7 +158,36 @@ function DotMatrix() {
         }
       }
 
-      // ── Cull expired bursts ──────────────────────────────────────────────────
+      // ── Shooting star ─────────────────────────────────────────────────────────
+      if (ts >= nextStarRef.current) {
+        nextStarRef.current = ts + 12000 + Math.random() * 8000;
+        const W = colsRef.current * CELL, H = rowsRef.current * CELL;
+        const angle = Math.PI * 0.25 + Math.random() * Math.PI * 0.5;
+        const dx = Math.cos(angle), dy = Math.sin(angle);
+        const spd = 0.22 + Math.random() * 0.18, trail = 55 + Math.random() * 55;
+        starsRef.current.push({
+          x: Math.random() * W, y: -trail - 10,
+          dx, dy, spd, trail,
+          peak: 0.75 + Math.random() * 0.20,
+          t0: ts, dur: (H + trail * 2) / (spd * Math.max(0.15, dy)) + 400,
+        });
+      }
+
+      // ── Ripple wave ───────────────────────────────────────────────────────────
+      if (ts >= nextRipRef.current) {
+        nextRipRef.current = ts + 10000 + Math.random() * 8000;
+        const W = colsRef.current * CELL, H = rowsRef.current * CELL;
+        ripsRef.current.push({
+          x: Math.random() * W, y: Math.random() * H,
+          maxR: 100 + Math.random() * 80,
+          peak: 0.30 + Math.random() * 0.18,
+          t0: ts, dur: 1400 + Math.random() * 600,
+        });
+      }
+
+      // ── Cull expired events ───────────────────────────────────────────────────
+      starsRef.current  = cull(starsRef.current, ts);
+      ripsRef.current   = cull(ripsRef.current,  ts);
       burstsRef.current = burstsRef.current.filter(b => ts - b.t0 < BURST_DUR);
 
       const cur = curRef.current;
@@ -173,8 +221,33 @@ function DotMatrix() {
             if (dist < CURSOR_R) cGlow = Math.pow(1 - dist / CURSOR_R, 1.6) * 0.82;
           }
 
-          // Click burst ring
+          // Shooting star
           let extra = 0;
+          for (const s of starsRef.current) {
+            const age   = ts - s.t0;
+            const headX = s.x + s.dx * s.spd * age;
+            const headY = s.y + s.dy * s.spd * age;
+            const toX   = px - headX, toY = py - headY;
+            const along = -(toX * s.dx + toY * s.dy);
+            if (along >= 0 && along <= s.trail) {
+              const perpX = toX + s.dx * along, perpY = toY + s.dy * along;
+              const perp  = Math.hypot(perpX, perpY);
+              if (perp < CELL * 0.9)
+                extra = Math.max(extra, (1 - along / s.trail) * (1 - perp / (CELL * 0.9)) * s.peak);
+            }
+          }
+
+          // Ripple wave
+          for (const rp of ripsRef.current) {
+            const prog  = (ts - rp.t0) / rp.dur;
+            const ring  = prog * rp.maxR;
+            const rw    = 18 + prog * 14;
+            const dRing = Math.abs(Math.hypot(px - rp.x, py - rp.y) - ring);
+            if (dRing < rw)
+              extra = Math.max(extra, (1 - dRing / rw) * Math.pow(1 - prog, 0.7) * rp.peak);
+          }
+
+          // Click burst ring
           for (const b of burstsRef.current) {
             const prog  = (ts - b.t0) / BURST_DUR;
             const ring  = prog * BURST_MAX;
