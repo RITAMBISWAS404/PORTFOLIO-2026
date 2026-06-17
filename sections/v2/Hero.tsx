@@ -89,6 +89,8 @@ function DotMatrix() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const colsRef   = useRef(0);
   const rowsRef   = useRef(0);
+  const offXRef   = useRef(0);  // horizontal centering offset
+  const offYRef   = useRef(0);  // vertical centering offset
   const dotsRef   = useRef<Dot[]>([]);
   const curRef    = useRef({ x: -1, y: -1, on: false });
   const burstsRef  = useRef<Burst[]>([]);
@@ -111,6 +113,8 @@ function DotMatrix() {
     const rows = Math.max(1, Math.floor(h / CELL));
     colsRef.current = cols;
     rowsRef.current = rows;
+    offXRef.current = (w - cols * CELL) / 2;
+    offYRef.current = (h - rows * CELL) / 2;
     dotsRef.current = Array.from({ length: cols * rows }, makeDot);
     starsRef.current = [];
     ripsRef.current  = [];
@@ -198,8 +202,8 @@ function DotMatrix() {
           const i  = r * cols + c;
           if (i >= dots.length) continue;
           const d  = dots[i];
-          const px = (c + 0.5) * CELL;
-          const py = (r + 0.5) * CELL;
+          const px = offXRef.current + (c + 0.5) * CELL;
+          const py = offYRef.current + (r + 0.5) * CELL;
 
           // Continuous sinusoidal oscillation
           const osc = d.base + d.amp * (Math.sin(d.phase + (ts / 1000) * d.freq * Math.PI * 2) * 0.5 + 0.5);
