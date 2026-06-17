@@ -59,7 +59,8 @@ function Avatar() {
 
 const CELL      = 16;
 const DOT_R     = 4;    // radius → diameter = 8 px
-const CURSOR_R  = 90;
+const TRAIL_R   = 44;   // brush radius for cursor drawing
+const TRAIL_DUR = 1200; // ms until a trail dot fully fades
 const BURST_DUR = 700;
 const BURST_MAX = 200;
 
@@ -91,8 +92,8 @@ function DotMatrix() {
   const rowsRef  = useRef(0);
   const cellWRef = useRef(CELL); // actual horizontal spacing — stretches to fill width
   const cellHRef = useRef(CELL); // actual vertical spacing   — stretches to fill height
-  const dotsRef  = useRef<Dot[]>([]);
-  const curRef    = useRef({ x: -1, y: -1, on: false });
+  const dotsRef     = useRef<Dot[]>([]);
+  const trailRef    = useRef<Map<number, { t0: number; peak: number }>>(new Map());
   const burstsRef  = useRef<Burst[]>([]);
   const starsRef   = useRef<ShootStar[]>([]);
   const ripsRef    = useRef<Ripple[]>([]);
@@ -115,7 +116,8 @@ function DotMatrix() {
     rowsRef.current = rows;
     cellWRef.current = w / cols;
     cellHRef.current = h / rows;
-    dotsRef.current = Array.from({ length: cols * rows }, makeDot);
+    dotsRef.current  = Array.from({ length: cols * rows }, makeDot);
+    trailRef.current.clear();
     starsRef.current = [];
     ripsRef.current  = [];
   }, []);
@@ -194,8 +196,6 @@ function DotMatrix() {
       ripsRef.current   = cull(ripsRef.current,  ts);
       burstsRef.current = burstsRef.current.filter(b => ts - b.t0 < BURST_DUR);
 
-      const cur = curRef.current;
-
       // ── Draw ─────────────────────────────────────────────────────────────────
       for (let r = 0; r < rows; r++) {
         for (let c = 0; c < cols; c++) {
@@ -218,11 +218,16 @@ function DotMatrix() {
             } else { d.spkT = -1; }
           }
 
-          // Cursor glow
+          // Cursor trail — fade from t0 over TRAIL_DUR
           let cGlow = 0;
-          if (cur.on) {
-            const dist = Math.hypot(px - cur.x, py - cur.y);
-            if (dist < CURSOR_R) cGlow = Math.pow(1 - dist / CURSOR_R, 1.6) * 0.82;
+          const td = trailRef.current.get(i);
+          if (td) {
+            const age = ts - td.t0;
+            if (age < TRAIL_DUR) {
+              cGlow = td.peak * Math.pow(1 - age / TRAIL_DUR, 1.4);
+            } else {
+              trailRef.current.delete(i);
+            }
           }
 
           // Shooting star
@@ -277,11 +282,30 @@ function DotMatrix() {
   }, []);
 
   // ── Interaction handlers ──────────────────────────────────────────────────────
-  const onMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const r = wrapRef.current!.getBoundingClientRect();
-    curRef.current = { x: e.clientX - r.left, y: e.clientY - r.top, on: true };
+  const stampTrail = useCallback((mx: number, my: number) => {
+    const cols  = colsRef.current,  rows  = rowsRef.current;
+    const cellW = cellWRef.current, cellH = cellHRef.current;
+    const now   = performance.now();
+    const c0 = Math.max(0, Math.floor((mx - TRAIL_R) / cellW));
+    const c1 = Math.min(cols - 1, Math.ceil((mx + TRAIL_R) / cellW));
+    const r0 = Math.max(0, Math.floor((my - TRAIL_R) / cellH));
+    const r1 = Math.min(rows - 1, Math.ceil((my + TRAIL_R) / cellH));
+    for (let r = r0; r <= r1; r++) {
+      for (let c = c0; c <= c1; c++) {
+        const dist = Math.hypot((c + 0.5) * cellW - mx, (r + 0.5) * cellH - my);
+        if (dist < TRAIL_R) {
+          const peak = 0.55 + (1 - dist / TRAIL_R) * 0.40; // 0.55–0.95
+          trailRef.current.set(r * cols + c, { t0: now, peak });
+        }
+      }
+    }
   }, []);
-  const onMouseLeave = useCallback(() => { curRef.current = { x: -1, y: -1, on: false }; }, []);
+
+  const onMouseMove  = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const r = wrapRef.current!.getBoundingClientRect();
+    stampTrail(e.clientX - r.left, e.clientY - r.top);
+  }, [stampTrail]);
+  const onMouseLeave = useCallback(() => {}, []);
 
   const addBurst = useCallback((x: number, y: number) => {
     burstsRef.current.push({ x, y, t0: performance.now() });
@@ -298,9 +322,9 @@ function DotMatrix() {
   const onTouchMove = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
     const r = wrapRef.current!.getBoundingClientRect();
     const t = e.touches[0];
-    curRef.current = { x: t.clientX - r.left, y: t.clientY - r.top, on: true };
-  }, []);
-  const onTouchEnd = useCallback(() => { curRef.current = { x: -1, y: -1, on: false }; }, []);
+    stampTrail(t.clientX - r.left, t.clientY - r.top);
+  }, [stampTrail]);
+  const onTouchEnd = useCallback(() => {}, []);
 
   return (
     <div
