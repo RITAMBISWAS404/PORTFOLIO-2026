@@ -53,7 +53,7 @@ function StackCard({ name, delay }: { name: string; delay: number }) {
 export default function Stack() {
   return (
     <section id="stack" style={{ ...col, padding: "64px 24px 0" }}>
-      <SectionLabel icon={Layers} label="PRIMARY TOOLS" num="06" iconColor="#6c57f0" />
+      <SectionLabel icon={Layers} label="PRIMARY TOOLS" num="05" iconColor="#6c57f0" />
       <div className="stack-grid mt-section">
         {stack.map((name, i) => (
           <StackCard key={name} name={name} delay={i * 0.05} />
