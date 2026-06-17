@@ -77,6 +77,20 @@ type Ripple    = { x: number; y: number; maxR: number; peak: number; t0: number;
 const cull = <T extends { t0: number; dur: number }>(arr: T[], ts: number): T[] =>
   arr.filter(e => ts - e.t0 < e.dur);
 
+// ── Pixel text (3×5 bitmap font) ──────────────────────────────────────────────
+type TextDot = { fadeInStart: number; fadeInEnd: number; holdEnd: number; fadeOutEnd: number; peak: number };
+
+const FONT3x5: Record<string, number[][]> = {
+  H: [[1,0,1],[1,0,1],[1,1,1],[1,0,1],[1,0,1]],
+  E: [[1,1,1],[1,0,0],[1,1,0],[1,0,0],[1,1,1]],
+  L: [[1,0,0],[1,0,0],[1,0,0],[1,0,0],[1,1,1]],
+  O: [[1,1,1],[1,0,1],[1,0,1],[1,0,1],[1,1,1]],
+  D: [[1,1,0],[1,0,1],[1,0,1],[1,0,1],[1,1,0]],
+  R: [[1,1,0],[1,0,1],[1,1,0],[1,0,1],[1,0,1]],
+  A: [[0,1,0],[1,0,1],[1,1,1],[1,0,1],[1,0,1]],
+  W: [[1,0,1],[1,0,1],[1,1,1],[1,1,1],[1,0,1]],
+};
+
 const makeDot = (): Dot => ({
   base:  0.02 + Math.random() * 0.04,
   amp:   0.02 + Math.random() * 0.06,
@@ -100,6 +114,8 @@ function DotMatrix() {
   const nextSpkRef  = useRef(0);
   const nextStarRef = useRef(Infinity);
   const nextRipRef  = useRef(Infinity);
+  const textDotsRef = useRef<Map<number, TextDot>>(new Map());
+  const { ready } = useAppReady();
 
   const resize = useCallback(() => {
     const wrap = wrapRef.current, canvas = canvasRef.current;
@@ -118,6 +134,7 @@ function DotMatrix() {
     cellHRef.current = h / rows;
     dotsRef.current  = Array.from({ length: cols * rows }, makeDot);
     trailRef.current.clear();
+    textDotsRef.current.clear();
     starsRef.current = [];
     ripsRef.current  = [];
   }, []);
@@ -128,6 +145,51 @@ function DotMatrix() {
     if (wrapRef.current) ro.observe(wrapRef.current);
     return () => ro.disconnect();
   }, [resize]);
+
+  // ── Text stamp: "HELLO" then "DRAW" after page loads ─────────────────────────
+  useEffect(() => {
+    if (!ready) return;
+    const CHAR_W = 3, CHAR_GAP = 1, CHAR_H = 5;
+    const STAGGER = 55; // ms per column, left → right
+    const FADE_IN = 280, HOLD = 1900, FADE_OUT = 480;
+
+    function stamp(text: string, phaseStart: number, peak: number): number {
+      const cols = colsRef.current, rows = rowsRef.current;
+      if (!cols || !rows) return 0;
+      const chars = text.toUpperCase().split("").filter(c => !!FONT3x5[c]);
+      if (!chars.length) return 0;
+      const textW = chars.length * CHAR_W + (chars.length - 1) * CHAR_GAP;
+      const startC = Math.max(0, Math.floor((cols - textW) / 2));
+      const startR = Math.max(0, Math.floor((rows - CHAR_H) / 2));
+      const maxColDelay = Math.max(0, textW - 1) * STAGGER;
+
+      chars.forEach((ch, ci) => {
+        const bitmap = FONT3x5[ch];
+        if (!bitmap) return;
+        const charC = startC + ci * (CHAR_W + CHAR_GAP);
+        for (let r = 0; r < CHAR_H; r++) {
+          for (let c = 0; c < CHAR_W; c++) {
+            if (!bitmap[r][c]) continue;
+            const gc = charC + c, gr = startR + r;
+            if (gc >= cols || gr >= rows) continue;
+            const colDelay    = (gc - startC) * STAGGER;
+            const fadeInStart = phaseStart + colDelay;
+            const fadeInEnd   = fadeInStart + FADE_IN;
+            const holdEnd     = phaseStart + maxColDelay + FADE_IN + HOLD;
+            const fadeOutEnd  = holdEnd + FADE_OUT;
+            textDotsRef.current.set(gr * cols + gc, { fadeInStart, fadeInEnd, holdEnd, fadeOutEnd, peak });
+          }
+        }
+      });
+
+      return maxColDelay + FADE_IN + HOLD + FADE_OUT;
+    }
+
+    textDotsRef.current.clear();
+    const p1Start = performance.now() + 550;
+    const p1Dur   = stamp("HELLO", p1Start, 0.88);
+    stamp("DRAW",  p1Start + p1Dur + 350, 0.78);
+  }, [ready]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -230,6 +292,22 @@ function DotMatrix() {
             }
           }
 
+          // Text animation glow
+          let textGlow = 0;
+          const txd = textDotsRef.current.get(i);
+          if (txd) {
+            const { fadeInStart, fadeInEnd, holdEnd, fadeOutEnd, peak } = txd;
+            if (ts >= fadeInStart && ts < fadeInEnd) {
+              textGlow = peak * (ts - fadeInStart) / (fadeInEnd - fadeInStart);
+            } else if (ts >= fadeInEnd && ts < holdEnd) {
+              textGlow = peak;
+            } else if (ts >= holdEnd && ts < fadeOutEnd) {
+              textGlow = peak * (1 - (ts - holdEnd) / (fadeOutEnd - holdEnd));
+            } else if (ts > fadeOutEnd) {
+              textDotsRef.current.delete(i);
+            }
+          }
+
           // Shooting star
           let extra = 0;
           for (const s of starsRef.current) {
@@ -266,7 +344,7 @@ function DotMatrix() {
               extra = Math.max(extra, (1 - dRing / rw) * Math.pow(1 - prog, 0.55) * 0.95);
           }
 
-          const alpha = Math.min(1, osc + spark + cGlow + extra);
+          const alpha = Math.min(1, osc + spark + Math.max(cGlow, textGlow) + extra);
           ctx.beginPath();
           ctx.arc(px * dpr, py * dpr, DOT_R * dpr, 0, Math.PI * 2);
           ctx.fillStyle = `rgba(255,255,255,${alpha.toFixed(3)})`;
