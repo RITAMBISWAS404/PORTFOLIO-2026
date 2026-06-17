@@ -1,15 +1,12 @@
 "use client";
-import { useRef, useState, useMemo } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { ArrowRight, MessageCircle, Handshake, Calendar, Smartphone, Network } from "lucide-react";
 import { C, tagStyle, tagHv } from "@/lib/tokensV2";
 import { useAppReady } from "@/lib/AppReadyContext";
 
-// ── Stagger entry animation ──────────────────────────────────────────────────
-const container = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.1, delayChildren: 0.05 } },
-};
+// ── Entry animation ──────────────────────────────────────────────────────────
+const container = { hidden: {}, show: { transition: { staggerChildren: 0.1, delayChildren: 0.05 } } };
 const item = {
   hidden: { opacity: 0, y: 18, filter: "blur(4px)" },
   show: {
@@ -18,20 +15,21 @@ const item = {
   },
 };
 
-// ── Avatar (parallax tilt + easter egg) ─────────────────────────────────────
+// ── Avatar ───────────────────────────────────────────────────────────────────
 function Avatar() {
   const ref = useRef<HTMLDivElement>(null);
-  const rx = useMotionValue(0), ry = useMotionValue(0);
+  const rx  = useMotionValue(0);
+  const ry  = useMotionValue(0);
   const sRx = useSpring(rx, { stiffness: 160, damping: 22 });
   const sRy = useSpring(ry, { stiffness: 160, damping: 22 });
   const transform = useTransform(
     [sRx, sRy], ([x, y]) => `perspective(400px) rotateX(${y}deg) rotateY(${x}deg)`,
   );
   const [egg, setEgg] = useState(false);
-  const move = (e: React.MouseEvent) => {
+  const move  = (e: React.MouseEvent) => {
     const r = ref.current!.getBoundingClientRect();
-    rx.set(((e.clientX - r.left) / r.width - 0.5) * 12);
-    ry.set(-((e.clientY - r.top) / r.height - 0.5) * 12);
+    rx.set(((e.clientX - r.left) / r.width  - 0.5) * 12);
+    ry.set(-((e.clientY - r.top)  / r.height - 0.5) * 12);
   };
   const leave = () => { rx.set(0); ry.set(0); setEgg(false); };
   return (
@@ -41,95 +39,243 @@ function Avatar() {
         <div style={{
           position: "absolute", inset: 0,
           background: "conic-gradient(from 0deg, #20d455, #4488ff, #ff2626, #ffc200, #20d455)",
-          filter: "blur(8px)",
-          animation: "aura 10s linear infinite",
+          filter: "blur(8px)", animation: "aura 10s linear infinite",
         }} />
-        <img
-          src={egg ? "/images/happy-catto.gif" : "/images/avatar.png"}
-          alt="Ritam Biswas"
-          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", borderRadius: 14 }}
-        />
+        <img src={egg ? "/images/happy-catto.gif" : "/images/avatar.png"} alt="Ritam Biswas"
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", borderRadius: 14 }} />
       </motion.div>
     </div>
   );
 }
 
-// ── Dot-matrix grid ──────────────────────────────────────────────────────────
-// Inspired by Nothing Phone's Glyph Matrix: a dense monochrome dot field
-// where a deliberate shape glows at full brightness while surrounding dots
-// fade out at base opacity. Single color (text-1), varying opacity only.
+// ── Galaxy dot-matrix (canvas) ───────────────────────────────────────────────
+// Inspired by Nothing Phone Glyph Matrix + starfield.
+// All state lives in refs — zero React re-renders during animation.
 //
-// To swap in a different glyph, pass your own `shape` prop:
-//   <DotMatrix shape={MY_SHAPE} />
-// where MY_SHAPE is [row, col][] with row 0 = top, col 0 = left.
-// You never need to touch layout code — only the coordinate bitmap changes.
+// Responsive height:
+//   container < 480 px  →  1:1  (square, fills phone width)
+//   container < 700 px  →  4:3  (tablet)
+//   container ≥ 700 px  →  260 px fixed (desktop wide-band)
+//
+// Interactions:
+//   • Cursor moves over grid  → radial glow follows pointer
+//   • Click / tap             → expanding ring burst from impact point
+//   • Idle                    → slow sinusoidal twinkle per dot + random sparks
 
-const CELL = 10;   // px, center-to-center spacing (dot + gap)
-const DOT  = 3;    // px, dot diameter
-const ROWS = 26;
-const COLS = 72;   // 72 × 10 = 720 px — fills the 768 column after 24 px padding each side
+const CELL       = 13;   // px, center-to-center spacing
+const DOT_R      = 3;    // px, dot radius  (diameter = 6 px)
+const CURSOR_R   = 90;   // px, cursor glow radius
+const BURST_DUR  = 700;  // ms, burst lifetime
+const BURST_MAX  = 200;  // px, max ring radius at end of burst
 
-// Default glyph: a plus/cross centered at (row 12, col 36).
-const CR = 12, CC = 36;
-const DEFAULT_SHAPE: [number, number][] = [
-  // vertical arm — 11 dots tall
-  ...Array.from({ length: 11 }, (_, i): [number, number] => [CR - 5 + i, CC]),
-  // horizontal arm — 10 dots (center already covered by vertical)
-  ...[-5, -4, -3, -2, -1, 1, 2, 3, 4, 5].map(dc => [CR, CC + dc] as [number, number]),
-];
-
-function buildBrightnessMap(
-  shape: [number, number][],
-  rows: number,
-  cols: number,
-  glowRadius = 5,
-): Float32Array {
-  const map = new Float32Array(rows * cols);
-  const shapeSet = new Set(shape.map(([r, c]) => r * cols + c));
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      const idx = r * cols + c;
-      if (shapeSet.has(idx)) { map[idx] = 1.0; continue; }
-      let minDist = Infinity;
-      for (const [sr, sc] of shape) {
-        const d = Math.sqrt((r - sr) ** 2 + (c - sc) ** 2);
-        if (d < minDist) minDist = d;
-      }
-      if (minDist < glowRadius) {
-        map[idx] = (1 - minDist / glowRadius) * 0.45;
-      }
-    }
-  }
-  return map;
+function gridHeight(w: number): number {
+  if (w < 480) return w;
+  if (w < 700) return Math.round(w * 0.75);
+  return 260;
 }
 
-function DotMatrix({ shape = DEFAULT_SHAPE }: { shape?: [number, number][] }) {
-  const brightness = useMemo(() => buildBrightnessMap(shape, ROWS, COLS), [shape]);
+type Dot = {
+  base:  number;  // resting brightness    0.04–0.14
+  amp:   number;  // oscillation amplitude  0.02–0.08
+  phase: number;  // initial phase          0–2π
+  freq:  number;  // oscillation Hz         0.12–0.62
+  spk:   number;  // spark peak opacity (0 = inactive)
+  spkT:  number;  // timestamp when spark started (-1 = none)
+  spkD:  number;  // spark duration ms
+};
+
+type Burst = { x: number; y: number; t0: number };
+
+const makeDot = (): Dot => ({
+  base:  0.04 + Math.random() * 0.10,
+  amp:   0.02 + Math.random() * 0.07,
+  phase: Math.random() * Math.PI * 2,
+  freq:  0.12 + Math.random() * 0.50,
+  spk: 0, spkT: -1, spkD: 400,
+});
+
+function DotMatrix() {
+  const wrapRef    = useRef<HTMLDivElement>(null);
+  const canvasRef  = useRef<HTMLCanvasElement>(null);
+  const colsRef    = useRef(0);
+  const rowsRef    = useRef(0);
+  const dotsRef    = useRef<Dot[]>([]);
+  const curRef     = useRef({ x: -1, y: -1, on: false });
+  const burstsRef  = useRef<Burst[]>([]);
+  const nextSpkRef = useRef(0); // rAF timestamp for next spark batch
+
+  // Measure container → set canvas size → rebuild dot array
+  const resize = useCallback(() => {
+    const wrap   = wrapRef.current;
+    const canvas = canvasRef.current;
+    if (!wrap || !canvas) return;
+    const w   = wrap.offsetWidth;
+    const h   = gridHeight(w);
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width        = Math.round(w * dpr);
+    canvas.height       = Math.round(h * dpr);
+    canvas.style.width  = `${w}px`;
+    canvas.style.height = `${h}px`;
+    const cols = Math.max(1, Math.floor(w / CELL));
+    const rows = Math.max(1, Math.floor(h / CELL));
+    colsRef.current = cols;
+    rowsRef.current = rows;
+    dotsRef.current = Array.from({ length: cols * rows }, makeDot);
+  }, []);
+
+  useEffect(() => {
+    resize();
+    const ro = new ResizeObserver(resize);
+    if (wrapRef.current) ro.observe(wrapRef.current);
+    return () => ro.disconnect();
+  }, [resize]);
+
+  // rAF animation loop — reads all state from refs, never triggers re-renders
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d")!;
+    let rafId: number;
+
+    const draw = (ts: number) => {
+      const dpr  = Math.min(window.devicePixelRatio || 1, 2);
+      const cols = colsRef.current;
+      const rows = rowsRef.current;
+      const dots = dotsRef.current;
+      if (!cols || !rows) { rafId = requestAnimationFrame(draw); return; }
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // ── Random spark bursts (galaxy twinkle events)
+      if (ts >= nextSpkRef.current) {
+        nextSpkRef.current = ts + 250 + Math.random() * 700;
+        const n = 2 + Math.floor(Math.random() * 5);
+        for (let s = 0; s < n; s++) {
+          const idx = Math.floor(Math.random() * dots.length);
+          dots[idx].spk  = 0.45 + Math.random() * 0.50;   // peak opacity 0.45–0.95
+          dots[idx].spkT = ts;
+          dots[idx].spkD = 250 + Math.random() * 550;
+        }
+      }
+
+      // ── Cull expired bursts
+      burstsRef.current = burstsRef.current.filter(b => ts - b.t0 < BURST_DUR);
+
+      const cur = curRef.current;
+
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const i  = r * cols + c;
+          if (i >= dots.length) continue;
+          const d  = dots[i];
+
+          // CSS-pixel center of this dot
+          const px = (c + 0.5) * CELL;
+          const py = (r + 0.5) * CELL;
+
+          // Continuous galaxy oscillation (unique phase + freq per dot)
+          const osc = d.base + d.amp * (Math.sin(d.phase + (ts / 1000) * d.freq * Math.PI * 2) * 0.5 + 0.5);
+
+          // Spark: fast rise (10% of dur) → slow decay
+          let spark = 0;
+          if (d.spkT >= 0) {
+            const age = ts - d.spkT;
+            if (age < d.spkD) {
+              const p = age / d.spkD;
+              spark = d.spk * (p < 0.1 ? p / 0.1 : 1 - (p - 0.1) / 0.9);
+            } else {
+              d.spkT = -1;
+            }
+          }
+
+          // Cursor glow — quadratic falloff inside CURSOR_R
+          let cGlow = 0;
+          if (cur.on) {
+            const dist = Math.hypot(px - cur.x, py - cur.y);
+            if (dist < CURSOR_R) cGlow = Math.pow(1 - dist / CURSOR_R, 1.6) * 0.82;
+          }
+
+          // Burst ring — expands outward, ring widens, fades with progress
+          let bGlow = 0;
+          for (const b of burstsRef.current) {
+            const age  = ts - b.t0;
+            const prog = age / BURST_DUR;                     // 0 → 1
+            const ring = prog * BURST_MAX;                    // expanding radius
+            const rw   = 28 + prog * 24;                      // ring width grows
+            const dist = Math.hypot(px - b.x, py - b.y);
+            const dRing = Math.abs(dist - ring);
+            if (dRing < rw) {
+              bGlow = Math.max(bGlow, (1 - dRing / rw) * Math.pow(1 - prog, 0.55) * 0.95);
+            }
+          }
+
+          const alpha = Math.min(1, osc + spark + cGlow + bGlow);
+          ctx.beginPath();
+          ctx.arc(px * dpr, py * dpr, DOT_R * dpr, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255,255,255,${alpha.toFixed(3)})`;
+          ctx.fill();
+        }
+      }
+
+      rafId = requestAnimationFrame(draw);
+    };
+
+    rafId = requestAnimationFrame(draw);
+    return () => cancelAnimationFrame(rafId);
+  }, []);
+
+  // ── Interaction handlers
+  const onMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const r = wrapRef.current!.getBoundingClientRect();
+    curRef.current = { x: e.clientX - r.left, y: e.clientY - r.top, on: true };
+  }, []);
+
+  const onMouseLeave = useCallback(() => {
+    curRef.current = { x: -1, y: -1, on: false };
+  }, []);
+
+  const addBurst = useCallback((x: number, y: number) => {
+    burstsRef.current.push({ x, y, t0: performance.now() });
+  }, []);
+
+  const onClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const r = wrapRef.current!.getBoundingClientRect();
+    addBurst(e.clientX - r.left, e.clientY - r.top);
+  }, [addBurst]);
+
+  const onTouchStart = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
+    const r = wrapRef.current!.getBoundingClientRect();
+    const t = e.touches[0];
+    addBurst(t.clientX - r.left, t.clientY - r.top);
+  }, [addBurst]);
+
+  const onTouchMove = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
+    const r = wrapRef.current!.getBoundingClientRect();
+    const t = e.touches[0];
+    curRef.current = { x: t.clientX - r.left, y: t.clientY - r.top, on: true };
+  }, []);
+
+  const onTouchEnd = useCallback(() => {
+    curRef.current = { x: -1, y: -1, on: false };
+  }, []);
+
   return (
-    <div style={{ overflow: "hidden", width: "100%", borderRadius: 8 }}>
-      <div style={{
-        display: "grid",
-        gridTemplateColumns: `repeat(${COLS}, ${CELL}px)`,
-        width: COLS * CELL,
-      }}>
-        {Array.from({ length: ROWS * COLS }, (_, i) => {
-          const g = brightness[i];
-          return (
-            <div key={i} style={{ width: CELL, height: CELL, display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <div style={{
-                width: DOT, height: DOT, borderRadius: "50%",
-                backgroundColor: "var(--color-text-1)",
-                opacity: 0.1 + g * 0.7,
-              }} />
-            </div>
-          );
-        })}
-      </div>
+    <div
+      ref={wrapRef}
+      onMouseMove={onMouseMove}
+      onMouseLeave={onMouseLeave}
+      onClick={onClick}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+      style={{ width: "100%", borderRadius: 12, overflow: "hidden", cursor: "crosshair", touchAction: "none" }}
+    >
+      <canvas ref={canvasRef} style={{ display: "block" }} />
     </div>
   );
 }
 
-// ── Hero section ─────────────────────────────────────────────────────────────
+// ── Hero ─────────────────────────────────────────────────────────────────────
 export default function Hero() {
   const { ready } = useAppReady();
   return (
@@ -153,7 +299,7 @@ export default function Hero() {
           </div>
         </motion.div>
 
-        {/* Dot-matrix */}
+        {/* Galaxy dot-matrix */}
         <motion.div variants={item}>
           <DotMatrix />
         </motion.div>
