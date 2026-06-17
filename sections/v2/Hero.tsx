@@ -38,8 +38,7 @@ function Avatar() {
       <motion.div style={{ width: 56, height: 56, borderRadius: 14, overflow: "hidden", transform }}>
         <div style={{
           position: "absolute", inset: 0,
-          background: "conic-gradient(from 0deg, #20d455, #4488ff, #ff2626, #ffc200, #20d455)",
-          filter: "blur(8px)", animation: "aura 10s linear infinite",
+          background: "#ffffff",
         }} />
         <img src={egg ? "/images/happy-catto.gif" : "/images/avatar.png"} alt="Ritam Biswas"
           style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", borderRadius: 14 }} />
@@ -68,15 +67,14 @@ function Avatar() {
 //   Click / tap       → hard burst ring from impact point
 
 const CELL      = 13;
-const DOT_R     = 3;
+const DOT_R     = 4;    // radius → diameter = 8 px
 const CURSOR_R  = 90;
 const BURST_DUR = 700;
 const BURST_MAX = 200;
 
 function gridHeight(w: number): number {
-  if (w < 480) return w;
-  if (w < 700) return Math.round(w * 0.75);
-  return 260;
+  if (w < 700) return Math.round(w * 0.75);  // mobile + tablet: 4:3
+  return 260;                                 // desktop: fixed
 }
 
 type Dot = {
