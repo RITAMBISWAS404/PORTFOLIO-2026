@@ -76,13 +76,12 @@ export default function About() {
           border: `1px solid ${C.border}`,
           borderRadius: 16,
           background: C.card,
-          aspectRatio: "1 / 1",
           padding: "20px 20px 16px",
           display: "flex",
           flexDirection: "column",
           boxSizing: "border-box",
-          minWidth: 0,       /* stop grid item from exceeding 1fr */
-          overflow: "hidden", /* stop carousel max-content from inflating width */
+          minWidth: 0,
+          overflow: "hidden",
           ...revealStyle(bentInView, 0.10),
         }}>
           {/* Info items — sit at top */}
@@ -164,7 +163,7 @@ export default function About() {
             grid-template-columns: 1fr 1fr;
           }
           .about-img-cell  { grid-column: 1; grid-row: 1; }
-          .about-info-cell { grid-column: 2; grid-row: 1; }
+          .about-info-cell { grid-column: 2; grid-row: 1; aspect-ratio: 1 / 1; }
         }
 
         .toolkit-track {
