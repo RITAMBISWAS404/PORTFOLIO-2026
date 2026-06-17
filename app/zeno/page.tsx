@@ -49,7 +49,7 @@ function ZenoCard({
       }}
       style={{
         background: glow || C.card,
-        border: `1px solid ${C.border}`, borderRadius: 16, padding: 16,
+        border: `1px solid ${C.border}`, borderRadius: 8, padding: 16,
         display: "flex", flexDirection: "column", gap: 8, cursor: "default",
         ...revealStyle(inView, delay),
         transition: `${revealStyle(inView, delay).transition}, border-color 0.15s, box-shadow 0.15s, transform 0.2s cubic-bezier(.22,1,.36,1)`,
@@ -74,7 +74,7 @@ function ZenoCard({
 
 function Quote({ text }: { text: string }) {
   return (
-    <div style={{ background: C.card, borderRadius: 12, padding: "16px 20px", border: `1px solid ${C.border}` }}>
+    <div style={{ background: C.card, borderRadius: 8, padding: "16px 20px", border: `1px solid ${C.border}` }}>
       <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
         <MessageCircle size={14} color={C.accent} strokeWidth={2} />
         <span style={{ fontSize: 13, fontWeight: 500, color: C.t1 }}>Perspective</span>
@@ -88,7 +88,7 @@ function Quote({ text }: { text: string }) {
 
 function Lesson({ text }: { text: string }) {
   return (
-    <div style={{ background: C.card, borderRadius: 12, padding: "16px 20px", border: `1px solid ${C.border}` }}>
+    <div style={{ background: C.card, borderRadius: 8, padding: "16px 20px", border: `1px solid ${C.border}` }}>
       <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
         <BookOpen size={14} color={C.blue} strokeWidth={2} />
         <span style={{ fontSize: 13, fontWeight: 500, color: C.t1 }}>Lesson</span>
@@ -100,7 +100,7 @@ function Lesson({ text }: { text: string }) {
 
 function Insight({ text }: { text: string }) {
   return (
-    <div style={{ background: C.card, borderRadius: 12, padding: "16px 20px", border: `1px solid ${C.border}` }}>
+    <div style={{ background: C.card, borderRadius: 8, padding: "16px 20px", border: `1px solid ${C.border}` }}>
       <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
         <Lightbulb size={14} color={C.yellow} strokeWidth={2} />
         <span style={{ fontSize: 13, fontWeight: 500, color: C.t1 }}>Insight</span>
@@ -122,7 +122,7 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 
 function TwoColTable({ headers, rows }: { headers: [string, string]; rows: [string, string][] }) {
   return (
-    <div style={{ border: `1px solid ${C.border}`, borderRadius: 12, overflow: "hidden" }}>
+    <div style={{ border: `1px solid ${C.border}`, borderRadius: 8, overflow: "hidden" }}>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
         {headers.map((h, i) => (
           <div key={i} style={{
@@ -168,7 +168,7 @@ function ZenoImg({ src, alt }: { src: string; alt: string }) {
   return (
     <img
       src={src} alt={alt} loading="lazy"
-      style={{ width: "100%", height: "auto", display: "block", borderRadius: 16, border: `1px solid ${C.border}` }}
+      style={{ width: "100%", height: "auto", display: "block", borderRadius: 8, border: `1px solid ${C.border}` }}
     />
   );
 }
@@ -288,7 +288,7 @@ export default function ZenoPage() {
       <section style={{ ...col, padding: "48px 24px 0" }}>
         <Reveal>
           <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 24 }}>
-            <div style={{ width: 64, height: 64, borderRadius: 16, overflow: "hidden", flexShrink: 0 }}>
+            <div style={{ width: 64, height: 64, borderRadius: 8, overflow: "hidden", flexShrink: 0 }}>
               <img src="/images/zeno logo.png" alt="ZENO" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             </div>
             <div>
@@ -307,13 +307,13 @@ export default function ZenoPage() {
               { label: "EV APP",     icon: <Zap      size={12} color={C.yellow} strokeWidth={2} /> },
               { label: "CASE STUDY", icon: <FileText size={12} color={C.blue}   strokeWidth={2} /> },
             ].map(t => (
-              <div key={t.label} style={tagStyle} onMouseEnter={e => tagHv(e, true)} onMouseLeave={e => tagHv(e, false)}>
+              <div key={t.label} style={{ ...tagStyle, borderRadius: 8 }} onMouseEnter={e => tagHv(e, true)} onMouseLeave={e => tagHv(e, false)}>
                 {t.icon} {t.label}
               </div>
             ))}
           </div>
 
-          <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, padding: "14px 16px", display: "flex", flexDirection: "column", gap: 8 }}>
+          <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 8, padding: "14px 16px", display: "flex", flexDirection: "column", gap: 8 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
               <Lock size={14} color={C.yellow} strokeWidth={2} />
               <span style={{ fontSize: 13, fontWeight: 500, color: C.t1 }}>Confidential Note</span>
@@ -341,7 +341,7 @@ export default function ZenoPage() {
         }} />
 
         <div style={{ ...col, position: "relative", zIndex: 1 }}>
-          <div className="zeno-hero-img-wrap" style={{ borderRadius: 16, overflow: "hidden", width: "100%" }}>
+          <div className="zeno-hero-img-wrap" style={{ borderRadius: 8, overflow: "hidden", width: "100%" }}>
             <picture>
               <source media="(min-width: 768px)" srcSet="/images/16_9.png" />
               <img
@@ -378,7 +378,7 @@ export default function ZenoPage() {
             <Quote text="You set the departure time. You set the target charge. The algorithm finds the cheapest hour and does the rest." />
           </Reveal>
           <Reveal delay={0.12}>
-            <div style={{ background: C.card, borderRadius: 12, padding: "16px 20px", border: `1px solid ${C.border}` }}>
+            <div style={{ background: C.card, borderRadius: 8, padding: "16px 20px", border: `1px solid ${C.border}` }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
                 <User size={14} color={C.accent} strokeWidth={2} />
                 <span style={{ fontSize: 13, fontWeight: 500, color: C.t1 }}>My Role</span>
@@ -482,7 +482,7 @@ export default function ZenoPage() {
           </Reveal>
           <Reveal delay={0.1}>
             <div style={{ overflowX: "auto" }}>
-              <div style={{ minWidth: 480, border: `1px solid ${C.border}`, borderRadius: 12, overflow: "hidden" }}>
+              <div style={{ minWidth: 480, border: `1px solid ${C.border}`, borderRadius: 8, overflow: "hidden" }}>
                 {/* Header */}
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}>
                   {[{ label: "Widget Set", color: C.t1 }, { label: "Minimal", color: C.t1 }, { label: "My Way", color: C.t1 }].map((h, i) => (
@@ -564,7 +564,7 @@ export default function ZenoPage() {
               Beta users opened the app, checked battery percentage, glanced at the ready-by time, and closed it. Four seconds. Everything else went unlooked at.
             </p>
             <div style={{ overflowX: "auto" }}>
-              <div style={{ minWidth: 480, border: `1px solid ${C.border}`, borderRadius: 12, overflow: "hidden" }}>
+              <div style={{ minWidth: 480, border: `1px solid ${C.border}`, borderRadius: 8, overflow: "hidden" }}>
                 <div className="zeno-cut-grid">
                   {["Stayed on Dashboard", "Moved to Analytics", "Moved to Settings"].map((h, i) => (
                     <div key={i} style={{ padding: "10px 14px", fontSize: 11, fontWeight: 600, color: C.t1, letterSpacing: "0.08em", background: "rgba(255,255,255,0.03)", borderRight: i < 2 ? `1px solid ${C.border}` : "none" }}>{h}</div>
@@ -635,7 +635,7 @@ export default function ZenoPage() {
             <div className="btn-row">
               <a href="https://www.figma.com/design/HQiowSEZWtefmjVP5cqZuY/ZENO?node-id=0-1&p=f&t=ZuWU0JArTeGN7yjv-0"
                 target="_blank" rel="noopener noreferrer"
-                style={{ display: "flex", alignItems: "center", gap: 10, background: "rgba(255,255,255,0.05)", color: C.t1, padding: "11px 22px", borderRadius: 9999, fontSize: 14, fontWeight: 500, textDecoration: "none", transition: "background 0.25s, transform 0.25s" }}
+                style={{ display: "flex", alignItems: "center", gap: 10, background: "rgba(255,255,255,0.05)", color: C.t1, padding: "11px 22px", borderRadius: 8, fontSize: 14, fontWeight: 500, textDecoration: "none", transition: "background 0.25s, transform 0.25s" }}
                 onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.09)"; (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-2px)"; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.05)"; (e.currentTarget as HTMLAnchorElement).style.transform = ""; }}
               >
@@ -669,7 +669,7 @@ export default function ZenoPage() {
             display: "flex", alignItems: "center", gap: 10,
             background: "rgba(255,255,255,0.05)", color: C.t1,
             border: "none", padding: "11px 22px",
-            borderRadius: 9999, fontSize: 14, fontWeight: 500,
+            borderRadius: 8, fontSize: 14, fontWeight: 500,
             cursor: "pointer", fontFamily: "Poppins, sans-serif",
             transition: "opacity 0.25s, transform 0.25s",
           }}
