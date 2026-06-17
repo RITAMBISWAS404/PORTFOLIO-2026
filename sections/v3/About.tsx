@@ -85,7 +85,7 @@ export default function About() {
           border: `1px solid ${C.border}`,
           borderRadius: 8,
           background: C.card,
-          padding: 20,
+          padding: 16,
           display: "flex",
           flexDirection: "column",
           boxSizing: "border-box",
