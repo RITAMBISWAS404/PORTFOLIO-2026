@@ -57,7 +57,7 @@ function Avatar() {
 //   Cursor glow         — radial brightness follows pointer (90 px radius)
 //   Click / tap burst   — expanding ring from impact point
 
-const CELL      = 16;
+const CELL      = 14;
 const DOT_R     = 4;    // radius → diameter = 8 px
 const TRAIL_R   = 20;   // brush radius — 2×2 dot thickness
 const TRAIL_DUR = 2200; // ms until a trail dot fully fades
