@@ -7,8 +7,7 @@ import { C, revealStyle, col } from "@/lib/tokensV2";
 
 const info = [
   { label: "Designation", value: "PRODUCT DESIGNER" },
-  { label: "Experience",  value: "2 years 6 months"  },
-  { label: "Email",       value: "biswasritam404@gmail.com" },
+  { label: "Experience",  value: "2 years 6 months" },
   { label: "Location",    value: "Kolkata, WB" },
   { label: "Education",   value: "IIIT KALYANI '27" },
   { label: "Status",      value: "Open to Collaboration" },
@@ -21,15 +20,15 @@ const cards = [
   },
   {
     title: "Outside of Design",
-    body:  "Re-reading the same five sci-fi novels because I'm bad at finishing new ones\" beats \"I like reading.",
+    body:  "Re-reading the same five sci-fi novels because I'm bad at finishing new ones.",
   },
 ];
 
 export default function About() {
-  const bioRef   = useRef(null);
-  const cardRef  = useRef(null);
+  const bioRef  = useRef(null);
+  const bentRef = useRef(null);
   const bioInView  = useInView(bioRef,  { once: true, margin: "-10% 0px" });
-  const cardInView = useInView(cardRef, { once: true, margin: "-10% 0px" });
+  const bentInView = useInView(bentRef, { once: true, margin: "-10% 0px" });
 
   return (
     <section id="about" style={{ ...col, padding: "64px 24px 0" }}>
@@ -50,57 +49,64 @@ export default function About() {
         in detail.
       </p>
 
-      {/* Photo + info card */}
-      <div ref={cardRef} className="about-photo-card"
-        style={{
-          marginTop: 24,
+      {/* Bento grid */}
+      <div ref={bentRef} className="about-bento" style={{ marginTop: 24 }}>
+
+        {/* Image card — always 1:1 */}
+        <div className="about-img-cell" style={{ ...revealStyle(bentInView, 0.04) }}>
+          <div style={{
+            border: `1px solid ${C.border}`,
+            borderRadius: 16,
+            overflow: "hidden",
+            background: C.card,
+            width: "100%",
+            aspectRatio: "1 / 1",
+          }}>
+            <img
+              src="/images/avatar.png"
+              alt="Ritam Biswas"
+              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+            />
+          </div>
+        </div>
+
+        {/* Info card */}
+        <div className="about-info-cell" style={{
           border: `1px solid ${C.border}`,
           borderRadius: 16,
-          overflow: "hidden",
           background: C.card,
-          ...revealStyle(cardInView, 0.08),
+          padding: "20px 20px 24px",
+          ...revealStyle(bentInView, 0.10),
         }}>
-
-        {/* Photo */}
-        <div className="about-photo">
-          <img
-            src="/images/avatar.png"
-            alt="Ritam Biswas"
-            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-          />
-        </div>
-
-        {/* Info grid */}
-        <div style={{ flex: 1, padding: 20, display: "grid", gridTemplateColumns: "1fr 1fr", gap: "18px 24px", alignContent: "start" }}>
-          {info.map(({ label, value }) => (
-            <div key={label}>
-              <div style={{ fontSize: 11, fontWeight: 500, color: C.t3, letterSpacing: "0.04em", marginBottom: 4 }}>
-                {label}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px 16px" }}>
+            {info.map(({ label, value }, i) => (
+              <div key={label} style={i === info.length - 1 && info.length % 2 !== 0 ? { gridColumn: "1 / -1" } : {}}>
+                <div style={{ fontSize: 11, fontWeight: 500, color: C.t3, letterSpacing: "0.05em", marginBottom: 4 }}>
+                  {label}
+                </div>
+                <div className="f16" style={{ fontWeight: 500, color: C.t1 }}>{value}</div>
               </div>
-              <div className="f16" style={{ fontWeight: 500, color: C.t1 }}>{value}</div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
 
-      {/* Two bottom cards */}
-      <div className="about-cards" style={{ display: "grid", gap: 16, marginTop: 16 }}>
+        {/* Two bottom cards */}
         {cards.map((card, i) => (
           <div key={card.title} style={{
             background: C.card,
             border: `1px solid ${C.border}`,
             borderRadius: 16,
             padding: 20,
-            ...revealStyle(cardInView, 0.14 + i * 0.08),
+            ...revealStyle(bentInView, 0.16 + i * 0.08),
           }}>
             <div style={{ fontSize: 14, fontWeight: 500, color: C.t1, marginBottom: 10 }}>{card.title}</div>
-            <p className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6 }}>{card.body}</p>
+            <p className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6, margin: 0 }}>{card.body}</p>
           </div>
         ))}
       </div>
 
-      {/* CTA line */}
-      <p className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6, marginTop: 32, ...revealStyle(cardInView, 0.28) }}>
+      {/* CTA */}
+      <p className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6, marginTop: 32, ...revealStyle(bentInView, 0.30) }}>
         Wanna get in touch for a cool project? Email me,{" "}
         <a href="mailto:biswasritam404@gmail.com"
           style={{ color: C.t1, fontWeight: 500, textDecoration: "underline", textUnderlineOffset: 3, textDecorationColor: C.border }}>
@@ -109,14 +115,24 @@ export default function About() {
       </p>
 
       <style>{`
-        .about-photo-card { display: flex; flex-direction: column; }
-        .about-photo      { width: 100%; aspect-ratio: 4 / 3; overflow: hidden; }
-        .about-cards      { grid-template-columns: 1fr; }
+        /* Mobile: single column, all cards full width */
+        .about-bento {
+          display: grid;
+          gap: 16px;
+          grid-template-columns: 1fr;
+        }
+        .about-img-cell  { grid-column: 1; }
+        .about-info-cell { grid-column: 1; }
 
-        @media (min-width: 640px) {
-          .about-photo-card { flex-direction: row; }
-          .about-photo      { width: 180px; aspect-ratio: auto; flex-shrink: 0; }
-          .about-cards      { grid-template-columns: 1fr 1fr; }
+        /* Desktop: 2-col bento
+           row 1: [image 1:1]  [info card]
+           row 2: [card A]     [card B]     */
+        @media (min-width: 600px) {
+          .about-bento {
+            grid-template-columns: 1fr 1fr;
+          }
+          .about-img-cell  { grid-column: 1; grid-row: 1; }
+          .about-info-cell { grid-column: 2; grid-row: 1; }
         }
       `}</style>
     </section>
