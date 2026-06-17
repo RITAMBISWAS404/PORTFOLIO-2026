@@ -57,7 +57,7 @@ function Avatar() {
 //   Cursor glow         — radial brightness follows pointer (90 px radius)
 //   Click / tap burst   — expanding ring from impact point
 
-const CELL      = 13;
+const CELL      = 16;
 const DOT_R     = 4;    // radius → diameter = 8 px
 const CURSOR_R  = 90;
 const BURST_DUR = 700;
