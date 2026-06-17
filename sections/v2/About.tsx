@@ -53,15 +53,14 @@ export default function About() {
       {/* Bento grid */}
       <div ref={bentRef} className="about-bento" style={{ marginTop: 24 }}>
 
-        {/* Image card — 1:1 */}
+        {/* Image card — 1:1 on mobile, fills row height on desktop */}
         <div className="about-img-cell" style={{ ...revealStyle(bentInView, 0.04) }}>
-          <div style={{
+          <div className="about-img-inner" style={{
             border: `1px solid ${C.border}`,
             borderRadius: 16,
             overflow: "hidden",
             background: C.card,
             width: "100%",
-            aspectRatio: "1 / 1",
           }}>
             <img
               src="/images/ritam.jpeg"
@@ -71,7 +70,7 @@ export default function About() {
           </div>
         </div>
 
-        {/* Info card — also 1:1, flex-column so carousel pins to bottom */}
+        {/* Info card — flex-column, hugs content */}
         <div className="about-info-cell" style={{
           border: `1px solid ${C.border}`,
           borderRadius: 16,
@@ -84,7 +83,6 @@ export default function About() {
           overflow: "hidden",
           ...revealStyle(bentInView, 0.10),
         }}>
-          {/* Info items — sit at top */}
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px 16px" }}>
             {info.map(({ label, value }, i) => (
               <div key={label} style={i === info.length - 1 && info.length % 2 !== 0 ? { gridColumn: "1 / -1" } : {}}>
@@ -96,7 +94,6 @@ export default function About() {
             ))}
           </div>
 
-          {/* Toolkit carousel — lives in the empty space */}
           <div style={{ marginTop: 20 }}>
             <div style={{ fontSize: 11, fontWeight: 500, color: C.t3, letterSpacing: "0.05em", marginBottom: 10 }}>
               My Toolkit
@@ -125,19 +122,21 @@ export default function About() {
           </div>
         </div>
 
-        {/* Two bottom cards */}
-        {cards.map((card, i) => (
-          <div key={card.title} style={{
-            background: C.card,
-            border: `1px solid ${C.border}`,
-            borderRadius: 16,
-            padding: 20,
-            ...revealStyle(bentInView, 0.16 + i * 0.08),
-          }}>
-            <div style={{ fontSize: 14, fontWeight: 500, color: C.t1, marginBottom: 10 }}>{card.title}</div>
-            <p className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6, margin: 0 }}>{card.body}</p>
-          </div>
-        ))}
+        {/* Bottom cards row — always 50/50 regardless of top grid ratio */}
+        <div className="about-cards-row">
+          {cards.map((card, i) => (
+            <div key={card.title} style={{
+              background: C.card,
+              border: `1px solid ${C.border}`,
+              borderRadius: 16,
+              padding: 20,
+              ...revealStyle(bentInView, 0.16 + i * 0.08),
+            }}>
+              <div style={{ fontSize: 14, fontWeight: 500, color: C.t1, marginBottom: 10 }}>{card.title}</div>
+              <p className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6, margin: 0 }}>{card.body}</p>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* CTA */}
@@ -150,20 +149,23 @@ export default function About() {
       </p>
 
       <style>{`
-        .about-bento {
-          display: grid;
-          gap: 16px;
-          grid-template-columns: 1fr;
-        }
-        .about-img-cell  { grid-column: 1; }
-        .about-info-cell { grid-column: 1; }
+        /* Mobile: single column stack */
+        .about-bento       { display: grid; gap: 16px; grid-template-columns: 1fr; }
+        .about-img-cell    { grid-column: 1; }
+        .about-info-cell   { grid-column: 1; }
+        .about-cards-row   { grid-column: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 
+        /* Mobile image is 1:1 */
+        .about-img-inner   { aspect-ratio: 1 / 1; }
+
+        /* Desktop: 3-column feel — image 1fr, info 2fr, cards row spans full */
         @media (min-width: 600px) {
-          .about-bento {
-            grid-template-columns: 1fr 1fr;
-          }
-          .about-img-cell  { grid-column: 1; grid-row: 1; }
-          .about-info-cell { grid-column: 2; grid-row: 1; aspect-ratio: 1 / 1; }
+          .about-bento       { grid-template-columns: 1fr 2fr; }
+          .about-img-cell    { grid-column: 1; grid-row: 1; }
+          .about-info-cell   { grid-column: 2; grid-row: 1; }
+          .about-cards-row   { grid-column: 1 / -1; grid-row: 2; }
+          /* Image fills the row height instead of staying 1:1 */
+          .about-img-inner   { aspect-ratio: auto; height: 100%; }
         }
 
         .toolkit-track {
