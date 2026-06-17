@@ -138,6 +138,3 @@ body.menu-open { overflow: hidden; }
   from { transform: scale(2.4) rotate(0deg); }
   to   { transform: scale(2.4) rotate(360deg); }
 }
-
-/* /new radius experiment — only elements that already have a positive radius */
-.r8 .card-chip { border-radius: 8px !important; }
