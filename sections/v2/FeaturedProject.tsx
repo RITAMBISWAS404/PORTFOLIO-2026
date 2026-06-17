@@ -33,7 +33,7 @@ export default function FeaturedProject() {
 
       {/* Feature image */}
       <div style={{ ...col, padding: "0 24px" }}>
-        <div style={{ aspectRatio: "4 / 3", borderRadius: 16, overflow: "hidden", width: "100%" }}>
+        <div className="feature-img-wrap" style={{ borderRadius: 16, overflow: "hidden", width: "100%" }}>
           <img src="/images/zeno-hero.png" alt="ZENO App"
             style={{ width: "100%", height: "100%", display: "block", objectFit: "cover" }} />
         </div>
@@ -107,6 +107,8 @@ export default function FeaturedProject() {
 
       <style>{`
         .stats-grid { grid-template-columns: 1fr 1fr; }
+        .feature-img-wrap { aspect-ratio: 4 / 3; }
+        @media (min-width: 768px) { .feature-img-wrap { aspect-ratio: 16 / 9; } }
       `}</style>
     </>
   );
