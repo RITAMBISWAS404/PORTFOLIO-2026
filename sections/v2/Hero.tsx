@@ -36,10 +36,7 @@ function Avatar() {
     <div ref={ref} onMouseMove={move} onMouseLeave={leave} onMouseEnter={() => setEgg(true)}
       style={{ position: "relative", width: 56, height: 56, flexShrink: 0 }}>
       <motion.div style={{ width: 56, height: 56, borderRadius: 14, overflow: "hidden", transform }}>
-        <div style={{
-          position: "absolute", inset: 0,
-          background: "#ffffff",
-        }} />
+        <div style={{ position: "absolute", inset: 0, background: "#ffffff" }} />
         <img src={egg ? "/images/happy-catto.gif" : "/images/avatar.png"} alt="Ritam Biswas"
           style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", borderRadius: 14 }} />
       </motion.div>
@@ -48,23 +45,17 @@ function Avatar() {
 }
 
 // ── Galaxy dot-matrix (canvas) ───────────────────────────────────────────────
-// All animation state lives in refs — zero React re-renders during animation.
+// All animation state lives in refs — zero React re-renders per frame.
 //
 // Responsive height:
-//   container < 480 px  →  1:1 square   (phone)
-//   container < 700 px  →  4:3           (tablet)
-//   container ≥ 700 px  →  260 px fixed  (desktop)
+//   container < 700 px  →  4:3 aspect ratio  (mobile + tablet)
+//   container ≥ 700 px  →  260 px fixed       (desktop)
 //
-// Idle animation schedule (rare, spread out):
-//   Sparks            always on  — 1-4 dots flash every 400-1200 ms (subtle base layer)
-//   Shooting star     wow event  — fires ~500 ms after load, then every 12-20 s
-//   Supernova         dramatic   — first at ~8-14 s, then every 16-28 s
-//   Ripple wave       gentle     — first at ~6-11 s, then every 10-18 s
-//   Constellation     delicate   — first at ~10-16 s, then every 14-22 s
-//
-// Interactions:
-//   Mouse/touch move  → radial glow follows pointer
-//   Click / tap       → hard burst ring from impact point
+// Effects:
+//   Sinusoidal twinkle  — each dot oscillates independently (always on)
+//   Sparks              — 1-4 random dots flash every 400-1200 ms (subtle)
+//   Cursor glow         — radial brightness follows pointer (90 px radius)
+//   Click / tap burst   — expanding ring from impact point
 
 const CELL      = 13;
 const DOT_R     = 4;    // radius → diameter = 8 px
@@ -77,15 +68,8 @@ function gridHeight(w: number): number {
   return 260;                                 // desktop: fixed
 }
 
-type Dot = {
-  base: number; amp: number; phase: number; freq: number;
-  spk: number; spkT: number; spkD: number;
-};
-type Burst     = { x: number; y: number; t0: number };
-type ShootStar = { x: number; y: number; dx: number; dy: number; spd: number; trail: number; peak: number; t0: number; dur: number };
-type Supernova = { x: number; y: number; maxR: number; peak: number; t0: number; dur: number };
-type Ripple    = { x: number; y: number; maxR: number; peak: number; t0: number; dur: number };
-type Constell  = { stars: Map<number, number>; t0: number; spkD: number; totalD: number };
+type Dot   = { base: number; amp: number; phase: number; freq: number; spk: number; spkT: number; spkD: number };
+type Burst = { x: number; y: number; t0: number };
 
 const makeDot = (): Dot => ({
   base:  0.04 + Math.random() * 0.10,
@@ -95,9 +79,6 @@ const makeDot = (): Dot => ({
   spk: 0, spkT: -1, spkD: 400,
 });
 
-const cull = <T extends { t0: number; dur: number }>(arr: T[], ts: number): T[] =>
-  arr.filter(e => ts - e.t0 < e.dur);
-
 function DotMatrix() {
   const wrapRef   = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -105,19 +86,8 @@ function DotMatrix() {
   const rowsRef   = useRef(0);
   const dotsRef   = useRef<Dot[]>([]);
   const curRef    = useRef({ x: -1, y: -1, on: false });
-
   const burstsRef = useRef<Burst[]>([]);
-  const starsRef  = useRef<ShootStar[]>([]);
-  const novasRef  = useRef<Supernova[]>([]);
-  const ripsRef   = useRef<Ripple[]>([]);
-  const constsRef = useRef<Constell[]>([]);
-
-  // Next-fire timestamps — Infinity until set in first frame
-  const nextSpkRef  = useRef(0);          // sparks: fire immediately
-  const nextStarRef = useRef(Infinity);
-  const nextNovaRef = useRef(Infinity);
-  const nextRipRef  = useRef(Infinity);
-  const nextConRef  = useRef(Infinity);
+  const nextSpkRef = useRef(0);
 
   const resize = useCallback(() => {
     const wrap = wrapRef.current, canvas = canvasRef.current;
@@ -133,8 +103,6 @@ function DotMatrix() {
     colsRef.current = cols;
     rowsRef.current = rows;
     dotsRef.current = Array.from({ length: cols * rows }, makeDot);
-    starsRef.current = []; novasRef.current = [];
-    ripsRef.current  = []; constsRef.current = [];
   }, []);
 
   useEffect(() => {
@@ -149,33 +117,20 @@ function DotMatrix() {
     if (!canvas) return;
     const ctx = canvas.getContext("2d")!;
     let rafId: number;
-    let firstFrame = true;
 
     const draw = (ts: number) => {
-      // ── First-frame: schedule all events
-      // Shooting star fires almost immediately (~500 ms) for the "wow" on load.
-      // Everything else is spaced far apart so the grid feels calm between events.
-      if (firstFrame) {
-        firstFrame = false;
-        nextStarRef.current = ts + 300  + Math.random() * 400;    // 0.3–0.7 s  (instant wow)
-        nextNovaRef.current = ts + 8000 + Math.random() * 6000;   // 8–14 s
-        nextRipRef.current  = ts + 6000 + Math.random() * 5000;   // 6–11 s
-        nextConRef.current  = ts + 10000 + Math.random() * 6000;  // 10–16 s
-      }
-
       const dpr  = Math.min(window.devicePixelRatio || 1, 2);
       const cols = colsRef.current;
       const rows = rowsRef.current;
       const dots = dotsRef.current;
       if (!cols || !rows) { rafId = requestAnimationFrame(draw); return; }
 
-      const W = cols * CELL, H = rows * CELL;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // ── Sparks (always-on subtle background twinkle) ─────────────────────────
+      // ── Sparks (subtle background twinkle) ──────────────────────────────────
       if (ts >= nextSpkRef.current) {
-        nextSpkRef.current = ts + 400 + Math.random() * 800;      // 400–1200 ms between batches
-        const n = 1 + Math.floor(Math.random() * 4);              // 1–4 dots
+        nextSpkRef.current = ts + 400 + Math.random() * 800;
+        const n = 1 + Math.floor(Math.random() * 4);
         for (let s = 0; s < n; s++) {
           const idx = Math.floor(Math.random() * dots.length);
           dots[idx].spk  = 0.40 + Math.random() * 0.45;
@@ -184,76 +139,8 @@ function DotMatrix() {
         }
       }
 
-      // ── Shooting star ─────────────────────────────────────────────────────────
-      if (ts >= nextStarRef.current) {
-        nextStarRef.current = ts + 12000 + Math.random() * 8000;  // next: 12–20 s later
-        const angle = Math.PI * 0.25 + Math.random() * Math.PI * 0.5;
-        const dx = Math.cos(angle), dy = Math.sin(angle);
-        const spd = 0.22 + Math.random() * 0.18, trail = 55 + Math.random() * 55;
-        starsRef.current.push({
-          x: Math.random() * W, y: -trail - 10,
-          dx, dy, spd, trail,
-          peak: 0.75 + Math.random() * 0.20,
-          t0: ts, dur: (H + trail * 2) / (spd * Math.max(0.15, dy)) + 400,
-        });
-      }
-
-      // ── Supernova ─────────────────────────────────────────────────────────────
-      if (ts >= nextNovaRef.current) {
-        nextNovaRef.current = ts + 16000 + Math.random() * 12000; // next: 16–28 s later
-        novasRef.current.push({
-          x: CELL + Math.random() * (W - CELL * 2),
-          y: CELL + Math.random() * (H - CELL * 2),
-          maxR: 50 + Math.random() * 40,
-          peak: 0.80 + Math.random() * 0.18,
-          t0: ts, dur: 1400 + Math.random() * 600,
-        });
-      }
-
-      // ── Ripple wave ───────────────────────────────────────────────────────────
-      if (ts >= nextRipRef.current) {
-        nextRipRef.current = ts + 10000 + Math.random() * 8000;   // next: 10–18 s later
-        ripsRef.current.push({
-          x: Math.random() * W, y: Math.random() * H,
-          maxR: 100 + Math.random() * 80,
-          peak: 0.30 + Math.random() * 0.18,
-          t0: ts, dur: 1400 + Math.random() * 600,
-        });
-      }
-
-      // ── Constellation ─────────────────────────────────────────────────────────
-      if (ts >= nextConRef.current) {
-        nextConRef.current = ts + 14000 + Math.random() * 8000;   // next: 14–22 s later
-        const cc  = 2 + Math.floor(Math.random() * Math.max(1, cols - 4));
-        const cr  = 2 + Math.floor(Math.random() * Math.max(1, rows - 4));
-        const rad = 3 + Math.floor(Math.random() * 4);
-        const n   = 5 + Math.floor(Math.random() * 6);
-        const cands: Array<[number, number]> = [];
-        for (let dr = -rad; dr <= rad; dr++) {
-          for (let dc = -rad; dc <= rad; dc++) {
-            const r2 = cr + dr, c2 = cc + dc;
-            if (r2 < 0 || r2 >= rows || c2 < 0 || c2 >= cols) continue;
-            if (Math.hypot(dr, dc) > rad) continue;
-            cands.push([r2, c2]);
-          }
-        }
-        for (let k = cands.length - 1; k > 0; k--) {
-          const j = Math.floor(Math.random() * (k + 1));
-          [cands[k], cands[j]] = [cands[j], cands[k]];
-        }
-        const spkD   = 450 + Math.random() * 300;
-        const picked = cands.slice(0, Math.min(n, cands.length));
-        const starMap = new Map<number, number>();
-        picked.forEach(([r2, c2], idx) => starMap.set(r2 * cols + c2, idx * 90));
-        constsRef.current.push({ stars: starMap, t0: ts, spkD, totalD: picked.length * 90 + spkD + 200 });
-      }
-
-      // ── Cull expired events ───────────────────────────────────────────────────
-      starsRef.current  = cull(starsRef.current,  ts);
-      novasRef.current  = cull(novasRef.current,  ts);
-      ripsRef.current   = cull(ripsRef.current,   ts);
+      // ── Cull expired bursts ──────────────────────────────────────────────────
       burstsRef.current = burstsRef.current.filter(b => ts - b.t0 < BURST_DUR);
-      constsRef.current = constsRef.current.filter(c => ts - c.t0 < c.totalD);
 
       const cur = curRef.current;
 
@@ -266,7 +153,7 @@ function DotMatrix() {
           const px = (c + 0.5) * CELL;
           const py = (r + 0.5) * CELL;
 
-          // Continuous sinusoidal oscillation (unique per dot)
+          // Continuous sinusoidal oscillation
           const osc = d.base + d.amp * (Math.sin(d.phase + (ts / 1000) * d.freq * Math.PI * 2) * 0.5 + 0.5);
 
           // Individual spark
@@ -286,9 +173,8 @@ function DotMatrix() {
             if (dist < CURSOR_R) cGlow = Math.pow(1 - dist / CURSOR_R, 1.6) * 0.82;
           }
 
-          let extra = 0;
-
           // Click burst ring
+          let extra = 0;
           for (const b of burstsRef.current) {
             const prog  = (ts - b.t0) / BURST_DUR;
             const ring  = prog * BURST_MAX;
@@ -296,53 +182,6 @@ function DotMatrix() {
             const dRing = Math.abs(Math.hypot(px - b.x, py - b.y) - ring);
             if (dRing < rw)
               extra = Math.max(extra, (1 - dRing / rw) * Math.pow(1 - prog, 0.55) * 0.95);
-          }
-
-          // Shooting star
-          for (const s of starsRef.current) {
-            const age   = ts - s.t0;
-            const headX = s.x + s.dx * s.spd * age;
-            const headY = s.y + s.dy * s.spd * age;
-            const toX   = px - headX, toY = py - headY;
-            const along = -(toX * s.dx + toY * s.dy);
-            if (along >= 0 && along <= s.trail) {
-              const perpX = toX + s.dx * along, perpY = toY + s.dy * along;
-              const perp  = Math.hypot(perpX, perpY);
-              if (perp < CELL * 0.9)
-                extra = Math.max(extra, (1 - along / s.trail) * (1 - perp / (CELL * 0.9)) * s.peak);
-            }
-          }
-
-          // Supernova
-          for (const n of novasRef.current) {
-            const prog  = (ts - n.t0) / n.dur;
-            const curR  = Math.min(1, prog / 0.15) * n.maxR;
-            const fade  = prog < 0.5 ? 1 : 1 - (prog - 0.5) / 0.5;
-            const dist  = Math.hypot(px - n.x, py - n.y);
-            if (dist < curR)
-              extra = Math.max(extra, Math.pow(1 - dist / curR, 0.55) * fade * n.peak);
-          }
-
-          // Ripple wave
-          for (const rp of ripsRef.current) {
-            const prog  = (ts - rp.t0) / rp.dur;
-            const ring  = prog * rp.maxR;
-            const rw    = 18 + prog * 14;
-            const dRing = Math.abs(Math.hypot(px - rp.x, py - rp.y) - ring);
-            if (dRing < rw)
-              extra = Math.max(extra, (1 - dRing / rw) * Math.pow(1 - prog, 0.7) * rp.peak);
-          }
-
-          // Constellation
-          for (const con of constsRef.current) {
-            const delay = con.starMap.get(i);
-            if (delay !== undefined) {
-              const starAge = ts - con.t0 - delay;
-              if (starAge > 0 && starAge < con.spkD) {
-                const p = starAge / con.spkD;
-                extra = Math.max(extra, (p < 0.2 ? p / 0.2 : 1 - (p - 0.2) / 0.8) * 0.88);
-              }
-            }
           }
 
           const alpha = Math.min(1, osc + spark + cGlow + extra);
