@@ -65,9 +65,6 @@ export default function Navbar() {
 
   const closeMenu = useCallback(() => setMenuOpen(false), []);
 
-  // /new has its own NavbarV2 — suppress root navbar there
-  if (pathname.startsWith('/new')) return null;
-
   // ─── MOBILE NAV ────────────────────────────────────────────────────────────
   if (isMobile) {
     return (
