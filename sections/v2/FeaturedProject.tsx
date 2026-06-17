@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState, useCallback } from "react";
+import { useRef } from "react";
 import { useInView } from "framer-motion";
 import { Star, PenTool, Zap, FileText, BookOpen, Users } from "lucide-react";
 import SectionLabel from "@/components/SectionLabel";
@@ -24,12 +24,6 @@ const stats = [
 export default function FeaturedProject() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-10% 0px" });
-  const [cursor, setCursor] = useState({ x: -999, y: -999 });
-  const onMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const r = e.currentTarget.getBoundingClientRect();
-    setCursor({ x: e.clientX - r.left, y: e.clientY - r.top });
-  }, []);
-  const onMouseLeave = useCallback(() => setCursor({ x: -999, y: -999 }), []);
 
   return (
     <>
@@ -37,34 +31,24 @@ export default function FeaturedProject() {
         <SectionLabel icon={Star} label="FEATURED PROJECT" num="01" iconColor={C.yellow} />
       </div>
 
-      {/* Feature image with dot pattern */}
-      <div className="dot-bg" onMouseMove={onMouseMove} onMouseLeave={onMouseLeave} style={{ position: "relative" }}>
-        <div style={{
-          position: "absolute", inset: 0, pointerEvents: "none", zIndex: 0,
-          backgroundImage: "radial-gradient(circle, var(--color-dot-bright) 1px, transparent 1px)",
-          backgroundSize: "14px 14px",
-          WebkitMaskImage: `radial-gradient(circle 140px at ${cursor.x}px ${cursor.y}px, black 0%, transparent 100%)`,
-          maskImage: `radial-gradient(circle 140px at ${cursor.x}px ${cursor.y}px, black 0%, transparent 100%)`,
-        }}/>
-        <div style={{ ...col, position: "relative", zIndex: 1 }}>
-          <div className="feature-img-wrap" style={{ borderRadius: 16, overflow: "hidden", width: "100%" }}>
-            <picture>
-              <source media="(min-width: 768px)" srcSet="/images/16_9.png" />
-              <img src="/images/4_3.png" alt="ZENO App"
-                style={{ width: "100%", height: "100%", display: "block", objectFit: "cover" }} />
-            </picture>
-          </div>
+      {/* Feature image */}
+      <div className="feature-img-outer">
+        <div className="feature-img-wrap">
+          <img src="/images/zeno-hero.png" alt="ZENO App"
+            style={{ width: "100%", height: "100%", display: "block", objectFit: "cover" }} />
         </div>
         <style>{`
-          .feature-img-wrap { aspect-ratio: 4 / 3; }
-          @media (min-width: 768px) { .feature-img-wrap { aspect-ratio: 16 / 9; } }
-          .dot-bg { background-color: var(--color-bg); padding: 0 24px; }
+          /* Mobile: full section width, square, rounded */
+          .feature-img-outer { padding: 0 24px; }
+          .feature-img-wrap { aspect-ratio: 1 / 1; border-radius: 16px; overflow: hidden; width: 100%; }
+          /* Desktop: full-bleed edge-to-edge, taller ratio */
           @media (min-width: 768px) {
-            .dot-bg {
-              background-image: radial-gradient(circle, var(--color-dot) 1px, transparent 1px);
-              background-size: 14px 14px;
-              padding: 40px 24px;
+            .feature-img-outer {
+              margin-left: calc(50% - 50vw);
+              margin-right: calc(50% - 50vw);
+              padding: 0;
             }
+            .feature-img-wrap { aspect-ratio: 16 / 7; border-radius: 0; }
           }
         `}</style>
       </div>
