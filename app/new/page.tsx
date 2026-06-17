@@ -1,6 +1,7 @@
 import Hero from "@/sections/v2/Hero";
 import FeaturedProject from "@/sections/v2/FeaturedProject";
 import Projects from "@/sections/v2/Projects";
+import About from "@/sections/v2/About";
 import Process from "@/sections/v2/Process";
 import Experience from "@/sections/v2/Experience";
 import Stack from "@/sections/v2/Stack";
@@ -14,6 +15,7 @@ export default function NewHome() {
       <Hero />
       <FeaturedProject />
       <Projects />
+      <About />
       <Process />
       <Experience />
       <Stack />
