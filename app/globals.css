@@ -35,44 +35,46 @@
   --nav-height-mobile:  56px;
 }
 
-/* ── Light mode ── */
+/* ── Light mode — monochromatic + single blue accent ── */
 /*
-  Palette reference: cool neutral gray surfaces, pure white cards,
-  #3D6BE8 blue as the single brand color (accent + blue slots both point here),
-  #F5820D orange as the warm secondary (yellow slot).
-  Inspired by clean data-product UI — similar to the design system image reference.
+  Palette: pure gray scale for all surfaces and typography.
+  #3D6BE8 blue is the ONLY non-neutral color — used for accent moments only.
+  Background: #f2f2f2 (barely-off-white neutral, like the reference image).
+  Cards: #ffffff (white creates elevation without any shadow drama).
+  All color slots (accent / red / yellow / blue) collapse to a single blue
+  so nothing else competes for attention.
 */
 [data-theme="light"] {
   /* Surfaces */
-  --color-bg:               #f0f2f6;   /* cool neutral light gray — the "background canvas" */
-  --color-card:             #ffffff;   /* pure white cards, elevated above the bg */
-  --color-input:            #f5f7fb;   /* very slightly tinted white for form fields */
-  /* Borders */
-  --color-border:           #dde1eb;   /* cool gray, barely visible */
-  --color-border-hover:     #b3bbcf;   /* stronger on hover */
-  /* Hover states */
-  --color-hover:            rgba(61,107,232,0.04);
-  --color-hover-bg:         rgba(61,107,232,0.07);
-  /* Text — cool-toned, not warm */
-  --color-text-1:           #111827;   /* near-black with a cool undertone */
-  --color-text-2:           #4b5563;   /* medium gray, readable */
-  --color-text-3:           #9ca3af;   /* light gray for meta/labels */
-  --color-placeholder:      #c0c8d8;
-  /* Brand — blue as the single identity color */
-  --color-accent:           #3D6BE8;   /* primary blue — used everywhere accent was green */
-  --color-red:              #e53e3e;
-  --color-yellow:           #F5820D;   /* orange as the warm secondary accent */
-  --color-blue:             #3D6BE8;   /* same blue — both accent and blue slots unified */
-  /* Card interactions — blue-tinted to feel cohesive */
-  --color-card-glow:        rgba(61,107,232,0.06);
+  --color-bg:               #f2f2f2;   /* barely-off-white neutral gray */
+  --color-card:             #ffffff;   /* white cards sit above the gray canvas */
+  --color-input:            #f8f8f8;
+  /* Borders — pure neutral, no tint */
+  --color-border:           #e2e2e2;
+  --color-border-hover:     #c4c4c4;
+  /* Row / area hover — neutral, not blue */
+  --color-hover:            rgba(0,0,0,0.04);
+  --color-hover-bg:         rgba(0,0,0,0.06);
+  /* Text — pure gray scale */
+  --color-text-1:           #111111;
+  --color-text-2:           #555555;
+  --color-text-3:           #999999;
+  --color-placeholder:      #c0c0c0;
+  /* Single accent — blue is the only non-neutral color */
+  --color-accent:           #3D6BE8;
+  --color-red:              #3D6BE8;   /* no red in monochromatic mode */
+  --color-yellow:           #3D6BE8;   /* no yellow — blue takes every accent slot */
+  --color-blue:             #3D6BE8;
+  /* Card interactions — blue accent only on the interactive moment (hover) */
+  --color-card-glow:        rgba(0,0,0,0.03);
   --color-card-hover-border:rgba(61,107,232,0.22);
-  --shadow-card-hover:      0 4px 20px rgba(61,107,232,0.14);
-  /* Feature section dot pattern */
-  --color-dot:              rgba(61,107,232,0.10);
-  --color-dot-bright:       rgba(61,107,232,0.32);
+  --shadow-card-hover:      0 4px 16px rgba(0,0,0,0.10);
+  /* Feature section dot pattern — kept neutral, not blue */
+  --color-dot:              rgba(0,0,0,0.08);
+  --color-dot-bright:       rgba(0,0,0,0.28);
 }
 
-[data-theme="light"] ::selection { background: rgba(61,107,232,0.18); color: #111827; }
+[data-theme="light"] ::selection { background: rgba(61,107,232,0.18); color: #111111; }
 
 ::placeholder { color: var(--color-placeholder); opacity: 1; }
 
