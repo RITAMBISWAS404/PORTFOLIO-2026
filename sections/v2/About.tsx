@@ -64,7 +64,7 @@ export default function About() {
             aspectRatio: "1 / 1",
           }}>
             <img
-              src="/images/avatar.png"
+              src="/images/ritam.jpeg"
               alt="Ritam Biswas"
               style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
             />
