@@ -101,7 +101,7 @@ export default function About() {
           <div style={{ flex: 1 }} />
 
           {/* Toolkit carousel — lives in the empty space */}
-          <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 14 }}>
+          <div style={{ paddingTop: 8 }}>
             <div style={{ fontSize: 11, fontWeight: 500, color: C.t3, letterSpacing: "0.05em", marginBottom: 10 }}>
               My Toolkit
             </div>
@@ -116,7 +116,7 @@ export default function About() {
                   if (!c) return null;
                   return (
                     <div key={i} title={name} style={{
-                      width: 36, height: 36, borderRadius: 9, flexShrink: 0,
+                      width: 44, height: 44, borderRadius: 11, flexShrink: 0,
                       overflow: "hidden", border: `1px solid ${C.border}`,
                       background: C.card,
                     }}>
