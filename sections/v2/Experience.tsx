@@ -6,11 +6,21 @@ import SectionLabel from "@/components/SectionLabel";
 import { experience } from "@/data/content";
 import { C, revealStyle, col } from "@/lib/tokensV2";
 
+const typeLabel: Record<string, string> = {
+  startup:     "Professional",
+  statuscode2: "Community",
+  gdg:         "Community",
+  sukriya:     "Professional",
+  foss:        "Community",
+};
+
 function ExpEntry({ e, delay, isFirst }: { e: typeof experience[0]; delay: number; isFirst: boolean }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-5% 0px" });
   const [date, ...rest] = e.meta.split(' | ');
-  const details = rest.join(' | ');
+  const type    = typeLabel[e.id] ?? "";
+  const details = type ? `${type} | ${rest.join(' | ')}` : rest.join(' | ');
+  const fullMeta = type ? `${date} | ${type} | ${rest.join(' | ')}` : e.meta;
 
   return (
     <div ref={ref} style={{
@@ -43,7 +53,7 @@ function ExpEntry({ e, delay, isFirst }: { e: typeof experience[0]; delay: numbe
           <span className="exp-date f16" style={{ fontWeight:400, color:C.t3 }}>{date}</span>
         </div>
         {/* Mobile: full meta below */}
-        <div className="exp-meta-mobile" style={{ fontSize:12, fontWeight:500, color:C.t3, marginTop:4 }}>{e.meta}</div>
+        <div className="exp-meta-mobile" style={{ fontSize:12, fontWeight:500, color:C.t3, marginTop:4 }}>{fullMeta}</div>
         {/* Desktop: mode + location below */}
         <div className="exp-details-desktop" style={{ fontSize:12, fontWeight:500, color:C.t3, marginTop:4 }}>{details}</div>
       </div>
