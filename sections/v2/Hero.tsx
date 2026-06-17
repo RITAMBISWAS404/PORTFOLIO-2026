@@ -87,11 +87,11 @@ const makeDot = (): Dot => ({
 function DotMatrix() {
   const wrapRef   = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const colsRef   = useRef(0);
-  const rowsRef   = useRef(0);
-  const offXRef   = useRef(0);  // horizontal centering offset
-  const offYRef   = useRef(0);  // vertical centering offset
-  const dotsRef   = useRef<Dot[]>([]);
+  const colsRef  = useRef(0);
+  const rowsRef  = useRef(0);
+  const cellWRef = useRef(CELL); // actual horizontal spacing — stretches to fill width
+  const cellHRef = useRef(CELL); // actual vertical spacing   — stretches to fill height
+  const dotsRef  = useRef<Dot[]>([]);
   const curRef    = useRef({ x: -1, y: -1, on: false });
   const burstsRef  = useRef<Burst[]>([]);
   const starsRef   = useRef<ShootStar[]>([]);
@@ -113,8 +113,8 @@ function DotMatrix() {
     const rows = Math.max(1, Math.floor(h / CELL));
     colsRef.current = cols;
     rowsRef.current = rows;
-    offXRef.current = (w - cols * CELL) / 2;
-    offYRef.current = (h - rows * CELL) / 2;
+    cellWRef.current = w / cols;
+    cellHRef.current = h / rows;
     dotsRef.current = Array.from({ length: cols * rows }, makeDot);
     starsRef.current = [];
     ripsRef.current  = [];
@@ -165,7 +165,7 @@ function DotMatrix() {
       // ── Shooting star ─────────────────────────────────────────────────────────
       if (ts >= nextStarRef.current) {
         nextStarRef.current = ts + 12000 + Math.random() * 8000;
-        const W = colsRef.current * CELL, H = rowsRef.current * CELL;
+        const W = colsRef.current * cellWRef.current, H = rowsRef.current * cellHRef.current;
         const angle = Math.PI * 0.25 + Math.random() * Math.PI * 0.5;
         const dx = Math.cos(angle), dy = Math.sin(angle);
         const spd = 0.22 + Math.random() * 0.18, trail = 55 + Math.random() * 55;
@@ -180,7 +180,7 @@ function DotMatrix() {
       // ── Ripple wave ───────────────────────────────────────────────────────────
       if (ts >= nextRipRef.current) {
         nextRipRef.current = ts + 10000 + Math.random() * 8000;
-        const W = colsRef.current * CELL, H = rowsRef.current * CELL;
+        const W = colsRef.current * cellWRef.current, H = rowsRef.current * cellHRef.current;
         ripsRef.current.push({
           x: Math.random() * W, y: Math.random() * H,
           maxR: 100 + Math.random() * 80,
@@ -202,8 +202,8 @@ function DotMatrix() {
           const i  = r * cols + c;
           if (i >= dots.length) continue;
           const d  = dots[i];
-          const px = offXRef.current + (c + 0.5) * CELL;
-          const py = offYRef.current + (r + 0.5) * CELL;
+          const px = (c + 0.5) * cellWRef.current;
+          const py = (r + 0.5) * cellHRef.current;
 
           // Continuous sinusoidal oscillation
           const osc = d.base + d.amp * (Math.sin(d.phase + (ts / 1000) * d.freq * Math.PI * 2) * 0.5 + 0.5);
