@@ -23,7 +23,7 @@ const cards = [
   },
   {
     title: "Outside of Design",
-    body:  "Outside of design, you'll probably find me rereading Jhumpa Lahiri's books. New releases keep losing to old favorites.",
+    body:  "You'll probably find me rereading Jhumpa Lahiri's books. New releases keep losing to old favorites.",
   },
 ];
 
