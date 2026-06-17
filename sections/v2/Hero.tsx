@@ -360,7 +360,7 @@ export default function Hero() {
 
         {/* Copy */}
         <motion.div variants={item} style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-          <p className="f16" style={{ fontWeight: 600, color: C.t1, lineHeight: 1.4 }}>
+          <p className="f16" style={{ fontWeight: 500, color: C.t1, lineHeight: 1.4 }}>
             Complex data doesn&apos;t have to feel complex.
           </p>
           <p className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6 }}>
