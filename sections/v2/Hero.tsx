@@ -59,7 +59,7 @@ function Avatar() {
 
 const CELL      = 16;
 const DOT_R     = 4;    // radius → diameter = 8 px
-const TRAIL_R   = 12;   // brush radius for cursor drawing — thin stroke
+const TRAIL_R   = 20;   // brush radius — 2×2 dot thickness
 const TRAIL_DUR = 2200; // ms until a trail dot fully fades
 const BURST_DUR = 700;
 const BURST_MAX = 200;
