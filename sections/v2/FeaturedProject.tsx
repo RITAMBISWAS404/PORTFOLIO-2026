@@ -32,25 +32,11 @@ export default function FeaturedProject() {
       </div>
 
       {/* Feature image */}
-      <div className="feature-img-outer">
-        <div className="feature-img-wrap">
+      <div style={{ padding: "0 24px" }}>
+        <div style={{ aspectRatio: "4 / 3", borderRadius: 16, overflow: "hidden", width: "100%" }}>
           <img src="/images/zeno-hero.png" alt="ZENO App"
             style={{ width: "100%", height: "100%", display: "block", objectFit: "cover" }} />
         </div>
-        <style>{`
-          /* Mobile: full section width, square, rounded */
-          .feature-img-outer { padding: 0 24px; }
-          .feature-img-wrap { aspect-ratio: 1 / 1; border-radius: 16px; overflow: hidden; width: 100%; }
-          /* Desktop: full-bleed edge-to-edge, taller ratio */
-          @media (min-width: 768px) {
-            .feature-img-outer {
-              margin-left: calc(50% - 50vw);
-              margin-right: calc(50% - 50vw);
-              padding: 0;
-            }
-            .feature-img-wrap { aspect-ratio: 16 / 7; border-radius: 0; }
-          }
-        `}</style>
       </div>
 
       {/* ZENO detail */}
