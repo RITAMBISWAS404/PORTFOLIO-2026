@@ -4,7 +4,6 @@ import Projects from "@/sections/v2/Projects";
 import About from "@/sections/v2/About";
 import Process from "@/sections/v2/Process";
 import Experience from "@/sections/v2/Experience";
-import Stack from "@/sections/v2/Stack";
 import Contact from "@/sections/v2/Contact";
 import Socials from "@/sections/v2/Socials";
 import Footer from "@/sections/v2/Footer";
@@ -18,7 +17,6 @@ export default function NewHome() {
       <About />
       <Process />
       <Experience />
-      <Stack />
       <Contact />
       <Socials />
       <Footer />
