@@ -36,13 +36,13 @@ function StackCard({ name, delay }: { name: string; delay: number }) {
       style={{
         background: glow || C.card,
         border: `1px solid ${C.border}`,
-        borderRadius: 16, padding: 16,
+        borderRadius: 8, padding: 16,
         display: "flex", alignItems: "center", gap: 12,
         cursor: "default",
         ...revealStyle(inView, delay),
         transition: `${revealStyle(inView, delay).transition}, border-color 0.15s, box-shadow 0.15s, transform 0.2s cubic-bezier(.22,1,.36,1)`,
       }}>
-      <div style={{ width: 36, height: 36, borderRadius: 9, overflow: "hidden", flexShrink: 0 }}>
+      <div style={{ width: 36, height: 36, borderRadius: 8, overflow: "hidden", flexShrink: 0 }}>
         <img src={c.img} alt={name} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
       </div>
       <span style={{ fontSize: 14, fontWeight: 500, color: C.t1 }}>{name}</span>

@@ -34,6 +34,7 @@ export default function Card({ label, num, body, delay = 0 }: Props) {
         el.style.boxShadow = "";
         el.style.transform = inView ? "translateY(0)" : "translateY(16px)";
       }}
+      className="card-chip"
       style={{
         background: glow || "var(--color-card)",
         border: "1px solid var(--color-border)", borderRadius: 16, padding: 16,
