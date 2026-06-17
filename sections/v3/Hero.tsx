@@ -167,18 +167,24 @@ function DotMatrix() {
       const cols = colsRef.current, rows = rowsRef.current;
       if (!cols || !rows) return 0;
 
-      // 5×7 on desktop (cols ≥ 30), 3×5 on mobile
-      const large    = cols >= 30;
-      const font     = large ? FONT5x7 : FONT3x5;
-      const CHAR_W   = large ? 5 : 3;
-      const CHAR_H   = large ? 7 : 5;
-      const CHAR_GAP = large ? 2 : 1;
-      const STAGGER  = large ? 35 : 40; // ms per dot-column
+      // Start with 5×7 on desktop, fall back to 3×5 if text doesn't fit
+      let large    = cols >= 30;
+      let font     = large ? FONT5x7 : FONT3x5;
+      let CHAR_W   = large ? 5 : 3;
+      let CHAR_H   = large ? 7 : 5;
+      let CHAR_GAP = large ? 2 : 1;
+      let STAGGER  = large ? 35 : 40;
 
       const chars = text.toUpperCase().split("").filter(c => !!font[c]);
       if (!chars.length) return 0;
 
-      const textW  = chars.length * CHAR_W + (chars.length - 1) * CHAR_GAP;
+      let textW = chars.length * CHAR_W + (chars.length - 1) * CHAR_GAP;
+      // Fall back to compact font if 5×7 text overflows the grid
+      if (large && textW > cols) {
+        large = false; font = FONT3x5; CHAR_W = 3; CHAR_H = 5; CHAR_GAP = 1; STAGGER = 40;
+        textW = chars.length * CHAR_W + (chars.length - 1) * CHAR_GAP;
+      }
+
       const startC = Math.max(0, Math.floor((cols - textW) / 2));
       const startR = Math.max(0, Math.floor((rows - CHAR_H) / 2));
       const maxColDelay = Math.max(0, textW - 1) * STAGGER;
@@ -207,8 +213,8 @@ function DotMatrix() {
 
     textDotsRef.current.clear();
     const p1Start = performance.now() + 550;
-    const p1Dur   = stamp("HELLO", p1Start, 0.88);
-    stamp("DRAW",  p1Start + p1Dur + 350, 0.78);
+    const p1Dur   = stamp("DRAW", p1Start, 0.88);
+    stamp("HERE",  p1Start + p1Dur + 350, 0.78);
   }, [ready]);
 
   useEffect(() => {
