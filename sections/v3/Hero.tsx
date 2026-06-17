@@ -82,7 +82,7 @@ type TextDot = { fadeInStart: number; fadeInEnd: number; holdEnd: number; fadeOu
 
 const FONT3x5: Record<string, number[][]> = {
   H: [[1,0,1],[1,0,1],[1,1,1],[1,0,1],[1,0,1]],
-  E: [[1,1,1],[1,0,0],[1,1,0],[1,0,0],[1,1,1]],
+  E: [[1,1,1],[1,0,0],[1,1,1],[1,0,0],[1,1,1]],
   L: [[1,0,0],[1,0,0],[1,0,0],[1,0,0],[1,1,1]],
   O: [[1,1,1],[1,0,1],[1,0,1],[1,0,1],[1,1,1]],
   D: [[1,1,0],[1,0,1],[1,0,1],[1,0,1],[1,1,0]],
@@ -149,8 +149,7 @@ function DotMatrix() {
   // ── Text stamp: "HELLO" then "DRAW" after page loads ─────────────────────────
   useEffect(() => {
     if (!ready) return;
-    const CHAR_W = 3, CHAR_GAP = 1, CHAR_H = 5;
-    const STAGGER = 55; // ms per column, left → right
+    const CHAR_W = 3, CHAR_H = 5;
     const FADE_IN = 280, HOLD = 1900, FADE_OUT = 480;
 
     function stamp(text: string, phaseStart: number, peak: number): number {
@@ -158,26 +157,37 @@ function DotMatrix() {
       if (!cols || !rows) return 0;
       const chars = text.toUpperCase().split("").filter(c => !!FONT3x5[c]);
       if (!chars.length) return 0;
-      const textW = chars.length * CHAR_W + (chars.length - 1) * CHAR_GAP;
-      const startC = Math.max(0, Math.floor((cols - textW) / 2));
-      const startR = Math.max(0, Math.floor((rows - CHAR_H) / 2));
+
+      // 2-dot stroke on desktop (cols ≥ 38), 1-dot on mobile
+      const scale   = cols >= 38 ? 2 : 1;
+      const STAGGER = scale === 2 ? 20 : 40; // ms per dot-column
+      const effW    = CHAR_W * scale;
+      const effGap  = scale;
+      const textW   = chars.length * effW + (chars.length - 1) * effGap;
+      const startC  = Math.max(0, Math.floor((cols - textW) / 2));
+      const startR  = Math.max(0, Math.floor((rows - CHAR_H * scale) / 2));
       const maxColDelay = Math.max(0, textW - 1) * STAGGER;
 
       chars.forEach((ch, ci) => {
         const bitmap = FONT3x5[ch];
         if (!bitmap) return;
-        const charC = startC + ci * (CHAR_W + CHAR_GAP);
+        const charC = startC + ci * (effW + effGap);
         for (let r = 0; r < CHAR_H; r++) {
           for (let c = 0; c < CHAR_W; c++) {
             if (!bitmap[r][c]) continue;
-            const gc = charC + c, gr = startR + r;
-            if (gc >= cols || gr >= rows) continue;
-            const colDelay    = (gc - startC) * STAGGER;
-            const fadeInStart = phaseStart + colDelay;
-            const fadeInEnd   = fadeInStart + FADE_IN;
-            const holdEnd     = phaseStart + maxColDelay + FADE_IN + HOLD;
-            const fadeOutEnd  = holdEnd + FADE_OUT;
-            textDotsRef.current.set(gr * cols + gc, { fadeInStart, fadeInEnd, holdEnd, fadeOutEnd, peak });
+            for (let sr = 0; sr < scale; sr++) {
+              for (let sc2 = 0; sc2 < scale; sc2++) {
+                const gc = charC + c * scale + sc2;
+                const gr = startR + r * scale + sr;
+                if (gc >= cols || gr >= rows) continue;
+                const colDelay    = (gc - startC) * STAGGER;
+                const fadeInStart = phaseStart + colDelay;
+                const fadeInEnd   = fadeInStart + FADE_IN;
+                const holdEnd     = phaseStart + maxColDelay + FADE_IN + HOLD;
+                const fadeOutEnd  = holdEnd + FADE_OUT;
+                textDotsRef.current.set(gr * cols + gc, { fadeInStart, fadeInEnd, holdEnd, fadeOutEnd, peak });
+              }
+            }
           }
         }
       });
