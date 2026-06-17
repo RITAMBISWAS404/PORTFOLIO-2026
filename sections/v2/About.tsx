@@ -4,6 +4,7 @@ import { useInView } from "framer-motion";
 import { User } from "lucide-react";
 import SectionLabel from "@/components/SectionLabel";
 import { C, revealStyle, col } from "@/lib/tokensV2";
+import { stack, stackColors } from "@/data/content";
 
 const info = [
   { label: "Designation", value: "PRODUCT DESIGNER" },
@@ -75,10 +76,12 @@ export default function About() {
           border: `1px solid ${C.border}`,
           borderRadius: 16,
           background: C.card,
-          padding: "20px 20px 24px",
+          padding: "20px 20px 16px",
+          display: "flex",
+          flexDirection: "column",
           ...revealStyle(bentInView, 0.10),
         }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px 16px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px 16px", flex: 1 }}>
             {info.map(({ label, value }, i) => (
               <div key={label} style={i === info.length - 1 && info.length % 2 !== 0 ? { gridColumn: "1 / -1" } : {}}>
                 <div style={{ fontSize: 11, fontWeight: 500, color: C.t3, letterSpacing: "0.05em", marginBottom: 4 }}>
@@ -87,6 +90,35 @@ export default function About() {
                 <div className="f16" style={{ fontWeight: 500, color: C.t1 }}>{value}</div>
               </div>
             ))}
+          </div>
+
+          {/* Toolkit carousel */}
+          <div style={{ marginTop: 20, borderTop: `1px solid ${C.border}`, paddingTop: 14 }}>
+            <div style={{ fontSize: 11, fontWeight: 500, color: C.t3, letterSpacing: "0.05em", marginBottom: 10 }}>
+              My Toolkit
+            </div>
+            <div style={{ overflow: "hidden", position: "relative" }}>
+              {/* Fade edges */}
+              <div style={{
+                position: "absolute", inset: 0, zIndex: 1, pointerEvents: "none",
+                background: `linear-gradient(to right, ${C.card} 0%, transparent 15%, transparent 85%, ${C.card} 100%)`,
+              }} />
+              <div className="toolkit-track">
+                {[...stack, ...stack].map((name, i) => {
+                  const c = stackColors[name];
+                  if (!c) return null;
+                  return (
+                    <div key={i} title={name} style={{
+                      width: 36, height: 36, borderRadius: 9, flexShrink: 0,
+                      overflow: "hidden", border: `1px solid ${C.border}`,
+                      background: C.card,
+                    }}>
+                      <img src={c.img} alt={name} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </div>
 
@@ -133,6 +165,19 @@ export default function About() {
           }
           .about-img-cell  { grid-column: 1; grid-row: 1; }
           .about-info-cell { grid-column: 2; grid-row: 1; }
+        }
+
+        /* Toolkit marquee */
+        .toolkit-track {
+          display: flex;
+          gap: 8px;
+          width: max-content;
+          animation: toolkit-scroll 18s linear infinite;
+        }
+        .toolkit-track:hover { animation-play-state: paused; }
+        @keyframes toolkit-scroll {
+          from { transform: translateX(0); }
+          to   { transform: translateX(-50%); }
         }
       `}</style>
     </section>
