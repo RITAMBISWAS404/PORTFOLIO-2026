@@ -177,6 +177,7 @@ function DotMatrix() {
   const nextStarRef = useRef(Infinity);
   const nextRipRef  = useRef(Infinity);
   const tickerRef = useRef<TickerState | null>(null);
+  const dotRRef   = useRef(DOT_R);
   const { ready } = useAppReady();
 
   const resize = useCallback(() => {
@@ -188,8 +189,11 @@ function DotMatrix() {
     canvas.height       = Math.round(h * dpr);
     canvas.style.width  = `${w}px`;
     canvas.style.height = `${h}px`;
-    const cols = Math.max(1, Math.floor(w / CELL));
-    const rows = Math.max(1, Math.floor(h / CELL));
+    const mobile = w < 700;
+    dotRRef.current = mobile ? 3 : DOT_R;
+    const cellSize = mobile ? 13 : CELL;
+    const cols = Math.max(1, Math.floor(w / cellSize));
+    const rows = Math.max(1, Math.floor(h / cellSize));
     colsRef.current = cols;
     rowsRef.current = rows;
     cellWRef.current = w / cols;
@@ -231,7 +235,7 @@ function DotMatrix() {
       startRow: Math.max(0, Math.floor((rows - charH) / 2)),
       charH,
       startTs: performance.now() + 600,
-      speed:   0.014,   // dot-cols per ms  ≈ 14 dot-cols / sec
+      speed:   large ? 0.014 : 0.010,
       peak:    0.90,
     };
   }, [ready]);
@@ -392,7 +396,7 @@ function DotMatrix() {
 
           const alpha = Math.min(1, osc + spark + Math.max(cGlow, textGlow) + extra);
           ctx.beginPath();
-          ctx.arc(px * dpr, py * dpr, DOT_R * dpr, 0, Math.PI * 2);
+          ctx.arc(px * dpr, py * dpr, dotRRef.current * dpr, 0, Math.PI * 2);
           ctx.fillStyle = `rgba(255,255,255,${alpha.toFixed(3)})`;
           ctx.fill();
         }
