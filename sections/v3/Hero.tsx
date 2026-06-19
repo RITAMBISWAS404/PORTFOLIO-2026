@@ -395,10 +395,9 @@ function DotMatrix() {
           }
 
           const alpha = Math.min(1, osc + spark + Math.max(cGlow, textGlow) + extra);
-          ctx.beginPath();
-          ctx.arc(px * dpr, py * dpr, dotRRef.current * dpr, 0, Math.PI * 2);
+          const s = dotRRef.current * dpr;
           ctx.fillStyle = `rgba(255,255,255,${alpha.toFixed(3)})`;
-          ctx.fill();
+          ctx.fillRect(px * dpr - s, py * dpr - s, s * 2, s * 2);
         }
       }
 
