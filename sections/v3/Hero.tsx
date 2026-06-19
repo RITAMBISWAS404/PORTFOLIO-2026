@@ -105,6 +105,10 @@ const FONT3x5: Record<string, number[][]> = {
   C: [[0,1,1],[1,0,0],[1,0,0],[1,0,0],[0,1,1]],
   M: [[1,0,1],[1,1,1],[1,0,1],[1,0,1],[1,0,1]],
   U: [[1,0,1],[1,0,1],[1,0,1],[1,0,1],[1,1,1]],
+  P: [[1,1,0],[1,0,1],[1,1,0],[1,0,0],[1,0,0]],
+  X: [[1,0,1],[1,0,1],[0,1,0],[1,0,1],[1,0,1]],
+  F: [[1,1,1],[1,0,0],[1,1,0],[1,0,0],[1,0,0]],
+  ",": [[0,0,0],[0,0,0],[0,0,0],[0,1,0],[1,0,0]],
   ".": [[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,1,0]],
   "?": [[0,1,1],[0,0,1],[0,1,0],[0,0,0],[0,1,0]],
   "'": [[0,1,0],[0,1,0],[0,0,0],[0,0,0],[0,0,0]],
@@ -130,6 +134,10 @@ const FONT5x7: Record<string, number[][]> = {
   C: [[0,1,1,1,0],[1,0,0,0,1],[1,0,0,0,0],[1,0,0,0,0],[1,0,0,0,0],[1,0,0,0,1],[0,1,1,1,0]],
   M: [[1,0,0,0,1],[1,1,0,1,1],[1,0,1,0,1],[1,0,0,0,1],[1,0,0,0,1],[1,0,0,0,1],[1,0,0,0,1]],
   U: [[1,0,0,0,1],[1,0,0,0,1],[1,0,0,0,1],[1,0,0,0,1],[1,0,0,0,1],[1,0,0,0,1],[0,1,1,1,0]],
+  P: [[1,1,1,1,0],[1,0,0,0,1],[1,0,0,0,1],[1,1,1,1,0],[1,0,0,0,0],[1,0,0,0,0],[1,0,0,0,0]],
+  X: [[1,0,0,0,1],[1,0,0,0,1],[0,1,0,1,0],[0,0,1,0,0],[0,1,0,1,0],[1,0,0,0,1],[1,0,0,0,1]],
+  F: [[1,1,1,1,1],[1,0,0,0,0],[1,0,0,0,0],[1,1,1,1,0],[1,0,0,0,0],[1,0,0,0,0],[1,0,0,0,0]],
+  ",": [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,1,0,0],[0,1,0,0,0]],
   ".": [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,1,0,0]],
   "?": [[0,1,1,1,0],[1,0,0,0,1],[0,0,0,0,1],[0,0,1,1,0],[0,0,1,0,0],[0,0,0,0,0],[0,0,1,0,0]],
   "'": [[0,0,1,0,0],[0,0,1,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]],
@@ -151,6 +159,26 @@ function buildTickerBitmap(
   const width = segs.length;
   const bitmap: boolean[][] = Array.from({ length: charH }, (_, r) => segs.map(col => col[r]));
   return { bitmap, width };
+}
+
+// ── Ticker phrases — add more here as needed ──────────────────────────────────
+const TICKER_PHRASES = [
+  "PIXEL PERFECT. EGO ALSO PERFECT.",
+  "IT'S NOT A BUG, IT'S MY LAYOUT.",
+  "TRUST THE PROCESS. ALSO TRUST ME.",
+  "DESIGNED WITH LOVE. SHIPPED WITH ANXIETY.",
+  "WAIT, I'M MOVING PIXELS RIGHT NOW.",
+] as const;
+
+function pickPhrase(): string {
+  const last = sessionStorage.getItem("ticker_last") ?? "";
+  let idx = Math.floor(Math.random() * TICKER_PHRASES.length);
+  if (TICKER_PHRASES[idx] === last && TICKER_PHRASES.length > 1) {
+    idx = (idx + 1) % TICKER_PHRASES.length;
+  }
+  const phrase = TICKER_PHRASES[idx];
+  sessionStorage.setItem("ticker_last", phrase);
+  return phrase;
 }
 
 const makeDot = (): Dot => ({
@@ -226,7 +254,7 @@ function DotMatrix() {
     const spaceW  = large ? 4 : 3;
 
     const { bitmap, width } = buildTickerBitmap(
-      "GOOD DESIGN IS INVISIBLE. YOU'RE WELCOME", font, charW, charH, charGap, spaceW,
+      pickPhrase(), font, charW, charH, charGap, spaceW,
     );
 
     tickerRef.current = {
