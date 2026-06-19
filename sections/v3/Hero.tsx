@@ -267,7 +267,7 @@ function DotMatrix() {
       startRow: Math.max(0, Math.floor((rows - charH) / 2)),
       charH,
       startTs: performance.now() + 600,
-      speed:   large ? 0.014 : 0.010,
+      speed:   large ? 0.018 : 0.010,
       peak:    0.90,
     };
   }, [ready]);
