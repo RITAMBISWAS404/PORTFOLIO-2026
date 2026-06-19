@@ -73,7 +73,6 @@ type Dot       = { base: number; amp: number; phase: number; freq: number; spk: 
 type Burst     = { x: number; y: number; t0: number };
 type ShootStar = { x: number; y: number; dx: number; dy: number; spd: number; trail: number; peak: number; t0: number; dur: number };
 type Ripple    = { x: number; y: number; maxR: number; peak: number; t0: number; dur: number };
-type BoomStamp = { dots: Set<number>; t0: number };
 
 const cull = <T extends { t0: number; dur: number }>(arr: T[], ts: number): T[] =>
   arr.filter(e => ts - e.t0 < e.dur);
@@ -166,15 +165,6 @@ function buildTickerBitmap(
   return { bitmap, width };
 }
 
-// ── Boom words — add more here as needed ─────────────────────────────────────
-const BOOM_WORDS = [
-  "!!BOOM!!",
-  "!KABOOM!",
-  "!!BAM!!",
-  "POW!",
-  "!!BLAM!!",
-] as const;
-
 // ── Ticker phrases — add more here as needed ──────────────────────────────────
 const TICKER_PHRASES = [
   "PIXEL PERFECT. EGO ALSO PERFECT.",
@@ -219,7 +209,6 @@ function DotMatrix() {
   const nextStarRef = useRef(Infinity);
   const nextRipRef  = useRef(Infinity);
   const tickerRef = useRef<TickerState | null>(null);
-  const boomStampRef = useRef<BoomStamp | null>(null);
   const dotRRef   = useRef(DOT_R);
   const { ready } = useAppReady();
 
@@ -243,8 +232,7 @@ function DotMatrix() {
     cellHRef.current = h / rows;
     dotsRef.current  = Array.from({ length: cols * rows }, makeDot);
     trailRef.current.clear();
-    tickerRef.current    = null;
-    boomStampRef.current = null;
+    tickerRef.current = null;
     starsRef.current = [];
     ripsRef.current  = [];
   }, []);
@@ -438,19 +426,7 @@ function DotMatrix() {
               extra = Math.max(extra, (1 - dRing / rw) * Math.pow(1 - prog, 0.55) * 0.95);
           }
 
-          // Boom word glow — centered pixel stamp, fades with burst
-          let boomGlow = 0;
-          const boomStamp = boomStampRef.current;
-          if (boomStamp && boomStamp.dots.has(i)) {
-            const age = ts - boomStamp.t0;
-            if (age < 80)          boomGlow = 0.95 * (age / 80);
-            else if (age < 380)    boomGlow = 0.95;
-            else if (age < BURST_DUR) boomGlow = 0.95 * (1 - (age - 380) / (BURST_DUR - 380));
-          }
-          if (r === 0 && c === 0 && boomStamp && ts - boomStamp.t0 >= BURST_DUR)
-            boomStampRef.current = null;
-
-          const alpha = Math.min(1, osc + spark + Math.max(cGlow, textGlow, boomGlow) + extra);
+          const alpha = Math.min(1, osc + spark + Math.max(cGlow, textGlow) + extra);
           const s = dotRRef.current * dpr;
           ctx.fillStyle = `rgba(255,255,255,${alpha.toFixed(3)})`;
           ctx.fillRect(px * dpr - s, py * dpr - s, s * 2, s * 2);
@@ -491,30 +467,7 @@ function DotMatrix() {
   const onMouseLeave = useCallback(() => {}, []);
 
   const addBurst = useCallback((x: number, y: number) => {
-    const t0 = performance.now();
-    burstsRef.current.push({ x, y, t0 });
-
-    // Stamp boom word as lit dots, centered in the grid
-    const cols = colsRef.current, rows = rowsRef.current;
-    if (!cols || !rows) return;
-    const word  = BOOM_WORDS[Math.floor(Math.random() * BOOM_WORDS.length)];
-    const large = cols >= 30;
-    const font  = large ? FONT5x7 : FONT3x5;
-    const charW = large ? 5 : 3, charH = large ? 7 : 5, charGap = large ? 2 : 1;
-    const chars = [...word].filter(ch => !!font[ch]);
-    const textW = chars.length * charW + Math.max(0, chars.length - 1) * charGap;
-    const startC = Math.max(0, Math.floor((cols - textW) / 2));
-    const startR = Math.max(0, Math.floor((rows - charH) / 2));
-    const dots = new Set<number>();
-    chars.forEach((ch, ci) => {
-      const bmp = font[ch]; if (!bmp) return;
-      const charC = startC + ci * (charW + charGap);
-      for (let r = 0; r < charH; r++)
-        for (let c = 0; c < charW; c++)
-          if (bmp[r][c] && charC + c < cols && startR + r < rows)
-            dots.add((startR + r) * cols + (charC + c));
-    });
-    boomStampRef.current = { dots, t0 };
+    burstsRef.current.push({ x, y, t0: performance.now() });
   }, []);
   const onClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const r = wrapRef.current!.getBoundingClientRect();
