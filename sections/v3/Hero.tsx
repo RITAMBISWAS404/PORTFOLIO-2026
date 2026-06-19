@@ -73,6 +73,7 @@ type Dot       = { base: number; amp: number; phase: number; freq: number; spk: 
 type Burst     = { x: number; y: number; t0: number };
 type ShootStar = { x: number; y: number; dx: number; dy: number; spd: number; trail: number; peak: number; t0: number; dur: number };
 type Ripple    = { x: number; y: number; maxR: number; peak: number; t0: number; dur: number };
+type BoomWord  = { word: string; x: number; y: number; t0: number; rot: number };
 
 const cull = <T extends { t0: number; dur: number }>(arr: T[], ts: number): T[] =>
   arr.filter(e => ts - e.t0 < e.dur);
@@ -161,6 +162,15 @@ function buildTickerBitmap(
   return { bitmap, width };
 }
 
+// ── Boom words — add more here as needed ─────────────────────────────────────
+const BOOM_WORDS = [
+  "!!BOOM!!",
+  "!KABOOM!",
+  "!!BAM!!",
+  "POW!",
+  "!!BLAM!!",
+] as const;
+
 // ── Ticker phrases — add more here as needed ──────────────────────────────────
 const TICKER_PHRASES = [
   "PIXEL PERFECT. EGO ALSO PERFECT.",
@@ -205,6 +215,7 @@ function DotMatrix() {
   const nextStarRef = useRef(Infinity);
   const nextRipRef  = useRef(Infinity);
   const tickerRef = useRef<TickerState | null>(null);
+  const boomRef   = useRef<BoomWord | null>(null);
   const dotRRef   = useRef(DOT_R);
   const { ready } = useAppReady();
 
@@ -429,6 +440,39 @@ function DotMatrix() {
         }
       }
 
+      // ── Boom word ───────────────────────────────────────────────────────────
+      const boom = boomRef.current;
+      if (boom) {
+        const prog = Math.min(1, (ts - boom.t0) / BURST_DUR);
+        if (prog >= 1) {
+          boomRef.current = null;
+        } else {
+          const scale = prog < 0.18
+            ? 0.3 + (prog / 0.18) * 1.0     // fast pop-in  0.3 → 1.3
+            : prog < 0.32
+            ? 1.3 - ((prog - 0.18) / 0.14) * 0.3  // settle 1.3 → 1.0
+            : 1.0;
+          const alpha = prog < 0.30 ? 1 : 1 - (prog - 0.30) / 0.70;
+          const gridW = colsRef.current * cellWRef.current;
+          const fontSize = Math.max(24, Math.round(gridW * 0.10)) * dpr;
+          ctx.save();
+          ctx.translate(boom.x * dpr, boom.y * dpr);
+          ctx.rotate((boom.rot * Math.PI) / 180);
+          ctx.scale(scale, scale);
+          ctx.globalAlpha = alpha;
+          ctx.font = `900 italic ${fontSize}px system-ui, -apple-system, sans-serif`;
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.strokeStyle = "rgba(0,0,0,0.75)";
+          ctx.lineWidth = 6 * dpr;
+          ctx.lineJoin = "round";
+          ctx.strokeText(boom.word, 0, 0);
+          ctx.fillStyle = "#ffffff";
+          ctx.fillText(boom.word, 0, 0);
+          ctx.restore();
+        }
+      }
+
       rafId = requestAnimationFrame(draw);
     };
 
@@ -463,7 +507,13 @@ function DotMatrix() {
   const onMouseLeave = useCallback(() => {}, []);
 
   const addBurst = useCallback((x: number, y: number) => {
-    burstsRef.current.push({ x, y, t0: performance.now() });
+    const t0 = performance.now();
+    burstsRef.current.push({ x, y, t0 });
+    boomRef.current = {
+      word: BOOM_WORDS[Math.floor(Math.random() * BOOM_WORDS.length)],
+      x, y, t0,
+      rot: (Math.random() - 0.5) * 28,
+    };
   }, []);
   const onClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const r = wrapRef.current!.getBoundingClientRect();
