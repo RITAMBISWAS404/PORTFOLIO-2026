@@ -26,10 +26,8 @@ export const zeno = {
 export const projects = [
   { title: "Smart farming app",            sub: "AI-powered crop management tool.",  tags: ["AGRICULTURE","IN PROGRESS"],  img: "/images/smart farming.png",  href: "https://www.figma.com/design/YjLXUm3ewgTPgoWfI6Ubz2/Smart-Farming-Assistant?node-id=0-1&t=rZMf4eRmUfzfHB6z-1" },
   { title: "Retail shop management app",   sub: "Built at hackathon, redesigned.",   tags: ["RETAIL","CASE STUDY"],       img: "/images/retail.png",         href: "https://www.notion.so/ShopEZ-33630418f5cc80618b9ac5061264f68e?source=copy_link" },
-  { title: "Kolkata metro ticketing app",  sub: "A UX redesign concept.",            tags: ["TRANSIT","REDESIGN"],        img: "/images/kolkata metro.png",  href: "https://www.linkedin.com/posts/ritam404_uiux-uxdesign-uidesign-ugcPost-7448791535992848384-PAQR?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEVuVgMBOr5pHJo3NpKGEmtB_wTvaJQiUsM" },
   { title: "EV charging startup website",  sub: "UX/UI design and Framer build.",    tags: ["EV TECH","WEB DESIGN"],      img: "/images/ev website.png",     href: "https://enkelenergi.framer.website/" },
   { title: "Interior design studio branding", sub: "Brand identity case study.",     tags: ["INTERIOR","LOGO DESIGN"],    img: "/images/interior.png",       href: "https://www.notion.so/Manokamna-Interior-Designs-31830418f5cc80fa91b5f6afaddd5574?source=copy_link" },
-  { title: "Typographic brand identity design.", sub: "Brand identity case study.",  tags: ["AD AGENCY","LOGO DESIGN"],   img: "/images/growth.png",         href: "https://www.notion.so/Growth-31930418f5cc80a9b18ef7cf94abc41d?source=copy_link" },
 ];
 
 export const process = [
