@@ -190,7 +190,7 @@ function DotMatrix() {
     canvas.style.width  = `${w}px`;
     canvas.style.height = `${h}px`;
     const mobile = w < 700;
-    dotRRef.current = mobile ? 3 : DOT_R;
+    dotRRef.current = DOT_R;
     const cellSize = CELL;
     const cols = Math.max(1, Math.floor(w / cellSize));
     const rows = Math.max(1, Math.floor(h / cellSize));
