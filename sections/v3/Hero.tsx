@@ -429,7 +429,9 @@ function DotMatrix() {
           const alpha = Math.min(1, osc + spark + Math.max(cGlow, textGlow) + extra);
           const s = dotRRef.current * dpr;
           ctx.fillStyle = `rgba(255,255,255,${alpha.toFixed(3)})`;
-          ctx.fillRect(px * dpr - s, py * dpr - s, s * 2, s * 2);
+          ctx.beginPath();
+          ctx.roundRect(px * dpr - s, py * dpr - s, s * 2, s * 2, 2 * dpr);
+          ctx.fill();
         }
       }
 
