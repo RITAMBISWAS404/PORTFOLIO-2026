@@ -73,7 +73,7 @@ type Dot       = { base: number; amp: number; phase: number; freq: number; spk: 
 type Burst     = { x: number; y: number; t0: number };
 type ShootStar = { x: number; y: number; dx: number; dy: number; spd: number; trail: number; peak: number; t0: number; dur: number };
 type Ripple    = { x: number; y: number; maxR: number; peak: number; t0: number; dur: number };
-type BoomWord  = { word: string; x: number; y: number; t0: number; rot: number };
+type BoomStamp = { dots: Set<number>; t0: number };
 
 const cull = <T extends { t0: number; dur: number }>(arr: T[], ts: number): T[] =>
   arr.filter(e => ts - e.t0 < e.dur);
@@ -109,6 +109,8 @@ const FONT3x5: Record<string, number[][]> = {
   P: [[1,1,0],[1,0,1],[1,1,0],[1,0,0],[1,0,0]],
   X: [[1,0,1],[1,0,1],[0,1,0],[1,0,1],[1,0,1]],
   F: [[1,1,1],[1,0,0],[1,1,0],[1,0,0],[1,0,0]],
+  K: [[1,0,1],[1,0,1],[1,1,0],[1,0,1],[1,0,1]],
+  "!": [[0,1,0],[0,1,0],[0,1,0],[0,0,0],[0,1,0]],
   ",": [[0,0,0],[0,0,0],[0,0,0],[0,1,0],[1,0,0]],
   ".": [[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,1,0]],
   "?": [[0,1,1],[0,0,1],[0,1,0],[0,0,0],[0,1,0]],
@@ -138,6 +140,8 @@ const FONT5x7: Record<string, number[][]> = {
   P: [[1,1,1,1,0],[1,0,0,0,1],[1,0,0,0,1],[1,1,1,1,0],[1,0,0,0,0],[1,0,0,0,0],[1,0,0,0,0]],
   X: [[1,0,0,0,1],[1,0,0,0,1],[0,1,0,1,0],[0,0,1,0,0],[0,1,0,1,0],[1,0,0,0,1],[1,0,0,0,1]],
   F: [[1,1,1,1,1],[1,0,0,0,0],[1,0,0,0,0],[1,1,1,1,0],[1,0,0,0,0],[1,0,0,0,0],[1,0,0,0,0]],
+  K: [[1,0,0,0,1],[1,0,0,1,0],[1,0,1,0,0],[1,1,0,0,0],[1,0,1,0,0],[1,0,0,1,0],[1,0,0,0,1]],
+  "!": [[0,0,1,0,0],[0,0,1,0,0],[0,0,1,0,0],[0,0,1,0,0],[0,0,1,0,0],[0,0,0,0,0],[0,0,1,0,0]],
   ",": [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,1,0,0],[0,1,0,0,0]],
   ".": [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,1,0,0]],
   "?": [[0,1,1,1,0],[1,0,0,0,1],[0,0,0,0,1],[0,0,1,1,0],[0,0,1,0,0],[0,0,0,0,0],[0,0,1,0,0]],
@@ -215,7 +219,7 @@ function DotMatrix() {
   const nextStarRef = useRef(Infinity);
   const nextRipRef  = useRef(Infinity);
   const tickerRef = useRef<TickerState | null>(null);
-  const boomRef   = useRef<BoomWord | null>(null);
+  const boomStampRef = useRef<BoomStamp | null>(null);
   const dotRRef   = useRef(DOT_R);
   const { ready } = useAppReady();
 
@@ -239,7 +243,8 @@ function DotMatrix() {
     cellHRef.current = h / rows;
     dotsRef.current  = Array.from({ length: cols * rows }, makeDot);
     trailRef.current.clear();
-    tickerRef.current = null;
+    tickerRef.current    = null;
+    boomStampRef.current = null;
     starsRef.current = [];
     ripsRef.current  = [];
   }, []);
@@ -433,43 +438,22 @@ function DotMatrix() {
               extra = Math.max(extra, (1 - dRing / rw) * Math.pow(1 - prog, 0.55) * 0.95);
           }
 
-          const alpha = Math.min(1, osc + spark + Math.max(cGlow, textGlow) + extra);
+          // Boom word glow — centered pixel stamp, fades with burst
+          let boomGlow = 0;
+          const boomStamp = boomStampRef.current;
+          if (boomStamp && boomStamp.dots.has(i)) {
+            const age = ts - boomStamp.t0;
+            if (age < 80)          boomGlow = 0.95 * (age / 80);
+            else if (age < 380)    boomGlow = 0.95;
+            else if (age < BURST_DUR) boomGlow = 0.95 * (1 - (age - 380) / (BURST_DUR - 380));
+          }
+          if (r === 0 && c === 0 && boomStamp && ts - boomStamp.t0 >= BURST_DUR)
+            boomStampRef.current = null;
+
+          const alpha = Math.min(1, osc + spark + Math.max(cGlow, textGlow, boomGlow) + extra);
           const s = dotRRef.current * dpr;
           ctx.fillStyle = `rgba(255,255,255,${alpha.toFixed(3)})`;
           ctx.fillRect(px * dpr - s, py * dpr - s, s * 2, s * 2);
-        }
-      }
-
-      // ── Boom word ───────────────────────────────────────────────────────────
-      const boom = boomRef.current;
-      if (boom) {
-        const prog = Math.min(1, (ts - boom.t0) / BURST_DUR);
-        if (prog >= 1) {
-          boomRef.current = null;
-        } else {
-          const scale = prog < 0.18
-            ? 0.3 + (prog / 0.18) * 1.0     // fast pop-in  0.3 → 1.3
-            : prog < 0.32
-            ? 1.3 - ((prog - 0.18) / 0.14) * 0.3  // settle 1.3 → 1.0
-            : 1.0;
-          const alpha = prog < 0.30 ? 1 : 1 - (prog - 0.30) / 0.70;
-          const gridW = colsRef.current * cellWRef.current;
-          const fontSize = Math.max(24, Math.round(gridW * 0.10)) * dpr;
-          ctx.save();
-          ctx.translate(boom.x * dpr, boom.y * dpr);
-          ctx.rotate((boom.rot * Math.PI) / 180);
-          ctx.scale(scale, scale);
-          ctx.globalAlpha = alpha;
-          ctx.font = `900 italic ${fontSize}px system-ui, -apple-system, sans-serif`;
-          ctx.textAlign = "center";
-          ctx.textBaseline = "middle";
-          ctx.strokeStyle = "rgba(0,0,0,0.75)";
-          ctx.lineWidth = 6 * dpr;
-          ctx.lineJoin = "round";
-          ctx.strokeText(boom.word, 0, 0);
-          ctx.fillStyle = "#ffffff";
-          ctx.fillText(boom.word, 0, 0);
-          ctx.restore();
         }
       }
 
@@ -509,11 +493,28 @@ function DotMatrix() {
   const addBurst = useCallback((x: number, y: number) => {
     const t0 = performance.now();
     burstsRef.current.push({ x, y, t0 });
-    boomRef.current = {
-      word: BOOM_WORDS[Math.floor(Math.random() * BOOM_WORDS.length)],
-      x, y, t0,
-      rot: (Math.random() - 0.5) * 28,
-    };
+
+    // Stamp boom word as lit dots, centered in the grid
+    const cols = colsRef.current, rows = rowsRef.current;
+    if (!cols || !rows) return;
+    const word  = BOOM_WORDS[Math.floor(Math.random() * BOOM_WORDS.length)];
+    const large = cols >= 30;
+    const font  = large ? FONT5x7 : FONT3x5;
+    const charW = large ? 5 : 3, charH = large ? 7 : 5, charGap = large ? 2 : 1;
+    const chars = [...word].filter(ch => !!font[ch]);
+    const textW = chars.length * charW + Math.max(0, chars.length - 1) * charGap;
+    const startC = Math.max(0, Math.floor((cols - textW) / 2));
+    const startR = Math.max(0, Math.floor((rows - charH) / 2));
+    const dots = new Set<number>();
+    chars.forEach((ch, ci) => {
+      const bmp = font[ch]; if (!bmp) return;
+      const charC = startC + ci * (charW + charGap);
+      for (let r = 0; r < charH; r++)
+        for (let c = 0; c < charW; c++)
+          if (bmp[r][c] && charC + c < cols && startR + r < rows)
+            dots.add((startR + r) * cols + (charC + c));
+    });
+    boomStampRef.current = { dots, t0 };
   }, []);
   const onClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const r = wrapRef.current!.getBoundingClientRect();
