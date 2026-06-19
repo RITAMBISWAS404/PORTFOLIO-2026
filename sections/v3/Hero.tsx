@@ -57,8 +57,8 @@ function Avatar() {
 //   Cursor glow         — radial brightness follows pointer (90 px radius)
 //   Click / tap burst   — expanding ring from impact point
 
-const CELL      = 14;
-const DOT_R     = 4;    // radius → diameter = 8 px
+const CELL      = 12;
+const DOT_R     = 3;    // radius → diameter = 6 px
 const TRAIL_R   = 20;   // brush radius — 2×2 dot thickness
 const TRAIL_DUR = 2200; // ms until a trail dot fully fades
 const BURST_DUR = 700;
@@ -190,8 +190,8 @@ function DotMatrix() {
     canvas.style.width  = `${w}px`;
     canvas.style.height = `${h}px`;
     const mobile = w < 700;
-    dotRRef.current = mobile ? 3 : DOT_R;
-    const cellSize = mobile ? 12 : CELL;
+    dotRRef.current = mobile ? 2 : DOT_R;
+    const cellSize = mobile ? 10 : CELL;
     const cols = Math.max(1, Math.floor(w / cellSize));
     const rows = Math.max(1, Math.floor(h / cellSize));
     colsRef.current = cols;
