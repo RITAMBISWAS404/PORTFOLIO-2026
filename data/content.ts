@@ -39,7 +39,7 @@ export const process = [
 export const experience = [
   {
     id: "startup",
-    role: "Product Designer at", company: "Europe-based Smart Energy Startup",
+    role: "Founding Product Designer at", company: "EU Smart Energy Startup",
     logo: "🔒", logoBg: "#1a1a1a", img: "/images/stealth.png",
     desc: "Designed and shipped two full iterations of a smart EV charging app for iOS and Android, owning the product end-to-end: user research, information architecture, wireframes, UI design, and developer handoff. Built a 40+ component design system using Figma variables and design tokens. Now live with 3,000+ registered users.",
     meta: "Jan 2024 – Present | Remote | Europe",
