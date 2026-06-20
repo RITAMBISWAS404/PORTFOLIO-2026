@@ -55,7 +55,7 @@ export default function About() {
         I spent my early years as a graphic designer and illustrator, chasing good visuals, until I
         realized good visuals mean nothing if no one can use them.{" "}
         <strong style={{ color: C.t1, fontWeight: 500 }}>Graphic designer turned UX designer</strong>,
-        that&apos;s the short version of how I got here. I&apos;m currently a Product Designer for a
+        that&apos;s the short version of how I got here. I&apos;m currently a Founding Product Designer for a
         Denmark-based EV energy startup, 2+ years into the role, with the app I designed live on the
         App Store and Play Store.
       </p>
