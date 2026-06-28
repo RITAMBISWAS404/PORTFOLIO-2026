@@ -1,7 +1,7 @@
 "use client";
 import { useRef } from "react";
 import { useInView } from "framer-motion";
-import { Star, PenTool, Zap, FileText, BookOpen, Users } from "lucide-react";
+import { Star, PenTool, Zap, FileText, BookOpen, Users, Layers, GitBranch, Clock } from "lucide-react";
 import SectionLabel from "@/components/SectionLabel";
 import Card from "@/components/Card";
 import { zeno } from "@/data/content";
@@ -15,10 +15,10 @@ const tags = [
 ];
 
 const stats = [
-  { label: "Screens Designed",  num: "35+", body: "Covers every key user flow from onboarding through dashboard, analytics, and account settings." },
-  { label: "User Flows Mapped", num: "05",  body: "Onboarding, dashboard, charging session, analytics, and settings." },
-  { label: "Component System",  num: "40+", body: "A full design system built using Figma variables and design tokens for UI consistency." },
-  { label: "MVP Timeline",      num: "2m",  body: "Blank file to production-ready designs, shipped end to end in just 2 months." },
+  { label: "Screens Designed",  num: "35+", body: "Covers every key user flow from onboarding through dashboard, analytics, and account settings.", icon: Layers,    iconColor: C.accent },
+  { label: "User Flows Mapped", num: "05",  body: "Onboarding, dashboard, charging session, analytics, and settings.",                              icon: GitBranch, iconColor: C.blue   },
+  { label: "Component System",  num: "40+", body: "A full design system built using Figma variables and design tokens for UI consistency.",          icon: PenTool,   iconColor: C.yellow },
+  { label: "MVP Timeline",      num: "2m",  body: "Blank file to production-ready designs, shipped end to end in just 2 months.",                   icon: Clock,     iconColor: C.red    },
 ];
 
 export default function FeaturedProject() {
@@ -83,9 +83,26 @@ export default function FeaturedProject() {
 
         {/* Stats — 2×2 grid */}
         <div className="stats-grid" style={{ display: "grid", gap: 16, marginTop: 24 }}>
-          {stats.map((s, i) => (
-            <Card key={s.label} label={s.label} num={s.num} body={s.body} delay={i * 0.08} />
-          ))}
+          {stats.map((s, i) => {
+            const Icon = s.icon;
+            return (
+              <div key={s.label} style={{
+                background: C.card, border: `1px solid ${C.border}`, borderRadius: 8,
+                padding: 16, display: "flex", flexDirection: "column", gap: 10,
+                transition: "border-color 0.15s, box-shadow 0.15s, transform 0.2s cubic-bezier(.22,1,.36,1)",
+              }}
+                onMouseEnter={e => { const el = e.currentTarget; el.style.borderColor = "rgba(255,255,255,0.12)"; el.style.boxShadow = "0 4px 20px rgba(0,0,0,0.5)"; el.style.transform = "translateY(-4px)"; }}
+                onMouseLeave={e => { const el = e.currentTarget; el.style.borderColor = C.border; el.style.boxShadow = ""; el.style.transform = "translateY(0)"; }}
+              >
+                <Icon size={16} color={s.iconColor} strokeWidth={2} />
+                <div>
+                  <div style={{ fontSize: 22, fontWeight: 600, color: C.t1, fontFamily: "Poppins, sans-serif", lineHeight: 1.1 }}>{s.num}</div>
+                  <div style={{ fontSize: 13, fontWeight: 500, color: C.t2, marginTop: 2 }}>{s.label}</div>
+                </div>
+                <p style={{ fontSize: 13, fontWeight: 400, color: C.t3, lineHeight: 1.55 }}>{s.body}</p>
+              </div>
+            );
+          })}
         </div>
 
         {/* CTAs */}
