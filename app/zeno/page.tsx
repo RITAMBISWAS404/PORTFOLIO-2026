@@ -70,6 +70,56 @@ function ZenoCard({
   );
 }
 
+/* ── Stat card — icon above number, used only for the metrics row ── */
+
+function ZenoStatCard({
+  icon: Icon, iconColor, stat, label, body, delay = 0,
+}: {
+  icon: LucideIcon; iconColor: string; stat: string;
+  label: string; body: string; delay?: number;
+}) {
+  const ref    = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-10% 0px" });
+  const [glow, setGlow] = useState("");
+
+  return (
+    <div ref={ref}
+      onMouseMove={e => {
+        const r = e.currentTarget.getBoundingClientRect();
+        const x = (((e.clientX - r.left) / r.width)  * 100).toFixed(1);
+        const y = (((e.clientY - r.top)  / r.height) * 100).toFixed(1);
+        setGlow(`radial-gradient(circle at ${x}% ${y}%, rgba(255,255,255,0.05) 0%, ${C.card} 65%)`);
+      }}
+      onMouseEnter={e => {
+        const el = e.currentTarget;
+        el.style.borderColor = "rgba(255,255,255,0.12)";
+        el.style.boxShadow   = "0 4px 20px rgba(0,0,0,0.5)";
+        el.style.transform   = "translateY(-4px)";
+      }}
+      onMouseLeave={e => {
+        setGlow("");
+        const el = e.currentTarget;
+        el.style.borderColor = C.border;
+        el.style.boxShadow   = "";
+        el.style.transform   = "translateY(0)";
+      }}
+      style={{
+        background: glow || C.card,
+        border: `1px solid ${C.border}`, borderRadius: 8, padding: 16,
+        display: "flex", flexDirection: "column", gap: 10, cursor: "default",
+        ...revealStyle(inView, delay),
+        transition: `${revealStyle(inView, delay).transition}, border-color 0.15s, box-shadow 0.15s, transform 0.2s cubic-bezier(.22,1,.36,1)`,
+      }}>
+      <Icon size={16} color={iconColor} strokeWidth={2} />
+      <div>
+        <div style={{ fontSize: 22, fontWeight: 600, color: C.t1, fontFamily: "Poppins, sans-serif", lineHeight: 1.1 }}>{stat}</div>
+        <div style={{ fontSize: 13, fontWeight: 500, color: C.t2, marginTop: 2 }}>{label}</div>
+      </div>
+      <p style={{ fontSize: 13, fontWeight: 400, color: C.t3, lineHeight: 1.55 }}>{body}</p>
+    </div>
+  );
+}
+
 /* ── Callout variants — same layout, no glow (they're informational) */
 
 function Quote({ text }: { text: string }) {
@@ -337,9 +387,9 @@ export default function ZenoPage() {
       <section style={{ ...col, padding: "32px 24px 0" }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div className="zeno-stats-grid">
-            <ZenoCard icon={Layers}    iconColor={C.accent} label="Screens Designed" right="35+"  body="Across 5 flows for iOS and Android."                          delay={0}    />
-            <ZenoCard icon={GitBranch} iconColor={C.blue}   label="Core User Flows"  right="05"  body="Onboarding, dashboard, analytics, settings, account."              delay={0.08} />
-            <ZenoCard icon={Clock}     iconColor={C.yellow} label="MVP Timeline"      right="2M"  body="Blank file to production-ready designs."                           delay={0.16} />
+            <ZenoStatCard icon={Layers}    iconColor={C.accent} stat="35+"  label="Screens Designed" body="Across 5 flows for iOS and Android."             delay={0}    />
+            <ZenoStatCard icon={GitBranch} iconColor={C.blue}   stat="05"   label="Core User Flows"  body="Onboarding, dashboard, analytics, settings, account." delay={0.08} />
+            <ZenoStatCard icon={Clock}     iconColor={C.yellow} stat="2M"   label="MVP Timeline"     body="Blank file to production-ready designs."            delay={0.16} />
           </div>
         </div>
       </section>
