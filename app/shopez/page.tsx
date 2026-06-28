@@ -682,30 +682,6 @@ export default function ShopEZPage() {
         </div>
       </section>
 
-      {/* ── CLOSING — separated by divider from reflection ────── */}
-      <section style={{ ...col, padding: "0 24px 0" }}>
-        <div style={{ height: 1, background: C.border, margin: "48px 0 48px" }} />
-        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-          <Reveal>
-            <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
-              The redesign took longer than building the original. Not because the screens are complicated. Understanding the person behind the counter took time.
-            </p>
-          </Reveal>
-          <Reveal delay={0.08}>
-            <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
-              The most important decision in this whole project was also the smallest one: changing &ldquo;Confirm Transaction&rdquo; to &ldquo;Continue to Bill.&rdquo; Nobody would notice it in a design review. The shopkeeper using the app during a busy evening rush would feel it without knowing why.
-            </p>
-          </Reveal>
-          <Reveal delay={0.12}>
-            <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
-              That is what this kind of design looks like. Not a big innovation. Just attention to the person on the other side of the screen.
-            </p>
-          </Reveal>
-          <Reveal delay={0.16}>
-            <Perspective text="Point. Scan. Bill. Three words. That is the whole product." />
-          </Reveal>
-        </div>
-      </section>
 
       {/* ── BACK TO TOP ──────────────────────────────────────── */}
       <div style={{ ...col, padding: "48px 24px 0", display: "flex", justifyContent: "flex-start" }}>
