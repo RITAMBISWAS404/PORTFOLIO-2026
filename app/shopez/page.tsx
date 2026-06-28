@@ -54,7 +54,7 @@ function StatCard({
         <div style={{ fontSize: 22, fontWeight: 600, color: C.t1, fontFamily: "Poppins, sans-serif", lineHeight: 1.1 }}>{stat}</div>
         <div style={{ fontSize: 13, fontWeight: 500, color: C.t2, marginTop: 2 }}>{label}</div>
       </div>
-      <p style={{ fontSize: 13, fontWeight: 400, color: C.t3, lineHeight: 1.55 }}>{body}</p>
+      <p className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6 }}>{body}</p>
     </div>
   );
 }
