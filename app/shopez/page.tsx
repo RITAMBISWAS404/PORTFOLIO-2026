@@ -615,7 +615,7 @@ export default function ShopEZPage() {
           </Decision>
 
           <Decision num="04" title="Words on a button">
-            <ButtonComparison />
+            <ShopImg src="/images/shopez/button-copy-comparison.png" alt="Confirm Transaction vs Continue to Bill button comparison" />
             <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
               &ldquo;Confirm Transaction&rdquo; sounds like a bank. It implies something formal and final.
             </p>
