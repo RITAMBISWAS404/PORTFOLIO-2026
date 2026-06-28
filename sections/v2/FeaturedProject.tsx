@@ -1,7 +1,7 @@
 "use client";
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { useInView } from "framer-motion";
-import { Star, PenTool, Zap, FileText, BookOpen, Users, Layers, GitBranch, Clock } from "lucide-react";
+import { Star, PenTool, Zap, FileText, BookOpen, Users } from "lucide-react";
 import SectionLabel from "@/components/SectionLabel";
 import Card from "@/components/Card";
 import { zeno } from "@/data/content";
@@ -15,43 +15,11 @@ const tags = [
 ];
 
 const stats = [
-  { label: "Screens Designed",  num: "35+", body: "Covers every key user flow from onboarding through dashboard, analytics, and account settings.", icon: Layers,    iconColor: C.accent },
-  { label: "User Flows Mapped", num: "05",  body: "Onboarding, dashboard, charging session, analytics, and settings.",                              icon: GitBranch, iconColor: C.blue   },
-  { label: "Component System",  num: "40+", body: "A full design system built using Figma variables and design tokens for UI consistency.",          icon: PenTool,   iconColor: C.yellow },
-  { label: "MVP Timeline",      num: "2m",  body: "Blank file to production-ready designs, shipped end to end in just 2 months.",                   icon: Clock,     iconColor: C.red    },
+  { label: "Screens Designed",  num: "35+", body: "Covers every key user flow from onboarding through dashboard, analytics, and account settings." },
+  { label: "User Flows Mapped", num: "05",  body: "Onboarding, dashboard, charging session, analytics, and settings." },
+  { label: "Component System",  num: "40+", body: "A full design system built using Figma variables and design tokens for UI consistency." },
+  { label: "MVP Timeline",      num: "2m",  body: "Blank file to production-ready designs, shipped end to end in just 2 months." },
 ];
-
-function StatCard({ label, num, body, icon: Icon, iconColor }: {
-  label: string; num: string; body: string;
-  icon: React.ElementType; iconColor: string;
-}) {
-  const [glow, setGlow] = React.useState("");
-  return (
-    <div
-      onMouseMove={e => {
-        const r = e.currentTarget.getBoundingClientRect();
-        const x = (((e.clientX - r.left) / r.width)  * 100).toFixed(1);
-        const y = (((e.clientY - r.top)  / r.height) * 100).toFixed(1);
-        setGlow(`radial-gradient(circle at ${x}% ${y}%, rgba(255,255,255,0.05) 0%, ${C.card} 65%)`);
-      }}
-      onMouseEnter={e => { const el = e.currentTarget; el.style.borderColor = "rgba(255,255,255,0.12)"; el.style.boxShadow = "0 4px 20px rgba(0,0,0,0.5)"; el.style.transform = "translateY(-4px)"; }}
-      onMouseLeave={e => { setGlow(""); const el = e.currentTarget; el.style.borderColor = C.border; el.style.boxShadow = ""; el.style.transform = "translateY(0)"; }}
-      style={{
-        background: glow || C.card, border: `1px solid ${C.border}`, borderRadius: 8,
-        padding: 16, display: "flex", flexDirection: "column", gap: 10,
-        transition: "border-color 0.15s, box-shadow 0.15s, transform 0.2s cubic-bezier(.22,1,.36,1)",
-        cursor: "default",
-      }}
-    >
-      <Icon size={16} color={iconColor} strokeWidth={2} />
-      <div>
-        <div style={{ fontSize: 22, fontWeight: 600, color: C.t1, fontFamily: "Poppins, sans-serif", lineHeight: 1.1 }}>{num}</div>
-        <div style={{ fontSize: 12, fontWeight: 500, color: C.t1, letterSpacing: "0.08em", marginTop: 2 }}>{label}</div>
-      </div>
-      <p className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6 }}>{body}</p>
-    </div>
-  );
-}
 
 export default function FeaturedProject() {
   const ref = useRef(null);
@@ -115,8 +83,8 @@ export default function FeaturedProject() {
 
         {/* Stats — 2×2 grid */}
         <div className="stats-grid" style={{ display: "grid", gap: 16, marginTop: 24 }}>
-          {stats.map(s => (
-            <StatCard key={s.label} label={s.label} num={s.num} body={s.body} icon={s.icon} iconColor={s.iconColor} />
+          {stats.map((s, i) => (
+            <Card key={s.label} label={s.label} num={s.num} body={s.body} delay={i * 0.08} />
           ))}
         </div>
 
