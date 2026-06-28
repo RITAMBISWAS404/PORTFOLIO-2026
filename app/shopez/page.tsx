@@ -667,19 +667,6 @@ export default function ShopEZPage() {
               </p>
             </div>
           </Reveal>
-          <Reveal delay={0.18}>
-            <div className="btn-row">
-              <a
-                href="https://www.figma.com/design/WVfPLPULM7YOfAUxtPwx9M/ShopEZ-Portfolio-2026"
-                target="_blank" rel="noopener noreferrer"
-                style={{ display: "flex", alignItems: "center", gap: 10, background: "rgba(255,255,255,0.05)", color: C.t1, padding: "11px 22px", borderRadius: 8, fontSize: 14, fontWeight: 500, textDecoration: "none", transition: "background 0.25s, transform 0.25s" }}
-                onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.09)"; (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-2px)"; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.05)"; (e.currentTarget as HTMLAnchorElement).style.transform = ""; }}
-              >
-                <PenTool size={14} strokeWidth={2} /> View Figma Prototype
-              </a>
-            </div>
-          </Reveal>
         </div>
       </section>
 
