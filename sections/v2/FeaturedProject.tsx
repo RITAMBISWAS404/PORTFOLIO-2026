@@ -43,10 +43,8 @@ function StatCard({ label, num, body, icon: Icon, iconColor }: {
         cursor: "default",
       }}
     >
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <Icon size={14} color={iconColor} strokeWidth={2} />
-        <span style={{ fontSize: 22, fontWeight: 600, color: C.t1, fontFamily: "Poppins, sans-serif", lineHeight: 1 }}>{num}</span>
-      </div>
+      <Icon size={16} color={iconColor} strokeWidth={2} />
+      <div style={{ fontSize: 22, fontWeight: 600, color: C.t1, fontFamily: "Poppins, sans-serif", lineHeight: 1.1 }}>{num}</div>
       <span style={{ fontSize: 12, fontWeight: 500, color: C.t1, letterSpacing: "0.08em" }}>{label}</span>
       <p style={{ fontSize: 14, fontWeight: 400, color: C.t2, lineHeight: 1.6 }}>{body}</p>
     </div>
