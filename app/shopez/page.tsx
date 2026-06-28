@@ -674,10 +674,10 @@ export default function ShopEZPage() {
       <section id="shop-reflection" style={{ ...col, padding: "64px 24px 0" }}>
         <SectionHeading label="REFLECTION" num="07" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-          <div className="shop-reflection-grid">
-            <ShopCard icon={FileText}   iconColor={C.accent} label="Test with real shopkeepers earlier" right="01" body="All design decisions here came from observation and research. One session watching an actual kirana owner use the scan screen would have caught the gap before it became a gap."   delay={0}    />
-            <ShopCard icon={Lightbulb}  iconColor={C.blue}   label="Design the failure states"          right="02" body="Every happy path is designed. None of the error states are. Unrecognised items, camera failure, no internet. Those screens do not exist yet and they should."                 delay={0.08} />
-            <ShopCard icon={Smartphone} iconColor={C.yellow} label="Add a language toggle from day one" right="03" body="The app is in English. A lot of shopkeepers who need this most are not comfortable in English. Hindi or regional language should have been in the first frame of the Figma file." delay={0.16} />
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            <ShopCard icon={FileText}   iconColor={C.accent} label="Test with real users earlier"  right="01" body="All design decisions here came from observation and research. One session watching an actual kirana owner use the scan screen would have caught the gap before it became a gap."   delay={0}    />
+            <ShopCard icon={Lightbulb}  iconColor={C.blue}   label="Design the failure states"     right="02" body="Every happy path is designed. None of the error states are. Unrecognised items, camera failure, no internet. Those screens do not exist yet and they should."                 delay={0.08} />
+            <ShopCard icon={Smartphone} iconColor={C.yellow} label="Language toggle from day one"  right="03" body="The app is in English. A lot of shopkeepers who need this most are not comfortable in English. Hindi or regional language should have been in the first frame of the Figma file." delay={0.16} />
           </div>
         </div>
       </section>
