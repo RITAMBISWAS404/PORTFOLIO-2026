@@ -9,7 +9,57 @@ import {
 import Footer from "@/sections/Footer";
 import { C, col, tagStyle, tagHv, revealStyle } from "@/lib/tokens";
 
-/* ── ShopEZ Card — same layout as ZenoCard ──────────────────────── */
+/* ── Stat card — icon prominent above number ────────────────────── */
+
+function StatCard({
+  icon: Icon, iconColor, stat, label, body, delay = 0,
+}: {
+  icon: LucideIcon; iconColor: string; stat: string;
+  label: string; body: string; delay?: number;
+}) {
+  const ref    = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-10% 0px" });
+  const [glow, setGlow] = useState("");
+
+  return (
+    <div ref={ref}
+      onMouseMove={e => {
+        const r = e.currentTarget.getBoundingClientRect();
+        const x = (((e.clientX - r.left) / r.width)  * 100).toFixed(1);
+        const y = (((e.clientY - r.top)  / r.height) * 100).toFixed(1);
+        setGlow(`radial-gradient(circle at ${x}% ${y}%, rgba(255,255,255,0.05) 0%, ${C.card} 65%)`);
+      }}
+      onMouseEnter={e => {
+        const el = e.currentTarget;
+        el.style.borderColor = "rgba(255,255,255,0.12)";
+        el.style.boxShadow   = "0 4px 20px rgba(0,0,0,0.5)";
+        el.style.transform   = "translateY(-4px)";
+      }}
+      onMouseLeave={e => {
+        setGlow("");
+        const el = e.currentTarget;
+        el.style.borderColor = C.border;
+        el.style.boxShadow   = "";
+        el.style.transform   = "translateY(0)";
+      }}
+      style={{
+        background: glow || C.card,
+        border: `1px solid ${C.border}`, borderRadius: 8, padding: 16,
+        display: "flex", flexDirection: "column", gap: 10, cursor: "default",
+        ...revealStyle(inView, delay),
+        transition: `${revealStyle(inView, delay).transition}, border-color 0.15s, box-shadow 0.15s, transform 0.2s cubic-bezier(.22,1,.36,1)`,
+      }}>
+      <Icon size={16} color={iconColor} strokeWidth={2} />
+      <div>
+        <div style={{ fontSize: 22, fontWeight: 600, color: C.t1, fontFamily: "Poppins, sans-serif", lineHeight: 1.1 }}>{stat}</div>
+        <div style={{ fontSize: 13, fontWeight: 500, color: C.t2, marginTop: 2 }}>{label}</div>
+      </div>
+      <p style={{ fontSize: 13, fontWeight: 400, color: C.t3, lineHeight: 1.55 }}>{body}</p>
+    </div>
+  );
+}
+
+/* ── Regular card — icon + label inline, used in Reflection ─────── */
 
 function ShopCard({
   icon: Icon, iconColor, label, right, body, delay = 0,
@@ -168,6 +218,34 @@ function ThreeColTable({ headers, rows }: { headers: [string, string, string]; r
   );
 }
 
+/* ── Button copy comparison — inline visual for Decision 04 ─────── */
+
+function ButtonComparison() {
+  return (
+    <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 8, padding: "24px 20px", display: "flex", flexDirection: "column", gap: 16, alignItems: "flex-start" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 12, width: "100%" }}>
+        {/* Before */}
+        <div>
+          <span style={{ fontSize: 11, fontWeight: 600, color: C.t3, letterSpacing: "0.1em" }}>BEFORE</span>
+          <div style={{ marginTop: 8, display: "inline-flex", alignItems: "center", gap: 8, padding: "11px 22px", borderRadius: 8, border: `1px solid ${C.red}`, background: "rgba(244,63,94,0.06)", position: "relative" }}>
+            <span style={{ fontSize: 14, fontWeight: 500, color: C.red, textDecoration: "line-through", textDecorationColor: C.red }}>Confirm Transaction</span>
+          </div>
+          <p style={{ marginTop: 6, fontSize: 12, color: C.t3, lineHeight: 1.5 }}>Sounds like a bank. Implies something formal and final.</p>
+        </div>
+        <div style={{ height: 1, background: C.border }} />
+        {/* After */}
+        <div>
+          <span style={{ fontSize: 11, fontWeight: 600, color: C.t3, letterSpacing: "0.1em" }}>AFTER</span>
+          <div style={{ marginTop: 8, display: "inline-flex", alignItems: "center", gap: 8, padding: "11px 22px", borderRadius: 8, border: `1px solid #7c3aed`, background: "rgba(124,58,237,0.08)" }}>
+            <span style={{ fontSize: 14, fontWeight: 500, color: "#a78bfa" }}>Continue to Bill</span>
+          </div>
+          <p style={{ marginTop: 6, fontSize: 12, color: C.t3, lineHeight: 1.5 }}>Says the work is already done. You are finishing something, not beginning it.</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ── Decision block ─────────────────────────────────────────────── */
 
 function Decision({ num, title, first = false, children }: {
@@ -231,17 +309,16 @@ function SectionHeading({ label, num }: { label: string; num: string }) {
   );
 }
 
-/* ── Side nav ───────────────────────────────────────────────────── */
+/* ── Side nav — labels match section headings ───────────────────── */
 
 const NAV_SECTIONS = [
-  { id: "shop-overview",    label: "Overview" },
-  { id: "shop-why",         label: "Why It Matters" },
-  { id: "shop-started",     label: "Where It Started" },
-  { id: "shop-changed",     label: "What Changed" },
-  { id: "shop-decisions",   label: "Decisions" },
-  { id: "shop-flow",        label: "The Flow" },
-  { id: "shop-screens",     label: "Final Screens" },
-  { id: "shop-reflection",  label: "Reflection" },
+  { id: "shop-overview",   label: "What ShopEZ Does" },
+  { id: "shop-why",        label: "Why It Matters" },
+  { id: "shop-started",    label: "Where It Started" },
+  { id: "shop-changed",    label: "What Changed" },
+  { id: "shop-decisions",  label: "Decisions" },
+  { id: "shop-flow",       label: "The Flow" },
+  { id: "shop-reflection", label: "Reflection" },
 ];
 
 function PageNav() {
@@ -325,10 +402,10 @@ export default function ShopEZPage() {
 
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 24 }}>
             {[
-              { label: "UX DESIGN",      icon: <PenTool   size={12} color={C.accent} strokeWidth={2} /> },
-              { label: "AI INTEGRATION", icon: <Zap       size={12} color={C.yellow} strokeWidth={2} /> },
-              { label: "MOBILE",         icon: <Smartphone size={12} color={C.blue}  strokeWidth={2} /> },
-              { label: "INDIAN RETAIL",  icon: <Store     size={12} color={C.red}    strokeWidth={2} /> },
+              { label: "UX DESIGN",      icon: <PenTool    size={12} color={C.accent} strokeWidth={2} /> },
+              { label: "AI INTEGRATION", icon: <Zap        size={12} color={C.yellow} strokeWidth={2} /> },
+              { label: "MOBILE",         icon: <Smartphone size={12} color={C.blue}   strokeWidth={2} /> },
+              { label: "INDIAN RETAIL",  icon: <Store      size={12} color={C.red}    strokeWidth={2} /> },
             ].map(t => (
               <div key={t.label} style={{ ...tagStyle, borderRadius: 8 }} onMouseEnter={e => tagHv(e, true)} onMouseLeave={e => tagHv(e, false)}>
                 {t.icon} {t.label}
@@ -353,18 +430,18 @@ export default function ShopEZPage() {
         <div style={{ borderRadius: 8, overflow: "hidden", width: "100%", background: C.card, border: `1px solid ${C.border}` }}>
           <img
             src="/images/shopez/hero.png"
-            alt="ShopEZ — three phones showing the app"
+            alt="ShopEZ — Point. Scan. Bill."
             style={{ width: "100%", height: "auto", display: "block" }}
           />
         </div>
       </div>
 
-      {/* ── STATS ────────────────────────────────────────────── */}
+      {/* ── STATS — icon above number ────────────────────────── */}
       <section style={{ ...col, padding: "32px 24px 0" }}>
         <div className="shop-stats-grid">
-          <ShopCard icon={Store}     iconColor={C.accent} label="Kirana Stores" right="12M+"  body="Neighbourhood grocery shops across India, most still running on paper."    delay={0}    />
-          <ShopCard icon={GitBranch} iconColor={C.blue}   label="Core Flows"   right="05"    body="Splash, onboarding, dashboard, scan-to-bill, credit management."           delay={0.08} />
-          <ShopCard icon={Clock}     iconColor={C.yellow} label="Per Bill"      right="30s"   body="Typical time from scan to payment confirmation for a 5-item bill."          delay={0.16} />
+          <StatCard icon={Store}     iconColor={C.accent} stat="12M+"  label="Kirana Stores" body="Neighbourhood grocery shops across India, most still running on paper."  delay={0}    />
+          <StatCard icon={GitBranch} iconColor={C.blue}   stat="05"    label="Core Flows"    body="Splash, onboarding, dashboard, scan-to-bill, credit management."          delay={0.08} />
+          <StatCard icon={Clock}     iconColor={C.yellow} stat="30s"   label="Per Bill"      body="Typical time from scan to payment confirmation for a 5-item bill."         delay={0.16} />
         </div>
       </section>
 
@@ -397,20 +474,28 @@ export default function ShopEZPage() {
       <section id="shop-why" style={{ ...col, padding: "64px 24px 0" }}>
         <SectionHeading label="WHY IT MATTERS" num="02" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          {/* Sketch 02 only — Sketch 01 lives exclusively in Decision 01 */}
           <Reveal>
-            <ShopImg src="/images/shopez/sketch-billing-flow.png" alt="Billing flow interaction model sketch" />
+            <ShopImg
+              src="/images/shopez/sketch-before-after.png"
+              alt="Before vs after — paper system vs ShopEZ"
+              caption="Why the paper system had to go."
+            />
           </Reveal>
+          {/* Connecting body text before the table */}
           <Reveal delay={0.08}>
-            <ShopImg src="/images/shopez/sketch-before-after.png" alt="Before vs after comparison sketch" />
+            <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
+              The kirana store problem is not a technology problem. It is a workflow problem. The existing tools ignored how shopkeepers actually work — hands full, counter busy, no time for menus or search bars. The table below shows the gap between what exists and what was actually happening.
+            </p>
           </Reveal>
           <Reveal delay={0.12}>
             <TwoColTable
               headers={["The Problem", "The Reality"]}
               rows={[
-                ["Billing is done by hand",          "Errors, slow, no record"],
-                ["Credit tracked in notebooks",      "Easy to lose, hard to chase"],
-                ["No digital reminder system",       "Shopkeeper has to ask awkwardly"],
-                ["Existing apps too complex",        "Steep learning curve, low adoption"],
+                ["Billing is done by hand",       "Errors, slow, no record"],
+                ["Credit tracked in notebooks",   "Easy to lose, hard to chase"],
+                ["No digital reminder system",    "Shopkeeper has to ask awkwardly"],
+                ["Existing apps too complex",     "Steep learning curve, low adoption"],
               ]}
             />
           </Reveal>
@@ -424,7 +509,7 @@ export default function ShopEZPage() {
           <Reveal>
             <ShopImg
               src="/images/shopez/v1-vs-v2.png"
-              alt="Hackathon build vs redesign comparison"
+              alt="Hackathon build 2024 vs Redesign 2025"
             />
           </Reveal>
           <Reveal delay={0.06}>
@@ -459,12 +544,12 @@ export default function ShopEZPage() {
             <ThreeColTable
               headers={["Area", "Hackathon Version", "Redesign"]}
               rows={[
-                ["First screen",    "Role selector: Retailer or Customer",        "Single purpose, shopkeeper only"],
-                ["Home",            "Customer list, no summary",                   "Dashboard: sales, credit, stock alerts"],
-                ["AI scan",         "Items detected, no feedback",                 "Confidence scores per item, colour coded"],
-                ["Credit tracking", "Buried in customer detail",                   "First-class feature on dashboard and ledger"],
-                ["Payment",         "Not present",                                 "Cash, UPI, Credit — the three that matter"],
-                ["Copy",            "Generic app language",                        "“No more paper khata”"],
+                ["First screen",    "Role selector: Retailer or Customer", "Single purpose, shopkeeper only"],
+                ["Home",            "Customer list, no summary",            "Dashboard: sales, credit, stock alerts"],
+                ["AI scan",         "Items detected, no feedback",          "Confidence scores per item, colour coded"],
+                ["Credit tracking", "Buried in customer detail",            "First-class feature on dashboard and ledger"],
+                ["Payment",         "Not present",                          "Cash, UPI, Credit — the three that matter"],
+                ["Copy",            "Generic app language",                 "“No more paper khata”"],
               ]}
             />
           </Reveal>
@@ -476,8 +561,13 @@ export default function ShopEZPage() {
         <SectionHeading label="THE DECISION JOURNEY" num="05" />
         <div className="mt-section">
 
+          {/* Decision 01 — Sketch 01 lives here exclusively */}
           <Decision num="01" title="Leading with the camera" first>
-            <ShopImg src="/images/shopez/sketch-billing-flow.png" alt="Billing flow doodle" />
+            <ShopImg
+              src="/images/shopez/sketch-billing-flow.png"
+              alt="The core interaction model, mapped out early"
+              caption="The core interaction model, mapped out early."
+            />
             <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
               Every other billing app starts with a search bar or a product list. ShopEZ starts with the camera, because that is how the transaction actually happens. The product is already in the shopkeeper&apos;s hand. They should not need to look it up.
             </p>
@@ -500,9 +590,9 @@ export default function ShopEZPage() {
             <TwoColTable
               headers={["What we could have done", "What we did instead"]}
               rows={[
-                ["Hide the model&apos;s confidence",      "Show it per item, colour coded"],
-                ["Auto-confirm all detections",           "Require shopkeeper review before billing"],
-                ["Skip the manual edit step",             "Built “Add manually” for edge cases"],
+                ["Hide the model’s confidence",  "Show it per item, colour coded"],
+                ["Auto-confirm all detections",       "Require shopkeeper review before billing"],
+                ["Skip the manual edit step",         "Built “Add manually” for edge cases"],
               ]}
             />
             <Insight text="Showing uncertainty builds more trust than hiding it ever could." />
@@ -525,7 +615,7 @@ export default function ShopEZPage() {
           </Decision>
 
           <Decision num="04" title="Words on a button">
-            <ShopImg src="/images/shopez/button-copy-comparison.png" alt="Confirm Transaction vs Continue to Bill button comparison" />
+            <ButtonComparison />
             <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
               &ldquo;Confirm Transaction&rdquo; sounds like a bank. It implies something formal and final.
             </p>
@@ -548,9 +638,9 @@ export default function ShopEZPage() {
             <ThreeColTable
               headers={["Feature", "What it shows", "Why it matters"]}
               rows={[
-                ["Transaction timeline", "Every bill and payment in order",    "Full history, no disputes"],
-                ["Running total",        "Paid in green, credit in red",       "Both parties see the same number"],
-                ["Send Reminder",        "Composes a WhatsApp message",        "Shopkeeper never has to make the call"],
+                ["Transaction timeline", "Every bill and payment in order", "Full history, no disputes"],
+                ["Running total",        "Paid in green, credit in red",    "Both parties see the same number"],
+                ["Send Reminder",        "Composes a WhatsApp message",     "Shopkeeper never has to make the call"],
               ]}
             />
             <Insight text="Sometimes the best UX decision is removing a human interaction nobody wanted to have." />
@@ -565,40 +655,22 @@ export default function ShopEZPage() {
         <SectionHeading label="THE FLOW" num="06" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
+            <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>The entire product in one strip.</p>
+          </Reveal>
+          <Reveal delay={0.06}>
             <ShopImg src="/images/shopez/full-flow-strip.png" alt="Full flow strip — all 8 screens with labels and arrows" />
           </Reveal>
-          <Reveal delay={0.08}>
+          <Reveal delay={0.12}>
             <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 8, padding: "20px 24px", textAlign: "center" }}>
               <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
                 &ldquo;A typical 5-item bill: under 30 seconds from scan to done.&rdquo;
               </p>
             </div>
           </Reveal>
-        </div>
-      </section>
-
-      {/* ── 07 THE FINAL SCREENS ─────────────────────────────── */}
-      <section id="shop-screens" style={{ ...col, padding: "64px 24px 0" }}>
-        <SectionHeading label="THE FINAL SCREENS" num="07" />
-        <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-          <Reveal delay={0.04}>
-            <ShopImg src="/images/shopez/hero.png"                       alt="Hero — three phones"                   caption="Three words. The entire value proposition." />
-          </Reveal>
-          <Reveal delay={0.08}>
-            <ShopImg src="/images/shopez/dashboard-annotated.png"        alt="Dashboard"                             caption="What the shopkeeper checks every morning." />
-          </Reveal>
-          <Reveal delay={0.12}>
-            <ShopImg src="/images/shopez/scan-screen.png"                alt="Scan screen"                           caption="The camera is doing the work. The numbers are doing the reassuring." />
-          </Reveal>
-          <Reveal delay={0.16}>
-            <ShopImg src="/images/shopez/review-bill-select-customer.png" alt="Review Bill and Select Customer"      caption="Fix what the AI missed. Skip what does not need to be there." />
-          </Reveal>
-          <Reveal delay={0.20}>
-            <ShopImg src="/images/shopez/bill-summary-ledger.png"        alt="Bill Summary and Ledger"               caption="Settle the bill. Track the relationship." />
-          </Reveal>
-          <Reveal delay={0.24}>
+          <Reveal delay={0.18}>
             <div className="btn-row">
-              <a href="#"
+              <a
+                href="https://www.figma.com/design/WVfPLPULM7YOfAUxtPwx9M/ShopEZ-Portfolio-2026"
                 target="_blank" rel="noopener noreferrer"
                 style={{ display: "flex", alignItems: "center", gap: 10, background: "rgba(255,255,255,0.05)", color: C.t1, padding: "11px 22px", borderRadius: 8, fontSize: 14, fontWeight: 500, textDecoration: "none", transition: "background 0.25s, transform 0.25s" }}
                 onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.09)"; (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-2px)"; }}
@@ -611,20 +683,21 @@ export default function ShopEZPage() {
         </div>
       </section>
 
-      {/* ── 08 REFLECTION ────────────────────────────────────── */}
+      {/* ── 07 REFLECTION ────────────────────────────────────── */}
       <section id="shop-reflection" style={{ ...col, padding: "64px 24px 0" }}>
-        <SectionHeading label="REFLECTION" num="08" />
+        <SectionHeading label="REFLECTION" num="07" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div className="shop-reflection-grid">
-            <ShopCard icon={FileText}  iconColor={C.accent} label="Test with real shopkeepers earlier" right="01" body="All design decisions here came from observation and research. One session watching an actual kirana owner use the scan screen would have caught the &ldquo;what happens when the AI detects nothing?&rdquo; gap before it became a gap."  delay={0}    />
-            <ShopCard icon={Lightbulb} iconColor={C.blue}   label="Design the failure states"          right="02" body="Every happy path is designed. None of the error states are. Unrecognised items, camera failure, no internet. Those screens do not exist yet and they should."                                                                                delay={0.08} />
-            <ShopCard icon={Smartphone} iconColor={C.yellow} label="Add a language toggle from day one" right="03" body="The app is in English. A lot of shopkeepers who need this most are not comfortable in English. Hindi or a regional language option should have been in the first frame of the Figma file, not a future consideration."              delay={0.16} />
+            <ShopCard icon={FileText}   iconColor={C.accent} label="Test with real shopkeepers earlier" right="01" body="All design decisions here came from observation and research. One session watching an actual kirana owner use the scan screen would have caught the gap before it became a gap."   delay={0}    />
+            <ShopCard icon={Lightbulb}  iconColor={C.blue}   label="Design the failure states"          right="02" body="Every happy path is designed. None of the error states are. Unrecognised items, camera failure, no internet. Those screens do not exist yet and they should."                 delay={0.08} />
+            <ShopCard icon={Smartphone} iconColor={C.yellow} label="Add a language toggle from day one" right="03" body="The app is in English. A lot of shopkeepers who need this most are not comfortable in English. Hindi or regional language should have been in the first frame of the Figma file." delay={0.16} />
           </div>
         </div>
       </section>
 
-      {/* ── CLOSING ──────────────────────────────────────────── */}
-      <section style={{ ...col, padding: "64px 24px 0" }}>
+      {/* ── CLOSING — separated by divider from reflection ────── */}
+      <section style={{ ...col, padding: "0 24px 0" }}>
+        <div style={{ height: 1, background: C.border, margin: "48px 0 48px" }} />
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
             <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
