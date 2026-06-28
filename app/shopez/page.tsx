@@ -383,12 +383,8 @@ export default function ShopEZPage() {
       <section style={{ ...col, padding: "48px 24px 0" }}>
         <Reveal>
           <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 24 }}>
-            <div style={{
-              width: 64, height: 64, borderRadius: 8, overflow: "hidden",
-              flexShrink: 0, background: C.card, border: `1px solid ${C.border}`,
-              display: "flex", alignItems: "center", justifyContent: "center",
-            }}>
-              <Store size={28} color={C.accent} strokeWidth={1.5} />
+            <div style={{ width: 64, height: 64, borderRadius: 8, overflow: "hidden", flexShrink: 0 }}>
+              <img src="/images/shopez logo.png" alt="ShopEZ" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             </div>
             <div>
               <div className="f16" style={{ fontWeight: 500, color: C.t1 }}>ShopEZ</div>
