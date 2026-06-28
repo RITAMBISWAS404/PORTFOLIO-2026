@@ -44,8 +44,10 @@ function StatCard({ label, num, body, icon: Icon, iconColor }: {
       }}
     >
       <Icon size={16} color={iconColor} strokeWidth={2} />
-      <div style={{ fontSize: 22, fontWeight: 600, color: C.t1, fontFamily: "Poppins, sans-serif", lineHeight: 1.1 }}>{num}</div>
-      <span style={{ fontSize: 12, fontWeight: 500, color: C.t1, letterSpacing: "0.08em" }}>{label}</span>
+      <div>
+        <div style={{ fontSize: 22, fontWeight: 600, color: C.t1, fontFamily: "Poppins, sans-serif", lineHeight: 1.1 }}>{num}</div>
+        <div style={{ fontSize: 12, fontWeight: 500, color: C.t1, letterSpacing: "0.08em", marginTop: 2 }}>{label}</div>
+      </div>
       <p className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6 }}>{body}</p>
     </div>
   );
