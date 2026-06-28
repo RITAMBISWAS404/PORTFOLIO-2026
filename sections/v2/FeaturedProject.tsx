@@ -1,5 +1,5 @@
 "use client";
-import { useRef } from "react";
+import React, { useRef } from "react";
 import { useInView } from "framer-motion";
 import { Star, PenTool, Zap, FileText, BookOpen, Users, Layers, GitBranch, Clock } from "lucide-react";
 import SectionLabel from "@/components/SectionLabel";
@@ -20,6 +20,38 @@ const stats = [
   { label: "Component System",  num: "40+", body: "A full design system built using Figma variables and design tokens for UI consistency.",          icon: PenTool,   iconColor: C.yellow },
   { label: "MVP Timeline",      num: "2m",  body: "Blank file to production-ready designs, shipped end to end in just 2 months.",                   icon: Clock,     iconColor: C.red    },
 ];
+
+function StatCard({ label, num, body, icon: Icon, iconColor }: {
+  label: string; num: string; body: string;
+  icon: React.ElementType; iconColor: string;
+}) {
+  const [glow, setGlow] = React.useState("");
+  return (
+    <div
+      onMouseMove={e => {
+        const r = e.currentTarget.getBoundingClientRect();
+        const x = (((e.clientX - r.left) / r.width)  * 100).toFixed(1);
+        const y = (((e.clientY - r.top)  / r.height) * 100).toFixed(1);
+        setGlow(`radial-gradient(circle at ${x}% ${y}%, rgba(255,255,255,0.05) 0%, ${C.card} 65%)`);
+      }}
+      onMouseEnter={e => { const el = e.currentTarget; el.style.borderColor = "rgba(255,255,255,0.12)"; el.style.boxShadow = "0 4px 20px rgba(0,0,0,0.5)"; el.style.transform = "translateY(-4px)"; }}
+      onMouseLeave={e => { setGlow(""); const el = e.currentTarget; el.style.borderColor = C.border; el.style.boxShadow = ""; el.style.transform = "translateY(0)"; }}
+      style={{
+        background: glow || C.card, border: `1px solid ${C.border}`, borderRadius: 8,
+        padding: 16, display: "flex", flexDirection: "column", gap: 10,
+        transition: "border-color 0.15s, box-shadow 0.15s, transform 0.2s cubic-bezier(.22,1,.36,1)",
+        cursor: "default",
+      }}
+    >
+      <Icon size={16} color={iconColor} strokeWidth={2} />
+      <div>
+        <div style={{ fontSize: 22, fontWeight: 600, color: C.t1, fontFamily: "Poppins, sans-serif", lineHeight: 1.1 }}>{num}</div>
+        <div style={{ fontSize: 13, fontWeight: 500, color: C.t2, marginTop: 2 }}>{label}</div>
+      </div>
+      <p style={{ fontSize: 13, fontWeight: 400, color: C.t3, lineHeight: 1.55 }}>{body}</p>
+    </div>
+  );
+}
 
 export default function FeaturedProject() {
   const ref = useRef(null);
@@ -83,26 +115,9 @@ export default function FeaturedProject() {
 
         {/* Stats — 2×2 grid */}
         <div className="stats-grid" style={{ display: "grid", gap: 16, marginTop: 24 }}>
-          {stats.map((s, i) => {
-            const Icon = s.icon;
-            return (
-              <div key={s.label} style={{
-                background: C.card, border: `1px solid ${C.border}`, borderRadius: 8,
-                padding: 16, display: "flex", flexDirection: "column", gap: 10,
-                transition: "border-color 0.15s, box-shadow 0.15s, transform 0.2s cubic-bezier(.22,1,.36,1)",
-              }}
-                onMouseEnter={e => { const el = e.currentTarget; el.style.borderColor = "rgba(255,255,255,0.12)"; el.style.boxShadow = "0 4px 20px rgba(0,0,0,0.5)"; el.style.transform = "translateY(-4px)"; }}
-                onMouseLeave={e => { const el = e.currentTarget; el.style.borderColor = C.border; el.style.boxShadow = ""; el.style.transform = "translateY(0)"; }}
-              >
-                <Icon size={16} color={s.iconColor} strokeWidth={2} />
-                <div>
-                  <div style={{ fontSize: 22, fontWeight: 600, color: C.t1, fontFamily: "Poppins, sans-serif", lineHeight: 1.1 }}>{s.num}</div>
-                  <div style={{ fontSize: 13, fontWeight: 500, color: C.t2, marginTop: 2 }}>{s.label}</div>
-                </div>
-                <p style={{ fontSize: 13, fontWeight: 400, color: C.t3, lineHeight: 1.55 }}>{s.body}</p>
-              </div>
-            );
-          })}
+          {stats.map(s => (
+            <StatCard key={s.label} label={s.label} num={s.num} body={s.body} icon={s.icon} iconColor={s.iconColor} />
+          ))}
         </div>
 
         {/* CTAs */}
