@@ -37,7 +37,7 @@ export default function Card({ label, num, body, delay = 0 }: Props) {
       className="card-chip"
       style={{
         background: glow || "var(--color-card)",
-        border: "1px solid var(--color-border)", borderRadius: 8, padding: 16,
+        border: "1px solid var(--color-border)", borderRadius: 4, padding: 16,
         display: "flex", flexDirection: "column", gap: 8, cursor: "default",
         ...revealStyle(inView, delay),
         transition: `${revealStyle(inView, delay).transition}, border-color 0.15s, box-shadow 0.15s, transform 0.2s cubic-bezier(.22,1,.36,1)`,

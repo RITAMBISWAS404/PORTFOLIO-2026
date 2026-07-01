@@ -41,7 +41,7 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
   const [cursor,setCursor]=useState<{x:number;y:number}|null>(null);
   return(
     <>
-      <a ref={ref} href={p.href} target="_blank" rel="noopener noreferrer" style={{border:`1px solid ${C.border}`,borderRadius:8,overflow:"hidden",
+      <a ref={ref} href={p.href} target="_blank" rel="noopener noreferrer" style={{border:`1px solid ${C.border}`,borderRadius:4,overflow:"hidden",
         display:"flex",flexDirection:"column",color:"inherit",textDecoration:"none",
         position:"relative",
         background: glow || C.card,
@@ -65,7 +65,7 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
         </div>
         <div style={{padding:16,display:"flex",flexWrap:"wrap",gap:8}}>
           {p.tags.map(t=>(
-            <div key={t} style={{ ...tagStyle, borderRadius: 8, background: tagBg[t] ?? "var(--pop-blue)", border: "none", color: "#fff" }}>
+            <div key={t} style={{ ...tagStyle, borderRadius: 4, background: tagBg[t] ?? "var(--pop-blue)", border: "none", color: "#fff" }}>
               {tagIcons[t]}{t}
             </div>
           ))}
@@ -80,7 +80,7 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
           padding:"6px 14px",
           background:C.card,
           border:`1px solid ${C.borderHv}`,
-          borderRadius:"0 8px 8px 8px",
+          borderRadius:"0 4px 4px 4px",
           fontSize:12, fontWeight:500, color:C.t1,
           letterSpacing:"0.08em", whiteSpace:"nowrap",
         }}>

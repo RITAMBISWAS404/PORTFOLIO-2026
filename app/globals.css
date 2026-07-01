@@ -36,10 +36,10 @@
   --pop-yellow:       #FBD85A;
   --pop-light-yellow: #FFE68C;
 
-  --radius-xs: 6px;
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
+  --radius-xs: 4px;
+  --radius-sm: 4px;
+  --radius-md: 4px;
+  --radius-lg: 4px;
   /* Desktop floating nav */
   --nav-height-desktop: 54px;
   --nav-top:            18px;

@@ -33,10 +33,10 @@ function Avatar() {
   return (
     <div ref={ref} onMouseMove={move} onMouseLeave={leave} onMouseEnter={() => setEgg(true)}
       style={{ position: "relative", width: 56, height: 56, flexShrink: 0 }}>
-      <motion.div style={{ width: 56, height: 56, borderRadius: 8, overflow: "hidden", transform }}>
+      <motion.div style={{ width: 56, height: 56, borderRadius: 4, overflow: "hidden", transform }}>
         <div style={{ position: "absolute", inset: 0, background: "#ffffff" }} />
         <img src={egg ? "/images/happy-catto.gif" : "/images/avatar.png"} alt="Ritam Biswas"
-          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", borderRadius: 8 }} />
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", borderRadius: 4 }} />
       </motion.div>
     </div>
   );
@@ -82,7 +82,7 @@ export default function Hero() {
             { label: "2+ YEARS EXP",           icon: <Calendar   size={12} color="#fff" strokeWidth={2} />, bg: "var(--pop-orange)" },
             { label: "MOBILE + WEB UX",        icon: <Smartphone size={12} color="#fff" strokeWidth={2} />, bg: "var(--pop-blue)" },
           ].map(b => (
-            <div key={b.label} style={{ ...tagStyle, borderRadius: 8, background: b.bg, border: "none", color: "#fff" }}>
+            <div key={b.label} style={{ ...tagStyle, borderRadius: 4, background: b.bg, border: "none", color: "#fff" }}>
               {b.icon} {b.label}
             </div>
           ))}
@@ -101,7 +101,7 @@ export default function Hero() {
           <a href="#projects" style={{
             display: "flex", alignItems: "center", gap: 10,
             background: C.t1, color: C.bg, padding: "11px 22px",
-            borderRadius: 8, fontSize: 14, fontWeight: 500, textDecoration: "none",
+            borderRadius: 4, fontSize: 14, fontWeight: 500, textDecoration: "none",
             transition: "opacity 0.25s, transform 0.25s",
           }}
             onMouseEnter={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.opacity = "0.88"; a.style.transform = "translateY(-2px)"; }}
@@ -111,7 +111,7 @@ export default function Hero() {
           <a href="#contact" style={{
             display: "flex", alignItems: "center", gap: 10,
             background: "var(--color-hover-bg)", color: C.t1, padding: "11px 22px",
-            borderRadius: 8, fontSize: 14, fontWeight: 500, textDecoration: "none",
+            borderRadius: 4, fontSize: 14, fontWeight: 500, textDecoration: "none",
             border: `1px solid ${C.border}`,
             transition: "background 0.25s, transform 0.25s",
           }}
