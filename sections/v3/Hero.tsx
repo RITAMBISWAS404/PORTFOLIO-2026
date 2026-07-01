@@ -32,11 +32,11 @@ function Avatar() {
   const leave = () => { rx.set(0); ry.set(0); setEgg(false); };
   return (
     <div ref={ref} onMouseMove={move} onMouseLeave={leave} onMouseEnter={() => setEgg(true)}
-      style={{ position: "relative", width: 80, height: 80, flexShrink: 0 }}>
-      <motion.div style={{ width: 80, height: 80, borderRadius: 12, overflow: "hidden", transform }}>
+      style={{ position: "relative", width: 56, height: 56, flexShrink: 0 }}>
+      <motion.div style={{ width: 56, height: 56, borderRadius: 8, overflow: "hidden", transform }}>
         <div style={{ position: "absolute", inset: 0, background: "#ffffff" }} />
         <img src={egg ? "/images/happy-catto.gif" : "/images/avatar.png"} alt="Ritam Biswas"
-          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", borderRadius: 12 }} />
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", borderRadius: 8 }} />
       </motion.div>
     </div>
   );
