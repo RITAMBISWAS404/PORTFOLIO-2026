@@ -188,19 +188,25 @@ export default function NavbarV2() {
     }}>
       <nav ref={scope} style={{
         pointerEvents: "all",
+        position: "relative",
         width: 54, height: 54, padding: 5,
         transform: "translateY(-70px)",
-        background: navBg,
-        backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)",
         border: `1px solid ${navBorder}`,
         borderRadius: 18,
         display: "flex", alignItems: "center", gap: 5,
         overflow: "hidden",
-        boxShadow: navShadow,
-        transition: "background 0.3s, border-color 0.3s",
+        transition: "border-color 0.3s",
       }}>
+        {/* Backdrop blur isolated inside so border-radius clips it cleanly */}
+        <div style={{
+          position: "absolute", inset: 0,
+          background: navBg,
+          backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)",
+          pointerEvents: "none",
+        }} />
+
         {/* Logo chip */}
-        <a href={resolveHref("#hero")} style={{
+        <a href={resolveHref("#hero")} style={{ position: "relative",
           flexShrink: 0, width: 44, height: 44,
           display: "flex", alignItems: "center", justifyContent: "center",
           textDecoration: "none",
@@ -209,7 +215,7 @@ export default function NavbarV2() {
         </a>
 
         {/* Links + toggle */}
-        <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 2, height: 44 }}>
+        <div style={{ position: "relative", flex: 1, display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 2, height: 44 }}>
           {navLinks.map(({ label, href }) => {
             const sid = href.replace("#", "");
             const isActive = active === sid || (sid === "featured" && active === "projects");
