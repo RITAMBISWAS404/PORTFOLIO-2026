@@ -21,25 +21,24 @@ export default function NavbarV2() {
   const resolveHref = (href: string) => isHome ? href : `/${href}`;
   const isLight = theme === "light";
 
-  // Theme-aware nav colors
-  const navBg = isLight
-    ? (scrolled ? "rgba(244,243,238,0.92)" : "rgba(244,243,238,0.68)")
-    : (scrolled ? "rgba(10,10,10,0.70)"    : "rgba(10,10,10,0.35)");
-  const navBorder = isLight
-    ? (scrolled ? "rgba(0,0,0,0.10)" : "rgba(0,0,0,0.07)")
-    : (scrolled ? "rgba(255,255,255,0.13)" : "rgba(255,255,255,0.09)");
-  const navShadow = scrolled
-    ? (isLight
-        ? "0 8px 32px rgba(0,0,0,0.10), 0 1px 0 rgba(0,0,0,0.04) inset"
-        : "0 12px 40px rgba(0,0,0,0.7), 0 1px 0 rgba(255,255,255,0.05) inset")
-    : "none";
-  const linkActive   = isLight ? "#111111"              : "#ffffff";
-  const linkInactive = isLight ? "rgba(0,0,0,0.42)"    : "rgba(255,255,255,0.42)";
-  const linkHover    = isLight ? "rgba(0,0,0,0.85)"    : "rgba(255,255,255,0.95)";
-  const toggleColor  = isLight ? "rgba(0,0,0,0.45)"    : "rgba(255,255,255,0.45)";
-  const toggleHover  = isLight ? "rgba(0,0,0,0.85)"    : "rgba(255,255,255,0.92)";
-  const sepColor     = isLight ? "rgba(0,0,0,0.10)"    : "rgba(255,255,255,0.10)";
-  const logoFilter   = isLight ? "brightness(0)" : "none";
+  // Nav is always dark regardless of page theme
+  const navBg     = scrolled ? "rgba(12,12,12,0.82)" : "rgba(12,12,12,0.72)";
+  const navBorder = scrolled ? "rgba(255,255,255,0.12)" : "rgba(255,255,255,0.08)";
+  const navShadow = "none";
+  const linkActive   = "#ffffff";
+  const linkInactive = "rgba(255,255,255,0.42)";
+  const linkHover    = "rgba(255,255,255,0.95)";
+  const toggleColor  = "rgba(255,255,255,0.45)";
+  const toggleHover  = "rgba(255,255,255,0.92)";
+  const sepColor     = "rgba(255,255,255,0.10)";
+  const logoFilter   = "none";
+  // Mobile nav still adapts to theme
+  const mobileNavBg     = isLight ? (scrolled ? "rgba(244,243,238,0.92)" : "rgba(244,243,238,0.68)") : (scrolled ? "rgba(10,10,10,0.70)" : "rgba(10,10,10,0.35)");
+  const mobileNavBorder = isLight ? (scrolled ? "rgba(0,0,0,0.10)" : "rgba(0,0,0,0.07)") : (scrolled ? "rgba(255,255,255,0.13)" : "rgba(255,255,255,0.09)");
+  const mobileLinkActive   = isLight ? "#111111" : "#ffffff";
+  const mobileLinkInactive = isLight ? "rgba(0,0,0,0.42)" : "rgba(255,255,255,0.42)";
+  const mobileToggleColor  = isLight ? "rgba(0,0,0,0.45)" : "rgba(255,255,255,0.45)";
+  const mobileLogoFilter   = isLight ? "brightness(0)" : "none";
 
   // Detect mobile
   useEffect(() => {
@@ -93,9 +92,9 @@ export default function NavbarV2() {
         <header style={{
           position: "fixed", top: 0, left: 0, right: 0, zIndex: 1000,
           height: 56,
-          background: navBg,
+          background: mobileNavBg,
           backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)",
-          borderBottom: `1px solid ${navBorder}`,
+          borderBottom: `1px solid ${mobileNavBorder}`,
           display: "flex", alignItems: "center", justifyContent: "space-between",
           padding: "0 20px",
           transition: "background 0.3s, border-color 0.3s",
@@ -105,7 +104,7 @@ export default function NavbarV2() {
             display: "flex", alignItems: "center", justifyContent: "center",
             textDecoration: "none",
           }}>
-            <img src="/images/logo.png" alt="Ritam Biswas" style={{ width: 19, height: 19, objectFit: "contain", filter: logoFilter, transition: "filter 0.3s" }} />
+            <img src="/images/logo.png" alt="Ritam Biswas" style={{ width: 19, height: 19, objectFit: "contain", filter: mobileLogoFilter, transition: "filter 0.3s" }} />
           </a>
 
           <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
@@ -113,7 +112,7 @@ export default function NavbarV2() {
             <button onClick={toggle} aria-label="Toggle theme" style={{
               background: "none", border: "none",
               display: "flex", alignItems: "center", justifyContent: "center",
-              cursor: "pointer", color: toggleColor, padding: 6,
+              cursor: "pointer", color: mobileToggleColor, padding: 6,
               transition: "color 0.25s",
             }}>
               {theme === "dark" ? <Sun size={18} strokeWidth={1.5}/> : <Moon size={18} strokeWidth={1.5}/>}
@@ -147,7 +146,7 @@ export default function NavbarV2() {
           position: "fixed", top: 56, left: 0, right: 0, zIndex: 999,
           background: isLight ? "rgba(244,243,238,0.97)" : "rgba(10,10,10,0.97)",
           backdropFilter: "blur(32px)", WebkitBackdropFilter: "blur(32px)",
-          borderBottom: `1px solid ${navBorder}`,
+          borderBottom: `1px solid ${mobileNavBorder}`,
           padding: "8px 0 8px",
           transform: menuOpen ? "translateY(0)" : "translateY(-8px)",
           opacity: menuOpen ? 1 : 0,
@@ -162,7 +161,7 @@ export default function NavbarV2() {
                 display: "flex", alignItems: "center",
                 height: 52, padding: "0 24px",
                 fontSize: 13, fontWeight: 500,
-                color: isActive ? linkActive : linkInactive,
+                color: isActive ? mobileLinkActive : mobileLinkInactive,
                 letterSpacing: "0.1em", textTransform: "uppercase",
                 textDecoration: "none",
                 borderBottom: i < navLinks.length - 1
@@ -192,13 +191,13 @@ export default function NavbarV2() {
         width: 54, height: 54, padding: 5,
         transform: "translateY(-70px)",
         background: navBg,
-        backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)",
+        backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)",
         border: `1px solid ${navBorder}`,
-        borderRadius: 16,
+        borderRadius: 18,
         display: "flex", alignItems: "center", gap: 5,
         overflow: "hidden",
         boxShadow: navShadow,
-        transition: "background 0.25s, border-color 0.25s, box-shadow 0.25s",
+        transition: "background 0.3s, border-color 0.3s",
       }}>
         {/* Logo chip */}
         <a href={resolveHref("#hero")} style={{
