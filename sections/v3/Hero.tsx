@@ -1,7 +1,7 @@
 "use client";
 import { useRef, useState } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { ArrowRight, MessageCircle, Handshake, Calendar, Smartphone, Network } from "lucide-react";
+import { ArrowRight, MessageCircle, Handshake, Calendar, Smartphone } from "lucide-react";
 import { C, tagStyle } from "@/lib/tokensV2";
 import { useAppReady } from "@/lib/AppReadyContext";
 
@@ -45,22 +45,20 @@ function Avatar() {
 export default function Hero() {
   const { ready } = useAppReady();
   return (
-    <section id="hero" style={{ maxWidth: 768, margin: "0 auto", padding: "48px 24px 0", textAlign: "center" }}>
+    <section id="hero" style={{ maxWidth: 768, margin: "0 auto", padding: "32px 24px 0" }}>
       <motion.div
         variants={container}
         initial="hidden"
         animate={ready ? "show" : "hidden"}
-        style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 20 }}
+        style={{ display: "flex", flexDirection: "column", gap: 24 }}
       >
-        {/* Avatar */}
-        <motion.div variants={item}>
+        {/* Identity — avatar + name side by side */}
+        <motion.div variants={item} style={{ display: "flex", alignItems: "center", gap: 16 }}>
           <Avatar />
-        </motion.div>
-
-        {/* Identity */}
-        <motion.div variants={item} style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-          <div style={{ fontSize: 16, fontWeight: 600, color: C.t1, letterSpacing: "0.01em" }}>Ritam Biswas</div>
-          <div style={{ fontSize: 14, fontWeight: 400, color: C.t2 }}>Product &amp; UX/UI Designer</div>
+          <div>
+            <div className="f16" style={{ fontWeight: 500, color: C.t1, letterSpacing: "0.01em" }}>Ritam Biswas</div>
+            <div className="f16" style={{ fontWeight: 400, color: C.t2 }}>Product &amp; UX/UI Designer</div>
+          </div>
         </motion.div>
 
         {/* Heading */}
@@ -77,21 +75,12 @@ export default function Hero() {
           </h1>
         </motion.div>
 
-        {/* Body */}
-        <motion.div variants={item}>
-          <p className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6, maxWidth: 520 }}>
-            I turn information-heavy products into clean, minimal experiences. 2+ years building
-            for startups, most recently a Copenhagen-based EV energy company.
-          </p>
-        </motion.div>
-
         {/* Badges */}
-        <motion.div variants={item} style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center" }}>
+        <motion.div variants={item} style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
           {[
             { label: "OPEN TO COLLABORATIONS", icon: <Handshake  size={12} color="#fff" strokeWidth={2} />, bg: "var(--pop-green)" },
             { label: "2+ YEARS EXP",           icon: <Calendar   size={12} color="#fff" strokeWidth={2} />, bg: "var(--pop-orange)" },
             { label: "MOBILE + WEB UX",        icon: <Smartphone size={12} color="#fff" strokeWidth={2} />, bg: "var(--pop-blue)" },
-            { label: "SYSTEMS THINKING",       icon: <Network    size={12} color="#fff" strokeWidth={2} />, bg: "var(--pop-pink)" },
           ].map(b => (
             <div key={b.label} style={{ ...tagStyle, borderRadius: 8, background: b.bg, border: "none", color: "#fff" }}>
               {b.icon} {b.label}
@@ -99,16 +88,24 @@ export default function Hero() {
           ))}
         </motion.div>
 
+        {/* Body */}
+        <motion.div variants={item}>
+          <p className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6 }}>
+            I turn information-heavy products into clean, minimal experiences. 2+ years building
+            for startups, most recently a Copenhagen-based EV energy company.
+          </p>
+        </motion.div>
+
         {/* CTAs */}
-        <motion.div variants={item} className="btn-row" style={{ justifyContent: "center" }}>
+        <motion.div variants={item} className="btn-row">
           <a href="#projects" style={{
             display: "flex", alignItems: "center", gap: 10,
             background: C.t1, color: C.bg, padding: "11px 22px",
             borderRadius: 8, fontSize: 14, fontWeight: 500, textDecoration: "none",
-            transition: "opacity 0.25s, transform 0.25s, box-shadow 0.25s",
+            transition: "opacity 0.25s, transform 0.25s",
           }}
-            onMouseEnter={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.opacity = "0.9"; a.style.transform = "translateY(-2px)"; a.style.boxShadow = "0 4px 16px rgba(0,0,0,0.18)"; }}
-            onMouseLeave={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.opacity = "1"; a.style.transform = ""; a.style.boxShadow = ""; }}>
+            onMouseEnter={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.opacity = "0.88"; a.style.transform = "translateY(-2px)"; }}
+            onMouseLeave={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.opacity = "1"; a.style.transform = ""; }}>
             <ArrowRight size={14} strokeWidth={2} /> View my Work
           </a>
           <a href="#contact" style={{
