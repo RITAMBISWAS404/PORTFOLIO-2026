@@ -50,7 +50,7 @@ function ExpEntry({ e, delay, isFirst }: { e: typeof experience[0]; delay: numbe
             <span className="f16" style={{ fontWeight:500, color:C.t1 }}>{e.company}</span>
           </div>
           {/* Date — desktop right side only */}
-          <span className="exp-date f16" style={{ fontWeight:500, color:C.t3 }}>{date}</span>
+          <span className="exp-date f16" style={{ fontWeight:400, color:C.t3 }}>{date}</span>
         </div>
         {/* Mobile: full meta below */}
         <div className="exp-meta-mobile" style={{ fontSize:12, fontWeight:500, color:C.t3, marginTop:4 }}>{fullMeta}</div>

@@ -57,7 +57,7 @@ export default function Hero() {
           <Avatar />
           <div>
             <div className="f16" style={{ fontWeight: 500, color: C.t1, letterSpacing: "0.01em" }}>Ritam Biswas</div>
-            <div className="f16" style={{ fontWeight: 500, color: C.t2 }}>Product &amp; UX/UI Designer</div>
+            <div className="f16" style={{ fontWeight: 400, color: C.t2 }}>Product &amp; UX/UI Designer</div>
           </div>
         </motion.div>
 
@@ -69,7 +69,7 @@ export default function Hero() {
             color: C.t1,
             lineHeight: 1.2,
             letterSpacing: "-0.02em",
-            fontFamily: "inherit",
+            fontFamily: "Poppins, sans-serif",
           }}>
             Complex data doesn&apos;t have to feel complex.
           </h1>
@@ -90,7 +90,7 @@ export default function Hero() {
 
         {/* Body */}
         <motion.div variants={item}>
-          <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.6 }}>
+          <p className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6 }}>
             I turn information-heavy products into clean, minimal experiences. 2+ years building
             for startups, most recently a Copenhagen-based EV energy company.
           </p>

@@ -58,7 +58,7 @@ export default function Contact() {
       <SectionLabel icon={Mail} label="LETS BUILD TOGETHER" num="06" iconColor={C.accent} />
 
       {/* Subheading */}
-      <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.6, marginTop: 24, marginBottom: 32 }}>
+      <p className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6, marginTop: 24, marginBottom: 32 }}>
         Whether it&apos;s a collaboration, an opportunity, or just a conversation, I&apos;m always open. Tell me what&apos;s on your mind.
       </p>
 

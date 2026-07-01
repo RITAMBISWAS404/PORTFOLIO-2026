@@ -59,7 +59,7 @@ export default function Stack() {
           <StackCard key={name} name={name} delay={i * 0.05} />
         ))}
       </div>
-      <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.6, marginTop: 24 }}>
+      <p className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6, marginTop: 24 }}>
         From early research and wireframes to high-fidelity UI and developer handoff, these are the primary tools that move my work forward, with AI woven into every stage.
       </p>
       <style>{`

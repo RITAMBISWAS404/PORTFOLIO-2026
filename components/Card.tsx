@@ -46,7 +46,7 @@ export default function Card({ label, num, body, delay = 0 }: Props) {
         <span style={{ fontSize: 12, fontWeight: 500, color: "var(--color-text-1)", letterSpacing: "0.08em" }}>{label}</span>
         <span style={{ fontSize: 12, fontWeight: 500, color: hovered ? "var(--color-text-2)" : "var(--color-text-3)", transition: "color 0.15s" }}>{num}</span>
       </div>
-      <p className="card-body" style={{ fontWeight: 500, color: "var(--color-text-2)", lineHeight: 1.6 }}>{body}</p>
+      <p className="card-body" style={{ fontWeight: 400, color: "var(--color-text-2)", lineHeight: 1.6 }}>{body}</p>
       <style>{`.card-body{font-size:14px}@media(min-width:768px){.card-body{font-size:16px}}`}</style>
     </div>
   );
