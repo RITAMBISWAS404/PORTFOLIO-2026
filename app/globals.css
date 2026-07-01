@@ -35,43 +35,35 @@
   --nav-height-mobile:  56px;
 }
 
-/* ── Light mode — monochromatic + single blue accent ── */
-/*
-  Palette: pure gray scale for all surfaces and typography.
-  #3D6BE8 blue is the ONLY non-neutral color — used for accent moments only.
-  Background: #f2f2f2 (barely-off-white neutral, like the reference image).
-  Cards: #ffffff (white creates elevation without any shadow drama).
-  All color slots (accent / red / yellow / blue) collapse to a single blue
-  so nothing else competes for attention.
-*/
+/* ── Light mode ── */
 [data-theme="light"] {
   /* Surfaces */
-  --color-bg:               #f2f2f2;   /* barely-off-white neutral gray */
-  --color-card:             #ffffff;   /* white cards sit above the gray canvas */
-  --color-input:            #f8f8f8;
-  /* Borders — pure neutral, no tint */
-  --color-border:           #e2e2e2;
-  --color-border-hover:     #c4c4c4;
-  /* Row / area hover — neutral, not blue */
-  --color-hover:            rgba(0,0,0,0.04);
-  --color-hover-bg:         rgba(0,0,0,0.06);
-  /* Text — pure gray scale */
-  --color-text-1:           #111111;
-  --color-text-2:           #555555;
-  --color-text-3:           #999999;
-  --color-placeholder:      #c0c0c0;
-  /* Single accent — blue is the only non-neutral color */
-  --color-accent:           #3D6BE8;
-  --color-red:              #3D6BE8;   /* no red in monochromatic mode */
-  --color-yellow:           #3D6BE8;   /* no yellow — blue takes every accent slot */
-  --color-blue:             #3D6BE8;
-  /* Card interactions — blue accent only on the interactive moment (hover) */
+  --color-bg:               #f4f4f4;   /* user-specified off-white canvas */
+  --color-card:             #ffffff;   /* pure white cards float above canvas */
+  --color-input:            #f9f9f9;
+  /* Borders */
+  --color-border:           #e3e3e3;
+  --color-border-hover:     #c8c8c8;
+  /* Hover states */
+  --color-hover:            rgba(0,0,0,0.03);
+  --color-hover-bg:         rgba(0,0,0,0.05);
+  /* Text */
+  --color-text-1:           #111111;   /* primary — near black */
+  --color-text-2:           #555555;   /* secondary — mid gray */
+  --color-text-3:           #999999;   /* tertiary — muted */
+  --color-placeholder:      #bbbbbb;
+  /* Accent colors — darkened for contrast on white */
+  --color-accent:           #1e8c3a;   /* green */
+  --color-red:              #e11d48;   /* rose */
+  --color-yellow:           #c27803;   /* amber */
+  --color-blue:             #2563eb;   /* blue */
+  /* Card interactions */
   --color-card-glow:        rgba(0,0,0,0.03);
-  --color-card-hover-border:rgba(61,107,232,0.22);
-  --shadow-card-hover:      0 4px 16px rgba(0,0,0,0.10);
-  /* Feature section dot pattern — kept neutral, not blue */
-  --color-dot:              rgba(0,0,0,0.08);
-  --color-dot-bright:       rgba(0,0,0,0.28);
+  --color-card-hover-border:rgba(0,0,0,0.14);
+  --shadow-card-hover:      0 4px 16px rgba(0,0,0,0.08);
+  /* Dot pattern */
+  --color-dot:              rgba(0,0,0,0.07);
+  --color-dot-bright:       rgba(0,0,0,0.25);
 }
 
 [data-theme="light"] ::selection { background: rgba(61,107,232,0.18); color: #111111; }
