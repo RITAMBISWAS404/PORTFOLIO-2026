@@ -8,30 +8,17 @@ import { projects } from "@/data/content";
 import { C, tagStyle, tagHv, revealStyle, col } from "@/lib/tokensV2";
 
 const tagIcons: Record<string,React.ReactNode>={
-  "AGRICULTURE":<Leaf       size={12} color="#fff" strokeWidth={2}/>,
-  "CASE STUDY": <FileText   size={12} color="#fff" strokeWidth={2}/>,
-  "RETAIL":     <Store      size={12} color="#fff" strokeWidth={2}/>,
-  "TRANSIT":    <TrainFront size={12} color="#fff" strokeWidth={2}/>,
-  "REDESIGN":   <RefreshCw  size={12} color="#fff" strokeWidth={2}/>,
-  "EV TECH":    <Zap        size={12} color="#fff" strokeWidth={2}/>,
-  "WEB DESIGN": <Globe      size={12} color="#fff" strokeWidth={2}/>,
-  "INTERIOR":   <Home       size={12} color="#fff" strokeWidth={2}/>,
-  "LOGO DESIGN":<PenTool    size={12} color="#fff" strokeWidth={2}/>,
-  "AD AGENCY":  <Building2  size={12} color="#fff" strokeWidth={2}/>,
-  "IN PROGRESS":<HardHat    size={12} color="#fff" strokeWidth={2}/>,
-};
-const tagBg: Record<string,string>={
-  "AGRICULTURE": "var(--pop-green)",
-  "CASE STUDY":  "var(--pop-blue)",
-  "RETAIL":      "var(--pop-orange)",
-  "TRANSIT":     "var(--pop-blue)",
-  "REDESIGN":    "var(--pop-green)",
-  "EV TECH":     "var(--pop-orange)",
-  "WEB DESIGN":  "var(--pop-blue)",
-  "INTERIOR":    "var(--pop-orange)",
-  "LOGO DESIGN": "var(--pop-green)",
-  "AD AGENCY":   "var(--pop-pink)",
-  "IN PROGRESS": "var(--pop-orange)",
+  "AGRICULTURE":<Leaf       size={12} color={C.accent} strokeWidth={2}/>,
+  "CASE STUDY": <FileText   size={12} color={C.blue}   strokeWidth={2}/>,
+  "RETAIL":     <Store      size={12} color={C.yellow} strokeWidth={2}/>,
+  "TRANSIT":    <TrainFront size={12} color={C.blue}   strokeWidth={2}/>,
+  "REDESIGN":   <RefreshCw  size={12} color={C.accent} strokeWidth={2}/>,
+  "EV TECH":    <Zap        size={12} color={C.yellow} strokeWidth={2}/>,
+  "WEB DESIGN": <Globe      size={12} color={C.blue}   strokeWidth={2}/>,
+  "INTERIOR":   <Home       size={12} color="#fdbd39"  strokeWidth={2}/>,
+  "LOGO DESIGN":<PenTool    size={12} color={C.accent} strokeWidth={2}/>,
+  "AD AGENCY":  <Building2  size={12} color={C.red}    strokeWidth={2}/>,
+  "IN PROGRESS":<HardHat    size={12} color={C.yellow} strokeWidth={2}/>,
 };
 
 function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
@@ -65,7 +52,7 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
         </div>
         <div style={{padding:16,display:"flex",flexWrap:"wrap",gap:8}}>
           {p.tags.map(t=>(
-            <div key={t} style={{ ...tagStyle, borderRadius: 8, background: tagBg[t] ?? "var(--pop-blue)", border: "none", color: "#fff" }}>
+            <div key={t} style={{ ...tagStyle, borderRadius: 8 }} onMouseEnter={e=>tagHv(e,true)} onMouseLeave={e=>tagHv(e,false)}>
               {tagIcons[t]}{t}
             </div>
           ))}
