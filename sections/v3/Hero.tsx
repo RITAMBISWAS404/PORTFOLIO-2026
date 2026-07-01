@@ -67,7 +67,7 @@ export default function Hero() {
             fontSize: "clamp(36px, 7vw, 54px)",
             fontWeight: 700,
             color: C.t1,
-            lineHeight: 1.1,
+            lineHeight: 1.2,
             letterSpacing: "-0.02em",
             fontFamily: "Poppins, sans-serif",
           }}>
