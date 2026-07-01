@@ -53,7 +53,7 @@ export default function FeaturedProject() {
             </div>
             <div>
               <div className="f16" style={{ fontWeight: 500, color: C.t1 }}>{zeno.name}</div>
-              <div className="f16" style={{ fontWeight: 400, color: C.t2 }}>{zeno.sub}</div>
+              <div className="f16" style={{ fontWeight: 500, color: C.t2 }}>{zeno.sub}</div>
             </div>
           </div>
 
@@ -67,7 +67,7 @@ export default function FeaturedProject() {
           </div>
 
           {/* Description */}
-          <p className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6 }}>
+          <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.6 }}>
             ZENO{" "}
             <strong style={{ color: C.t1, fontWeight: 500 }}>
               turns a data-heavy EV charging app into a four-second experience

@@ -61,7 +61,7 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
         </div>
         <div style={{padding:"16px 16px 0"}}>
           <div className="f16" style={{fontWeight:500,color:C.t1}}>{p.title}</div>
-          <div className="f16" style={{fontWeight:400,color:C.t2,marginTop:4}}>{p.sub}</div>
+          <div className="f16" style={{fontWeight:500,color:C.t2,marginTop:4}}>{p.sub}</div>
         </div>
         <div style={{padding:16,display:"flex",flexWrap:"wrap",gap:8}}>
           {p.tags.map(t=>(
