@@ -74,9 +74,6 @@ type Burst     = { x: number; y: number; t0: number };
 type ShootStar = { x: number; y: number; dx: number; dy: number; spd: number; trail: number; peak: number; t0: number; dur: number };
 type Ripple    = { x: number; y: number; maxR: number; peak: number; t0: number; dur: number };
 
-const cull = <T extends { t0: number; dur: number }>(arr: T[], ts: number): T[] =>
-  arr.filter(e => ts - e.t0 < e.dur);
-
 // ── LED ticker ────────────────────────────────────────────────────────────────
 type TickerState = {
   bitmap: boolean[][]; width: number;
@@ -84,7 +81,6 @@ type TickerState = {
   startTs: number; speed: number; peak: number;
 };
 
-// 3×5 — mobile
 const FONT3x5: Record<string, number[][]> = {
   H: [[1,0,1],[1,0,1],[1,1,1],[1,0,1],[1,0,1]],
   E: [[1,1,1],[1,0,0],[1,1,1],[1,0,0],[1,1,1]],
@@ -112,10 +108,8 @@ const FONT3x5: Record<string, number[][]> = {
   "!": [[0,1,0],[0,1,0],[0,1,0],[0,0,0],[0,1,0]],
   ",": [[0,0,0],[0,0,0],[0,0,0],[0,1,0],[1,0,0]],
   ".": [[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,1,0]],
-  "?": [[0,1,1],[0,0,1],[0,1,0],[0,0,0],[0,1,0]],
   "'": [[0,1,0],[0,1,0],[0,0,0],[0,0,0],[0,0,0]],
 };
-// 5×7 — desktop
 const FONT5x7: Record<string, number[][]> = {
   H: [[1,0,0,0,1],[1,0,0,0,1],[1,0,0,0,1],[1,1,1,1,1],[1,0,0,0,1],[1,0,0,0,1],[1,0,0,0,1]],
   E: [[1,1,1,1,1],[1,0,0,0,0],[1,0,0,0,0],[1,1,1,1,0],[1,0,0,0,0],[1,0,0,0,0],[1,1,1,1,1]],
@@ -143,27 +137,8 @@ const FONT5x7: Record<string, number[][]> = {
   "!": [[0,0,1,0,0],[0,0,1,0,0],[0,0,1,0,0],[0,0,1,0,0],[0,0,1,0,0],[0,0,0,0,0],[0,0,1,0,0]],
   ",": [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,1,0,0],[0,1,0,0,0]],
   ".": [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,1,0,0]],
-  "?": [[0,1,1,1,0],[1,0,0,0,1],[0,0,0,0,1],[0,0,1,1,0],[0,0,1,0,0],[0,0,0,0,0],[0,0,1,0,0]],
   "'": [[0,0,1,0,0],[0,0,1,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]],
 };
-
-function buildTickerBitmap(
-  text: string, font: Record<string, number[][]>,
-  charW: number, charH: number, charGap: number, spaceW: number,
-): { bitmap: boolean[][]; width: number } {
-  const segs: boolean[][] = []; // segs[col][row]
-  const blank = (): boolean[] => new Array(charH).fill(false);
-  for (const ch of text.toUpperCase()) {
-    if (ch === " ") { for (let i = 0; i < spaceW; i++) segs.push(blank()); continue; }
-    const glyph = font[ch];
-    if (!glyph)    { for (let i = 0; i < charGap;  i++) segs.push(blank()); continue; }
-    for (let c = 0; c < charW; c++) segs.push(glyph.map(row => !!row[c]));
-    for (let g = 0; g < charGap;  g++) segs.push(blank());
-  }
-  const width = segs.length;
-  const bitmap: boolean[][] = Array.from({ length: charH }, (_, r) => segs.map(col => col[r]));
-  return { bitmap, width };
-}
 
 // ── Ticker phrases — add more here as needed ──────────────────────────────────
 const TICKER_PHRASES = [
@@ -177,13 +152,33 @@ const TICKER_PHRASES = [
 function pickPhrase(): string {
   const last = sessionStorage.getItem("ticker_last") ?? "";
   let idx = Math.floor(Math.random() * TICKER_PHRASES.length);
-  if (TICKER_PHRASES[idx] === last && TICKER_PHRASES.length > 1) {
+  if (TICKER_PHRASES[idx] === last && TICKER_PHRASES.length > 1)
     idx = (idx + 1) % TICKER_PHRASES.length;
-  }
   const phrase = TICKER_PHRASES[idx];
   sessionStorage.setItem("ticker_last", phrase);
   return phrase;
 }
+
+function buildTickerBitmap(
+  text: string, font: Record<string, number[][]>,
+  charW: number, charH: number, charGap: number, spaceW: number,
+): { bitmap: boolean[][]; width: number } {
+  const segs: boolean[][] = [];
+  const blank = (): boolean[] => new Array(charH).fill(false);
+  for (const ch of text.toUpperCase()) {
+    if (ch === " ") { for (let i = 0; i < spaceW; i++) segs.push(blank()); continue; }
+    const glyph = font[ch];
+    if (!glyph)    { for (let i = 0; i < charGap;  i++) segs.push(blank()); continue; }
+    for (let c = 0; c < charW; c++) segs.push(glyph.map(row => !!row[c]));
+    for (let g = 0; g < charGap;  g++) segs.push(blank());
+  }
+  const width = segs.length;
+  const bitmap: boolean[][] = Array.from({ length: charH }, (_, r) => segs.map(col => col[r]));
+  return { bitmap, width };
+}
+
+const cull = <T extends { t0: number; dur: number }>(arr: T[], ts: number): T[] =>
+  arr.filter(e => ts - e.t0 < e.dur);
 
 const makeDot = (): Dot => ({
   base:  0.02 + Math.random() * 0.04,
@@ -208,9 +203,9 @@ function DotMatrix() {
   const nextSpkRef  = useRef(0);
   const nextStarRef = useRef(Infinity);
   const nextRipRef  = useRef(Infinity);
-  const tickerRef = useRef<TickerState | null>(null);
-  const dotRRef   = useRef(DOT_R);
-  const { ready } = useAppReady();
+  const tickerRef   = useRef<TickerState | null>(null);
+  const dotRRef     = useRef(DOT_R);
+  const { ready }   = useAppReady();
 
   const resize = useCallback(() => {
     const wrap = wrapRef.current, canvas = canvasRef.current;
@@ -244,26 +239,22 @@ function DotMatrix() {
     return () => ro.disconnect();
   }, [resize]);
 
-  // ── LED ticker: scrolls text right-to-left like a metro board ───────────────
+  // ── LED ticker: plays once on load ───────────────────────────────────────────
   useEffect(() => {
     if (!ready) return;
     const cols = colsRef.current, rows = rowsRef.current;
     if (!cols || !rows) return;
-
-    const large  = cols >= 30;
-    const font   = large ? FONT5x7 : FONT3x5;
-    const charW  = large ? 5 : 3;
-    const charH  = large ? 7 : 5;
+    const large   = cols >= 30;
+    const font    = large ? FONT5x7 : FONT3x5;
+    const charW   = large ? 5 : 3;
+    const charH   = large ? 7 : 5;
     const charGap = large ? 2 : 1;
     const spaceW  = large ? 4 : 3;
-
     const { bitmap, width } = buildTickerBitmap(
       pickPhrase(), font, charW, charH, charGap, spaceW,
     );
-
     tickerRef.current = {
-      bitmap,
-      width,
+      bitmap, width,
       startRow: Math.max(0, Math.floor((rows - charH) / 2)),
       charH,
       startTs: performance.now() + 600,
@@ -373,23 +364,6 @@ function DotMatrix() {
             }
           }
 
-          // LED ticker glow
-          let textGlow = 0;
-          const ticker = tickerRef.current;
-          if (ticker && ts >= ticker.startTs) {
-            const scrolled    = (ts - ticker.startTs) * ticker.speed;
-            const textLeftCol = cols - scrolled;          // grid col of bitmap col 0
-            const bCol        = Math.round(c - textLeftCol);
-            const bRow        = r - ticker.startRow;
-            if (bRow >= 0 && bRow < ticker.charH && bCol >= 0 && bCol < ticker.width) {
-              if (ticker.bitmap[bRow][bCol]) textGlow = ticker.peak;
-            }
-            // Play once — clear when fully off-screen
-            if (c === 0 && r === 0 && scrolled >= cols + ticker.width) {
-              tickerRef.current = null;
-            }
-          }
-
           // Shooting star
           let extra = 0;
           for (const s of starsRef.current) {
@@ -424,6 +398,22 @@ function DotMatrix() {
             const dRing = Math.abs(Math.hypot(px - b.x, py - b.y) - ring);
             if (dRing < rw)
               extra = Math.max(extra, (1 - dRing / rw) * Math.pow(1 - prog, 0.55) * 0.95);
+          }
+
+          // LED ticker glow
+          let textGlow = 0;
+          const ticker = tickerRef.current;
+          if (ticker && ts >= ticker.startTs) {
+            const scrolled    = (ts - ticker.startTs) * ticker.speed;
+            const textLeftCol = cols - scrolled;
+            const bCol        = Math.round(c - textLeftCol);
+            const bRow        = r - ticker.startRow;
+            if (bRow >= 0 && bRow < ticker.charH && bCol >= 0 && bCol < ticker.width) {
+              if (ticker.bitmap[bRow][bCol]) textGlow = ticker.peak;
+            }
+            if (c === 0 && r === 0 && scrolled >= cols + ticker.width) {
+              tickerRef.current = null;
+            }
           }
 
           const alpha = Math.min(1, osc + spark + Math.max(cGlow, textGlow) + extra);
