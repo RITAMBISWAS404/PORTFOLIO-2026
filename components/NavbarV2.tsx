@@ -35,7 +35,7 @@ export default function NavbarV2() {
   // Mobile nav still adapts to theme
   const mobileNavBg     = isLight ? (scrolled ? "rgba(244,243,238,0.92)" : "rgba(244,243,238,0.68)") : (scrolled ? "rgba(10,10,10,0.70)" : "rgba(10,10,10,0.35)");
   const mobileNavBorder = isLight ? (scrolled ? "rgba(0,0,0,0.10)" : "rgba(0,0,0,0.07)") : (scrolled ? "rgba(255,255,255,0.13)" : "rgba(255,255,255,0.09)");
-  const mobileLinkActive   = isLight ? "#272D3B" : "#ffffff";
+  const mobileLinkActive   = isLight ? "#222222" : "#ffffff";
   const mobileLinkInactive = isLight ? "rgba(0,0,0,0.42)" : "rgba(255,255,255,0.42)";
   const mobileToggleColor  = isLight ? "rgba(0,0,0,0.45)" : "rgba(255,255,255,0.45)";
   const mobileLogoFilter   = isLight ? "brightness(0)" : "none";
@@ -124,7 +124,7 @@ export default function NavbarV2() {
               style={{
                 background: "none", border: "none",
                 display: "flex", alignItems: "center", justifyContent: "center",
-                cursor: "pointer", color: isLight ? "#272D3B" : "#fff", padding: 4,
+                cursor: "pointer", color: isLight ? "#222222" : "#fff", padding: 4,
               }}>
               {menuOpen ? <X size={20} strokeWidth={1.5}/> : <Menu size={20} strokeWidth={1.5}/>}
             </button>
@@ -190,7 +190,7 @@ export default function NavbarV2() {
         pointerEvents: "all",
         width: 54, height: 54, padding: 5,
         transform: "translateY(-70px)",
-        background: "#272D3B",
+        background: "#222222",
         border: `1px solid rgba(255,255,255,0.08)`,
         borderRadius: 8,
         display: "flex", alignItems: "center", gap: 5,
