@@ -8,10 +8,10 @@ import { zeno } from "@/data/content";
 import { C, tagStyle, tagHv, revealStyle, col } from "@/lib/tokensV2";
 
 const tags = [
-  { label: "UX DESIGN",  icon: <PenTool size={12} color={C.accent} strokeWidth={2} /> },
-  { label: "EV APP",     icon: <Zap     size={12} color={C.yellow} strokeWidth={2} /> },
-  { label: "CASE STUDY", icon: <FileText size={12} color={C.blue}  strokeWidth={2} /> },
-  { label: "B2C",        icon: <Users   size={12} color={C.blue}   strokeWidth={2} /> },
+  { label: "UX DESIGN",  icon: <PenTool  size={12} color="#fff" strokeWidth={2} />, bg: "var(--pop-green)" },
+  { label: "EV APP",     icon: <Zap      size={12} color="#fff" strokeWidth={2} />, bg: "var(--pop-orange)" },
+  { label: "CASE STUDY", icon: <FileText size={12} color="#fff" strokeWidth={2} />, bg: "var(--pop-blue)" },
+  { label: "B2C",        icon: <Users    size={12} color="#fff" strokeWidth={2} />, bg: "var(--pop-blue)" },
 ];
 
 const stats = [
@@ -60,8 +60,7 @@ export default function FeaturedProject() {
           {/* Tags */}
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
             {tags.map(t => (
-              <div key={t.label} style={{ ...tagStyle, borderRadius: 8 }}
-                onMouseEnter={e => tagHv(e, true)} onMouseLeave={e => tagHv(e, false)}>
+              <div key={t.label} style={{ ...tagStyle, borderRadius: 8, background: t.bg, border: "none", color: "#fff" }}>
                 {t.icon}{t.label}
               </div>
             ))}

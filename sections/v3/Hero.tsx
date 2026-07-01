@@ -521,13 +521,12 @@ export default function Hero() {
         {/* Badges */}
         <motion.div variants={item} style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
           {[
-            { label: "OPEN TO COLLABORATIONS", icon: <Handshake  size={12} color={C.accent} strokeWidth={2} /> },
-            { label: "2+ YEARS EXP",           icon: <Calendar   size={12} color={C.yellow} strokeWidth={2} /> },
-            { label: "MOBILE + WEB UX",        icon: <Smartphone size={12} color={C.blue}   strokeWidth={2} /> },
-            { label: "SYSTEMS THINKING",       icon: <Network    size={12} color={C.red}     strokeWidth={2} /> },
+            { label: "OPEN TO COLLABORATIONS", icon: <Handshake  size={12} color="#fff" strokeWidth={2} />, bg: "var(--pop-green)" },
+            { label: "2+ YEARS EXP",           icon: <Calendar   size={12} color="#fff" strokeWidth={2} />, bg: "var(--pop-orange)" },
+            { label: "MOBILE + WEB UX",        icon: <Smartphone size={12} color="#fff" strokeWidth={2} />, bg: "var(--pop-blue)" },
+            { label: "SYSTEMS THINKING",       icon: <Network    size={12} color="#fff" strokeWidth={2} />, bg: "var(--pop-pink)" },
           ].map(b => (
-            <div key={b.label} style={{ ...tagStyle, borderRadius: 8 }}
-              onMouseEnter={e => tagHv(e, true)} onMouseLeave={e => tagHv(e, false)}>
+            <div key={b.label} style={{ ...tagStyle, borderRadius: 8, background: b.bg, border: "none", color: "#fff" }}>
               {b.icon} {b.label}
             </div>
           ))}
