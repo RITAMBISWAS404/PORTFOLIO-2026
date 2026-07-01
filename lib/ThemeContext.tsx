@@ -5,8 +5,8 @@ type Theme = "dark" | "light";
 interface ThemeCtx { theme: Theme; toggle: () => void; }
 const Ctx = createContext<ThemeCtx>({ theme: "dark", toggle: () => {} });
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("dark");
+export function ThemeProvider({ children, defaultTheme = "dark" }: { children: React.ReactNode; defaultTheme?: Theme }) {
+  const [theme, setTheme] = useState<Theme>(defaultTheme);
 
   // Restore from localStorage on first mount
   useEffect(() => {
