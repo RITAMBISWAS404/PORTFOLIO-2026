@@ -24,6 +24,18 @@
   /* Feature section dot pattern */
   --color-dot:         rgba(255,255,255,0.15);
   --color-dot-bright:  rgba(255,255,255,0.75);
+  /* ── Pop color palette ── */
+  --pop-green:        #54B0AF;
+  --pop-light-green:  #7DD9D8;
+  --pop-pink:         #EC6995;
+  --pop-light-pink:   #FF8CB3;
+  --pop-blue:         #487AB9;
+  --pop-light-blue:   #70A3E2;
+  --pop-orange:       #FE7759;
+  --pop-light-orange: #FFA38E;
+  --pop-yellow:       #FBD85A;
+  --pop-light-yellow: #FFE68C;
+
   --radius-xs: 6px;
   --radius-sm: 8px;
   --radius-md: 12px;
