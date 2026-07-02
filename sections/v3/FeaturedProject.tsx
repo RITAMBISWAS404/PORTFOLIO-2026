@@ -8,17 +8,17 @@ import { zeno } from "@/data/content";
 import { C, tagStyle, tagHv, revealStyle, col } from "@/lib/tokensV2";
 
 const tags = [
-  { label: "UX DESIGN",  icon: <PenTool  size={12} color="#fff" strokeWidth={2} />, bg: "var(--pop-green)" },
-  { label: "EV APP",     icon: <Zap      size={12} color="#fff" strokeWidth={2} />, bg: "var(--pop-orange)" },
-  { label: "CASE STUDY", icon: <FileText size={12} color="#fff" strokeWidth={2} />, bg: "var(--pop-blue)" },
-  { label: "B2C",        icon: <Users    size={12} color="#fff" strokeWidth={2} />, bg: "var(--pop-blue)" },
+  { label: "UX DESIGN",  icon: <PenTool  size={12} color="#222222" strokeWidth={2} /> },
+  { label: "EV APP",     icon: <Zap      size={12} color="#222222" strokeWidth={2} /> },
+  { label: "CASE STUDY", icon: <FileText size={12} color="#222222" strokeWidth={2} /> },
+  { label: "B2C",        icon: <Users    size={12} color="#222222" strokeWidth={2} /> },
 ];
 
 const stats = [
-  { label: "Screens Designed",  num: "35+", body: "Covers every key user flow from onboarding through dashboard, analytics, and account settings." },
-  { label: "User Flows Mapped", num: "05",  body: "Onboarding, dashboard, charging session, analytics, and settings." },
-  { label: "Component System",  num: "40+", body: "A full design system built using Figma variables and design tokens for UI consistency." },
-  { label: "MVP Timeline",      num: "2m",  body: "Blank file to production-ready designs, shipped end to end in just 2 months." },
+  { label: "Screens Designed",  num: "35+", body: "Covers every key user flow from onboarding through dashboard, analytics, and account settings.", bg: "var(--pop-green)" },
+  { label: "User Flows Mapped", num: "05",  body: "Onboarding, dashboard, charging session, analytics, and settings.", bg: "var(--pop-orange)" },
+  { label: "Component System",  num: "40+", body: "A full design system built using Figma variables and design tokens for UI consistency.", bg: "var(--pop-blue)" },
+  { label: "MVP Timeline",      num: "2m",  body: "Blank file to production-ready designs, shipped end to end in just 2 months.", bg: "var(--pop-pink)" },
 ];
 
 export default function FeaturedProject() {
@@ -60,7 +60,7 @@ export default function FeaturedProject() {
           {/* Tags */}
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
             {tags.map(t => (
-              <div key={t.label} style={{ ...tagStyle, borderRadius: 4, background: t.bg, border: "none", color: "#fff" }}>
+              <div key={t.label} style={{ ...tagStyle, borderRadius: 4, background: "#ffffff", border: "1px solid rgba(0,0,0,0.10)", color: "#222222" }}>
                 {t.icon}{t.label}
               </div>
             ))}
@@ -83,7 +83,7 @@ export default function FeaturedProject() {
         {/* Stats — 2×2 grid */}
         <div className="stats-grid" style={{ display: "grid", gap: 16, marginTop: 24 }}>
           {stats.map((s, i) => (
-            <Card key={s.label} label={s.label} num={s.num} body={s.body} delay={i * 0.08} />
+            <Card key={s.label} label={s.label} num={s.num} body={s.body} delay={i * 0.08} bg={s.bg} />
           ))}
         </div>
 

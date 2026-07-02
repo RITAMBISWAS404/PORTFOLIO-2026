@@ -20,52 +20,32 @@ const tagIcons: Record<string,React.ReactNode>={
   "AD AGENCY":  <Building2  size={12} color="#fff" strokeWidth={2}/>,
   "IN PROGRESS":<HardHat    size={12} color="#fff" strokeWidth={2}/>,
 };
-const tagBg: Record<string,string>={
-  "AGRICULTURE": "var(--pop-green)",
-  "CASE STUDY":  "var(--pop-blue)",
-  "RETAIL":      "var(--pop-orange)",
-  "TRANSIT":     "var(--pop-blue)",
-  "REDESIGN":    "var(--pop-green)",
-  "EV TECH":     "var(--pop-orange)",
-  "WEB DESIGN":  "var(--pop-blue)",
-  "INTERIOR":    "var(--pop-orange)",
-  "LOGO DESIGN": "var(--pop-green)",
-  "AD AGENCY":   "var(--pop-pink)",
-  "IN PROGRESS": "var(--pop-orange)",
-};
 
 function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
   const ref=useRef(null);
   const inView=useInView(ref,{once:true,margin:"-10% 0px"});
-  const [glow,setGlow]=useState("");
   const [cursor,setCursor]=useState<{x:number;y:number}|null>(null);
   return(
     <>
-      <a ref={ref} href={p.href} target="_blank" rel="noopener noreferrer" style={{border:`1px solid ${C.border}`,borderRadius:4,overflow:"hidden",
+      <a ref={ref} href={p.href} target="_blank" rel="noopener noreferrer" style={{border:"1px solid rgba(255,255,255,0.08)",borderRadius:4,overflow:"hidden",
         display:"flex",flexDirection:"column",color:"inherit",textDecoration:"none",
         position:"relative",
-        background: glow || C.card,
+        background:"#222222",
         ...revealStyle(inView,delay),
         transition:`${revealStyle(inView,delay).transition},border-color 0.15s,box-shadow 0.15s,transform 0.2s cubic-bezier(.22,1,.36,1)`}}
-        onMouseMove={e=>{
-          const r=e.currentTarget.getBoundingClientRect();
-          const x=(((e.clientX-r.left)/r.width)*100).toFixed(1);
-          const y=(((e.clientY-r.top)/r.height)*100).toFixed(1);
-          setGlow(`radial-gradient(circle at ${x}% ${y}%, var(--color-card-glow) 0%, var(--color-card) 65%)`);
-          setCursor({x:e.clientX,y:e.clientY});
-        }}
-        onMouseEnter={e=>{const el=e.currentTarget;el.style.borderColor="var(--color-card-hover-border)";el.style.boxShadow="var(--shadow-card-hover)";el.style.transform="translateY(-4px)";}}
-        onMouseLeave={e=>{setGlow("");setCursor(null);const el=e.currentTarget;el.style.borderColor=C.border;el.style.boxShadow="";el.style.transform="translateY(0)";}}>
+        onMouseEnter={e=>{const el=e.currentTarget;el.style.borderColor="rgba(255,255,255,0.15)";el.style.boxShadow="0 4px 20px rgba(0,0,0,0.4)";el.style.transform="translateY(-4px)";setCursor({x:e.clientX,y:e.clientY});}}
+        onMouseMove={e=>{setCursor({x:e.clientX,y:e.clientY});}}
+        onMouseLeave={e=>{setCursor(null);const el=e.currentTarget;el.style.borderColor="rgba(255,255,255,0.08)";el.style.boxShadow="";el.style.transform="translateY(0)";}}>
         <div style={{height:192,overflow:"hidden",background:"transparent"}}>
           <img src={p.img} alt={p.title} style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}} loading="lazy"/>
         </div>
         <div style={{padding:"16px 16px 0"}}>
-          <div className="f16" style={{fontWeight:500,color:C.t1}}>{p.title}</div>
-          <div className="f16" style={{fontWeight:400,color:C.t2,marginTop:4}}>{p.sub}</div>
+          <div className="f16" style={{fontWeight:500,color:"#ffffff"}}>{p.title}</div>
+          <div className="f16" style={{fontWeight:400,color:"rgba(255,255,255,0.55)",marginTop:4}}>{p.sub}</div>
         </div>
         <div style={{padding:16,display:"flex",flexWrap:"wrap",gap:8}}>
           {p.tags.map(t=>(
-            <div key={t} style={{ ...tagStyle, borderRadius: 4, background: tagBg[t] ?? "var(--pop-blue)", border: "none", color: "#fff" }}>
+            <div key={t} style={{ ...tagStyle, borderRadius: 4, background: "rgba(255,255,255,0.10)", border: "1px solid rgba(255,255,255,0.10)", color: "#ffffff" }}>
               {tagIcons[t]}{t}
             </div>
           ))}

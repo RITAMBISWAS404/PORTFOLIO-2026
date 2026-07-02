@@ -71,18 +71,18 @@ export default function Hero() {
             letterSpacing: "-0.02em",
             fontFamily: "Poppins, sans-serif",
           }}>
-            Complex data doesn&apos;t have to feel complex.
+            Complex data <span style={{ color: "var(--pop-blue)" }}>doesn&apos;t have to feel</span> complex.
           </h1>
         </motion.div>
 
         {/* Badges */}
         <motion.div variants={item} style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
           {[
-            { label: "OPEN TO COLLABORATIONS", icon: <Handshake  size={12} color="#fff" strokeWidth={2} />, bg: "var(--pop-green)" },
-            { label: "2+ YEARS EXP",           icon: <Calendar   size={12} color="#fff" strokeWidth={2} />, bg: "var(--pop-orange)" },
-            { label: "MOBILE + WEB UX",        icon: <Smartphone size={12} color="#fff" strokeWidth={2} />, bg: "var(--pop-blue)" },
+            { label: "OPEN TO COLLABORATIONS", icon: <Handshake  size={12} color="#222222" strokeWidth={2} /> },
+            { label: "2+ YEARS EXP",           icon: <Calendar   size={12} color="#222222" strokeWidth={2} /> },
+            { label: "MOBILE + WEB UX",        icon: <Smartphone size={12} color="#222222" strokeWidth={2} /> },
           ].map(b => (
-            <div key={b.label} style={{ ...tagStyle, borderRadius: 4, background: b.bg, border: "none", color: "#fff" }}>
+            <div key={b.label} style={{ ...tagStyle, borderRadius: 4, background: "#ffffff", border: "1px solid rgba(0,0,0,0.10)", color: "#222222" }}>
               {b.icon} {b.label}
             </div>
           ))}
