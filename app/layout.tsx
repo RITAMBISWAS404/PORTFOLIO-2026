@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
+import ConditionalNavbar from "@/components/ConditionalNavbar";
 import LoadingScreen from "@/components/LoadingScreen";
 import { AppReadyProvider } from "@/lib/AppReadyContext";
 import { Analytics } from "@vercel/analytics/next";
@@ -21,7 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <AppReadyProvider>
           <LoadingScreen />
-          <Navbar />
+          <ConditionalNavbar />
           {children}
         </AppReadyProvider>
         <Analytics />
