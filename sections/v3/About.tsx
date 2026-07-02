@@ -40,8 +40,8 @@ export default function About() {
       <SectionHeadingV3 num="03" title="About Me" />
 
       {/* Bio */}
-      <p ref={bioRef} className="f16"
-        style={{ fontWeight: 400, color: C.t2, lineHeight: 1.7, marginTop: 24, ...revealStyle(bioInView) }}>
+      <p ref={bioRef} className="f16 mt-section"
+        style={{ fontWeight: 400, color: C.t2, lineHeight: 1.7, ...revealStyle(bioInView) }}>
         Namaste!{" "}
         <strong style={{ color: C.t1, fontWeight: 500 }}>
           I&apos;m Ritam Biswas, a Product Designer with a CS background.
