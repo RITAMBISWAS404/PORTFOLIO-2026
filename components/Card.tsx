@@ -47,10 +47,10 @@ export default function Card({ label, num, body, delay = 0, bg }: Props) {
           : `${revealStyle(inView, delay).transition}, border-color 0.15s, box-shadow 0.15s, transform 0.2s cubic-bezier(.22,1,.36,1)`,
       }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <span style={{ fontSize: 12, fontWeight: 500, color: isColored ? "rgba(255,255,255,0.80)" : "var(--color-text-1)", letterSpacing: "0.08em" }}>{label}</span>
+        <span style={{ fontSize: 12, fontWeight: 500, color: isColored ? "#ffffff" : "var(--color-text-1)", letterSpacing: "0.08em" }}>{label}</span>
         <span style={{ fontSize: 12, fontWeight: 500, color: isColored ? "#ffffff" : (hovered ? "var(--color-text-2)" : "var(--color-text-3)"), transition: "color 0.15s" }}>{num}</span>
       </div>
-      <p className="card-body" style={{ fontWeight: 400, color: isColored ? "rgba(255,255,255,0.85)" : "var(--color-text-2)", lineHeight: 1.6 }}>{body}</p>
+      <p className="card-body" style={{ fontWeight: 400, color: isColored ? "#ffffff" : "var(--color-text-2)", lineHeight: 1.6 }}>{body}</p>
       <style>{`.card-body{font-size:14px}@media(min-width:768px){.card-body{font-size:16px}}`}</style>
     </div>
   );
