@@ -1,7 +1,7 @@
 "use client";
 import { useState, useRef } from "react";
-import { Mail, Check } from "lucide-react";
-import SectionLabel from "@/components/SectionLabel";
+import { Check } from "lucide-react";
+import SectionHeadingV3 from "@/components/SectionHeadingV3";
 import { C, inputBase, col } from "@/lib/tokensV2";
 
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/mredrnrp";
@@ -55,7 +55,7 @@ export default function Contact() {
 
   return (
     <section id="contact" style={{ ...col, padding: "64px 24px 0" }}>
-      <SectionLabel icon={Mail} label="LETS BUILD TOGETHER" num="06" iconColor={C.accent} />
+      <SectionHeadingV3 num="06" title="Let's Build Together" accent="var(--pop-green)" />
 
       {/* Subheading */}
       <p className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6, marginTop: 24, marginBottom: 32 }}>

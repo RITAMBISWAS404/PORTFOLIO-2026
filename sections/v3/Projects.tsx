@@ -1,9 +1,9 @@
 "use client";
 import { useRef } from "react";
 import { useInView } from "framer-motion";
-import { LayoutGrid,Leaf,FileText,Store,TrainFront,RefreshCw,Zap,Globe,Home,PenTool,Building2,HardHat } from "lucide-react";
+import { Leaf,FileText,Store,TrainFront,RefreshCw,Zap,Globe,Home,PenTool,Building2,HardHat } from "lucide-react";
 import { useState } from "react";
-import SectionLabel from "@/components/SectionLabel";
+import SectionHeadingV3 from "@/components/SectionHeadingV3";
 import { projects } from "@/data/content";
 import { C, tagStyle, tagHv, revealStyle, col } from "@/lib/tokensV2";
 
@@ -74,7 +74,7 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
 export default function Projects(){
   return(
     <section id="projects" style={{...col,padding:"64px 24px 0"}}>
-      <SectionLabel icon={LayoutGrid} label="SELECTED PROJECTS" num="02" iconColor={C.blue}/>
+      <SectionHeadingV3 num="02" title="Selected Projects" accent="var(--pop-blue)" />
       <div className="mt-section" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))",gap:16}}>
         {projects.map((p,i)=><ProjectCard key={p.title} p={p} delay={i*0.06}/>)}
       </div>

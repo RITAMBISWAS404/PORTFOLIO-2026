@@ -1,8 +1,8 @@
 "use client";
 import { useRef } from "react";
 import { useInView } from "framer-motion";
-import { Star, PenTool, Zap, FileText, BookOpen, Users } from "lucide-react";
-import SectionLabel from "@/components/SectionLabel";
+import { PenTool, Zap, FileText, BookOpen, Users } from "lucide-react";
+import SectionHeadingV3 from "@/components/SectionHeadingV3";
 import Card from "@/components/Card";
 import { zeno } from "@/data/content";
 import { C, tagStyle, tagHv, revealStyle, col } from "@/lib/tokensV2";
@@ -28,7 +28,7 @@ export default function FeaturedProject() {
   return (
     <>
       <div id="featured" style={{ ...col, padding: "64px 24px 32px" }}>
-        <SectionLabel icon={Star} label="FEATURED PROJECT" num="01" iconColor={C.yellow} />
+        <SectionHeadingV3 num="01" title="Featured Project" accent="var(--pop-orange)" />
       </div>
 
       {/* Feature image */}

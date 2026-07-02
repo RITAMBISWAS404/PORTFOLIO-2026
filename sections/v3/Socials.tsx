@@ -1,13 +1,12 @@
 "use client";
-import { Share2 } from "lucide-react";
-import SectionLabel from "@/components/SectionLabel";
+import SectionHeadingV3 from "@/components/SectionHeadingV3";
 import { socials } from "@/data/content";
 import { C, col } from "@/lib/tokensV2";
 
 export default function Socials() {
   return (
     <section id="socials" style={{ ...col, padding: "64px 24px 0" }}>
-      <SectionLabel icon={Share2} label="MY SOCIALS" num="07" iconColor={C.blue} />
+      <SectionHeadingV3 num="07" title="My Socials" accent="var(--pop-blue)" />
       <div className="mt-section-card">
         {socials.map((s, i) => (
           <a key={s.name} href={s.href} target="_blank" rel="noopener" style={{

@@ -1,8 +1,8 @@
 "use client";
 import { useRef, useState } from "react";
 import { useInView } from "framer-motion";
-import { User, Copy, Check } from "lucide-react";
-import SectionLabel from "@/components/SectionLabel";
+import { Copy, Check } from "lucide-react";
+import SectionHeadingV3 from "@/components/SectionHeadingV3";
 import Card from "@/components/Card";
 import { C, revealStyle, col } from "@/lib/tokensV2";
 import { stack, stackColors } from "@/data/content";
@@ -37,7 +37,7 @@ export default function About() {
 
   return (
     <section id="about" style={{ ...col, padding: "64px 24px 0" }}>
-      <SectionLabel icon={User} label="ABOUT ME" num="03" iconColor={C.accent} />
+      <SectionHeadingV3 num="03" title="About Me" accent="var(--pop-green)" />
 
       {/* Bio */}
       <p ref={bioRef} className="f16"
