@@ -55,7 +55,7 @@ export default function Contact() {
 
   return (
     <section id="contact" style={{ ...col, padding: "64px 24px 0" }}>
-      <SectionHeadingV3 num="06" title="Let's Build Together" accent="var(--pop-green)" />
+      <SectionHeadingV3 num="06" title="Let's Build Together" />
 
       {/* Subheading */}
       <p className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6, marginTop: 24, marginBottom: 32 }}>
