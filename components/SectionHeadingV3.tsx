@@ -12,18 +12,29 @@ export default function SectionHeadingV3({ num, title }: Props) {
   const inView = useInView(ref, { once: true, margin: "-15% 0px" });
 
   return (
-    <h2 ref={ref} style={{
-      fontSize: "clamp(28px, 4vw, 40px)",
-      fontWeight: 550,
-      letterSpacing: "-0.02em",
-      lineHeight: 1.15,
-      margin: 0,
+    <div ref={ref} style={{
       opacity: inView ? 1 : 0,
       transform: inView ? "translateY(0)" : "translateY(14px)",
       transition: "opacity 0.55s ease, transform 0.55s cubic-bezier(.22,1,.36,1)",
     }}>
-      <span style={{ color: "var(--color-text-3)" }}>{num} </span>
-      <span style={{ color: "var(--color-text-1)" }}>{title}</span>
-    </h2>
+      <h2 style={{
+        fontSize: "clamp(28px, 4vw, 40px)",
+        fontWeight: 550,
+        letterSpacing: "-0.02em",
+        lineHeight: 1.15,
+        margin: 0,
+        paddingBottom: 20,
+      }}>
+        <span style={{ color: "var(--color-text-3)" }}>{num} </span>
+        <span style={{ color: "var(--color-text-1)" }}>{title}</span>
+      </h2>
+      {/* Line spanning the full column width (breaks out of 24px section padding) */}
+      <div style={{
+        height: 1,
+        background: "var(--color-border)",
+        marginLeft: -24,
+        marginRight: -24,
+      }} />
+    </div>
   );
 }
