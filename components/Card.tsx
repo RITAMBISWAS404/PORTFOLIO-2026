@@ -38,7 +38,7 @@ export default function Card({ label, num, body, delay = 0, bg }: Props) {
       className="card-chip"
       style={{
         background: isColored ? bg : (glow || "var(--color-card)"),
-        border: isColored ? "none" : "1px solid var(--color-border)",
+        border: "none",
         borderRadius: 4, padding: 16,
         display: "flex", flexDirection: "column", gap: 8, cursor: "default",
         ...revealStyle(inView, delay),
@@ -48,7 +48,7 @@ export default function Card({ label, num, body, delay = 0, bg }: Props) {
       }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <span style={{ fontSize: 12, fontWeight: 500, color: isColored ? "rgba(255,255,255,0.80)" : "var(--color-text-1)", letterSpacing: "0.08em" }}>{label}</span>
-        <span style={{ fontSize: 12, fontWeight: 700, color: isColored ? "#ffffff" : (hovered ? "var(--color-text-2)" : "var(--color-text-3)"), transition: "color 0.15s" }}>{num}</span>
+        <span style={{ fontSize: 12, fontWeight: 500, color: isColored ? "#ffffff" : (hovered ? "var(--color-text-2)" : "var(--color-text-3)"), transition: "color 0.15s" }}>{num}</span>
       </div>
       <p className="card-body" style={{ fontWeight: 400, color: isColored ? "rgba(255,255,255,0.85)" : "var(--color-text-2)", lineHeight: 1.6 }}>{body}</p>
       <style>{`.card-body{font-size:14px}@media(min-width:768px){.card-body{font-size:16px}}`}</style>

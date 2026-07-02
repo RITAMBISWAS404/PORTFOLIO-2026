@@ -18,14 +18,8 @@ const info = [
 ];
 
 const cards = [
-  {
-    title: "Currently Building",
-    body:  "A dating app concept I'm not ready to talk about, except that it isn't another swipe deck. More soon.",
-  },
-  {
-    title: "Outside of Design",
-    body:  "You'll probably find me rereading Jhumpa Lahiri's books. New releases keep losing to old favorites.",
-  },
+  { title: "Currently Building", body: "A dating app concept I'm not ready to talk about, except that it isn't another swipe deck. More soon.",           bg: "var(--pop-purple)" },
+  { title: "Outside of Design",  body: "You'll probably find me rereading Jhumpa Lahiri's books. New releases keep losing to old favorites.", bg: "var(--pop-red)"    },
 ];
 
 export default function About() {
@@ -66,7 +60,6 @@ export default function About() {
         {/* Image card */}
         <div className="about-img-cell" style={{ ...revealStyle(bentInView, 0.04) }}>
           <div className="about-img-inner" style={{
-            border: `1px solid ${C.border}`,
             borderRadius: 4,
             overflow: "hidden",
             background: C.card,
@@ -82,9 +75,8 @@ export default function About() {
 
         {/* Info card */}
         <div className="about-info-cell" style={{
-          border: `1px solid ${C.border}`,
           borderRadius: 4,
-          background: C.card,
+          background: "#222222",
           padding: 16,
           display: "flex",
           flexDirection: "column",
@@ -99,15 +91,15 @@ export default function About() {
               const isEmail = label === "Email";
               return (
                 <div key={label} style={isLast ? { gridColumn: "1 / -1" } : {}}>
-                  <div style={{ fontSize: 11, fontWeight: 500, color: C.t3, letterSpacing: "0.05em", marginBottom: 4 }}>
+                  <div style={{ fontSize: 11, fontWeight: 500, color: "rgba(255,255,255,0.50)", letterSpacing: "0.05em", marginBottom: 4 }}>
                     {label}
                   </div>
                   {isEmail ? (
                     <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                      <div className="f16" style={{ fontWeight: 500, color: C.t1 }}>{value}</div>
+                      <div className="f16" style={{ fontWeight: 500, color: "#ffffff" }}>{value}</div>
                       <button onClick={copyEmail} title="Copy email" style={{
                         background: "none", border: "none", cursor: "pointer", padding: 4,
-                        color: copied ? C.accent : C.t3,
+                        color: copied ? "#4ade80" : "rgba(255,255,255,0.45)",
                         display: "flex", alignItems: "center",
                         borderRadius: 4,
                         transition: "color 0.2s",
@@ -117,7 +109,7 @@ export default function About() {
                       </button>
                     </div>
                   ) : (
-                    <div className="f16" style={{ fontWeight: 500, color: C.t1 }}>{value}</div>
+                    <div className="f16" style={{ fontWeight: 500, color: "#ffffff" }}>{value}</div>
                   )}
                 </div>
               );
@@ -125,13 +117,13 @@ export default function About() {
           </div>
 
           <div style={{ marginTop: 20 }}>
-            <div style={{ fontSize: 11, fontWeight: 500, color: C.t3, letterSpacing: "0.05em", marginBottom: 10 }}>
+            <div style={{ fontSize: 11, fontWeight: 500, color: "rgba(255,255,255,0.50)", letterSpacing: "0.05em", marginBottom: 10 }}>
               My Toolkit
             </div>
             <div style={{ overflow: "hidden", position: "relative" }}>
               <div style={{
                 position: "absolute", inset: 0, zIndex: 1, pointerEvents: "none",
-                background: `linear-gradient(to right, ${C.card} 0%, transparent 18%, transparent 82%, ${C.card} 100%)`,
+                background: `linear-gradient(to right, #222222 0%, transparent 18%, transparent 82%, #222222 100%)`,
               }} />
               <div className="toolkit-track">
                 {[...stack, ...stack].map((name, i) => {
@@ -140,8 +132,8 @@ export default function About() {
                   return (
                     <div key={i} title={name} style={{
                       width: 44, height: 44, borderRadius: 4, flexShrink: 0,
-                      overflow: "hidden", border: `1px solid ${C.border}`,
-                      background: C.card,
+                      overflow: "hidden",
+                      background: "rgba(255,255,255,0.08)",
                     }}>
                       <img src={c.img} alt={name} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
                     </div>
@@ -155,7 +147,7 @@ export default function About() {
         {/* Bottom cards row */}
         <div className="about-cards-row">
           {cards.map((card, i) => (
-            <Card key={card.title} label={card.title} num="" body={card.body} delay={0.16 + i * 0.08} />
+            <Card key={card.title} label={card.title} num="" body={card.body} delay={0.16 + i * 0.08} bg={card.bg} />
           ))}
         </div>
       </div>

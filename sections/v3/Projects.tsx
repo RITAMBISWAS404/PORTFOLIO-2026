@@ -27,15 +27,15 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
   const [cursor,setCursor]=useState<{x:number;y:number}|null>(null);
   return(
     <>
-      <a ref={ref} href={p.href} target="_blank" rel="noopener noreferrer" style={{border:"1px solid rgba(255,255,255,0.08)",borderRadius:4,overflow:"hidden",
+      <a ref={ref} href={p.href} target="_blank" rel="noopener noreferrer" style={{borderRadius:4,overflow:"hidden",
         display:"flex",flexDirection:"column",color:"inherit",textDecoration:"none",
         position:"relative",
         background:"#222222",
         ...revealStyle(inView,delay),
-        transition:`${revealStyle(inView,delay).transition},border-color 0.15s,box-shadow 0.15s,transform 0.2s cubic-bezier(.22,1,.36,1)`}}
-        onMouseEnter={e=>{const el=e.currentTarget;el.style.borderColor="rgba(255,255,255,0.15)";el.style.boxShadow="0 4px 20px rgba(0,0,0,0.4)";el.style.transform="translateY(-4px)";setCursor({x:e.clientX,y:e.clientY});}}
+        transition:`${revealStyle(inView,delay).transition},box-shadow 0.15s,transform 0.2s cubic-bezier(.22,1,.36,1)`}}
+        onMouseEnter={e=>{const el=e.currentTarget;el.style.boxShadow="0 4px 20px rgba(0,0,0,0.4)";el.style.transform="translateY(-4px)";setCursor({x:e.clientX,y:e.clientY});}}
         onMouseMove={e=>{setCursor({x:e.clientX,y:e.clientY});}}
-        onMouseLeave={e=>{setCursor(null);const el=e.currentTarget;el.style.borderColor="rgba(255,255,255,0.08)";el.style.boxShadow="";el.style.transform="translateY(0)";}}>
+        onMouseLeave={e=>{setCursor(null);const el=e.currentTarget;el.style.boxShadow="";el.style.transform="translateY(0)";}}>
         <div style={{height:192,overflow:"hidden",background:"transparent"}}>
           <img src={p.img} alt={p.title} style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}} loading="lazy"/>
         </div>
