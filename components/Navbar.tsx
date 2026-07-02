@@ -16,7 +16,7 @@ export default function Navbar() {
   const animated = useRef(false);
   const { ready } = useAppReady();
   const pathname = usePathname();
-  const isHome = pathname === "/";
+  const isHome = pathname === "/" || pathname === "/new" || pathname === "/new/";
   // On non-home pages prefix hash links with "/" so they navigate back to the landing page
   const resolveHref = (href: string) => isHome ? href : `/${href}`;
 
