@@ -14,7 +14,7 @@ export default function SectionHeadingV3({ num, title }: Props) {
   return (
     <h2 ref={ref} style={{
       fontSize: "clamp(28px, 4vw, 40px)",
-      fontWeight: 500,
+      fontWeight: 550,
       letterSpacing: "-0.02em",
       lineHeight: 1.15,
       margin: 0,

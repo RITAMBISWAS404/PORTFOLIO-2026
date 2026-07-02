@@ -65,7 +65,7 @@ export default function Hero() {
         <motion.div variants={item}>
           <h1 style={{
             fontSize: "clamp(36px, 7vw, 54px)",
-            fontWeight: 500,
+            fontWeight: 550,
             color: C.t1,
             lineHeight: 1.2,
             letterSpacing: "-0.02em",
