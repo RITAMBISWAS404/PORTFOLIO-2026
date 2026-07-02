@@ -127,14 +127,14 @@ textarea { resize: none; }
   .mt-section-card { margin-top: 16px; }
 }
 
-/* /new page: responsive padding — 16px mobile, 24px desktop (all sides) */
-.v3-section { padding: 16px; }
+/* /new page: 16px top/bottom, 24px left/right on mobile (rail is 8px from edge, so 16px gap to content) */
+.v3-section { padding: 16px 24px; }
 @media (min-width: 768px) {
   .v3-section { padding: 24px; }
 }
 
-/* SectionHeadingV3 underline — reaches the rail (8px from viewport edge on mobile) */
-.v3-heading-line { height: 1px; background: var(--color-border); margin-left: -8px; margin-right: -8px; }
+/* SectionHeadingV3 underline — reaches the rail */
+.v3-heading-line { height: 1px; background: var(--color-border); margin-left: -16px; margin-right: -16px; }
 @media (min-width: 768px) {
   .v3-heading-line { margin-left: -24px; margin-right: -24px; }
 }
