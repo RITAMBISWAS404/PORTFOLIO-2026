@@ -54,7 +54,7 @@ export default function Contact() {
   const btnLabel = status === "sent" ? "Sent!" : status === "error" ? "Try again" : status === "sending" ? "Sending…" : "Send Message";
 
   return (
-    <section id="contact" style={{ ...col, padding: "64px 24px 0" }}>
+    <section id="contact" style={{ ...col, padding: "24px 24px 24px" }}>
       <SectionHeadingV3 num="06" title="Let's Build Together" />
 
       {/* Subheading */}

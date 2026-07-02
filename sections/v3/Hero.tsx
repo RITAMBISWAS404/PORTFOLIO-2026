@@ -45,7 +45,7 @@ function Avatar() {
 export default function Hero() {
   const { ready } = useAppReady();
   return (
-    <section id="hero" style={{ maxWidth: 768, margin: "0 auto", padding: "32px 24px 0" }}>
+    <section id="hero" style={{ maxWidth: 768, margin: "0 auto", padding: "24px 24px 24px" }}>
       <motion.div
         variants={container}
         initial="hidden"

@@ -62,7 +62,7 @@ function ExpEntry({ e, delay, isFirst }: { e: typeof experience[0]; delay: numbe
 
 export default function Experience() {
   return (
-    <section id="experience" style={{ ...col, padding: "64px 24px 0" }}>
+    <section id="experience" style={{ ...col, padding: "24px 24px 24px" }}>
       <SectionHeadingV3 num="05" title="Experience" />
       <div className="mt-section-card">
         {experience.map((e, i) => (

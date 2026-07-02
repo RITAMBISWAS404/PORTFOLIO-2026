@@ -27,12 +27,12 @@ export default function FeaturedProject() {
 
   return (
     <>
-      <div id="featured" style={{ ...col, padding: "64px 24px 32px" }}>
+      <div id="featured" style={{ ...col, padding: "24px 24px 0" }}>
         <SectionHeadingV3 num="01" title="Featured Project" />
       </div>
 
       {/* Feature image */}
-      <div style={{ ...col, padding: "0 24px" }}>
+      <div style={{ ...col, padding: "24px 24px 0" }}>
         <div className="feature-img-wrap" style={{ borderRadius: 4, overflow: "hidden", width: "100%" }}>
           <picture>
             <source media="(min-width: 768px)" srcSet="/images/16_9.png" />
@@ -43,7 +43,7 @@ export default function FeaturedProject() {
       </div>
 
       {/* ZENO detail */}
-      <div ref={ref} style={{ ...col, padding: "32px 24px 0" }}>
+      <div ref={ref} style={{ ...col, padding: "24px 24px 24px" }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 24, ...revealStyle(inView) }}>
 
           {/* Identity */}

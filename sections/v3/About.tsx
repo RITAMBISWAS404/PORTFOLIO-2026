@@ -36,7 +36,7 @@ export default function About() {
   }
 
   return (
-    <section id="about" style={{ ...col, padding: "64px 24px 0" }}>
+    <section id="about" style={{ ...col, padding: "24px 24px 24px" }}>
       <SectionHeadingV3 num="03" title="About Me" />
 
       {/* Bio */}
