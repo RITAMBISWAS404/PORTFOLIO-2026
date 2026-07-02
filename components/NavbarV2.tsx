@@ -92,19 +92,16 @@ export default function NavbarV2() {
         <header style={{
           position: "fixed", top: 0, left: 0, right: 0, zIndex: 1000,
           height: 56,
-          background: mobileNavBg,
-          backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)",
-          borderBottom: `1px solid ${mobileNavBorder}`,
+          background: "#222222",
           display: "flex", alignItems: "center", justifyContent: "space-between",
           padding: "0 20px",
-          transition: "background 0.3s, border-color 0.3s",
         }}>
           <a href={resolveHref("#hero")} onClick={closeMenu} style={{
             width: 36, height: 36,
             display: "flex", alignItems: "center", justifyContent: "center",
             textDecoration: "none",
           }}>
-            <img src="/images/logo.png" alt="Ritam Biswas" style={{ width: 19, height: 19, objectFit: "contain", filter: mobileLogoFilter, transition: "filter 0.3s" }} />
+            <img src="/images/logo.png" alt="Ritam Biswas" style={{ width: 19, height: 19, objectFit: "contain", filter: "none" }} />
           </a>
 
           <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
@@ -112,7 +109,7 @@ export default function NavbarV2() {
             <button onClick={toggle} aria-label="Toggle theme" style={{
               background: "none", border: "none",
               display: "flex", alignItems: "center", justifyContent: "center",
-              cursor: "pointer", color: mobileToggleColor, padding: 6,
+              cursor: "pointer", color: "rgba(255,255,255,0.45)", padding: 6,
               transition: "color 0.25s",
             }}>
               {theme === "dark" ? <Sun size={18} strokeWidth={1.5}/> : <Moon size={18} strokeWidth={1.5}/>}
@@ -124,7 +121,7 @@ export default function NavbarV2() {
               style={{
                 background: "none", border: "none",
                 display: "flex", alignItems: "center", justifyContent: "center",
-                cursor: "pointer", color: isLight ? "#222222" : "#fff", padding: 4,
+                cursor: "pointer", color: "#ffffff", padding: 4,
               }}>
               {menuOpen ? <X size={20} strokeWidth={1.5}/> : <Menu size={20} strokeWidth={1.5}/>}
             </button>
@@ -191,7 +188,6 @@ export default function NavbarV2() {
         width: 54, height: 54, padding: 5,
         transform: "translateY(-70px)",
         background: "#222222",
-        border: `1px solid rgba(255,255,255,0.08)`,
         borderRadius: 4,
         display: "flex", alignItems: "center", gap: 5,
         overflow: "hidden",
