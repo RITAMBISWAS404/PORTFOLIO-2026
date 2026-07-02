@@ -5,7 +5,7 @@ import { C, col } from "@/lib/tokensV2";
 
 export default function Socials() {
   return (
-    <section id="socials" style={{ ...col, paddingTop: 24, paddingBottom: 24 }} className="v3-section">
+    <section id="socials" style={{ ...col }} className="v3-section">
       <SectionHeadingV3 num="07" title="My Socials" />
       <div className="mt-section-card">
         {socials.map((s, i) => (

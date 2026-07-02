@@ -52,7 +52,7 @@ export default function Contact() {
   const btnLabel = status === "sent" ? "Sent!" : status === "error" ? "Try again" : status === "sending" ? "Sending…" : "Send Message";
 
   return (
-    <section id="contact" style={{ ...col, paddingTop: 24, paddingBottom: 24 }} className="v3-section">
+    <section id="contact" style={{ ...col }} className="v3-section">
       <SectionHeadingV3 num="06" title="Let's Build Together" />
 
       {/* Subheading */}

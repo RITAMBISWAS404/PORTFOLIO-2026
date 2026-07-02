@@ -73,7 +73,7 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
 
 export default function Projects(){
   return(
-    <section id="projects" style={{...col,paddingTop:24,paddingBottom:24}} className="v3-section">
+    <section id="projects" style={{...col}} className="v3-section">
       <SectionHeadingV3 num="02" title="Selected Projects" />
       <div className="mt-section" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))",gap:16}}>
         {projects.map((p,i)=><ProjectCard key={p.title} p={p} delay={i*0.06}/>)}
