@@ -190,9 +190,7 @@ export default function NavbarV2() {
         background: "#222222",
         borderRadius: 4,
         boxShadow: "none",
-        filter: "none",
         display: "flex", alignItems: "center", gap: 5,
-        overflow: "hidden",
       }}>
         {/* Logo chip */}
         <a href={resolveHref("#hero")} style={{
