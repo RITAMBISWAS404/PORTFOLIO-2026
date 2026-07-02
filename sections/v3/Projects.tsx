@@ -32,10 +32,10 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
         position:"relative",
         background:"#222222",
         ...revealStyle(inView,delay),
-        transition:`${revealStyle(inView,delay).transition},box-shadow 0.15s,transform 0.2s cubic-bezier(.22,1,.36,1)`}}
-        onMouseEnter={e=>{const el=e.currentTarget;el.style.boxShadow="0 4px 20px rgba(0,0,0,0.4)";el.style.transform="translateY(-4px)";setCursor({x:e.clientX,y:e.clientY});}}
+        transition:`${revealStyle(inView,delay).transition},transform 0.2s cubic-bezier(.22,1,.36,1)`}}
+        onMouseEnter={e=>{const el=e.currentTarget;el.style.transform="translateY(-4px)";setCursor({x:e.clientX,y:e.clientY});}}
         onMouseMove={e=>{setCursor({x:e.clientX,y:e.clientY});}}
-        onMouseLeave={e=>{setCursor(null);const el=e.currentTarget;el.style.boxShadow="";el.style.transform="translateY(0)";}}>
+        onMouseLeave={e=>{setCursor(null);const el=e.currentTarget;el.style.transform="translateY(0)";}}>
         <div style={{height:192,overflow:"hidden",background:"transparent"}}>
           <img src={p.img} alt={p.title} style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}} loading="lazy"/>
         </div>
@@ -73,7 +73,7 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
 
 export default function Projects(){
   return(
-    <section id="projects" style={{...col,padding:"24px 24px 24px"}}>
+    <section id="projects" style={{...col,paddingTop:24,paddingBottom:24}} className="v3-section">
       <SectionHeadingV3 num="02" title="Selected Projects" />
       <div className="mt-section" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))",gap:16}}>
         {projects.map((p,i)=><ProjectCard key={p.title} p={p} delay={i*0.06}/>)}

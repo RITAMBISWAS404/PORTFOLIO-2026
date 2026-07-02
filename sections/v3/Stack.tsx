@@ -23,14 +23,12 @@ function StackCard({ name, delay }: { name: string; delay: number }) {
       onMouseEnter={e => {
         const el = e.currentTarget;
         el.style.borderColor = "var(--color-card-hover-border)";
-        el.style.boxShadow = "var(--shadow-card-hover)";
         el.style.transform = "translateY(-4px)";
       }}
       onMouseLeave={e => {
         setGlow("");
         const el = e.currentTarget;
         el.style.borderColor = C.border;
-        el.style.boxShadow = "";
         el.style.transform = inView ? "translateY(0)" : "translateY(16px)";
       }}
       style={{
@@ -40,7 +38,7 @@ function StackCard({ name, delay }: { name: string; delay: number }) {
         display: "flex", alignItems: "center", gap: 12,
         cursor: "default",
         ...revealStyle(inView, delay),
-        transition: `${revealStyle(inView, delay).transition}, border-color 0.15s, box-shadow 0.15s, transform 0.2s cubic-bezier(.22,1,.36,1)`,
+        transition: `${revealStyle(inView, delay).transition}, border-color 0.15s, transform 0.2s cubic-bezier(.22,1,.36,1)`,
       }}>
       <div style={{ width: 36, height: 36, borderRadius: 4, overflow: "hidden", flexShrink: 0 }}>
         <img src={c.img} alt={name} style={{ width: "100%", height: "100%", objectFit: "contain" }} />

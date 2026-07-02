@@ -24,7 +24,6 @@ export default function Card({ label, num, body, delay = 0, bg }: Props) {
         setHovered(true);
         const el = e.currentTarget;
         el.style.borderColor = "var(--color-card-hover-border)";
-        el.style.boxShadow = "var(--shadow-card-hover)";
         el.style.transform = "translateY(-4px)";
       }}
       onMouseLeave={isColored ? undefined : e => {
@@ -32,7 +31,6 @@ export default function Card({ label, num, body, delay = 0, bg }: Props) {
         setGlow("");
         const el = e.currentTarget;
         el.style.borderColor = "var(--color-border)";
-        el.style.boxShadow = "";
         el.style.transform = inView ? "translateY(0)" : "translateY(16px)";
       }}
       className="card-chip"
@@ -44,7 +42,7 @@ export default function Card({ label, num, body, delay = 0, bg }: Props) {
         ...revealStyle(inView, delay),
         transition: isColored
           ? revealStyle(inView, delay).transition
-          : `${revealStyle(inView, delay).transition}, border-color 0.15s, box-shadow 0.15s, transform 0.2s cubic-bezier(.22,1,.36,1)`,
+          : `${revealStyle(inView, delay).transition}, border-color 0.15s, transform 0.2s cubic-bezier(.22,1,.36,1)`,
       }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <span style={{ fontSize: 12, fontWeight: 500, color: isColored ? "#ffffff" : "var(--color-text-1)", letterSpacing: "0.08em" }}>{label}</span>

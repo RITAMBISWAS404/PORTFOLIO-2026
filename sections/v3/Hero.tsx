@@ -45,7 +45,7 @@ function Avatar() {
 export default function Hero() {
   const { ready } = useAppReady();
   return (
-    <section id="hero" style={{ maxWidth: 768, margin: "0 auto", padding: "24px 24px 24px" }}>
+    <section id="hero" style={{ maxWidth: 768, margin: "0 auto", paddingTop: 24, paddingBottom: 24 }} className="v3-section">
       <motion.div
         variants={container}
         initial="hidden"
@@ -110,13 +110,13 @@ export default function Hero() {
           </a>
           <a href="#contact" style={{
             display: "flex", alignItems: "center", gap: 10,
-            background: "var(--color-hover-bg)", color: C.t1, padding: "11px 22px",
+            background: "rgba(0,0,0,0.05)", color: C.t1, padding: "11px 22px",
             borderRadius: 4, fontSize: 14, fontWeight: 500, textDecoration: "none",
-            border: `1px solid ${C.border}`,
+            border: "1px solid rgba(0,0,0,0.05)",
             transition: "background 0.25s, transform 0.25s",
           }}
-            onMouseEnter={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.background = "var(--color-hover)"; a.style.transform = "translateY(-2px)"; }}
-            onMouseLeave={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.background = "var(--color-hover-bg)"; a.style.transform = ""; }}>
+            onMouseEnter={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.background = "rgba(0,0,0,0.12)"; a.style.transform = "translateY(-2px)"; }}
+            onMouseLeave={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.background = "rgba(0,0,0,0.05)"; a.style.transform = ""; }}>
             <MessageCircle size={14} strokeWidth={2} /> Let&apos;s Talk
           </a>
         </motion.div>

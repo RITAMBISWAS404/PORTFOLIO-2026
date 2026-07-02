@@ -27,12 +27,12 @@ export default function FeaturedProject() {
 
   return (
     <>
-      <div id="featured" style={{ ...col, padding: "24px 24px 0" }}>
+      <div id="featured" style={{ ...col, paddingTop: 24, paddingBottom: 0 }} className="v3-section">
         <SectionHeadingV3 num="01" title="Featured Project" />
       </div>
 
       {/* Feature image */}
-      <div style={{ ...col, padding: "24px 24px 0" }}>
+      <div style={{ ...col, paddingTop: 24, paddingBottom: 0 }} className="v3-section">
         <div className="feature-img-wrap" style={{ borderRadius: 4, overflow: "hidden", width: "100%" }}>
           <picture>
             <source media="(min-width: 768px)" srcSet="/images/16_9.png" />
@@ -43,7 +43,7 @@ export default function FeaturedProject() {
       </div>
 
       {/* ZENO detail */}
-      <div ref={ref} style={{ ...col, padding: "24px 24px 24px" }}>
+      <div ref={ref} style={{ ...col, paddingTop: 24, paddingBottom: 24 }} className="v3-section">
         <div style={{ display: "flex", flexDirection: "column", gap: 24, ...revealStyle(inView) }}>
 
           {/* Identity */}
@@ -89,21 +89,27 @@ export default function FeaturedProject() {
 
         {/* CTAs */}
         <div className="btn-row" style={{ marginTop: 24 }}>
-          {[
-            { label: "Read Case Study", icon: <BookOpen size={14} strokeWidth={2} />, bg: C.t1,  color: C.bg,  href: "/zeno" },
-            { label: "View in Figma",   icon: <PenTool  size={14} strokeWidth={2} />, bg: "rgba(255,255,255,0.05)", color: C.t1, href: "https://www.figma.com/design/HQiowSEZWtefmjVP5cqZuY/ZENO?node-id=0-1&p=f&t=ZuWU0JArTeGN7yjv-0" },
-          ].map(btn => (
-            <a key={btn.label} href={btn.href} target="_blank" rel="noopener noreferrer" style={{
-              display: "flex", alignItems: "center", gap: 10,
-              background: btn.bg, color: btn.color, padding: "11px 22px",
-              borderRadius: 4, fontSize: 14, fontWeight: 500, textDecoration: "none",
-              transition: "opacity 0.25s, transform 0.25s",
-            }}
-              onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.opacity = "0.88"; (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-2px)"; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.opacity = "1";    (e.currentTarget as HTMLAnchorElement).style.transform = ""; }}>
-              {btn.icon}{btn.label}
-            </a>
-          ))}
+          <a href="/zeno" target="_blank" rel="noopener noreferrer" style={{
+            display: "flex", alignItems: "center", gap: 10,
+            background: C.t1, color: C.bg, padding: "11px 22px",
+            borderRadius: 4, fontSize: 14, fontWeight: 500, textDecoration: "none",
+            transition: "opacity 0.25s, transform 0.25s",
+          }}
+            onMouseEnter={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.opacity = "0.88"; a.style.transform = "translateY(-2px)"; }}
+            onMouseLeave={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.opacity = "1"; a.style.transform = ""; }}>
+            <BookOpen size={14} strokeWidth={2} />Read Case Study
+          </a>
+          <a href="https://www.figma.com/design/HQiowSEZWtefmjVP5cqZuY/ZENO?node-id=0-1&p=f&t=ZuWU0JArTeGN7yjv-0" target="_blank" rel="noopener noreferrer" style={{
+            display: "flex", alignItems: "center", gap: 10,
+            background: "rgba(0,0,0,0.05)", color: C.t1, padding: "11px 22px",
+            borderRadius: 4, fontSize: 14, fontWeight: 500, textDecoration: "none",
+            border: "1px solid rgba(0,0,0,0.05)",
+            transition: "background 0.25s, transform 0.25s",
+          }}
+            onMouseEnter={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.background = "rgba(0,0,0,0.12)"; a.style.transform = "translateY(-2px)"; }}
+            onMouseLeave={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.background = "rgba(0,0,0,0.05)"; a.style.transform = ""; }}>
+            <PenTool size={14} strokeWidth={2} />View in Figma
+          </a>
         </div>
       </div>
 

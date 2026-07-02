@@ -14,12 +14,10 @@ const lbl: React.CSSProperties = {
 };
 const focusIn = (e: React.FocusEvent<HTMLElement>) => {
   e.target.style.borderColor = C.t3;
-  e.target.style.boxShadow = "0 0 0 3px rgba(255,255,255,0.04)";
   e.target.style.transform = "translateY(-1px)";
 };
 const focusOut = (e: React.FocusEvent<HTMLElement>) => {
   e.target.style.borderColor = C.border;
-  e.target.style.boxShadow = "";
   e.target.style.transform = "";
 };
 
@@ -54,7 +52,7 @@ export default function Contact() {
   const btnLabel = status === "sent" ? "Sent!" : status === "error" ? "Try again" : status === "sending" ? "Sending…" : "Send Message";
 
   return (
-    <section id="contact" style={{ ...col, padding: "24px 24px 24px" }}>
+    <section id="contact" style={{ ...col, paddingTop: 24, paddingBottom: 24 }} className="v3-section">
       <SectionHeadingV3 num="06" title="Let's Build Together" />
 
       {/* Subheading */}
@@ -132,11 +130,11 @@ export default function Contact() {
             borderRadius: 4, border: "none",
             cursor: status === "sending" || status === "sent" ? "not-allowed" : "pointer",
             fontFamily: "Poppins, sans-serif", fontSize: 14, fontWeight: 500,
-            transition: "opacity 0.25s, transform 0.25s, box-shadow 0.25s",
+            transition: "opacity 0.25s, transform 0.25s",
             opacity: status === "sending" ? 0.7 : 1,
           }}
-          onMouseEnter={e => { if (status === "idle") { const b = e.currentTarget; b.style.opacity = "0.88"; b.style.transform = "translateY(-2px)"; b.style.boxShadow = "0 4px 16px rgba(0,0,0,0.4)"; }}}
-          onMouseLeave={e => { const b = e.currentTarget; b.style.opacity = "1"; b.style.transform = ""; b.style.boxShadow = ""; }}>
+          onMouseEnter={e => { if (status === "idle") { const b = e.currentTarget; b.style.opacity = "0.88"; b.style.transform = "translateY(-2px)"; }}}
+          onMouseLeave={e => { const b = e.currentTarget; b.style.opacity = "1"; b.style.transform = ""; }}>
           {btnLabel}
         </button>
       </form>

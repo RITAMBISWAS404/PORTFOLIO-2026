@@ -13,8 +13,8 @@ export default function GridLines() {
   };
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none" }}>
-      <div style={{ ...lineStyle, left:  "max(0px, calc(50% - 384px))" }} />
-      <div style={{ ...lineStyle, right: "max(0px, calc(50% - 384px))" }} />
+      <div style={{ ...lineStyle, left:  "max(8px, calc(50% - 384px))" }} />
+      <div style={{ ...lineStyle, right: "max(8px, calc(50% - 384px))" }} />
     </div>
   );
 }

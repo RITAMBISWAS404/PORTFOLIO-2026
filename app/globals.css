@@ -127,6 +127,18 @@ textarea { resize: none; }
   .mt-section-card { margin-top: 16px; }
 }
 
+/* /new page: responsive horizontal padding — 16px mobile, 24px desktop */
+.v3-section { padding-left: 16px; padding-right: 16px; }
+@media (min-width: 768px) {
+  .v3-section { padding-left: 24px; padding-right: 24px; }
+}
+
+/* SectionHeadingV3 underline — breaks out of horizontal padding */
+.v3-heading-line { height: 1px; background: var(--color-border); margin-left: -16px; margin-right: -16px; }
+@media (min-width: 768px) {
+  .v3-heading-line { margin-left: -24px; margin-right: -24px; }
+}
+
 /* Responsive body text: 14px mobile → 16px desktop */
 .f16 { font-size: 14px; }
 @media (min-width: 768px) { .f16 { font-size: 16px; } }

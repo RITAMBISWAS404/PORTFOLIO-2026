@@ -28,13 +28,7 @@ export default function SectionHeadingV3({ num, title }: Props) {
         <span style={{ color: "var(--color-text-3)" }}>{num} </span>
         <span style={{ color: "var(--color-text-1)" }}>{title}</span>
       </h2>
-      {/* Line spanning the full column width (breaks out of 24px section padding) */}
-      <div style={{
-        height: 1,
-        background: "var(--color-border)",
-        marginLeft: -24,
-        marginRight: -24,
-      }} />
+      <div className="v3-heading-line" />
     </div>
   );
 }
