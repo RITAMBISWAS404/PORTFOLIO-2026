@@ -67,7 +67,7 @@ export default function NavbarNew() {
             display: "flex", alignItems: "center", justifyContent: "center",
             textDecoration: "none",
           }}>
-            <img src="/images/logo.png" alt="Ritam Biswas" style={{ width: 19, height: 19, objectFit: "contain" }} />
+            <img src="/images/logo-new.png" alt="Ritam Biswas" style={{ width: 19, height: 19, objectFit: "contain" }} />
           </a>
           <button
             onClick={() => setMenuOpen(o => !o)}
@@ -143,7 +143,7 @@ export default function NavbarNew() {
           display: "flex", alignItems: "center", justifyContent: "center",
           textDecoration: "none",
         }}>
-          <img src="/images/logo.png" alt="Ritam Biswas" style={{ width: 21, height: 21, objectFit: "contain" }} />
+          <img src="/images/logo-new.png" alt="Ritam Biswas" style={{ width: 21, height: 21, objectFit: "contain" }} />
         </a>
 
         <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 2, height: 44 }}>
