@@ -6,10 +6,10 @@ import { revealStyle } from "@/lib/tokensV2";
 
 interface Props {
   icon: LucideIcon; label: string; right?: string; body: string;
-  bg: string; delay?: number;
+  bg: string; delay?: number; iconColor?: string;
 }
 
-export default function IconCard({ icon: Icon, label, right, body, bg, delay = 0 }: Props) {
+export default function IconCard({ icon: Icon, label, right, body, bg, delay = 0, iconColor = "#ffffff" }: Props) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-10% 0px" });
   const [hovered, setHovered] = useState(false);
@@ -28,7 +28,7 @@ export default function IconCard({ icon: Icon, label, right, body, bg, delay = 0
         position: "absolute", inset: 0, background: "rgba(0,0,0,0.10)",
         opacity: hovered ? 1 : 0, transition: "opacity 0.2s", pointerEvents: "none",
       }} />
-      <Icon size={24} color="#ffffff" strokeWidth={2} style={{ position: "relative", zIndex: 1 }} />
+      <Icon size={24} color={iconColor} strokeWidth={2} style={{ position: "relative", zIndex: 1 }} />
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", position: "relative", zIndex: 1 }}>
         <span style={{ fontSize: 16, fontWeight: 500, color: "#ffffff" }}>{label}</span>
         {right && (

@@ -4,9 +4,9 @@ import { useInView } from "framer-motion";
 import { LucideIcon } from "lucide-react";
 import { revealStyle } from "@/lib/tokens";
 
-interface Props { label: string; num: string; body: string; delay?: number; bg?: string; icon?: LucideIcon; }
+interface Props { label: string; num: string; body: string; delay?: number; bg?: string; icon?: LucideIcon; iconColor?: string; }
 
-export default function Card({ label, num, body, delay = 0, bg, icon: Icon }: Props) {
+export default function Card({ label, num, body, delay = 0, bg, icon: Icon, iconColor = "#ffffff" }: Props) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-10% 0px" });
   const [glow, setGlow] = useState("");
@@ -56,7 +56,7 @@ export default function Card({ label, num, body, delay = 0, bg, icon: Icon }: Pr
       )}
       {isColored ? (
         <>
-          {Icon && <Icon size={24} color="#ffffff" strokeWidth={2} style={{ position: "relative", zIndex: 1 }} />}
+          {Icon && <Icon size={24} color={iconColor} strokeWidth={2} style={{ position: "relative", zIndex: 1 }} />}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", position: "relative", zIndex: 1 }}>
             <span style={{ fontSize: 16, fontWeight: 500, color: "#ffffff" }}>{label}</span>
             {num && <span style={{ fontSize: 16, fontWeight: 500, color: "rgba(255,255,255,0.75)", flexShrink: 0, marginLeft: 8 }}>{num}</span>}
