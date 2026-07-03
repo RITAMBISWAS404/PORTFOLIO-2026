@@ -70,7 +70,7 @@ function Decision({ num, title, first = false, children }: {
   const inView = useInView(ref, { once: true, margin: "-5% 0px" });
   return (
     <>
-      {!first && <div className="v3-heading-line" style={{ marginTop: 40, marginBottom: 40 }} />}
+      {!first && <div className="zeno-decision-line" />}
       <div ref={ref} style={{ display: "flex", flexDirection: "column", gap: 16, ...revealStyle(inView) }}>
         <span style={{ fontSize: 11, fontWeight: 600, color: C.t3, letterSpacing: "0.12em" }}>DECISION {num}</span>
         <h3 className="f16" style={{ fontWeight: 500, color: C.t1, lineHeight: 1.5 }}>{title}</h3>
@@ -577,6 +577,8 @@ export default function ZenoPage() {
         @media (min-width: 1200px) { .zeno-page-nav { display: flex; } }
         .zeno-hero-img-wrap { aspect-ratio: 4 / 3; }
         @media (min-width: 768px) { .zeno-hero-img-wrap { aspect-ratio: 16 / 9; } }
+        .zeno-decision-line { height: 1px; background: var(--color-border); margin: 40px -16px; }
+        @media (min-width: 768px) { .zeno-decision-line { margin: 40px -24px; } }
         .zeno-stats-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
         .zeno-meta-grid  { display: grid; grid-template-columns: 1fr; gap: 16px; }
         .zeno-concept-grid    { display: grid; grid-template-columns: 1fr; gap: 16px; }
