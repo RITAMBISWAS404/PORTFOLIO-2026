@@ -4,9 +4,9 @@ import { useInView } from "framer-motion";
 import { LucideIcon } from "lucide-react";
 import { revealStyle } from "@/lib/tokens";
 
-interface Props { label: string; num: string; body: string; delay?: number; bg?: string; icon?: LucideIcon; iconColor?: string; }
+interface Props { label: string; num: string; body: string; delay?: number; bg?: string; icon?: LucideIcon; iconColor?: string; textColor?: string; border?: string; }
 
-export default function Card({ label, num, body, delay = 0, bg, icon: Icon, iconColor = "#ffffff" }: Props) {
+export default function Card({ label, num, body, delay = 0, bg, icon: Icon, iconColor = "#ffffff", textColor = "#ffffff", border }: Props) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-10% 0px" });
   const [glow, setGlow] = useState("");
@@ -38,7 +38,7 @@ export default function Card({ label, num, body, delay = 0, bg, icon: Icon, icon
       style={{
         position: "relative",
         background: isColored ? bg : (glow || "var(--color-card)"),
-        border: "none",
+        border: isColored ? (border ?? "none") : "none",
         borderRadius: 8, padding: 16,
         display: "flex", flexDirection: "column", gap: 8, cursor: "default",
         overflow: "hidden",
@@ -58,10 +58,10 @@ export default function Card({ label, num, body, delay = 0, bg, icon: Icon, icon
         <>
           {Icon && <Icon size={24} color={iconColor} strokeWidth={2} style={{ position: "relative", zIndex: 1 }} />}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", position: "relative", zIndex: 1 }}>
-            <span style={{ fontSize: 16, fontWeight: 500, color: "#ffffff" }}>{label}</span>
-            {num && <span style={{ fontSize: 16, fontWeight: 500, color: "rgba(255,255,255,0.75)", flexShrink: 0, marginLeft: 8 }}>{num}</span>}
+            <span style={{ fontSize: 16, fontWeight: 500, color: textColor }}>{label}</span>
+            {num && <span style={{ fontSize: 16, fontWeight: 500, color: textColor, opacity: 0.75, flexShrink: 0, marginLeft: 8 }}>{num}</span>}
           </div>
-          <p style={{ fontSize: 14, fontWeight: 400, color: "rgba(255,255,255,0.9)", lineHeight: 1.6, position: "relative", zIndex: 1 }}>{body}</p>
+          <p style={{ fontSize: 14, fontWeight: 400, color: textColor, opacity: 0.9, lineHeight: 1.6, position: "relative", zIndex: 1 }}>{body}</p>
         </>
       ) : (
         <>
