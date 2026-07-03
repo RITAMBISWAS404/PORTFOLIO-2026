@@ -28,7 +28,7 @@ export default function FeaturedProject() {
   return (
     <>
       <div id="featured" style={{ ...col, paddingBottom: 0 }} className="v3-section">
-        <SectionHeadingV3 num="01" title="Featured Project" />
+        <SectionHeadingV3 title="Featured Project" />
       </div>
 
       {/* Feature image */}

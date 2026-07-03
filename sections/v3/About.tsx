@@ -37,7 +37,7 @@ export default function About() {
 
   return (
     <section id="about" style={{ ...col }} className="v3-section">
-      <SectionHeadingV3 num="03" title="About Me" />
+      <SectionHeadingV3 title="About Me" />
 
       {/* Bio */}
       <p ref={bioRef} className="f16 mt-section"

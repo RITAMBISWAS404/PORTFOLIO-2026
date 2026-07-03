@@ -66,7 +66,7 @@ export default function Contact() {
 
   return (
     <section id="contact" style={{ ...col }} className="v3-section">
-      <SectionHeadingV3 num="06" title="Let's Build Together" />
+      <SectionHeadingV3 title="Let's Build Together" />
 
       {/* Subheading */}
       <p className="f16 mt-section" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6, marginBottom: 24 }}>
