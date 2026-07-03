@@ -44,7 +44,7 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
           color:"inherit", textDecoration:"none",
         }}>
           {/* Image — white background */}
-          <div style={{height:192,overflow:"hidden",background:"#ffffff",borderTop:"1px solid rgba(0,0,0,0.10)",borderLeft:"1px solid rgba(0,0,0,0.10)",borderRight:"1px solid rgba(0,0,0,0.10)"}}>
+          <div style={{height:192,overflow:"hidden",background:"#ffffff",borderTop:"1px solid rgba(0,0,0,0.10)",borderLeft:"1px solid rgba(0,0,0,0.10)",borderRight:"1px solid rgba(0,0,0,0.10)",borderRadius:"8px 8px 0 0"}}>
             <img src={p.img} alt={p.title} style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}} loading="lazy"/>
           </div>
           {/* Title + subtitle — dark background */}
