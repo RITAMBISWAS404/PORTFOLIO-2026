@@ -265,7 +265,7 @@ export default function ZenoPage() {
             </div>
           </div>
 
-          <h1 style={{ fontSize: "clamp(22px, 4vw, 32px)", fontWeight: 500, color: C.t1, lineHeight: 1.35, marginBottom: 24, fontFamily: "Poppins, sans-serif" }}>
+          <h1 style={{ fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 550, letterSpacing: "-0.02em", color: C.t1, lineHeight: 1.15, marginBottom: 24 }}>
             How I Turned a Data-Heavy EV App Into a Four-Second Experience.
           </h1>
 
