@@ -291,9 +291,9 @@ export default function ZenoPage() {
             </p>
           </Reveal>
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-            <IconCard icon={FileText} label="Built for engineers"   right="01" body="Technical vocabulary with no softening. Everything assumed power-user knowledge." bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover delay={0.06} />
-            <IconCard icon={Eye}      label="Information overload"  right="02" body="Every metric visible at once. No hierarchy, no breathing room. Overwhelming to scan." bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover delay={0.12} />
-            <IconCard icon={Users}    label="Accessibility barrier" right="03" body="Older users hit a wall before trying a single feature. The learning curve was immediate." bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover delay={0.18} />
+            <IconCard icon={FileText} label="Built for engineers"   body="Technical vocabulary with no softening. Everything assumed power-user knowledge." bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover delay={0.06} />
+            <IconCard icon={Eye}      label="Information overload"  body="Every metric visible at once. No hierarchy, no breathing room. Overwhelming to scan." bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover delay={0.12} />
+            <IconCard icon={Users}    label="Accessibility barrier" body="Older users hit a wall before trying a single feature. The learning curve was immediate." bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover delay={0.18} />
           </div>
           <Reveal delay={0.1}>
             <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
@@ -523,9 +523,9 @@ export default function ZenoPage() {
         <SectionHeadingV3 title="Reflection" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div className="zeno-reflection-grid">
-            <IconCard icon={Layers}   label="Build the design system first"      right="01" body="Manual component updates across 35+ screens for months. Design tokens and component libraries should be day one, not an afterthought." bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover delay={0}    />
-            <IconCard icon={Users}    label="Test with real users earlier"        right="02" body="Decisions debated for days became obvious the first time a real user touched the screen."                                              bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover delay={0.08} />
-            <IconCard icon={FileText} label="Document decisions as they happen"   right="03" body="One sentence per key decision, written at the time, would have made this case study significantly more accurate."                       bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover delay={0.16} />
+            <IconCard icon={Layers}   label="Build the design system first"      body="Manual component updates across 35+ screens for months. Design tokens and component libraries should be day one, not an afterthought." bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover delay={0}    />
+            <IconCard icon={Users}    label="Test with real users earlier"        body="Decisions debated for days became obvious the first time a real user touched the screen."                                              bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover delay={0.08} />
+            <IconCard icon={FileText} label="Document decisions as they happen"   body="One sentence per key decision, written at the time, would have made this case study significantly more accurate."                       bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover delay={0.16} />
           </div>
           <Reveal delay={0.2}>
             <Quote text="Simplicity is not the absence of complexity. It is evidence that someone worked very hard to hide it in exactly the right places." />
