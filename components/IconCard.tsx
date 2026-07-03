@@ -30,9 +30,9 @@ export default function IconCard({ icon: Icon, label, right, body, bg, delay = 0
       }} />
       <Icon size={24} color="#ffffff" strokeWidth={2} style={{ position: "relative", zIndex: 1 }} />
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", position: "relative", zIndex: 1 }}>
-        <span style={{ fontSize: 16, fontWeight: 600, color: "#ffffff" }}>{label}</span>
+        <span style={{ fontSize: 16, fontWeight: 500, color: "#ffffff" }}>{label}</span>
         {right && (
-          <span style={{ fontSize: 16, fontWeight: 600, color: "rgba(255,255,255,0.75)", flexShrink: 0, marginLeft: 8 }}>
+          <span style={{ fontSize: 16, fontWeight: 500, color: "rgba(255,255,255,0.75)", flexShrink: 0, marginLeft: 8 }}>
             {right}
           </span>
         )}
