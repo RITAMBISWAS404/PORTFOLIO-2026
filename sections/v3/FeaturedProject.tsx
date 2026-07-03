@@ -1,7 +1,7 @@
 "use client";
 import { useRef } from "react";
 import { useInView } from "framer-motion";
-import { PenTool, Zap, FileText, BookOpen, Users } from "lucide-react";
+import { PenTool, Zap, FileText, BookOpen, Users, Layers, GitBranch, Component, Clock } from "lucide-react";
 import SectionHeadingV3 from "@/components/SectionHeadingV3";
 import Card from "@/components/Card";
 import { zeno } from "@/data/content";
@@ -15,10 +15,10 @@ const tags = [
 ];
 
 const stats = [
-  { label: "Screens Designed",  num: "35+", body: "Covers every key user flow from onboarding through dashboard, analytics, and account settings.", bg: "var(--pop-green)" },
-  { label: "User Flows Mapped", num: "05",  body: "Onboarding, dashboard, charging session, analytics, and settings.", bg: "var(--pop-orange)" },
-  { label: "Component System",  num: "40+", body: "A full design system built using Figma variables and design tokens for UI consistency.", bg: "var(--pop-blue)" },
-  { label: "MVP Timeline",      num: "2m",  body: "Blank file to production-ready designs, shipped end to end in just 2 months.", bg: "var(--pop-pink)" },
+  { label: "Screens Designed",  num: "35+", body: "Covers every key user flow from onboarding through dashboard, analytics, and account settings.", bg: "var(--pop-green)",  icon: Layers },
+  { label: "User Flows Mapped", num: "05",  body: "Onboarding, dashboard, charging session, analytics, and settings.", bg: "var(--pop-orange)", icon: GitBranch },
+  { label: "Component System",  num: "40+", body: "A full design system built using Figma variables and design tokens for UI consistency.", bg: "var(--pop-blue)",   icon: Component },
+  { label: "MVP Timeline",      num: "2m",  body: "Blank file to production-ready designs, shipped end to end in just 2 months.", bg: "var(--pop-pink)",   icon: Clock },
 ];
 
 export default function FeaturedProject() {
@@ -83,7 +83,7 @@ export default function FeaturedProject() {
         {/* Stats — 2×2 grid */}
         <div className="stats-grid" style={{ display: "grid", gap: 16, marginTop: 24 }}>
           {stats.map((s, i) => (
-            <Card key={s.label} label={s.label} num={s.num} body={s.body} delay={i * 0.08} bg={s.bg} />
+            <Card key={s.label} label={s.label} num={s.num} body={s.body} delay={i * 0.08} bg={s.bg} icon={s.icon} />
           ))}
         </div>
 

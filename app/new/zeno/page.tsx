@@ -5,7 +5,7 @@ import {
   Zap, Target,
   BookOpen, ArrowUp, Lock, PenTool, FileText,
   MessageCircle, Lightbulb, User, Layers, Users,
-  Eye,
+  Eye, GitBranch, Clock,
 } from "lucide-react";
 import Footer from "@/sections/v3/Footer";
 import GridLines from "@/components/GridLines";
@@ -228,9 +228,9 @@ export default function ZenoPage() {
       <section style={{ ...col }} className="v3-section">
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div className="zeno-stats-grid">
-            <Card label="Screens Designed" num="35+" body="Across 5 flows for iOS and Android." delay={0}    bg="var(--pop-green)"  />
-            <Card label="Core User Flows"  num="05"  body="Onboarding, dashboard, analytics, settings, account." delay={0.08} bg="var(--pop-blue)"   />
-            <Card label="MVP Timeline"     num="2M"  body="Blank file to production-ready designs." delay={0.16} bg="var(--pop-orange)" />
+            <Card label="Screens Designed" num="35+" body="Across 5 flows for iOS and Android." delay={0}    bg="var(--pop-green)"  icon={Layers} />
+            <Card label="Core User Flows"  num="05"  body="Onboarding, dashboard, analytics, settings, account." delay={0.08} bg="var(--pop-blue)"   icon={GitBranch} />
+            <Card label="MVP Timeline"     num="2M"  body="Blank file to production-ready designs." delay={0.16} bg="var(--pop-orange)" icon={Clock} />
           </div>
         </div>
       </section>

@@ -1,7 +1,7 @@
 "use client";
 import { useRef, useState } from "react";
 import { useInView } from "framer-motion";
-import { Copy, Check } from "lucide-react";
+import { Copy, Check, Rocket, BookOpen } from "lucide-react";
 import SectionHeadingV3 from "@/components/SectionHeadingV3";
 import Card from "@/components/Card";
 import { C, revealStyle, col } from "@/lib/tokensV2";
@@ -18,8 +18,8 @@ const info = [
 ];
 
 const cards = [
-  { title: "Currently Building", body: "A dating app concept I'm not ready to talk about, except that it isn't another swipe deck. More soon.",           bg: "var(--pop-purple)" },
-  { title: "Outside of Design",  body: "You'll probably find me rereading Jhumpa Lahiri's books. New releases keep losing to old favorites.", bg: "var(--pop-red)"    },
+  { title: "Currently Building", body: "A dating app concept I'm not ready to talk about, except that it isn't another swipe deck. More soon.",           bg: "var(--pop-purple)", icon: Rocket },
+  { title: "Outside of Design",  body: "You'll probably find me rereading Jhumpa Lahiri's books. New releases keep losing to old favorites.", bg: "var(--pop-red)",    icon: BookOpen },
 ];
 
 export default function About() {
@@ -147,7 +147,7 @@ export default function About() {
         {/* Bottom cards row */}
         <div className="about-cards-row">
           {cards.map((card, i) => (
-            <Card key={card.title} label={card.title} num="" body={card.body} delay={0.16 + i * 0.08} bg={card.bg} />
+            <Card key={card.title} label={card.title} num="" body={card.body} delay={0.16 + i * 0.08} bg={card.bg} icon={card.icon} />
           ))}
         </div>
       </div>

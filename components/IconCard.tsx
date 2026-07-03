@@ -28,18 +28,16 @@ export default function IconCard({ icon: Icon, label, right, body, bg, delay = 0
         position: "absolute", inset: 0, background: "rgba(0,0,0,0.10)",
         opacity: hovered ? 1 : 0, transition: "opacity 0.2s", pointerEvents: "none",
       }} />
+      <Icon size={24} color="#ffffff" strokeWidth={2} style={{ position: "relative", zIndex: 1 }} />
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", position: "relative", zIndex: 1 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <Icon size={14} color="#ffffff" strokeWidth={2} />
-          <span style={{ fontSize: 13, fontWeight: 500, color: "#ffffff" }}>{label}</span>
-        </div>
+        <span style={{ fontSize: 16, fontWeight: 700, color: "#ffffff" }}>{label}</span>
         {right && (
-          <span style={{ fontSize: 12, fontWeight: 500, color: "rgba(255,255,255,0.75)", flexShrink: 0, marginLeft: 8 }}>
+          <span style={{ fontSize: 16, fontWeight: 700, color: "rgba(255,255,255,0.75)", flexShrink: 0, marginLeft: 8 }}>
             {right}
           </span>
         )}
       </div>
-      <p className="f16" style={{ fontWeight: 400, color: "rgba(255,255,255,0.85)", lineHeight: 1.6, position: "relative", zIndex: 1 }}>{body}</p>
+      <p style={{ fontSize: 14, fontWeight: 400, color: "rgba(255,255,255,0.9)", lineHeight: 1.6, position: "relative", zIndex: 1 }}>{body}</p>
     </div>
   );
 }

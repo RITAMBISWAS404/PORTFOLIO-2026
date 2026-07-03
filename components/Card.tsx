@@ -1,11 +1,12 @@
 "use client";
 import { useRef, useState } from "react";
 import { useInView } from "framer-motion";
+import { LucideIcon } from "lucide-react";
 import { revealStyle } from "@/lib/tokens";
 
-interface Props { label: string; num: string; body: string; delay?: number; bg?: string; }
+interface Props { label: string; num: string; body: string; delay?: number; bg?: string; icon?: LucideIcon; }
 
-export default function Card({ label, num, body, delay = 0, bg }: Props) {
+export default function Card({ label, num, body, delay = 0, bg, icon: Icon }: Props) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-10% 0px" });
   const [glow, setGlow] = useState("");
@@ -53,12 +54,25 @@ export default function Card({ label, num, body, delay = 0, bg }: Props) {
           pointerEvents: "none",
         }} />
       )}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", position: "relative", zIndex: 1 }}>
-        <span style={{ fontSize: 12, fontWeight: 500, color: isColored ? "#ffffff" : "var(--color-text-1)", letterSpacing: "0.08em" }}>{label}</span>
-        <span style={{ fontSize: 12, fontWeight: 500, color: isColored ? "#ffffff" : (hovered ? "var(--color-text-2)" : "var(--color-text-3)"), transition: "color 0.15s" }}>{num}</span>
-      </div>
-      <p className="card-body" style={{ fontWeight: 400, color: isColored ? "#ffffff" : "var(--color-text-2)", lineHeight: 1.6, position: "relative", zIndex: 1 }}>{body}</p>
-      <style>{`.card-body{font-size:14px}@media(min-width:768px){.card-body{font-size:16px}}`}</style>
+      {isColored ? (
+        <>
+          {Icon && <Icon size={24} color="#ffffff" strokeWidth={2} style={{ position: "relative", zIndex: 1 }} />}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", position: "relative", zIndex: 1 }}>
+            <span style={{ fontSize: 16, fontWeight: 700, color: "#ffffff" }}>{label}</span>
+            {num && <span style={{ fontSize: 16, fontWeight: 700, color: "rgba(255,255,255,0.75)", flexShrink: 0, marginLeft: 8 }}>{num}</span>}
+          </div>
+          <p style={{ fontSize: 14, fontWeight: 400, color: "rgba(255,255,255,0.9)", lineHeight: 1.6, position: "relative", zIndex: 1 }}>{body}</p>
+        </>
+      ) : (
+        <>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", position: "relative", zIndex: 1 }}>
+            <span style={{ fontSize: 12, fontWeight: 500, color: "var(--color-text-1)", letterSpacing: "0.08em" }}>{label}</span>
+            <span style={{ fontSize: 12, fontWeight: 500, color: hovered ? "var(--color-text-2)" : "var(--color-text-3)", transition: "color 0.15s" }}>{num}</span>
+          </div>
+          <p className="card-body" style={{ fontWeight: 400, color: "var(--color-text-2)", lineHeight: 1.6, position: "relative", zIndex: 1 }}>{body}</p>
+          <style>{`.card-body{font-size:14px}@media(min-width:768px){.card-body{font-size:16px}}`}</style>
+        </>
+      )}
     </div>
   );
 }
