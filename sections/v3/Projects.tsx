@@ -31,6 +31,7 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
       <div ref={ref} style={{
           borderRadius:4,
           overflow:"hidden",
+          boxShadow:"inset 0 0 0 1px rgba(0,0,0,0.10)",
           ...revealStyle(inView,delay),
           transition:`${revealStyle(inView,delay).transition},transform 0.2s cubic-bezier(.22,1,.36,1)`,
         }}
