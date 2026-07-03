@@ -53,8 +53,8 @@ function TwoColTable({ headers, rows }: { headers: [string, string]; rows: [stri
       </div>
       {rows.map(([left, right], i) => (
         <div key={i} style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
-          <div style={{ padding: "12px 16px", fontSize: 14, color: C.t2, lineHeight: 1.6, background: "rgba(0,0,0,0.03)", borderTop: `1px solid ${C.border}`, borderRight: `1px solid ${C.border}` }}>{left}</div>
-          <div style={{ padding: "12px 16px", fontSize: 14, color: C.t1, lineHeight: 1.6, background: "rgba(0,0,0,0.03)", borderTop: `1px solid ${C.border}` }}>{right}</div>
+          <div style={{ padding: "12px 16px", fontSize: 14, color: C.t2, lineHeight: 1.6, borderTop: `1px solid ${C.border}`, borderRight: `1px solid ${C.border}` }}>{left}</div>
+          <div style={{ padding: "12px 16px", fontSize: 14, color: C.t1, lineHeight: 1.6, borderTop: `1px solid ${C.border}` }}>{right}</div>
         </div>
       ))}
     </div>
@@ -70,7 +70,7 @@ function Decision({ num, title, first = false, children }: {
   const inView = useInView(ref, { once: true, margin: "-5% 0px" });
   return (
     <>
-      {!first && <div style={{ height: 1, background: C.border, margin: "40px 0" }} />}
+      {!first && <div className="v3-heading-line" style={{ marginTop: 40, marginBottom: 40 }} />}
       <div ref={ref} style={{ display: "flex", flexDirection: "column", gap: 16, ...revealStyle(inView) }}>
         <span style={{ fontSize: 11, fontWeight: 600, color: C.t3, letterSpacing: "0.12em" }}>DECISION {num}</span>
         <h3 className="f16" style={{ fontWeight: 500, color: C.t1, lineHeight: 1.5 }}>{title}</h3>
@@ -367,7 +367,7 @@ export default function ZenoPage() {
                 ].map((row, i) => (
                   <div key={i} style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}>
                     {row.map((cell, j) => (
-                      <div key={j} style={{ padding: "12px 16px", fontSize: 13, color: C.t2, lineHeight: 1.5, background: "rgba(0,0,0,0.03)", borderTop: `1px solid ${C.border}`, borderRight: j < 2 ? `1px solid ${C.border}` : "none" }}>{cell}</div>
+                      <div key={j} style={{ padding: "12px 16px", fontSize: 13, color: C.t2, lineHeight: 1.5, borderTop: `1px solid ${C.border}`, borderRight: j < 2 ? `1px solid ${C.border}` : "none" }}>{cell}</div>
                     ))}
                   </div>
                 ))}
@@ -448,7 +448,7 @@ export default function ZenoPage() {
                     "Cost savings, energy usage, session history",
                     "Connection status, vehicle management\n\nAccount, language, security",
                   ].map((cell, i) => (
-                    <div key={i} style={{ padding: "12px 14px", fontSize: 13, color: C.t2, lineHeight: 1.6, background: "rgba(0,0,0,0.03)", borderTop: `1px solid ${C.border}`, borderRight: i < 2 ? `1px solid ${C.border}` : "none", whiteSpace: "pre-line" }}>{cell}</div>
+                    <div key={i} style={{ padding: "12px 14px", fontSize: 13, color: C.t2, lineHeight: 1.6, borderTop: `1px solid ${C.border}`, borderRight: i < 2 ? `1px solid ${C.border}` : "none", whiteSpace: "pre-line" }}>{cell}</div>
                   ))}
                 </div>
               </div>
