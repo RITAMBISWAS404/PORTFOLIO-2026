@@ -6,6 +6,7 @@ import { C, inputBase, col } from "@/lib/tokensV2";
 
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/mredrnrp";
 const REACH_OUT_OPTIONS = ["Product Design", "UX/UI Design", "Branding & Identity", "Design Systems", "Web Design"];
+const POP_COLORS = ["var(--pop-green)", "var(--pop-pink)", "var(--pop-blue)", "var(--pop-orange)", "var(--pop-red)", "var(--pop-purple)"];
 
 type Status = "idle" | "sending" | "sent" | "error";
 
@@ -24,10 +25,22 @@ const focusOut = (e: React.FocusEvent<HTMLElement>) => {
 export default function Contact() {
   const [status, setStatus] = useState<Status>("idle");
   const [selected, setSelected] = useState<string[]>([]);
+  const [chipColors, setChipColors] = useState<Record<string, string>>({});
   const formRef = useRef<HTMLFormElement>(null);
 
   const toggleOption = (opt: string) => {
     setSelected(prev => prev.includes(opt) ? prev.filter(o => o !== opt) : [...prev, opt]);
+    setChipColors(prev => {
+      if (selected.includes(opt)) {
+        const { [opt]: _, ...rest } = prev;
+        return rest;
+      }
+      const used = new Set(Object.values(prev));
+      const available = POP_COLORS.filter(c => !used.has(c));
+      const pool = available.length > 0 ? available : POP_COLORS;
+      const color = pool[Math.floor(Math.random() * pool.length)];
+      return { ...prev, [opt]: color };
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -97,22 +110,23 @@ export default function Contact() {
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
             {REACH_OUT_OPTIONS.map(opt => {
               const active = selected.includes(opt);
+              const chipColor = chipColors[opt];
               return (
                 <button key={opt} type="button" onClick={() => toggleOption(opt)}
                   style={{
                     display: "flex", alignItems: "center", gap: 6,
                     padding: "6px 14px",
-                    border: `1px solid ${active ? "rgba(255,255,255,0.28)" : C.border}`,
+                    border: `1px solid ${active ? chipColor : C.border}`,
                     borderRadius: 8,
-                    background: active ? "rgba(255,255,255,0.07)" : "transparent",
+                    background: active ? chipColor : "transparent",
                     fontSize: 12, fontWeight: 500,
-                    color: active ? C.t1 : C.t3,
+                    color: active ? "#ffffff" : C.t3,
                     letterSpacing: "0.06em",
                     cursor: "pointer",
                     fontFamily: "Poppins, sans-serif",
                     transition: "border-color 0.2s, background 0.2s, color 0.2s",
                   }}>
-                  {active && <Check size={11} strokeWidth={2.5} />}
+                  {active && <Check size={11} strokeWidth={2.5} color="#ffffff" />}
                   {opt}
                 </button>
               );
