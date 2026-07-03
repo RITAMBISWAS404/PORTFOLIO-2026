@@ -17,15 +17,15 @@ import { C, col, tagStyle, revealStyle } from "@/lib/tokensV2";
 /* ── Callout variants — thin wrappers around IconCard ────────────── */
 
 function Quote({ text }: { text: string }) {
-  return <IconCard icon={MessageCircle} label="Perspective" body={`“${text}”`} bg="var(--pop-green)" />;
+  return <IconCard icon={MessageCircle} label="Perspective" body={`“${text}”`} bg="#222222" />;
 }
 
 function Lesson({ text }: { text: string }) {
-  return <IconCard icon={BookOpen} label="Lesson" body={text} bg="var(--pop-blue)" />;
+  return <IconCard icon={BookOpen} label="Lesson" body={text} bg="#222222" />;
 }
 
 function Insight({ text }: { text: string }) {
-  return <IconCard icon={Lightbulb} label="Insight" body={text} bg="var(--pop-orange)" />;
+  return <IconCard icon={Lightbulb} label="Insight" body={text} bg="#222222" />;
 }
 
 /* ── Scroll reveal wrapper ──────────────────────────────────────── */
@@ -202,7 +202,7 @@ export default function ZenoPage() {
             ))}
           </div>
 
-          <IconCard icon={Lock} label="Confidential Note" bg="var(--pop-purple)"
+          <IconCard icon={Lock} label="Confidential Note" bg="#222222"
             body="Zeno is a portfolio-safe recreation of a product I designed for a Copenhagen-based EV startup. With the company's permission, I rebuilt it under a new brand. Every decision, constraint, and insight here is real. Only the branding changed." />
         </Reveal>
       </section>
@@ -225,9 +225,9 @@ export default function ZenoPage() {
       <section style={{ ...col }} className="v3-section">
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div className="zeno-stats-grid">
-            <Card label="Screens Designed" num="35+" body="Across 5 flows for iOS and Android." delay={0}    bg="var(--pop-green)"  icon={Layers} />
-            <Card label="Core User Flows"  num="05"  body="Onboarding, dashboard, analytics, settings, account." delay={0.08} bg="var(--pop-blue)"   icon={GitBranch} />
-            <Card label="MVP Timeline"     num="2M"  body="Blank file to production-ready designs." delay={0.16} bg="var(--pop-orange)" icon={Clock} />
+            <Card label="Screens Designed" num="35+" body="Across 5 flows for iOS and Android." delay={0}    bg="#222222"  icon={Layers} />
+            <Card label="Core User Flows"  num="05"  body="Onboarding, dashboard, analytics, settings, account." delay={0.08} bg="#222222"   icon={GitBranch} />
+            <Card label="MVP Timeline"     num="2M"  body="Blank file to production-ready designs." delay={0.16} bg="#222222" icon={Clock} />
           </div>
         </div>
       </section>
@@ -247,7 +247,7 @@ export default function ZenoPage() {
             <Quote text="You set the departure time. You set the target charge. The algorithm finds the cheapest hour and does the rest." />
           </Reveal>
           <Reveal delay={0.12}>
-            <IconCard icon={User} label="My Role" bg="var(--pop-purple)"
+            <IconCard icon={User} label="My Role" bg="#222222"
               body="Sole designer from day one. No existing product, no design system, no prior work to inherit. Only a vision from the CEO and CTO and a blank Figma file. What I know now about design systems, component thinking, and stakeholder communication came directly from the pressure of this project. Everything here was built from scratch." />
           </Reveal>
         </div>
@@ -295,9 +295,9 @@ export default function ZenoPage() {
             </p>
           </Reveal>
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-            <IconCard icon={FileText} label="Built for engineers"   right="01" body="Technical vocabulary with no softening. Everything assumed power-user knowledge." bg="var(--pop-blue)" delay={0.06} />
-            <IconCard icon={Eye}      label="Information overload"  right="02" body="Every metric visible at once. No hierarchy, no breathing room. Overwhelming to scan." bg="var(--pop-purple)" delay={0.12} />
-            <IconCard icon={Users}    label="Accessibility barrier" right="03" body="Older users hit a wall before trying a single feature. The learning curve was immediate." bg="var(--pop-red)" delay={0.18} />
+            <IconCard icon={FileText} label="Built for engineers"   right="01" body="Technical vocabulary with no softening. Everything assumed power-user knowledge." bg="#222222" delay={0.06} />
+            <IconCard icon={Eye}      label="Information overload"  right="02" body="Every metric visible at once. No hierarchy, no breathing room. Overwhelming to scan." bg="#222222" delay={0.12} />
+            <IconCard icon={Users}    label="Accessibility barrier" right="03" body="Older users hit a wall before trying a single feature. The learning curve was immediate." bg="#222222" delay={0.18} />
           </div>
           <Reveal delay={0.1}>
             <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
@@ -527,9 +527,9 @@ export default function ZenoPage() {
         <SectionHeadingV3 num="08" title="REFLECTION" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div className="zeno-reflection-grid">
-            <IconCard icon={Layers}   label="Build the design system first"      right="01" body="Manual component updates across 35+ screens for months. Design tokens and component libraries should be day one, not an afterthought." bg="var(--pop-green)" delay={0}    />
-            <IconCard icon={Users}    label="Test with real users earlier"        right="02" body="Decisions debated for days became obvious the first time a real user touched the screen."                                              bg="var(--pop-blue)" delay={0.08} />
-            <IconCard icon={FileText} label="Document decisions as they happen"   right="03" body="One sentence per key decision, written at the time, would have made this case study significantly more accurate."                       bg="var(--pop-pink)" delay={0.16} />
+            <IconCard icon={Layers}   label="Build the design system first"      right="01" body="Manual component updates across 35+ screens for months. Design tokens and component libraries should be day one, not an afterthought." bg="#222222" delay={0}    />
+            <IconCard icon={Users}    label="Test with real users earlier"        right="02" body="Decisions debated for days became obvious the first time a real user touched the screen."                                              bg="#222222" delay={0.08} />
+            <IconCard icon={FileText} label="Document decisions as they happen"   right="03" body="One sentence per key decision, written at the time, would have made this case study significantly more accurate."                       bg="#222222" delay={0.16} />
           </div>
           <Reveal delay={0.2}>
             <Quote text="Simplicity is not the absence of complexity. It is evidence that someone worked very hard to hide it in exactly the right places." />
