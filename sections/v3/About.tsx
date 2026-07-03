@@ -66,7 +66,7 @@ export default function About() {
             width: "100%",
           }}>
             <img
-              src="/images/ritam.jpeg"
+              src="/images/ritam_new.png"
               alt="Ritam Biswas"
               style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
             />
