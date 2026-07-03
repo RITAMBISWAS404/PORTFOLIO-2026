@@ -39,23 +39,22 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
         onMouseMove={e=>{setCursor({x:e.clientX,y:e.clientY});}}
         onMouseLeave={e=>{setCursor(null);e.currentTarget.style.transform="translateY(0)";}}>
 
-        {/* Inner anchor fills the wrapper with dark background */}
+        {/* Inner anchor: no background — children set their own */}
         <a href={p.href} target="_blank" rel="noopener noreferrer" style={{
           display:"flex", flexDirection:"column",
           color:"inherit", textDecoration:"none",
-          background:"#222222",
         }}>
-          {/* Image */}
-          <div style={{height:192,overflow:"hidden"}}>
+          {/* Image — white background */}
+          <div style={{height:192,overflow:"hidden",background:"#ffffff"}}>
             <img src={p.img} alt={p.title} style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}} loading="lazy"/>
           </div>
-          {/* Title + subtitle */}
-          <div style={{padding:"16px 16px 0"}}>
+          {/* Title + subtitle — dark background */}
+          <div style={{padding:"16px 16px 0",background:"#222222"}}>
             <div className="f16" style={{fontWeight:500,color:"#ffffff"}}>{p.title}</div>
             <div className="f16" style={{fontWeight:400,color:"rgba(255,255,255,0.55)",marginTop:4}}>{p.sub}</div>
           </div>
-          {/* Pills */}
-          <div style={{padding:16,display:"flex",flexWrap:"wrap",gap:8}}>
+          {/* Pills — dark background */}
+          <div style={{padding:16,display:"flex",flexWrap:"wrap",gap:8,background:"#222222"}}>
             {p.tags.map(t=>(
               <div key={t} style={{...tagStyle,borderRadius:4,background:"rgba(255,255,255,0.10)",border:"1px solid rgba(255,255,255,0.10)",color:"#ffffff"}}>
                 {tagIcons[t]}{t}
