@@ -32,8 +32,8 @@ function Avatar() {
   return (
     <div ref={ref} onMouseMove={move} onMouseLeave={leave} onMouseEnter={() => setEgg(true)}
       style={{ position: "relative", width: 56, height: 56, flexShrink: 0 }}>
-      <motion.div style={{ width: 56, height: 56, borderRadius: 8, overflow: "hidden", transform }}>
-        <div style={{ position: "absolute", inset: 0, background: "var(--pop-orange)" }} />
+      <motion.div style={{ width: 56, height: 56, borderRadius: 8, overflow: "hidden", border: "1px solid rgba(0,0,0,0.10)", transform }}>
+        <div style={{ position: "absolute", inset: 0, background: "#ffffff" }} />
         <img src={egg ? "/images/happy-catto.gif" : "/images/avatar.png"} alt="Ritam Biswas"
           style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", borderRadius: 8 }} />
       </motion.div>
