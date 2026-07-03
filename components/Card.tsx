@@ -58,8 +58,8 @@ export default function Card({ label, num, body, delay = 0, bg, icon: Icon }: Pr
         <>
           {Icon && <Icon size={24} color="#ffffff" strokeWidth={2} style={{ position: "relative", zIndex: 1 }} />}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", position: "relative", zIndex: 1 }}>
-            <span style={{ fontSize: 16, fontWeight: 700, color: "#ffffff" }}>{label}</span>
-            {num && <span style={{ fontSize: 16, fontWeight: 700, color: "rgba(255,255,255,0.75)", flexShrink: 0, marginLeft: 8 }}>{num}</span>}
+            <span style={{ fontSize: 16, fontWeight: 600, color: "#ffffff" }}>{label}</span>
+            {num && <span style={{ fontSize: 16, fontWeight: 600, color: "rgba(255,255,255,0.75)", flexShrink: 0, marginLeft: 8 }}>{num}</span>}
           </div>
           <p style={{ fontSize: 14, fontWeight: 400, color: "rgba(255,255,255,0.9)", lineHeight: 1.6, position: "relative", zIndex: 1 }}>{body}</p>
         </>
