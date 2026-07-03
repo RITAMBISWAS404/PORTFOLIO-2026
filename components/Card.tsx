@@ -37,7 +37,7 @@ export default function Card({ label, num, body, delay = 0, bg }: Props) {
       style={{
         background: isColored ? bg : (glow || "var(--color-card)"),
         border: "none",
-        borderRadius: 4, padding: 16,
+        borderRadius: 8, padding: 16,
         display: "flex", flexDirection: "column", gap: 8, cursor: "default",
         ...revealStyle(inView, delay),
         transition: isColored
