@@ -17,15 +17,15 @@ import { C, col, tagStyle, revealStyle } from "@/lib/tokensV2";
 /* ── Callout variants — thin wrappers around IconCard ────────────── */
 
 function Quote({ text }: { text: string }) {
-  return <IconCard icon={MessageCircle} label="Perspective" body={`“${text}”`} bg="#ffffff" iconColor="#72BEEA" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" />;
+  return <IconCard icon={MessageCircle} label="Perspective" body={`“${text}”`} bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover />;
 }
 
 function Lesson({ text }: { text: string }) {
-  return <IconCard icon={BookOpen} label="Lesson" body={text} bg="#ffffff" iconColor="#72BEEA" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" />;
+  return <IconCard icon={BookOpen} label="Lesson" body={text} bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover />;
 }
 
 function Insight({ text }: { text: string }) {
-  return <IconCard icon={Lightbulb} label="Insight" body={text} bg="#ffffff" iconColor="#72BEEA" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" />;
+  return <IconCard icon={Lightbulb} label="Insight" body={text} bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover />;
 }
 
 /* ── Scroll reveal wrapper ──────────────────────────────────────── */
@@ -46,15 +46,15 @@ function TwoColTable({ headers, rows }: { headers: [string, string]; rows: [stri
           <div key={i} style={{
             padding: "10px 16px", fontSize: 12, fontWeight: 600,
             color: C.t1, letterSpacing: "0.08em",
-            background: "rgba(0,0,0,0.03)",
+            background: "#ffffff",
             borderRight: i === 0 ? `1px solid ${C.border}` : "none",
           }}>{h}</div>
         ))}
       </div>
       {rows.map(([left, right], i) => (
         <div key={i} style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
-          <div style={{ padding: "12px 16px", fontSize: 14, color: C.t2, lineHeight: 1.6, borderTop: `1px solid ${C.border}`, borderRight: `1px solid ${C.border}` }}>{left}</div>
-          <div style={{ padding: "12px 16px", fontSize: 14, color: C.t1, lineHeight: 1.6, borderTop: `1px solid ${C.border}` }}>{right}</div>
+          <div style={{ padding: "12px 16px", fontSize: 14, color: C.t2, lineHeight: 1.6, background: "rgba(0,0,0,0.03)", borderTop: `1px solid ${C.border}`, borderRight: `1px solid ${C.border}` }}>{left}</div>
+          <div style={{ padding: "12px 16px", fontSize: 14, color: C.t1, lineHeight: 1.6, background: "rgba(0,0,0,0.03)", borderTop: `1px solid ${C.border}` }}>{right}</div>
         </div>
       ))}
     </div>
@@ -202,7 +202,7 @@ export default function ZenoPage() {
             ))}
           </div>
 
-          <IconCard icon={Lock} label="Confidential Note" bg="#ffffff" iconColor="#72BEEA" textColor="#222222" border="1px solid rgba(0,0,0,0.10)"
+          <IconCard icon={Lock} label="Confidential Note" bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover
             body="Zeno is a portfolio-safe recreation of a product I designed for a Copenhagen-based EV startup. With the company's permission, I rebuilt it under a new brand. Every decision, constraint, and insight here is real. Only the branding changed." />
         </Reveal>
       </section>
@@ -225,9 +225,9 @@ export default function ZenoPage() {
       <section style={{ ...col }} className="v3-section">
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div className="zeno-stats-grid">
-            <Card label="Screens Designed" num="35+" body="Across 5 flows for iOS and Android." delay={0}    bg="#ffffff" iconColor="#72BEEA" textColor="#222222" border="1px solid rgba(0,0,0,0.10)"  icon={Layers} />
-            <Card label="Core User Flows"  num="05"  body="Onboarding, dashboard, analytics, settings, account." delay={0.08} bg="#ffffff" iconColor="#72BEEA" textColor="#222222" border="1px solid rgba(0,0,0,0.10)"   icon={GitBranch} />
-            <Card label="MVP Timeline"     num="2M"  body="Blank file to production-ready designs." delay={0.16} bg="#ffffff" iconColor="#72BEEA" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" icon={Clock} />
+            <Card label="Screens Designed" num="35+" body="Across 5 flows for iOS and Android." delay={0}    bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover  icon={Layers} />
+            <Card label="Core User Flows"  num="05"  body="Onboarding, dashboard, analytics, settings, account." delay={0.08} bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover   icon={GitBranch} />
+            <Card label="MVP Timeline"     num="2M"  body="Blank file to production-ready designs." delay={0.16} bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover icon={Clock} />
           </div>
         </div>
       </section>
@@ -247,7 +247,7 @@ export default function ZenoPage() {
             <Quote text="You set the departure time. You set the target charge. The algorithm finds the cheapest hour and does the rest." />
           </Reveal>
           <Reveal delay={0.12}>
-            <IconCard icon={User} label="My Role" bg="#ffffff" iconColor="#72BEEA" textColor="#222222" border="1px solid rgba(0,0,0,0.10)"
+            <IconCard icon={User} label="My Role" bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover
               body="Sole designer from day one. No existing product, no design system, no prior work to inherit. Only a vision from the CEO and CTO and a blank Figma file. What I know now about design systems, component thinking, and stakeholder communication came directly from the pressure of this project. Everything here was built from scratch." />
           </Reveal>
         </div>
@@ -295,9 +295,9 @@ export default function ZenoPage() {
             </p>
           </Reveal>
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-            <IconCard icon={FileText} label="Built for engineers"   right="01" body="Technical vocabulary with no softening. Everything assumed power-user knowledge." bg="#ffffff" iconColor="#72BEEA" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" delay={0.06} />
-            <IconCard icon={Eye}      label="Information overload"  right="02" body="Every metric visible at once. No hierarchy, no breathing room. Overwhelming to scan." bg="#ffffff" iconColor="#72BEEA" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" delay={0.12} />
-            <IconCard icon={Users}    label="Accessibility barrier" right="03" body="Older users hit a wall before trying a single feature. The learning curve was immediate." bg="#ffffff" iconColor="#72BEEA" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" delay={0.18} />
+            <IconCard icon={FileText} label="Built for engineers"   right="01" body="Technical vocabulary with no softening. Everything assumed power-user knowledge." bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover delay={0.06} />
+            <IconCard icon={Eye}      label="Information overload"  right="02" body="Every metric visible at once. No hierarchy, no breathing room. Overwhelming to scan." bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover delay={0.12} />
+            <IconCard icon={Users}    label="Accessibility barrier" right="03" body="Older users hit a wall before trying a single feature. The learning curve was immediate." bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover delay={0.18} />
           </div>
           <Reveal delay={0.1}>
             <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
@@ -356,7 +356,7 @@ export default function ZenoPage() {
                 {/* Header */}
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}>
                   {[{ label: "Widget Set", color: C.t1 }, { label: "Minimal", color: C.t1 }, { label: "My Way", color: C.t1 }].map((h, i) => (
-                    <div key={h.label} style={{ padding: "10px 16px", fontSize: 12, fontWeight: 600, color: h.color, letterSpacing: "0.08em", background: "rgba(0,0,0,0.03)", borderRight: i < 2 ? `1px solid ${C.border}` : "none" }}>{h.label}</div>
+                    <div key={h.label} style={{ padding: "10px 16px", fontSize: 12, fontWeight: 600, color: h.color, letterSpacing: "0.08em", background: "#ffffff", borderRight: i < 2 ? `1px solid ${C.border}` : "none" }}>{h.label}</div>
                   ))}
                 </div>
                 {/* Rows */}
@@ -367,7 +367,7 @@ export default function ZenoPage() {
                 ].map((row, i) => (
                   <div key={i} style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}>
                     {row.map((cell, j) => (
-                      <div key={j} style={{ padding: "12px 16px", fontSize: 13, color: C.t2, lineHeight: 1.5, borderTop: `1px solid ${C.border}`, borderRight: j < 2 ? `1px solid ${C.border}` : "none" }}>{cell}</div>
+                      <div key={j} style={{ padding: "12px 16px", fontSize: 13, color: C.t2, lineHeight: 1.5, background: "rgba(0,0,0,0.03)", borderTop: `1px solid ${C.border}`, borderRight: j < 2 ? `1px solid ${C.border}` : "none" }}>{cell}</div>
                     ))}
                   </div>
                 ))}
@@ -439,7 +439,7 @@ export default function ZenoPage() {
               <div style={{ minWidth: 480, border: `1px solid ${C.border}`, borderRadius: 8, overflow: "hidden" }}>
                 <div className="zeno-cut-grid">
                   {["Stayed on Dashboard", "Moved to Analytics", "Moved to Settings"].map((h, i) => (
-                    <div key={i} style={{ padding: "10px 14px", fontSize: 11, fontWeight: 600, color: C.t1, letterSpacing: "0.08em", background: "rgba(0,0,0,0.03)", borderRight: i < 2 ? `1px solid ${C.border}` : "none" }}>{h}</div>
+                    <div key={i} style={{ padding: "10px 14px", fontSize: 11, fontWeight: 600, color: C.t1, letterSpacing: "0.08em", background: "#ffffff", borderRight: i < 2 ? `1px solid ${C.border}` : "none" }}>{h}</div>
                   ))}
                 </div>
                 <div className="zeno-cut-grid">
@@ -448,7 +448,7 @@ export default function ZenoPage() {
                     "Cost savings, energy usage, session history",
                     "Connection status, vehicle management\n\nAccount, language, security",
                   ].map((cell, i) => (
-                    <div key={i} style={{ padding: "12px 14px", fontSize: 13, color: C.t2, lineHeight: 1.6, borderTop: `1px solid ${C.border}`, borderRight: i < 2 ? `1px solid ${C.border}` : "none", whiteSpace: "pre-line" }}>{cell}</div>
+                    <div key={i} style={{ padding: "12px 14px", fontSize: 13, color: C.t2, lineHeight: 1.6, background: "rgba(0,0,0,0.03)", borderTop: `1px solid ${C.border}`, borderRight: i < 2 ? `1px solid ${C.border}` : "none", whiteSpace: "pre-line" }}>{cell}</div>
                   ))}
                 </div>
               </div>
@@ -527,9 +527,9 @@ export default function ZenoPage() {
         <SectionHeadingV3 num="08" title="REFLECTION" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div className="zeno-reflection-grid">
-            <IconCard icon={Layers}   label="Build the design system first"      right="01" body="Manual component updates across 35+ screens for months. Design tokens and component libraries should be day one, not an afterthought." bg="#ffffff" iconColor="#72BEEA" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" delay={0}    />
-            <IconCard icon={Users}    label="Test with real users earlier"        right="02" body="Decisions debated for days became obvious the first time a real user touched the screen."                                              bg="#ffffff" iconColor="#72BEEA" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" delay={0.08} />
-            <IconCard icon={FileText} label="Document decisions as they happen"   right="03" body="One sentence per key decision, written at the time, would have made this case study significantly more accurate."                       bg="#ffffff" iconColor="#72BEEA" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" delay={0.16} />
+            <IconCard icon={Layers}   label="Build the design system first"      right="01" body="Manual component updates across 35+ screens for months. Design tokens and component libraries should be day one, not an afterthought." bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover delay={0}    />
+            <IconCard icon={Users}    label="Test with real users earlier"        right="02" body="Decisions debated for days became obvious the first time a real user touched the screen."                                              bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover delay={0.08} />
+            <IconCard icon={FileText} label="Document decisions as they happen"   right="03" body="One sentence per key decision, written at the time, would have made this case study significantly more accurate."                       bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover delay={0.16} />
           </div>
           <Reveal delay={0.2}>
             <Quote text="Simplicity is not the absence of complexity. It is evidence that someone worked very hard to hide it in exactly the right places." />

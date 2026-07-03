@@ -4,9 +4,9 @@ import { useInView } from "framer-motion";
 import { LucideIcon } from "lucide-react";
 import { revealStyle } from "@/lib/tokens";
 
-interface Props { label: string; num: string; body: string; delay?: number; bg?: string; icon?: LucideIcon; iconColor?: string; textColor?: string; border?: string; }
+interface Props { label: string; num: string; body: string; delay?: number; bg?: string; icon?: LucideIcon; iconColor?: string; textColor?: string; border?: string; noHover?: boolean; }
 
-export default function Card({ label, num, body, delay = 0, bg, icon: Icon, iconColor = "#ffffff", textColor = "#ffffff", border }: Props) {
+export default function Card({ label, num, body, delay = 0, bg, icon: Icon, iconColor = "#ffffff", textColor = "#ffffff", border, noHover = false }: Props) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-10% 0px" });
   const [glow, setGlow] = useState("");
@@ -21,13 +21,13 @@ export default function Card({ label, num, body, delay = 0, bg, icon: Icon, icon
         const y = (((e.clientY - r.top) / r.height) * 100).toFixed(1);
         setGlow(`radial-gradient(circle at ${x}% ${y}%, var(--color-card-glow) 0%, var(--color-card) 65%)`);
       }}
-      onMouseEnter={e => {
+      onMouseEnter={noHover ? undefined : e => {
         setHovered(true);
         const el = e.currentTarget;
         el.style.transform = "translateY(-4px)";
         if (!isColored) el.style.borderColor = "var(--color-card-hover-border)";
       }}
-      onMouseLeave={e => {
+      onMouseLeave={noHover ? undefined : e => {
         setHovered(false);
         setGlow("");
         const el = e.currentTarget;

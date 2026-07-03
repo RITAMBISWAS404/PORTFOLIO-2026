@@ -6,18 +6,18 @@ import { revealStyle } from "@/lib/tokensV2";
 
 interface Props {
   icon: LucideIcon; label: string; right?: string; body: string;
-  bg: string; delay?: number; iconColor?: string; textColor?: string; border?: string;
+  bg: string; delay?: number; iconColor?: string; textColor?: string; border?: string; noHover?: boolean;
 }
 
-export default function IconCard({ icon: Icon, label, right, body, bg, delay = 0, iconColor = "#ffffff", textColor = "#ffffff", border }: Props) {
+export default function IconCard({ icon: Icon, label, right, body, bg, delay = 0, iconColor = "#ffffff", textColor = "#ffffff", border, noHover = false }: Props) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-10% 0px" });
   const [hovered, setHovered] = useState(false);
 
   return (
     <div ref={ref}
-      onMouseEnter={e => { setHovered(true); e.currentTarget.style.transform = "translateY(-4px)"; }}
-      onMouseLeave={e => { setHovered(false); e.currentTarget.style.transform = "translateY(0)"; }}
+      onMouseEnter={noHover ? undefined : e => { setHovered(true); e.currentTarget.style.transform = "translateY(-4px)"; }}
+      onMouseLeave={noHover ? undefined : e => { setHovered(false); e.currentTarget.style.transform = "translateY(0)"; }}
       style={{
         position: "relative", background: bg, border: border ?? "none", borderRadius: 8, padding: 16,
         display: "flex", flexDirection: "column", gap: 8, cursor: "default", overflow: "hidden",
