@@ -117,7 +117,7 @@ export default function Contact() {
                     display: "flex", alignItems: "center", gap: 6,
                     padding: "6px 14px",
                     border: `1px solid ${active ? chipColor : C.border}`,
-                    borderRadius: 8,
+                    borderRadius: 9999,
                     background: active ? chipColor : "transparent",
                     fontSize: 12, fontWeight: 500,
                     color: active ? "#ffffff" : C.t3,

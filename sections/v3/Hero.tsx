@@ -77,7 +77,7 @@ export default function Hero() {
         {/* Badges */}
         <motion.div variants={item} style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
           {["OPEN TO COLLABORATIONS", "2+ YEARS EXP", "MOBILE + WEB UX"].map(label => (
-            <div key={label} style={{ ...tagStyle, padding: "5px 12px", borderRadius: 8, background: "#ffffff", border: "1px solid rgba(0,0,0,0.10)", color: "#222222" }}>
+            <div key={label} style={{ ...tagStyle, padding: "5px 12px", borderRadius: 9999, background: "#ffffff", border: "1px solid rgba(0,0,0,0.10)", color: "#222222" }}>
               {label}
             </div>
           ))}
