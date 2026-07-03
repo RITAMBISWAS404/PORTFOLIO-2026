@@ -7,7 +7,7 @@ export default function GridLines() {
     position: "absolute",
     top: 0,
     bottom: 0,
-    width: 1,
+    width: 1.5,
     background: "var(--color-border)",
     pointerEvents: "none",
   };

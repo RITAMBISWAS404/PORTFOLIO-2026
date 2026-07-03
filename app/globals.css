@@ -58,7 +58,7 @@
   --color-card:             #ffffff;   /* pure white cards float above canvas */
   --color-input:            #f9f9f9;
   /* Borders */
-  --color-border:           #e3e3e3;
+  --color-border:           #d0d0d0;
   --color-border-hover:     #c8c8c8;
   /* Hover states */
   --color-hover:            rgba(0,0,0,0.03);
@@ -134,7 +134,7 @@ textarea { resize: none; }
 }
 
 /* SectionHeadingV3 underline — reaches the rail */
-.v3-heading-line { height: 1px; background: var(--color-border); margin-left: -16px; margin-right: -16px; }
+.v3-heading-line { height: 1.5px; background: var(--color-border); margin-left: -16px; margin-right: -16px; }
 @media (min-width: 768px) {
   .v3-heading-line { margin-left: -24px; margin-right: -24px; }
 }
