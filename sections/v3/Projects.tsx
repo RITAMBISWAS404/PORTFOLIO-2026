@@ -31,7 +31,7 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
         display:"flex",flexDirection:"column",color:"inherit",textDecoration:"none",
         position:"relative",
         background:"#222222",
-        border:"1px solid rgba(0,0,0,0.10)",
+        border:"1px solid rgba(255,255,255,0.10)",
         ...revealStyle(inView,delay),
         transition:`${revealStyle(inView,delay).transition},transform 0.2s cubic-bezier(.22,1,.36,1)`}}
         onMouseEnter={e=>{const el=e.currentTarget;el.style.transform="translateY(-4px)";setCursor({x:e.clientX,y:e.clientY});}}
