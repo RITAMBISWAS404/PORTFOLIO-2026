@@ -20,18 +20,20 @@ export default function Card({ label, num, body, delay = 0, bg }: Props) {
         const y = (((e.clientY - r.top) / r.height) * 100).toFixed(1);
         setGlow(`radial-gradient(circle at ${x}% ${y}%, var(--color-card-glow) 0%, var(--color-card) 65%)`);
       }}
-      onMouseEnter={isColored ? undefined : e => {
+      onMouseEnter={e => {
         setHovered(true);
         const el = e.currentTarget;
-        el.style.borderColor = "var(--color-card-hover-border)";
         el.style.transform = "translateY(-4px)";
+        if (isColored) el.style.filter = "brightness(0.95)";
+        else el.style.borderColor = "var(--color-card-hover-border)";
       }}
-      onMouseLeave={isColored ? undefined : e => {
+      onMouseLeave={e => {
         setHovered(false);
         setGlow("");
         const el = e.currentTarget;
-        el.style.borderColor = "var(--color-border)";
         el.style.transform = inView ? "translateY(0)" : "translateY(16px)";
+        if (isColored) el.style.filter = "";
+        else el.style.borderColor = "var(--color-border)";
       }}
       className="card-chip"
       style={{
@@ -40,9 +42,7 @@ export default function Card({ label, num, body, delay = 0, bg }: Props) {
         borderRadius: 8, padding: 16,
         display: "flex", flexDirection: "column", gap: 8, cursor: "default",
         ...revealStyle(inView, delay),
-        transition: isColored
-          ? revealStyle(inView, delay).transition
-          : `${revealStyle(inView, delay).transition}, border-color 0.15s, transform 0.2s cubic-bezier(.22,1,.36,1)`,
+        transition: `${revealStyle(inView, delay).transition}, border-color 0.15s, transform 0.2s cubic-bezier(.22,1,.36,1), filter 0.2s`,
       }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <span style={{ fontSize: 12, fontWeight: 500, color: isColored ? "#ffffff" : "var(--color-text-1)", letterSpacing: "0.08em" }}>{label}</span>
