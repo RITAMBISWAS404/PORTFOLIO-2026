@@ -27,43 +27,55 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
   const [cursor,setCursor]=useState<{x:number;y:number}|null>(null);
   return(
     <>
-      <a ref={ref} href={p.href} target="_blank" rel="noopener noreferrer" style={{borderRadius:4,overflow:"hidden",
-        display:"flex",flexDirection:"column",color:"inherit",textDecoration:"none",
-        position:"relative",
-        background:"#222222",
-        border:"1px solid rgba(0,0,0,0.10)",
-        ...revealStyle(inView,delay),
-        transition:`${revealStyle(inView,delay).transition},transform 0.2s cubic-bezier(.22,1,.36,1)`}}
-        onMouseEnter={e=>{const el=e.currentTarget;el.style.transform="translateY(-4px)";setCursor({x:e.clientX,y:e.clientY});}}
+      {/* Outer wrapper carries the border — renders against white page so rgba(0,0,0,0.10) is a true 10% black stroke */}
+      <div ref={ref} style={{
+          borderRadius:4,
+          border:"1px solid rgba(0,0,0,0.10)",
+          overflow:"hidden",
+          ...revealStyle(inView,delay),
+          transition:`${revealStyle(inView,delay).transition},transform 0.2s cubic-bezier(.22,1,.36,1)`,
+        }}
+        onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-4px)";setCursor({x:e.clientX,y:e.clientY});}}
         onMouseMove={e=>{setCursor({x:e.clientX,y:e.clientY});}}
-        onMouseLeave={e=>{setCursor(null);const el=e.currentTarget;el.style.transform="translateY(0)";}}>
-        <div style={{height:192,overflow:"hidden",background:"transparent"}}>
-          <img src={p.img} alt={p.title} style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}} loading="lazy"/>
-        </div>
-        <div style={{padding:"16px 16px 0"}}>
-          <div className="f16" style={{fontWeight:500,color:"#ffffff"}}>{p.title}</div>
-          <div className="f16" style={{fontWeight:400,color:"rgba(255,255,255,0.55)",marginTop:4}}>{p.sub}</div>
-        </div>
-        <div style={{padding:16,display:"flex",flexWrap:"wrap",gap:8}}>
-          {p.tags.map(t=>(
-            <div key={t} style={{ ...tagStyle, borderRadius: 4, background: "rgba(255,255,255,0.10)", border: "1px solid rgba(255,255,255,0.10)", color: "#ffffff" }}>
-              {tagIcons[t]}{t}
-            </div>
-          ))}
-        </div>
-      </a>
-      {cursor && (
+        onMouseLeave={e=>{setCursor(null);e.currentTarget.style.transform="translateY(0)";}}>
+
+        {/* Inner anchor fills the wrapper with dark background */}
+        <a href={p.href} target="_blank" rel="noopener noreferrer" style={{
+          display:"flex", flexDirection:"column",
+          color:"inherit", textDecoration:"none",
+          background:"#222222",
+        }}>
+          {/* Image */}
+          <div style={{height:192,overflow:"hidden"}}>
+            <img src={p.img} alt={p.title} style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}} loading="lazy"/>
+          </div>
+          {/* Title + subtitle */}
+          <div style={{padding:"16px 16px 0"}}>
+            <div className="f16" style={{fontWeight:500,color:"#ffffff"}}>{p.title}</div>
+            <div className="f16" style={{fontWeight:400,color:"rgba(255,255,255,0.55)",marginTop:4}}>{p.sub}</div>
+          </div>
+          {/* Pills */}
+          <div style={{padding:16,display:"flex",flexWrap:"wrap",gap:8}}>
+            {p.tags.map(t=>(
+              <div key={t} style={{...tagStyle,borderRadius:4,background:"rgba(255,255,255,0.10)",border:"1px solid rgba(255,255,255,0.10)",color:"#ffffff"}}>
+                {tagIcons[t]}{t}
+              </div>
+            ))}
+          </div>
+        </a>
+      </div>
+
+      {cursor&&(
         <div style={{
-          position:"fixed", left:cursor.x, top:cursor.y,
-          transform:"translate(12px, 12px)",
-          pointerEvents:"none", zIndex:9999,
-          display:"flex", alignItems:"center",
+          position:"fixed",left:cursor.x,top:cursor.y,
+          transform:"translate(12px,12px)",
+          pointerEvents:"none",zIndex:9999,
+          display:"flex",alignItems:"center",
           padding:"6px 14px",
-          background:C.card,
-          border:`1px solid ${C.borderHv}`,
+          background:C.card,border:`1px solid ${C.borderHv}`,
           borderRadius:"0 4px 4px 4px",
-          fontSize:12, fontWeight:500, color:C.t1,
-          letterSpacing:"0.08em", whiteSpace:"nowrap",
+          fontSize:12,fontWeight:500,color:C.t1,
+          letterSpacing:"0.08em",whiteSpace:"nowrap",
         }}>
           view project
         </div>
