@@ -4,7 +4,7 @@ import { useInView } from "framer-motion";
 import {
   Target,
   BookOpen, Lock, FileText,
-  MessageCircle, Lightbulb, User, Layers, Users,
+  Quote as QuoteIcon, Lightbulb, User, Layers, Users,
   Eye, GitBranch, Clock,
 } from "lucide-react";
 import Footer from "@/sections/v3/Footer";
@@ -19,7 +19,7 @@ import { C, col, tagStyle, revealStyle } from "@/lib/tokensV2";
 /* ── Callout variants — thin wrappers around IconCard ────────────── */
 
 function Quote({ text }: { text: string }) {
-  return <IconCard icon={MessageCircle} label="Perspective" body={`“${text}”`} bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover />;
+  return <IconCard icon={QuoteIcon} label="Perspective" body={`“${text}”`} bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover />;
 }
 
 function Lesson({ text }: { text: string }) {
