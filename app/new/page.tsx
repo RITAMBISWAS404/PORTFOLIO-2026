@@ -13,8 +13,8 @@ function Divider() {
   return (
     <div style={{
       width: "100%",
-      height: 1.5,
-      background: "var(--color-border)",
+      height: 1,
+      background: "#222222",
     }} />
   );
 }
