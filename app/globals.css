@@ -134,7 +134,7 @@ textarea { resize: none; }
 }
 
 /* SectionHeadingV3 underline — reaches the rail */
-.v3-heading-line { height: 1px; background: #222222; margin-left: -16px; margin-right: -16px; }
+.v3-heading-line { height: 1px; background: var(--color-border); margin-left: -16px; margin-right: -16px; }
 @media (min-width: 768px) {
   .v3-heading-line { margin-left: -24px; margin-right: -24px; }
 }

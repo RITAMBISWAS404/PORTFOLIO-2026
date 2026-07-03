@@ -14,7 +14,7 @@ function Divider() {
     <div style={{
       width: "100%",
       height: 1,
-      background: "#222222",
+      background: "var(--color-border)",
     }} />
   );
 }
