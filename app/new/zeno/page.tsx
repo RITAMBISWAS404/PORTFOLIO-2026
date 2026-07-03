@@ -160,6 +160,10 @@ function PageNav() {
   );
 }
 
+function Divider() {
+  return <div style={{ width: "100%", height: 1, background: "var(--color-border)" }} />;
+}
+
 /* ── Page ──────────────────────────────────────────────────────── */
 
 export default function ZenoPage() {
@@ -198,15 +202,8 @@ export default function ZenoPage() {
             ))}
           </div>
 
-          <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 8, padding: "14px 16px", display: "flex", flexDirection: "column", gap: 8 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <Lock size={14} color={C.yellow} strokeWidth={2} />
-              <span style={{ fontSize: 13, fontWeight: 500, color: C.t1 }}>Confidential Note</span>
-            </div>
-            <p style={{ fontSize: 13, color: C.t2, lineHeight: 1.6 }}>
-              Zeno is a portfolio-safe recreation of a product I designed for a Copenhagen-based EV startup. With the company&apos;s permission, I rebuilt it under a new brand. Every decision, constraint, and insight here is real. Only the branding changed.
-            </p>
-          </div>
+          <IconCard icon={Lock} label="Confidential Note" bg="var(--pop-purple)"
+            body="Zeno is a portfolio-safe recreation of a product I designed for a Copenhagen-based EV startup. With the company's permission, I rebuilt it under a new brand. Every decision, constraint, and insight here is real. Only the branding changed." />
         </Reveal>
       </section>
 
@@ -235,6 +232,8 @@ export default function ZenoPage() {
         </div>
       </section>
 
+      <Divider />
+
       {/* ── 01 WHAT ZENO DOES ───────────────────────────────── */}
       <section id="zeno-overview" style={{ ...col }} className="v3-section">
         <SectionHeadingV3 num="01" title="WHAT ZENO DOES" />
@@ -253,6 +252,8 @@ export default function ZenoPage() {
           </Reveal>
         </div>
       </section>
+
+      <Divider />
 
       {/* ── 02 THE PROBLEM ──────────────────────────────────── */}
       <section id="zeno-problem" style={{ ...col }} className="v3-section">
@@ -282,6 +283,8 @@ export default function ZenoPage() {
         </div>
       </section>
 
+      <Divider />
+
       {/* ── 03 RESEARCH ─────────────────────────────────────── */}
       <section id="zeno-research" style={{ ...col }} className="v3-section">
         <SectionHeadingV3 num="03" title="RESEARCH AND EARLY THINKING" />
@@ -310,6 +313,8 @@ export default function ZenoPage() {
         </div>
       </section>
 
+      <Divider />
+
       {/* ── 04 ONBOARDING FLOW ──────────────────────────────── */}
       <section id="zeno-onboarding" style={{ ...col }} className="v3-section">
         <SectionHeadingV3 num="04" title="ONBOARDING FLOW" />
@@ -330,6 +335,8 @@ export default function ZenoPage() {
           </Reveal>
         </div>
       </section>
+
+      <Divider />
 
       {/* ── 05 DASHBOARD EXPLORATION ────────────────────────── */}
       <section id="zeno-dashboard" style={{ ...col }} className="v3-section">
@@ -372,6 +379,8 @@ export default function ZenoPage() {
           </Reveal>
         </div>
       </section>
+
+      <Divider />
 
       {/* ── 05 DECISION JOURNEY ─────────────────────────────── */}
       <section id="zeno-decisions" style={{ ...col }} className="v3-section">
@@ -469,6 +478,8 @@ export default function ZenoPage() {
         </div>
       </section>
 
+      <Divider />
+
       {/* ── 06 FINAL PRODUCT ────────────────────────────────── */}
       <section id="zeno-product" style={{ ...col }} className="v3-section">
         <SectionHeadingV3 num="07" title="THE FINAL PRODUCT" />
@@ -509,6 +520,8 @@ export default function ZenoPage() {
         </div>
       </section>
 
+      <Divider />
+
       {/* ── 07 REFLECTION ───────────────────────────────────── */}
       <section id="zeno-reflection" style={{ ...col }} className="v3-section">
         <SectionHeadingV3 num="08" title="REFLECTION" />
@@ -523,6 +536,8 @@ export default function ZenoPage() {
           </Reveal>
         </div>
       </section>
+
+      <Divider />
 
       {/* ── BACK TO TOP ─────────────────────────────────────── */}
       <div style={{ ...col, display: "flex", justifyContent: "flex-start" }} className="v3-section">
