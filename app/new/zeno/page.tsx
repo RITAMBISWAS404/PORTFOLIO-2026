@@ -2,13 +2,16 @@
 import { useRef, useState, useEffect } from "react";
 import { useInView } from "framer-motion";
 import {
-  Zap, Target, Search, LayoutGrid, GitBranch,
-  Smartphone, BookOpen, ArrowUp, Lock, PenTool, FileText,
-  MessageCircle, Lightbulb, User, Clock, Layers, Users, Briefcase,
+  Zap, Target,
+  BookOpen, ArrowUp, Lock, PenTool, FileText,
+  MessageCircle, Lightbulb, User, Layers, Users,
   Eye, LucideIcon,
 } from "lucide-react";
-import Footer from "@/sections/Footer";
-import { C, col, tagStyle, tagHv, revealStyle } from "@/lib/tokens";
+import Footer from "@/sections/v3/Footer";
+import GridLines from "@/components/GridLines";
+import SectionHeadingV3 from "@/components/SectionHeadingV3";
+import Card from "@/components/Card";
+import { C, col, tagStyle, revealStyle } from "@/lib/tokensV2";
 
 /* ── ZenoCard — the single card layout used throughout this page ─ */
 /* [colored icon] [white label]                    [gray right]     */
@@ -31,20 +34,18 @@ function ZenoCard({
         const r = e.currentTarget.getBoundingClientRect();
         const x = (((e.clientX - r.left) / r.width)  * 100).toFixed(1);
         const y = (((e.clientY - r.top)  / r.height) * 100).toFixed(1);
-        setGlow(`radial-gradient(circle at ${x}% ${y}%, rgba(255,255,255,0.05) 0%, ${C.card} 65%)`);
+        setGlow(`radial-gradient(circle at ${x}% ${y}%, rgba(0,0,0,0.04) 0%, ${C.card} 65%)`);
       }}
       onMouseEnter={e => {
         setHovered(true);
         const el = e.currentTarget;
-        el.style.borderColor = "rgba(255,255,255,0.12)";
-        el.style.boxShadow   = "0 4px 20px rgba(0,0,0,0.5)";
+        el.style.borderColor = "var(--color-border-hover)";
         el.style.transform   = "translateY(-4px)";
       }}
       onMouseLeave={e => {
         setHovered(false); setGlow("");
         const el = e.currentTarget;
         el.style.borderColor = C.border;
-        el.style.boxShadow   = "";
         el.style.transform   = "translateY(0)";
       }}
       style={{
@@ -64,56 +65,6 @@ function ZenoCard({
             {right}
           </span>
         )}
-      </div>
-      <p className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6 }}>{body}</p>
-    </div>
-  );
-}
-
-/* ── Stat card — icon above number, used only for the metrics row ── */
-
-function ZenoStatCard({
-  icon: Icon, iconColor, stat, label, body, delay = 0,
-}: {
-  icon: LucideIcon; iconColor: string; stat: string;
-  label: string; body: string; delay?: number;
-}) {
-  const ref    = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-10% 0px" });
-  const [glow, setGlow] = useState("");
-
-  return (
-    <div ref={ref}
-      onMouseMove={e => {
-        const r = e.currentTarget.getBoundingClientRect();
-        const x = (((e.clientX - r.left) / r.width)  * 100).toFixed(1);
-        const y = (((e.clientY - r.top)  / r.height) * 100).toFixed(1);
-        setGlow(`radial-gradient(circle at ${x}% ${y}%, rgba(255,255,255,0.05) 0%, ${C.card} 65%)`);
-      }}
-      onMouseEnter={e => {
-        const el = e.currentTarget;
-        el.style.borderColor = "rgba(255,255,255,0.12)";
-        el.style.boxShadow   = "0 4px 20px rgba(0,0,0,0.5)";
-        el.style.transform   = "translateY(-4px)";
-      }}
-      onMouseLeave={e => {
-        setGlow("");
-        const el = e.currentTarget;
-        el.style.borderColor = C.border;
-        el.style.boxShadow   = "";
-        el.style.transform   = "translateY(0)";
-      }}
-      style={{
-        background: glow || C.card,
-        border: `1px solid ${C.border}`, borderRadius: 8, padding: 16,
-        display: "flex", flexDirection: "column", gap: 10, cursor: "default",
-        ...revealStyle(inView, delay),
-        transition: `${revealStyle(inView, delay).transition}, border-color 0.15s, box-shadow 0.15s, transform 0.2s cubic-bezier(.22,1,.36,1)`,
-      }}>
-      <Icon size={16} color={iconColor} strokeWidth={2} />
-      <div>
-        <div style={{ fontSize: 22, fontWeight: 600, color: C.t1, fontFamily: "Poppins, sans-serif", lineHeight: 1.1 }}>{stat}</div>
-        <div style={{ fontSize: 12, fontWeight: 500, color: C.t1, letterSpacing: "0.08em", marginTop: 2 }}>{label}</div>
       </div>
       <p className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6 }}>{body}</p>
     </div>
@@ -178,7 +129,7 @@ function TwoColTable({ headers, rows }: { headers: [string, string]; rows: [stri
           <div key={i} style={{
             padding: "10px 16px", fontSize: 12, fontWeight: 600,
             color: C.t1, letterSpacing: "0.08em",
-            background: "rgba(255,255,255,0.03)",
+            background: "rgba(0,0,0,0.03)",
             borderRight: i === 0 ? `1px solid ${C.border}` : "none",
           }}>{h}</div>
         ))}
@@ -220,34 +171,6 @@ function ZenoImg({ src, alt }: { src: string; alt: string }) {
       src={src} alt={alt} loading="lazy"
       style={{ width: "100%", height: "auto", display: "block", borderRadius: 8, border: `1px solid ${C.border}` }}
     />
-  );
-}
-
-/* ── Section heading — large, scannable ────────────────────────── */
-
-function SectionHeading({ label, num }: { label: string; num: string; icon?: LucideIcon; iconColor?: string; }) {
-  const ref  = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-20% 0px" });
-  return (
-    <div ref={ref} className="zeno-sh-wrap">
-      <span className="zeno-sh-num" style={{
-        fontSize: "clamp(20px, 3.5vw, 26px)", fontWeight: 500,
-        color: C.t3, flexShrink: 0, letterSpacing: "0.02em",
-        fontFamily: "Poppins, sans-serif",
-        opacity: inView ? 1 : 0, transition: "opacity 0.6s ease 0.5s",
-      }}>{num}</span>
-      <h2 className="zeno-sh-label" style={{
-        fontSize: "clamp(20px, 3.5vw, 26px)", fontWeight: 500,
-        color: C.t1, lineHeight: 1.2, letterSpacing: "0.02em",
-        fontFamily: "Poppins, sans-serif", margin: 0, flexShrink: 0,
-      }}>{label}</h2>
-      <div className="zeno-sh-line" style={{
-        flex: 1, height: 1, background: C.border,
-        transformOrigin: "left center",
-        transform: inView ? "scaleX(1)" : "scaleX(0)",
-        transition: "transform 0.9s cubic-bezier(.22,1,.36,1) 0.15s",
-      }} />
-    </div>
   );
 }
 
@@ -325,11 +248,12 @@ function PageNav() {
 export default function ZenoPage() {
 
   return (
-    <main>
+    <main style={{ position: "relative" }}>
+      <GridLines />
       <PageNav />
 
       {/* ── HERO ────────────────────────────────────────────── */}
-      <section style={{ ...col, padding: "48px 24px 0" }}>
+      <section style={{ ...col, paddingBottom: 0 }} className="v3-section">
         <Reveal>
           <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 24 }}>
             <div style={{ width: 64, height: 64, borderRadius: 8, overflow: "hidden", flexShrink: 0 }}>
@@ -347,11 +271,11 @@ export default function ZenoPage() {
 
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 24 }}>
             {[
-              { label: "UX DESIGN",  icon: <PenTool  size={12} color={C.accent} strokeWidth={2} /> },
-              { label: "EV APP",     icon: <Zap      size={12} color={C.yellow} strokeWidth={2} /> },
-              { label: "CASE STUDY", icon: <FileText size={12} color={C.blue}   strokeWidth={2} /> },
+              { label: "UX DESIGN",  icon: <PenTool  size={12} color="#222222" strokeWidth={2} /> },
+              { label: "EV APP",     icon: <Zap      size={12} color="#222222" strokeWidth={2} /> },
+              { label: "CASE STUDY", icon: <FileText size={12} color="#222222" strokeWidth={2} /> },
             ].map(t => (
-              <div key={t.label} style={{ ...tagStyle, borderRadius: 8 }} onMouseEnter={e => tagHv(e, true)} onMouseLeave={e => tagHv(e, false)}>
+              <div key={t.label} style={{ ...tagStyle, borderRadius: 8, background: "#ffffff", border: "1px solid rgba(0,0,0,0.10)", color: "#222222" }}>
                 {t.icon} {t.label}
               </div>
             ))}
@@ -370,7 +294,7 @@ export default function ZenoPage() {
       </section>
 
       {/* ── HERO IMAGE ──────────────────────────────────────── */}
-      <div style={{ ...col, padding: "0 24px", marginTop: 32 }}>
+      <div style={{ ...col, paddingBottom: 0 }} className="v3-section">
         <div className="zeno-hero-img-wrap" style={{ borderRadius: 8, overflow: "hidden", width: "100%" }}>
           <picture>
             <source media="(min-width: 768px)" srcSet="/images/16_9.png" />
@@ -384,19 +308,19 @@ export default function ZenoPage() {
       </div>
 
       {/* ── STATS ───────────────────────────────────────────── */}
-      <section style={{ ...col, padding: "32px 24px 0" }}>
+      <section style={{ ...col }} className="v3-section">
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div className="zeno-stats-grid">
-            <ZenoStatCard icon={Layers}    iconColor={C.accent} stat="35+"  label="Screens Designed" body="Across 5 flows for iOS and Android."             delay={0}    />
-            <ZenoStatCard icon={GitBranch} iconColor={C.blue}   stat="05"   label="Core User Flows"  body="Onboarding, dashboard, analytics, settings, account." delay={0.08} />
-            <ZenoStatCard icon={Clock}     iconColor={C.yellow} stat="2M"   label="MVP Timeline"     body="Blank file to production-ready designs."            delay={0.16} />
+            <Card label="Screens Designed" num="35+" body="Across 5 flows for iOS and Android." delay={0}    bg="var(--pop-green)"  />
+            <Card label="Core User Flows"  num="05"  body="Onboarding, dashboard, analytics, settings, account." delay={0.08} bg="var(--pop-blue)"   />
+            <Card label="MVP Timeline"     num="2M"  body="Blank file to production-ready designs." delay={0.16} bg="var(--pop-orange)" />
           </div>
         </div>
       </section>
 
       {/* ── 01 WHAT ZENO DOES ───────────────────────────────── */}
-      <section id="zeno-overview" style={{ ...col, padding: "64px 24px 0" }}>
-        <SectionHeading icon={Zap} label="WHAT ZENO DOES" num="01" iconColor={C.yellow} />
+      <section id="zeno-overview" style={{ ...col }} className="v3-section">
+        <SectionHeadingV3 num="01" title="WHAT ZENO DOES" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
             <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
@@ -421,8 +345,8 @@ export default function ZenoPage() {
       </section>
 
       {/* ── 02 THE PROBLEM ──────────────────────────────────── */}
-      <section id="zeno-problem" style={{ ...col, padding: "64px 24px 0" }}>
-        <SectionHeading icon={Target} label="THE PROBLEM" num="02" iconColor={C.red} />
+      <section id="zeno-problem" style={{ ...col }} className="v3-section">
+        <SectionHeadingV3 num="02" title="THE PROBLEM" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
             <Insight text="Make a product built around a smart algorithm and dense real-time data feel effortless for someone who just wants their car ready in the morning." />
@@ -449,8 +373,8 @@ export default function ZenoPage() {
       </section>
 
       {/* ── 03 RESEARCH ─────────────────────────────────────── */}
-      <section id="zeno-research" style={{ ...col, padding: "64px 24px 0" }}>
-        <SectionHeading icon={Search} label="RESEARCH AND EARLY THINKING" num="03" iconColor={C.blue} />
+      <section id="zeno-research" style={{ ...col }} className="v3-section">
+        <SectionHeadingV3 num="03" title="RESEARCH AND EARLY THINKING" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
             <p className="f16" style={{ color: C.t2, lineHeight: 1.6 }}>
@@ -477,8 +401,8 @@ export default function ZenoPage() {
       </section>
 
       {/* ── 04 ONBOARDING FLOW ──────────────────────────────── */}
-      <section id="zeno-onboarding" style={{ ...col, padding: "64px 24px 0" }}>
-        <SectionHeading icon={Smartphone} label="ONBOARDING FLOW" num="04" iconColor={C.yellow} />
+      <section id="zeno-onboarding" style={{ ...col }} className="v3-section">
+        <SectionHeadingV3 num="04" title="ONBOARDING FLOW" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
             <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
@@ -498,8 +422,8 @@ export default function ZenoPage() {
       </section>
 
       {/* ── 05 DASHBOARD EXPLORATION ────────────────────────── */}
-      <section id="zeno-dashboard" style={{ ...col, padding: "64px 24px 0" }}>
-        <SectionHeading icon={LayoutGrid} label="DASHBOARD EXPLORATION" num="05" iconColor={C.accent} />
+      <section id="zeno-dashboard" style={{ ...col }} className="v3-section">
+        <SectionHeadingV3 num="05" title="DASHBOARD EXPLORATION" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
             <p className="f16" style={{ color: C.t2, lineHeight: 1.6 }}>
@@ -515,7 +439,7 @@ export default function ZenoPage() {
                 {/* Header */}
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}>
                   {[{ label: "Widget Set", color: C.t1 }, { label: "Minimal", color: C.t1 }, { label: "My Way", color: C.t1 }].map((h, i) => (
-                    <div key={h.label} style={{ padding: "10px 16px", fontSize: 12, fontWeight: 600, color: h.color, letterSpacing: "0.08em", background: "rgba(255,255,255,0.03)", borderRight: i < 2 ? `1px solid ${C.border}` : "none" }}>{h.label}</div>
+                    <div key={h.label} style={{ padding: "10px 16px", fontSize: 12, fontWeight: 600, color: h.color, letterSpacing: "0.08em", background: "rgba(0,0,0,0.03)", borderRight: i < 2 ? `1px solid ${C.border}` : "none" }}>{h.label}</div>
                   ))}
                 </div>
                 {/* Rows */}
@@ -540,8 +464,8 @@ export default function ZenoPage() {
       </section>
 
       {/* ── 05 DECISION JOURNEY ─────────────────────────────── */}
-      <section id="zeno-decisions" style={{ ...col, padding: "64px 24px 0" }}>
-        <SectionHeading icon={GitBranch} label="THE DECISION JOURNEY" num="06" iconColor={C.blue} />
+      <section id="zeno-decisions" style={{ ...col }} className="v3-section">
+        <SectionHeadingV3 num="06" title="THE DECISION JOURNEY" />
         <div className="mt-section">
 
           <Decision num="01" title="From widgets to grouped components" first>
@@ -596,7 +520,7 @@ export default function ZenoPage() {
               <div style={{ minWidth: 480, border: `1px solid ${C.border}`, borderRadius: 8, overflow: "hidden" }}>
                 <div className="zeno-cut-grid">
                   {["Stayed on Dashboard", "Moved to Analytics", "Moved to Settings"].map((h, i) => (
-                    <div key={i} style={{ padding: "10px 14px", fontSize: 11, fontWeight: 600, color: C.t1, letterSpacing: "0.08em", background: "rgba(255,255,255,0.03)", borderRight: i < 2 ? `1px solid ${C.border}` : "none" }}>{h}</div>
+                    <div key={i} style={{ padding: "10px 14px", fontSize: 11, fontWeight: 600, color: C.t1, letterSpacing: "0.08em", background: "rgba(0,0,0,0.03)", borderRight: i < 2 ? `1px solid ${C.border}` : "none" }}>{h}</div>
                   ))}
                 </div>
                 <div className="zeno-cut-grid">
@@ -636,8 +560,8 @@ export default function ZenoPage() {
       </section>
 
       {/* ── 06 FINAL PRODUCT ────────────────────────────────── */}
-      <section id="zeno-product" style={{ ...col, padding: "64px 24px 0" }}>
-        <SectionHeading icon={Smartphone} label="THE FINAL PRODUCT" num="07" iconColor={C.accent} />
+      <section id="zeno-product" style={{ ...col }} className="v3-section">
+        <SectionHeadingV3 num="07" title="THE FINAL PRODUCT" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
             <p className="f16" style={{ color: C.t2, lineHeight: 1.6 }}>
@@ -664,9 +588,9 @@ export default function ZenoPage() {
             <div className="btn-row">
               <a href="https://www.figma.com/design/HQiowSEZWtefmjVP5cqZuY/ZENO?node-id=0-1&p=f&t=ZuWU0JArTeGN7yjv-0"
                 target="_blank" rel="noopener noreferrer"
-                style={{ display: "flex", alignItems: "center", gap: 10, background: "rgba(255,255,255,0.05)", color: C.t1, padding: "11px 22px", borderRadius: 8, fontSize: 14, fontWeight: 500, textDecoration: "none", transition: "background 0.25s, transform 0.25s" }}
-                onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.09)"; (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-2px)"; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.05)"; (e.currentTarget as HTMLAnchorElement).style.transform = ""; }}
+                style={{ display: "flex", alignItems: "center", gap: 10, background: "rgba(0,0,0,0.04)", color: C.t1, padding: "11px 22px", borderRadius: 8, fontSize: 14, fontWeight: 500, textDecoration: "none", transition: "background 0.25s, transform 0.25s" }}
+                onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = "rgba(0,0,0,0.10)"; (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-2px)"; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = "rgba(0,0,0,0.04)"; (e.currentTarget as HTMLAnchorElement).style.transform = ""; }}
               >
                 <PenTool size={14} strokeWidth={2} /> View in Figma
               </a>
@@ -676,8 +600,8 @@ export default function ZenoPage() {
       </section>
 
       {/* ── 07 REFLECTION ───────────────────────────────────── */}
-      <section id="zeno-reflection" style={{ ...col, padding: "64px 24px 0" }}>
-        <SectionHeading icon={BookOpen} label="REFLECTION" num="08" iconColor={C.blue} />
+      <section id="zeno-reflection" style={{ ...col }} className="v3-section">
+        <SectionHeadingV3 num="08" title="REFLECTION" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div className="zeno-reflection-grid">
             <ZenoCard icon={Layers}   iconColor={C.accent} label="Build the design system first"      right="01" body="Manual component updates across 35+ screens for months. Design tokens and component libraries should be day one, not an afterthought." delay={0}    />
@@ -691,12 +615,12 @@ export default function ZenoPage() {
       </section>
 
       {/* ── BACK TO TOP ─────────────────────────────────────── */}
-      <div style={{ ...col, padding: "48px 24px 0", display: "flex", justifyContent: "flex-start" }}>
+      <div style={{ ...col, display: "flex", justifyContent: "flex-start" }} className="v3-section">
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           style={{
             display: "flex", alignItems: "center", gap: 10,
-            background: "rgba(255,255,255,0.05)", color: C.t1,
+            background: "rgba(0,0,0,0.04)", color: C.t1,
             border: "none", padding: "11px 22px",
             borderRadius: 8, fontSize: 14, fontWeight: 500,
             cursor: "pointer", fontFamily: "Poppins, sans-serif",
@@ -715,17 +639,6 @@ export default function ZenoPage() {
       </div>
 
       <style>{`
-        /* Section heading: mobile = "01 LABEL", desktop = "LABEL ——— 01" */
-        .zeno-sh-wrap { display: flex; align-items: center; gap: 8px; }
-        .zeno-sh-num  { display: none; }
-        .zeno-sh-label { order: 1; }
-        .zeno-sh-line { display: none; }
-        @media (min-width: 768px) {
-          .zeno-sh-wrap { gap: 16px; }
-          .zeno-sh-num  { display: block; order: 2; }
-          .zeno-sh-label { order: 0; }
-          .zeno-sh-line { display: block; order: 1; }
-        }
         .zeno-page-nav {
           display: none;
           position: fixed;
