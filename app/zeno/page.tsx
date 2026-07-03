@@ -2,8 +2,8 @@
 import { useRef, useState, useEffect } from "react";
 import { useInView } from "framer-motion";
 import {
-  Zap, Target,
-  BookOpen, ArrowUp, Lock, PenTool, FileText,
+  Target,
+  BookOpen, Lock, FileText,
   MessageCircle, Lightbulb, User, Layers, Users,
   Eye, GitBranch, Clock,
 } from "lucide-react";
@@ -195,13 +195,9 @@ export default function ZenoPage() {
           </h1>
 
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 24 }}>
-            {[
-              { label: "UX DESIGN",  icon: <PenTool  size={12} color="#222222" strokeWidth={2} /> },
-              { label: "EV APP",     icon: <Zap      size={12} color="#222222" strokeWidth={2} /> },
-              { label: "CASE STUDY", icon: <FileText size={12} color="#222222" strokeWidth={2} /> },
-            ].map(t => (
-              <div key={t.label} style={{ ...tagStyle, borderRadius: 8, background: "#ffffff", border: "1px solid rgba(0,0,0,0.10)", color: "#222222" }}>
-                {t.icon} {t.label}
+            {["UX DESIGN", "EV APP", "CASE STUDY"].map(label => (
+              <div key={label} style={{ ...tagStyle, padding: "5px 12px", borderRadius: 8, background: "#ffffff", border: "1px solid rgba(0,0,0,0.10)", color: "#222222" }}>
+                {label}
               </div>
             ))}
           </div>
@@ -517,7 +513,7 @@ export default function ZenoPage() {
                 onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = "rgba(0,0,0,0.10)"; (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-2px)"; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = "rgba(0,0,0,0.04)"; (e.currentTarget as HTMLAnchorElement).style.transform = ""; }}
               >
-                <PenTool size={14} strokeWidth={2} /> View in Figma
+                View in Figma
               </a>
             </div>
           </Reveal>
@@ -558,7 +554,7 @@ export default function ZenoPage() {
           onMouseEnter={e => { const b = e.currentTarget; b.style.opacity = "0.88"; b.style.transform = "translateY(-2px)"; }}
           onMouseLeave={e => { const b = e.currentTarget; b.style.opacity = "1"; b.style.transform = ""; }}
         >
-          <ArrowUp size={14} strokeWidth={2} /> Back to top
+          Back to top
         </button>
       </div>
 
