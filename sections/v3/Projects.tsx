@@ -1,25 +1,10 @@
 "use client";
 import { useRef } from "react";
 import { useInView } from "framer-motion";
-import { Leaf,FileText,Store,TrainFront,RefreshCw,Zap,Globe,Home,PenTool,Building2,HardHat } from "lucide-react";
 import { useState } from "react";
 import SectionHeadingV3 from "@/components/SectionHeadingV3";
 import { projects } from "@/data/content";
 import { C, tagStyle, tagHv, revealStyle, col } from "@/lib/tokensV2";
-
-const tagIcons: Record<string,React.ReactNode>={
-  "AGRICULTURE":<Leaf       size={12} color="#fff" strokeWidth={2}/>,
-  "CASE STUDY": <FileText   size={12} color="#fff" strokeWidth={2}/>,
-  "RETAIL":     <Store      size={12} color="#fff" strokeWidth={2}/>,
-  "TRANSIT":    <TrainFront size={12} color="#fff" strokeWidth={2}/>,
-  "REDESIGN":   <RefreshCw  size={12} color="#fff" strokeWidth={2}/>,
-  "EV TECH":    <Zap        size={12} color="#fff" strokeWidth={2}/>,
-  "WEB DESIGN": <Globe      size={12} color="#fff" strokeWidth={2}/>,
-  "INTERIOR":   <Home       size={12} color="#fff" strokeWidth={2}/>,
-  "LOGO DESIGN":<PenTool    size={12} color="#fff" strokeWidth={2}/>,
-  "AD AGENCY":  <Building2  size={12} color="#fff" strokeWidth={2}/>,
-  "IN PROGRESS":<HardHat    size={12} color="#fff" strokeWidth={2}/>,
-};
 
 function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
   const ref=useRef(null);
@@ -55,8 +40,8 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
           {/* Pills — dark background */}
           <div style={{padding:16,display:"flex",flexWrap:"wrap",gap:8,background:"#222222"}}>
             {p.tags.map(t=>(
-              <div key={t} style={{...tagStyle,borderRadius:8,background:"rgba(255,255,255,0.10)",border:"1px solid rgba(255,255,255,0.10)",color:"#ffffff"}}>
-                {tagIcons[t]}{t}
+              <div key={t} style={{...tagStyle,padding:"5px 12px",borderRadius:8,background:"rgba(255,255,255,0.10)",border:"1px solid rgba(255,255,255,0.10)",color:"#ffffff"}}>
+                {t}
               </div>
             ))}
           </div>

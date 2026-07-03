@@ -1,7 +1,6 @@
 "use client";
 import { useRef, useState } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { ArrowRight, MessageCircle, Handshake, Calendar, Smartphone } from "lucide-react";
 import { C, tagStyle } from "@/lib/tokensV2";
 import { useAppReady } from "@/lib/AppReadyContext";
 
@@ -77,13 +76,9 @@ export default function Hero() {
 
         {/* Badges */}
         <motion.div variants={item} style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-          {[
-            { label: "OPEN TO COLLABORATIONS", icon: <Handshake  size={12} color="#222222" strokeWidth={2} /> },
-            { label: "2+ YEARS EXP",           icon: <Calendar   size={12} color="#222222" strokeWidth={2} /> },
-            { label: "MOBILE + WEB UX",        icon: <Smartphone size={12} color="#222222" strokeWidth={2} /> },
-          ].map(b => (
-            <div key={b.label} style={{ ...tagStyle, borderRadius: 8, background: "#ffffff", border: "1px solid rgba(0,0,0,0.10)", color: "#222222" }}>
-              {b.icon} {b.label}
+          {["OPEN TO COLLABORATIONS", "2+ YEARS EXP", "MOBILE + WEB UX"].map(label => (
+            <div key={label} style={{ ...tagStyle, padding: "5px 12px", borderRadius: 8, background: "#ffffff", border: "1px solid rgba(0,0,0,0.10)", color: "#222222" }}>
+              {label}
             </div>
           ))}
         </motion.div>
@@ -106,7 +101,7 @@ export default function Hero() {
           }}
             onMouseEnter={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.opacity = "0.88"; a.style.transform = "translateY(-2px)"; }}
             onMouseLeave={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.opacity = "1"; a.style.transform = ""; }}>
-            <ArrowRight size={14} strokeWidth={2} /> View my Work
+            View my Work
           </a>
           <a href="#contact" style={{
             display: "flex", alignItems: "center", gap: 10,
@@ -117,7 +112,7 @@ export default function Hero() {
           }}
             onMouseEnter={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.background = "rgba(0,0,0,0.12)"; a.style.transform = "translateY(-2px)"; }}
             onMouseLeave={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.background = "rgba(0,0,0,0.05)"; a.style.transform = ""; }}>
-            <MessageCircle size={14} strokeWidth={2} /> Let&apos;s Talk
+            Let&apos;s Talk
           </a>
         </motion.div>
       </motion.div>

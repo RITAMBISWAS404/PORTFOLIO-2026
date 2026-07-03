@@ -1,18 +1,13 @@
 "use client";
 import { useRef } from "react";
 import { useInView } from "framer-motion";
-import { PenTool, Zap, FileText, BookOpen, Users, Layers, GitBranch, Component, Clock } from "lucide-react";
+import { Layers, GitBranch, Component, Clock } from "lucide-react";
 import SectionHeadingV3 from "@/components/SectionHeadingV3";
 import Card from "@/components/Card";
 import { zeno } from "@/data/content";
 import { C, tagStyle, tagHv, revealStyle, col } from "@/lib/tokensV2";
 
-const tags = [
-  { label: "UX DESIGN",  icon: <PenTool  size={12} color="#222222" strokeWidth={2} /> },
-  { label: "EV APP",     icon: <Zap      size={12} color="#222222" strokeWidth={2} /> },
-  { label: "CASE STUDY", icon: <FileText size={12} color="#222222" strokeWidth={2} /> },
-  { label: "B2C",        icon: <Users    size={12} color="#222222" strokeWidth={2} /> },
-];
+const tags = ["UX DESIGN", "EV APP", "CASE STUDY", "B2C"];
 
 const stats = [
   { label: "Screens Designed",  num: "35+", body: "Covers every key user flow from onboarding through dashboard, analytics, and account settings.", bg: "var(--pop-green)",  icon: Layers },
@@ -59,9 +54,9 @@ export default function FeaturedProject() {
 
           {/* Tags */}
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-            {tags.map(t => (
-              <div key={t.label} style={{ ...tagStyle, borderRadius: 8, background: "#ffffff", border: "1px solid rgba(0,0,0,0.10)", color: "#222222" }}>
-                {t.icon}{t.label}
+            {tags.map(label => (
+              <div key={label} style={{ ...tagStyle, padding: "5px 12px", borderRadius: 8, background: "#ffffff", border: "1px solid rgba(0,0,0,0.10)", color: "#222222" }}>
+                {label}
               </div>
             ))}
           </div>
@@ -97,7 +92,7 @@ export default function FeaturedProject() {
           }}
             onMouseEnter={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.opacity = "0.88"; a.style.transform = "translateY(-2px)"; }}
             onMouseLeave={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.opacity = "1"; a.style.transform = ""; }}>
-            <BookOpen size={14} strokeWidth={2} />Read Case Study
+            Read Case Study
           </a>
           <a href="https://www.figma.com/design/HQiowSEZWtefmjVP5cqZuY/ZENO?node-id=0-1&p=f&t=ZuWU0JArTeGN7yjv-0" target="_blank" rel="noopener noreferrer" style={{
             display: "flex", alignItems: "center", gap: 10,
@@ -108,7 +103,7 @@ export default function FeaturedProject() {
           }}
             onMouseEnter={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.background = "rgba(0,0,0,0.12)"; a.style.transform = "translateY(-2px)"; }}
             onMouseLeave={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.background = "rgba(0,0,0,0.05)"; a.style.transform = ""; }}>
-            <PenTool size={14} strokeWidth={2} />View in Figma
+            View in Figma
           </a>
         </div>
       </div>
