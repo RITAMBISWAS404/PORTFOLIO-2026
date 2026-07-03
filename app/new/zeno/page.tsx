@@ -236,7 +236,7 @@ export default function ZenoPage() {
 
       {/* ── 01 WHAT ZENO DOES ───────────────────────────────── */}
       <section id="zeno-overview" style={{ ...col }} className="v3-section">
-        <SectionHeadingV3 num="01" title="WHAT ZENO DOES" />
+        <SectionHeadingV3 title="What Zeno Does" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
             <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
@@ -257,7 +257,7 @@ export default function ZenoPage() {
 
       {/* ── 02 THE PROBLEM ──────────────────────────────────── */}
       <section id="zeno-problem" style={{ ...col }} className="v3-section">
-        <SectionHeadingV3 num="02" title="THE PROBLEM" />
+        <SectionHeadingV3 title="The Problem" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
             <Insight text="Make a product built around a smart algorithm and dense real-time data feel effortless for someone who just wants their car ready in the morning." />
@@ -287,7 +287,7 @@ export default function ZenoPage() {
 
       {/* ── 03 RESEARCH ─────────────────────────────────────── */}
       <section id="zeno-research" style={{ ...col }} className="v3-section">
-        <SectionHeadingV3 num="03" title="RESEARCH AND EARLY THINKING" />
+        <SectionHeadingV3 title="Research and Early Thinking" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
             <p className="f16" style={{ color: C.t2, lineHeight: 1.6 }}>
@@ -317,7 +317,7 @@ export default function ZenoPage() {
 
       {/* ── 04 ONBOARDING FLOW ──────────────────────────────── */}
       <section id="zeno-onboarding" style={{ ...col }} className="v3-section">
-        <SectionHeadingV3 num="04" title="ONBOARDING FLOW" />
+        <SectionHeadingV3 title="Onboarding Flow" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
             <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
@@ -340,7 +340,7 @@ export default function ZenoPage() {
 
       {/* ── 05 DASHBOARD EXPLORATION ────────────────────────── */}
       <section id="zeno-dashboard" style={{ ...col }} className="v3-section">
-        <SectionHeadingV3 num="05" title="DASHBOARD EXPLORATION" />
+        <SectionHeadingV3 title="Dashboard Exploration" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
             <p className="f16" style={{ color: C.t2, lineHeight: 1.6 }}>
@@ -384,7 +384,7 @@ export default function ZenoPage() {
 
       {/* ── 05 DECISION JOURNEY ─────────────────────────────── */}
       <section id="zeno-decisions" style={{ ...col }} className="v3-section">
-        <SectionHeadingV3 num="06" title="THE DECISION JOURNEY" />
+        <SectionHeadingV3 title="The Decision Journey" />
         <div className="mt-section">
 
           <Decision num="01" title="From widgets to grouped components" first>
@@ -482,7 +482,7 @@ export default function ZenoPage() {
 
       {/* ── 06 FINAL PRODUCT ────────────────────────────────── */}
       <section id="zeno-product" style={{ ...col }} className="v3-section">
-        <SectionHeadingV3 num="07" title="THE FINAL PRODUCT" />
+        <SectionHeadingV3 title="The Final Product" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
             <p className="f16" style={{ color: C.t2, lineHeight: 1.6 }}>
@@ -524,7 +524,7 @@ export default function ZenoPage() {
 
       {/* ── 07 REFLECTION ───────────────────────────────────── */}
       <section id="zeno-reflection" style={{ ...col }} className="v3-section">
-        <SectionHeadingV3 num="08" title="REFLECTION" />
+        <SectionHeadingV3 title="Reflection" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div className="zeno-reflection-grid">
             <IconCard icon={Layers}   label="Build the design system first"      right="01" body="Manual component updates across 35+ screens for months. Design tokens and component libraries should be day one, not an afterthought." bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover delay={0}    />

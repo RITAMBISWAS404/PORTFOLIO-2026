@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { useInView } from "framer-motion";
 
 interface Props {
-  num: string;
+  num?: string;
   title: string;
 }
 
@@ -25,7 +25,7 @@ export default function SectionHeadingV3({ num, title }: Props) {
         margin: 0,
         paddingBottom: 20,
       }}>
-        <span style={{ color: "var(--color-text-3)" }}>{num} </span>
+        {num && <span style={{ color: "var(--color-text-3)" }}>{num} </span>}
         <span style={{ color: "var(--color-text-1)" }}>{title}</span>
       </h2>
       <div className="v3-heading-line" />
