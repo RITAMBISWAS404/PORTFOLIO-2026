@@ -6,7 +6,7 @@ import { Menu, X } from "lucide-react";
 import { navLinks } from "@/data/content";
 import { useAppReady } from "@/lib/AppReadyContext";
 
-export default function NavbarNew() {
+export default function NavbarNew({ homePath = "/new" }: { homePath?: string }) {
   const [active,   setActive]   = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -14,8 +14,8 @@ export default function NavbarNew() {
   const animated = useRef(false);
   const { ready } = useAppReady();
   const pathname = usePathname();
-  const isHome = pathname === "/new" || pathname?.startsWith("/new/");
-  const resolveHref = (href: string) => isHome ? href : `/new${href}`;
+  const isHome = pathname === homePath || (homePath !== "/" && pathname?.startsWith(`${homePath}/`));
+  const resolveHref = (href: string) => isHome ? href : `${homePath}${href}`;
 
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 767px)");

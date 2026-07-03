@@ -1,25 +1,49 @@
-import Hero from "@/sections/v2/Hero";
-import FeaturedProject from "@/sections/v2/FeaturedProject";
-import Projects from "@/sections/v2/Projects";
-import About from "@/sections/v2/About";
-import Process from "@/sections/v2/Process";
-import Experience from "@/sections/v2/Experience";
-import Contact from "@/sections/v2/Contact";
-import Socials from "@/sections/v2/Socials";
-import Footer from "@/sections/v2/Footer";
+import Hero from "@/sections/v3/Hero";
+import FeaturedProject from "@/sections/v3/FeaturedProject";
+import Projects from "@/sections/v3/Projects";
+import About from "@/sections/v3/About";
+import Process from "@/sections/v3/Process";
+import Experience from "@/sections/v3/Experience";
+import Contact from "@/sections/v3/Contact";
+import Socials from "@/sections/v3/Socials";
+import Footer from "@/sections/v3/Footer";
+import GridLines from "@/components/GridLines";
+import NavbarNew from "@/components/NavbarNew";
+import { ThemeProvider } from "@/lib/ThemeContext";
+
+function Divider() {
+  return (
+    <div style={{
+      width: "100%",
+      height: 1,
+      background: "var(--color-border)",
+    }} />
+  );
+}
 
 export default function Home() {
   return (
-    <main>
-      <Hero />
-      <FeaturedProject />
-      <Projects />
-      <About />
-      <Process />
-      <Experience />
-      <Contact />
-      <Socials />
-      <Footer />
-    </main>
+    <ThemeProvider defaultTheme="light">
+      <NavbarNew homePath="/" />
+      <main style={{ position: "relative" }}>
+        <GridLines />
+        <Hero />
+        <Divider />
+        <FeaturedProject />
+        <Divider />
+        <Projects />
+        <Divider />
+        <About />
+        <Divider />
+        <Process />
+        <Divider />
+        <Experience />
+        <Divider />
+        <Contact />
+        <Divider />
+        <Socials />
+        <Footer />
+      </main>
+    </ThemeProvider>
   );
 }
