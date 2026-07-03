@@ -24,31 +24,40 @@ export default function Card({ label, num, body, delay = 0, bg }: Props) {
         setHovered(true);
         const el = e.currentTarget;
         el.style.transform = "translateY(-4px)";
-        if (isColored) el.style.filter = "brightness(0.95)";
-        else el.style.borderColor = "var(--color-card-hover-border)";
+        if (!isColored) el.style.borderColor = "var(--color-card-hover-border)";
       }}
       onMouseLeave={e => {
         setHovered(false);
         setGlow("");
         const el = e.currentTarget;
         el.style.transform = inView ? "translateY(0)" : "translateY(16px)";
-        if (isColored) el.style.filter = "";
-        else el.style.borderColor = "var(--color-border)";
+        if (!isColored) el.style.borderColor = "var(--color-border)";
       }}
       className="card-chip"
       style={{
+        position: "relative",
         background: isColored ? bg : (glow || "var(--color-card)"),
         border: "none",
         borderRadius: 8, padding: 16,
         display: "flex", flexDirection: "column", gap: 8, cursor: "default",
+        overflow: "hidden",
         ...revealStyle(inView, delay),
-        transition: `${revealStyle(inView, delay).transition}, border-color 0.15s, transform 0.2s cubic-bezier(.22,1,.36,1), filter 0.2s`,
+        transition: `${revealStyle(inView, delay).transition}, border-color 0.15s, transform 0.2s cubic-bezier(.22,1,.36,1)`,
       }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      {isColored && (
+        <div style={{
+          position: "absolute", inset: 0,
+          background: "rgba(0,0,0,0.10)",
+          opacity: hovered ? 1 : 0,
+          transition: "opacity 0.2s",
+          pointerEvents: "none",
+        }} />
+      )}
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", position: "relative", zIndex: 1 }}>
         <span style={{ fontSize: 12, fontWeight: 500, color: isColored ? "#ffffff" : "var(--color-text-1)", letterSpacing: "0.08em" }}>{label}</span>
         <span style={{ fontSize: 12, fontWeight: 500, color: isColored ? "#ffffff" : (hovered ? "var(--color-text-2)" : "var(--color-text-3)"), transition: "color 0.15s" }}>{num}</span>
       </div>
-      <p className="card-body" style={{ fontWeight: 400, color: isColored ? "#ffffff" : "var(--color-text-2)", lineHeight: 1.6 }}>{body}</p>
+      <p className="card-body" style={{ fontWeight: 400, color: isColored ? "#ffffff" : "var(--color-text-2)", lineHeight: 1.6, position: "relative", zIndex: 1 }}>{body}</p>
       <style>{`.card-body{font-size:14px}@media(min-width:768px){.card-body{font-size:16px}}`}</style>
     </div>
   );
