@@ -43,12 +43,12 @@ export default function About() {
       <p ref={bioRef} className="f16 mt-section"
         style={{ fontWeight: 400, color: C.t2, lineHeight: 1.7, ...revealStyle(bioInView) }}>
         Namaste!{" "}
-        <strong style={{ color: C.t1, fontWeight: 500 }}>
+        <strong style={{ color: C.blue, fontWeight: 500 }}>
           I&apos;m Ritam Biswas, a Product Designer with a CS background.
         </strong>{" "}
         I spent my early years as a graphic designer and illustrator, chasing good visuals, until I
         realized good visuals mean nothing if no one can use them.{" "}
-        <strong style={{ color: C.t1, fontWeight: 500 }}>Graphic designer turned UX designer</strong>,
+        <strong style={{ color: C.blue, fontWeight: 500 }}>Graphic designer turned UX designer</strong>,
         that&apos;s the short version of how I got here. I&apos;m currently a Founding Product Designer for a
         Denmark-based EV energy startup, 2+ years into the role, with the app I designed live on the
         App Store and Play Store.

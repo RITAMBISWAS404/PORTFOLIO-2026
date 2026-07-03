@@ -69,7 +69,7 @@ export default function FeaturedProject() {
           {/* Description */}
           <p className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6 }}>
             ZENO{" "}
-            <strong style={{ color: C.t1, fontWeight: 500 }}>
+            <strong style={{ color: C.blue, fontWeight: 500 }}>
               turns a data-heavy EV charging app into a four-second experience
             </strong>
             . I owned the product end to end from a blank Figma file: user research, information
