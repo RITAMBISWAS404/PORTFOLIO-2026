@@ -5,110 +5,27 @@ import {
   Zap, Target,
   BookOpen, ArrowUp, Lock, PenTool, FileText,
   MessageCircle, Lightbulb, User, Layers, Users,
-  Eye, LucideIcon,
+  Eye,
 } from "lucide-react";
 import Footer from "@/sections/v3/Footer";
 import GridLines from "@/components/GridLines";
 import SectionHeadingV3 from "@/components/SectionHeadingV3";
 import Card from "@/components/Card";
+import IconCard from "@/components/IconCard";
 import { C, col, tagStyle, revealStyle } from "@/lib/tokensV2";
 
-/* ── ZenoCard — the single card layout used throughout this page ─ */
-/* [colored icon] [white label]                    [gray right]     */
-/* gray body                                                         */
-
-function ZenoCard({
-  icon: Icon, iconColor, label, right, body, delay = 0,
-}: {
-  icon: LucideIcon; iconColor: string; label: string;
-  right?: string; body: string; delay?: number;
-}) {
-  const ref  = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-10% 0px" });
-  const [glow,    setGlow]    = useState("");
-  const [hovered, setHovered] = useState(false);
-
-  return (
-    <div ref={ref}
-      onMouseMove={e => {
-        const r = e.currentTarget.getBoundingClientRect();
-        const x = (((e.clientX - r.left) / r.width)  * 100).toFixed(1);
-        const y = (((e.clientY - r.top)  / r.height) * 100).toFixed(1);
-        setGlow(`radial-gradient(circle at ${x}% ${y}%, rgba(0,0,0,0.04) 0%, ${C.card} 65%)`);
-      }}
-      onMouseEnter={e => {
-        setHovered(true);
-        const el = e.currentTarget;
-        el.style.borderColor = "var(--color-border-hover)";
-        el.style.transform   = "translateY(-4px)";
-      }}
-      onMouseLeave={e => {
-        setHovered(false); setGlow("");
-        const el = e.currentTarget;
-        el.style.borderColor = C.border;
-        el.style.transform   = "translateY(0)";
-      }}
-      style={{
-        background: glow || C.card,
-        border: `1px solid ${C.border}`, borderRadius: 8, padding: 16,
-        display: "flex", flexDirection: "column", gap: 8, cursor: "default",
-        ...revealStyle(inView, delay),
-        transition: `${revealStyle(inView, delay).transition}, border-color 0.15s, box-shadow 0.15s, transform 0.2s cubic-bezier(.22,1,.36,1)`,
-      }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <Icon size={14} color={iconColor} strokeWidth={2} />
-          <span style={{ fontSize: 13, fontWeight: 500, color: C.t1 }}>{label}</span>
-        </div>
-        {right && (
-          <span style={{ fontSize: 12, fontWeight: 500, color: hovered ? C.t2 : C.t3, transition: "color 0.15s", flexShrink: 0, marginLeft: 8 }}>
-            {right}
-          </span>
-        )}
-      </div>
-      <p className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6 }}>{body}</p>
-    </div>
-  );
-}
-
-/* ── Callout variants — same layout, no glow (they're informational) */
+/* ── Callout variants — thin wrappers around IconCard ────────────── */
 
 function Quote({ text }: { text: string }) {
-  return (
-    <div style={{ background: C.card, borderRadius: 8, padding: "16px 20px", border: `1px solid ${C.border}` }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-        <MessageCircle size={14} color={C.accent} strokeWidth={2} />
-        <span style={{ fontSize: 13, fontWeight: 500, color: C.t1 }}>Perspective</span>
-      </div>
-      <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
-        &ldquo;{text}&rdquo;
-      </p>
-    </div>
-  );
+  return <IconCard icon={MessageCircle} label="Perspective" body={`“${text}”`} bg="var(--pop-green)" />;
 }
 
 function Lesson({ text }: { text: string }) {
-  return (
-    <div style={{ background: C.card, borderRadius: 8, padding: "16px 20px", border: `1px solid ${C.border}` }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-        <BookOpen size={14} color={C.blue} strokeWidth={2} />
-        <span style={{ fontSize: 13, fontWeight: 500, color: C.t1 }}>Lesson</span>
-      </div>
-      <p className="f16" style={{ color: C.t2, lineHeight: 1.6 }}>{text}</p>
-    </div>
-  );
+  return <IconCard icon={BookOpen} label="Lesson" body={text} bg="var(--pop-blue)" />;
 }
 
 function Insight({ text }: { text: string }) {
-  return (
-    <div style={{ background: C.card, borderRadius: 8, padding: "16px 20px", border: `1px solid ${C.border}` }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-        <Lightbulb size={14} color={C.yellow} strokeWidth={2} />
-        <span style={{ fontSize: 13, fontWeight: 500, color: C.t1 }}>Insight</span>
-      </div>
-      <p className="f16" style={{ color: C.t2, lineHeight: 1.6 }}>{text}</p>
-    </div>
-  );
+  return <IconCard icon={Lightbulb} label="Insight" body={text} bg="var(--pop-yellow)" />;
 }
 
 /* ── Scroll reveal wrapper ──────────────────────────────────────── */
@@ -331,15 +248,8 @@ export default function ZenoPage() {
             <Quote text="You set the departure time. You set the target charge. The algorithm finds the cheapest hour and does the rest." />
           </Reveal>
           <Reveal delay={0.12}>
-            <div style={{ background: C.card, borderRadius: 8, padding: "16px 20px", border: `1px solid ${C.border}` }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-                <User size={14} color={C.accent} strokeWidth={2} />
-                <span style={{ fontSize: 13, fontWeight: 500, color: C.t1 }}>My Role</span>
-              </div>
-              <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
-                Sole designer from day one. No existing product, no design system, no prior work to inherit. Only a vision from the CEO and CTO and a blank Figma file. What I know now about design systems, component thinking, and stakeholder communication came directly from the pressure of this project. Everything here was built from scratch.
-              </p>
-            </div>
+            <IconCard icon={User} label="My Role" bg="var(--pop-purple)"
+              body="Sole designer from day one. No existing product, no design system, no prior work to inherit. Only a vision from the CEO and CTO and a blank Figma file. What I know now about design systems, component thinking, and stakeholder communication came directly from the pressure of this project. Everything here was built from scratch." />
           </Reveal>
         </div>
       </section>
@@ -382,9 +292,9 @@ export default function ZenoPage() {
             </p>
           </Reveal>
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-            <ZenoCard icon={FileText} iconColor={C.blue}   label="Built for engineers"   right="01" body="Technical vocabulary with no softening. Everything assumed power-user knowledge." delay={0.06} />
-            <ZenoCard icon={Eye}      iconColor={C.yellow}  label="Information overload"  right="02" body="Every metric visible at once. No hierarchy, no breathing room. Overwhelming to scan." delay={0.12} />
-            <ZenoCard icon={Users}    iconColor={C.red}     label="Accessibility barrier" right="03" body="Older users hit a wall before trying a single feature. The learning curve was immediate." delay={0.18} />
+            <IconCard icon={FileText} label="Built for engineers"   right="01" body="Technical vocabulary with no softening. Everything assumed power-user knowledge." bg="var(--pop-blue)" delay={0.06} />
+            <IconCard icon={Eye}      label="Information overload"  right="02" body="Every metric visible at once. No hierarchy, no breathing room. Overwhelming to scan." bg="var(--pop-yellow)" delay={0.12} />
+            <IconCard icon={Users}    label="Accessibility barrier" right="03" body="Older users hit a wall before trying a single feature. The learning curve was immediate." bg="var(--pop-red)" delay={0.18} />
           </div>
           <Reveal delay={0.1}>
             <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
@@ -604,9 +514,9 @@ export default function ZenoPage() {
         <SectionHeadingV3 num="08" title="REFLECTION" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div className="zeno-reflection-grid">
-            <ZenoCard icon={Layers}   iconColor={C.accent} label="Build the design system first"      right="01" body="Manual component updates across 35+ screens for months. Design tokens and component libraries should be day one, not an afterthought." delay={0}    />
-            <ZenoCard icon={Users}    iconColor={C.blue}   label="Test with real users earlier"        right="02" body="Decisions debated for days became obvious the first time a real user touched the screen."                                              delay={0.08} />
-            <ZenoCard icon={FileText} iconColor={C.yellow} label="Document decisions as they happen"   right="03" body="One sentence per key decision, written at the time, would have made this case study significantly more accurate."                       delay={0.16} />
+            <IconCard icon={Layers}   label="Build the design system first"      right="01" body="Manual component updates across 35+ screens for months. Design tokens and component libraries should be day one, not an afterthought." bg="var(--pop-green)" delay={0}    />
+            <IconCard icon={Users}    label="Test with real users earlier"        right="02" body="Decisions debated for days became obvious the first time a real user touched the screen."                                              bg="var(--pop-blue)" delay={0.08} />
+            <IconCard icon={FileText} label="Document decisions as they happen"   right="03" body="One sentence per key decision, written at the time, would have made this case study significantly more accurate."                       bg="var(--pop-yellow)" delay={0.16} />
           </div>
           <Reveal delay={0.2}>
             <Quote text="Simplicity is not the absence of complexity. It is evidence that someone worked very hard to hide it in exactly the right places." />
