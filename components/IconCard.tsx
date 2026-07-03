@@ -41,7 +41,7 @@ export default function IconCard({ icon: Icon, label, right, body, bg, delay = 0
       <style>{`
         .card-colored-icon { width: 20px !important; height: 20px !important; }
         .card-colored-heading { font-size: 14px; }
-        .card-colored-body { font-size: 12px; }
+        .card-colored-body { font-size: 14px; }
         @media (min-width: 768px) {
           .card-colored-icon { width: 24px !important; height: 24px !important; }
           .card-colored-heading { font-size: 16px; }

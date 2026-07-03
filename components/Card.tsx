@@ -65,7 +65,7 @@ export default function Card({ label, num, body, delay = 0, bg, icon: Icon, icon
           <style>{`
             .card-colored-icon { width: 20px !important; height: 20px !important; }
             .card-colored-heading { font-size: 14px; }
-            .card-colored-body { font-size: 12px; }
+            .card-colored-body { font-size: 14px; }
             @media (min-width: 768px) {
               .card-colored-icon { width: 24px !important; height: 24px !important; }
               .card-colored-heading { font-size: 16px; }
