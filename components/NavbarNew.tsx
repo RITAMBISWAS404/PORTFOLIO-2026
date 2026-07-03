@@ -135,7 +135,7 @@ export default function NavbarNew() {
         width: 54, height: 54, padding: 5,
         transform: "translateY(-70px)",
         background: "#222222",
-        borderRadius: 4,
+        borderRadius: 8,
         display: "flex", alignItems: "center", gap: 5,
       }}>
         <a href={resolveHref("#hero")} style={{
@@ -153,7 +153,7 @@ export default function NavbarNew() {
             return (
               <a key={label} href={resolveHref(href)} className="nav-link-new" style={{
                 display: "flex", alignItems: "center",
-                height: 34, padding: "0 12px", borderRadius: 4,
+                height: 34, padding: "0 12px", borderRadius: 8,
                 fontSize: 12, fontWeight: 500,
                 color: isActive ? "#ffffff" : "rgba(255,255,255,0.42)",
                 letterSpacing: "0.08em", textTransform: "uppercase",

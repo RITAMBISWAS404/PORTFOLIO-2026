@@ -29,7 +29,7 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
     <>
       {/* Outer wrapper carries the border — renders against white page so rgba(0,0,0,0.10) is a true 10% black stroke */}
       <div ref={ref} style={{
-          borderRadius:4,
+          borderRadius:8,
           overflow:"hidden",
           boxShadow:"inset 0 0 0 1px rgba(0,0,0,0.10)",
           ...revealStyle(inView,delay),
@@ -56,7 +56,7 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
           {/* Pills — dark background */}
           <div style={{padding:16,display:"flex",flexWrap:"wrap",gap:8,background:"#222222"}}>
             {p.tags.map(t=>(
-              <div key={t} style={{...tagStyle,borderRadius:4,background:"rgba(255,255,255,0.10)",border:"1px solid rgba(255,255,255,0.10)",color:"#ffffff"}}>
+              <div key={t} style={{...tagStyle,borderRadius:8,background:"rgba(255,255,255,0.10)",border:"1px solid rgba(255,255,255,0.10)",color:"#ffffff"}}>
                 {tagIcons[t]}{t}
               </div>
             ))}
@@ -72,7 +72,7 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
           display:"flex",alignItems:"center",
           padding:"6px 14px",
           background:C.card,border:`1px solid ${C.borderHv}`,
-          borderRadius:"0 4px 4px 4px",
+          borderRadius:"0 8px 8px 8px",
           fontSize:12,fontWeight:500,color:C.t1,
           letterSpacing:"0.08em",whiteSpace:"nowrap",
         }}>
