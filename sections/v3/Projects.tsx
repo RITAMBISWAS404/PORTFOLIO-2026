@@ -30,7 +30,7 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
       {/* Outer wrapper carries the border — renders against white page so rgba(0,0,0,0.10) is a true 10% black stroke */}
       <div ref={ref} style={{
           borderRadius:4,
-          border:"1px solid rgba(0,0,0,0.10)",
+          border:"1px solid #E6E6E6",
           overflow:"hidden",
           ...revealStyle(inView,delay),
           transition:`${revealStyle(inView,delay).transition},transform 0.2s cubic-bezier(.22,1,.36,1)`,
