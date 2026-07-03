@@ -28,16 +28,26 @@ export default function IconCard({ icon: Icon, label, right, body, bg, delay = 0
         position: "absolute", inset: 0, background: "rgba(0,0,0,0.10)",
         opacity: hovered ? 1 : 0, transition: "opacity 0.2s", pointerEvents: "none",
       }} />
-      <Icon size={24} color={iconColor} strokeWidth={2} style={{ position: "relative", zIndex: 1 }} />
+      <Icon size={24} className="card-colored-icon" color={iconColor} strokeWidth={2} style={{ position: "relative", zIndex: 1 }} />
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", position: "relative", zIndex: 1 }}>
-        <span style={{ fontSize: 16, fontWeight: 500, color: textColor }}>{label}</span>
+        <span className="card-colored-heading" style={{ fontWeight: 500, color: textColor }}>{label}</span>
         {right && (
-          <span style={{ fontSize: 16, fontWeight: 500, color: textColor, opacity: 0.75, flexShrink: 0, marginLeft: 8 }}>
+          <span className="card-colored-heading" style={{ fontWeight: 500, color: textColor, opacity: 0.75, flexShrink: 0, marginLeft: 8 }}>
             {right}
           </span>
         )}
       </div>
-      <p style={{ fontSize: 14, fontWeight: 400, color: textColor, opacity: 0.9, lineHeight: 1.6, position: "relative", zIndex: 1 }}>{body}</p>
+      <p className="card-colored-body" style={{ fontWeight: 400, color: textColor, opacity: 0.9, lineHeight: 1.6, position: "relative", zIndex: 1 }}>{body}</p>
+      <style>{`
+        .card-colored-icon { width: 20px !important; height: 20px !important; }
+        .card-colored-heading { font-size: 14px; }
+        .card-colored-body { font-size: 12px; }
+        @media (min-width: 768px) {
+          .card-colored-icon { width: 24px !important; height: 24px !important; }
+          .card-colored-heading { font-size: 16px; }
+          .card-colored-body { font-size: 14px; }
+        }
+      `}</style>
     </div>
   );
 }
