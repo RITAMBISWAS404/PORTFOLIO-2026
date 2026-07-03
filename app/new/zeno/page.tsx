@@ -578,8 +578,8 @@ export default function ZenoPage() {
         .zeno-hero-img-wrap { aspect-ratio: 4 / 3; }
         @media (min-width: 768px) { .zeno-hero-img-wrap { aspect-ratio: 16 / 9; } }
         .zeno-case-study .v3-section { padding: 24px; }
-        .zeno-decision-line { height: 1px; background: var(--color-border); margin: 40px -16px; }
-        @media (min-width: 768px) { .zeno-decision-line { margin: 40px -24px; } }
+        .zeno-decision-line { height: 1px; background: var(--color-border); margin: 16px -16px; }
+        @media (min-width: 768px) { .zeno-decision-line { margin: 24px -24px; } }
         .zeno-stats-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
         .zeno-meta-grid  { display: grid; grid-template-columns: 1fr; gap: 16px; }
         .zeno-concept-grid    { display: grid; grid-template-columns: 1fr; gap: 16px; }
