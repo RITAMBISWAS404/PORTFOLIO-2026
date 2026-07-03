@@ -25,7 +25,7 @@ function Lesson({ text }: { text: string }) {
 }
 
 function Insight({ text }: { text: string }) {
-  return <IconCard icon={Lightbulb} label="Insight" body={text} bg="var(--pop-yellow)" />;
+  return <IconCard icon={Lightbulb} label="Insight" body={text} bg="var(--pop-orange)" />;
 }
 
 /* ── Scroll reveal wrapper ──────────────────────────────────────── */
@@ -293,7 +293,7 @@ export default function ZenoPage() {
           </Reveal>
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             <IconCard icon={FileText} label="Built for engineers"   right="01" body="Technical vocabulary with no softening. Everything assumed power-user knowledge." bg="var(--pop-blue)" delay={0.06} />
-            <IconCard icon={Eye}      label="Information overload"  right="02" body="Every metric visible at once. No hierarchy, no breathing room. Overwhelming to scan." bg="var(--pop-yellow)" delay={0.12} />
+            <IconCard icon={Eye}      label="Information overload"  right="02" body="Every metric visible at once. No hierarchy, no breathing room. Overwhelming to scan." bg="var(--pop-purple)" delay={0.12} />
             <IconCard icon={Users}    label="Accessibility barrier" right="03" body="Older users hit a wall before trying a single feature. The learning curve was immediate." bg="var(--pop-red)" delay={0.18} />
           </div>
           <Reveal delay={0.1}>
@@ -516,7 +516,7 @@ export default function ZenoPage() {
           <div className="zeno-reflection-grid">
             <IconCard icon={Layers}   label="Build the design system first"      right="01" body="Manual component updates across 35+ screens for months. Design tokens and component libraries should be day one, not an afterthought." bg="var(--pop-green)" delay={0}    />
             <IconCard icon={Users}    label="Test with real users earlier"        right="02" body="Decisions debated for days became obvious the first time a real user touched the screen."                                              bg="var(--pop-blue)" delay={0.08} />
-            <IconCard icon={FileText} label="Document decisions as they happen"   right="03" body="One sentence per key decision, written at the time, would have made this case study significantly more accurate."                       bg="var(--pop-yellow)" delay={0.16} />
+            <IconCard icon={FileText} label="Document decisions as they happen"   right="03" body="One sentence per key decision, written at the time, would have made this case study significantly more accurate."                       bg="var(--pop-pink)" delay={0.16} />
           </div>
           <Reveal delay={0.2}>
             <Quote text="Simplicity is not the absence of complexity. It is evidence that someone worked very hard to hide it in exactly the right places." />
