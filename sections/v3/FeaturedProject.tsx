@@ -10,10 +10,10 @@ import { C, tagStyle, tagHv, revealStyle, col } from "@/lib/tokensV2";
 const tags = ["UX DESIGN", "EV APP", "B2C"];
 
 const stats = [
-  { label: "Screens Designed",  num: "35+", body: "Covers every key user flow from onboarding through dashboard, analytics, and account settings.", bg: "var(--pop-green)",  icon: Layers },
-  { label: "User Flows Mapped", num: "05",  body: "Onboarding, dashboard, charging session, analytics, and settings.", bg: "var(--pop-orange)", icon: GitBranch },
-  { label: "Component System",  num: "40+", body: "A full design system built using Figma variables and design tokens for UI consistency.", bg: "var(--pop-blue)",   icon: Component },
-  { label: "MVP Timeline",      num: "2m",  body: "Blank file to production-ready designs, shipped end to end in just 2 months.", bg: "var(--pop-pink)",   icon: Clock },
+  { label: "35+ High Fidelity Screens", body: "Covers every key user flow from onboarding through dashboard, analytics, and account settings.", bg: "var(--pop-green)",  icon: Layers },
+  { label: "5 Complete User Flows",     body: "Onboarding, dashboard, charging session, analytics, and settings.", bg: "var(--pop-orange)", icon: GitBranch },
+  { label: "40+ Reusable Components",   body: "A full design system built using Figma variables and design tokens for UI consistency.", bg: "var(--pop-blue)",   icon: Component },
+  { label: "2 Month Design Sprint",     body: "Blank file to production-ready designs, shipped end to end in just 2 months.", bg: "var(--pop-pink)",   icon: Clock },
 ];
 
 export default function FeaturedProject() {
@@ -78,7 +78,7 @@ export default function FeaturedProject() {
         {/* Stats — 2×2 grid */}
         <div className="stats-grid" style={{ display: "grid", gap: 16, marginTop: 24 }}>
           {stats.map((s, i) => (
-            <Card key={s.label} label={s.label} num={s.num} body={s.body} delay={i * 0.08} bg={s.bg} icon={s.icon} />
+            <Card key={s.label} label={s.label} num="" body={s.body} delay={i * 0.08} bg={s.bg} icon={s.icon} />
           ))}
         </div>
 
