@@ -5,7 +5,7 @@ import {
   Target,
   BookOpen, Lock, FileText,
   Quote as QuoteIcon, Lightbulb, User, Layers, Users,
-  Eye, GitBranch, Clock,
+  Eye, GitBranch, Clock, Component,
 } from "lucide-react";
 import Footer from "@/sections/v3/Footer";
 import GridLines from "@/components/GridLines";
@@ -221,9 +221,10 @@ export default function ZenoPage() {
       <section style={{ ...col }} className="v3-section">
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div className="zeno-stats-grid">
-            <Card label="Screens Designed" num="35+" body="Across 5 flows for iOS and Android." delay={0}    bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover  icon={Layers} />
-            <Card label="Core User Flows"  num="05"  body="Onboarding, dashboard, analytics, settings, account." delay={0.08} bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover   icon={GitBranch} />
-            <Card label="MVP Timeline"     num="2M"  body="Blank file to production-ready designs." delay={0.16} bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover icon={Clock} />
+            <Card label="35+ High Fidelity Screens" num="" body="Covers every key user flow from onboarding through dashboard, analytics, and account settings." delay={0}    bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover icon={Layers} />
+            <Card label="5 Complete User Flows"     num="" body="Onboarding, dashboard, charging session, analytics, and settings." delay={0.08} bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover icon={GitBranch} />
+            <Card label="40+ Reusable Components"   num="" body="A full design system built using Figma variables and design tokens for UI consistency." delay={0.16} bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover icon={Component} />
+            <Card label="2 Month Design Sprint"     num="" body="Blank file to production-ready designs, shipped end to end in just 2 months." delay={0.24} bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover icon={Clock} />
           </div>
         </div>
       </section>
@@ -585,7 +586,7 @@ export default function ZenoPage() {
           .zeno-meta-grid    { grid-template-columns: 1fr 1fr 1fr; }
         }
         @media (min-width: 600px) {
-          .zeno-stats-grid { grid-template-columns: 1fr 1fr 1fr; }
+          .zeno-stats-grid { grid-template-columns: 1fr 1fr; }
         }
       `}</style>
     </main>
