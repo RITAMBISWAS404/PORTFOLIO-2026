@@ -64,7 +64,7 @@ export default function Experience() {
   return (
     <section id="experience" style={{ ...col, paddingTop: 0, paddingBottom: 0 }} className="v3-section">
       <SectionHeadingV3 title="Experience" />
-      <div className="mt-section-card">
+      <div className="mt-section-card" style={{ marginTop: 0 }}>
         {experience.map((e, i) => (
           <ExpEntry key={e.company} e={e} delay={i * 0.06} isFirst={i === 0} />
         ))}
