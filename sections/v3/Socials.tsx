@@ -5,9 +5,9 @@ import { C, col } from "@/lib/tokensV2";
 
 export default function Socials() {
   return (
-    <section id="socials" style={{ ...col, paddingTop: 0, paddingBottom: 0 }} className="v3-section">
+    <section id="socials" style={{ ...col, paddingBottom: 0 }} className="v3-section">
       <SectionHeadingV3 title="My Socials" />
-      <div className="mt-section-card">
+      <div className="mt-section-card" style={{ marginTop: 0 }}>
         {socials.map((s, i) => (
           <a key={s.name} href={s.href} target="_blank" rel="noopener" style={{
             display: "block", textDecoration: "none", color: "inherit",
@@ -33,6 +33,9 @@ export default function Socials() {
             </div>
           </a>
         ))}
+        <div style={{ ...col }}>
+          <div className="v3-heading-line" />
+        </div>
       </div>
     </section>
   );
