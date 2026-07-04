@@ -1,6 +1,7 @@
 "use client";
 import { useRef } from "react";
 import { useInView } from "framer-motion";
+import ScrambleText from "./ScrambleText";
 
 interface Props {
   num?: string;
@@ -26,7 +27,7 @@ export default function SectionHeadingV3({ num, title, eyebrow }: Props) {
           color: "var(--color-text-3)",
           marginBottom: 6,
         }}>
-          {eyebrow}
+          <ScrambleText text={eyebrow} active={inView} />
         </div>
       )}
       <h2 style={{
