@@ -66,7 +66,7 @@ function ExpEntry({ e, delay, isFirst }: { e: typeof experience[0]; delay: numbe
 export default function Experience() {
   return (
     <section id="experience" style={{ ...col, paddingBottom: 0 }} className="v3-section">
-      <SectionHeadingV3 title="Experience" />
+      <SectionHeadingV3 title="Experience" eyebrow="SOMEHOW EMPLOYED" />
       <div className="mt-section-card" style={{ marginTop: 0 }}>
         {experience.map((e, i) => (
           <ExpEntry key={e.company} e={e} delay={i * 0.06} isFirst={i === 0} />

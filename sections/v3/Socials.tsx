@@ -6,7 +6,7 @@ import { C, col } from "@/lib/tokensV2";
 export default function Socials() {
   return (
     <section id="socials" style={{ ...col, paddingBottom: 0 }} className="v3-section">
-      <SectionHeadingV3 title="My Socials" />
+      <SectionHeadingV3 title="My Socials" eyebrow="THE USUAL SUSPECTS" />
       <div className="mt-section-card" style={{ marginTop: 0 }}>
         {socials.map((s, i) => (
           <a key={s.name} href={s.href} target="_blank" rel="noopener" style={{
