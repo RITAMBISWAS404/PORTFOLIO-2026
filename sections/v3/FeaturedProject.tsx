@@ -7,7 +7,7 @@ import Card from "@/components/Card";
 import { zeno } from "@/data/content";
 import { C, tagStyle, tagHv, revealStyle, col } from "@/lib/tokensV2";
 
-const tags = ["UX DESIGN", "EV APP", "CASE STUDY", "B2C"];
+const tags = ["UX DESIGN", "EV APP", "B2C"];
 
 const stats = [
   { label: "Screens Designed",  num: "35+", body: "Covers every key user flow from onboarding through dashboard, analytics, and account settings.", bg: "var(--pop-green)",  icon: Layers },
