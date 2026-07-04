@@ -55,7 +55,7 @@ export default function About() {
       </p>
 
       {/* Bento grid */}
-      <div ref={bentRef} className="about-bento" style={{ marginTop: 24 }}>
+      <div ref={bentRef} className="about-bento mt-el">
 
         {/* Image card */}
         <div className="about-img-cell" style={{ ...revealStyle(bentInView, 0.04) }}>

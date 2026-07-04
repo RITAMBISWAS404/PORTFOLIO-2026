@@ -49,7 +49,8 @@ export default function Hero() {
         variants={container}
         initial="hidden"
         animate={ready ? "show" : "hidden"}
-        style={{ display: "flex", flexDirection: "column", gap: 24 }}
+        className="el-gap"
+        style={{ display: "flex", flexDirection: "column" }}
       >
         {/* Identity — avatar + name side by side */}
         <motion.div variants={item} style={{ display: "flex", alignItems: "center", gap: 16 }}>

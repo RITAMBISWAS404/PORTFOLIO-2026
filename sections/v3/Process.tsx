@@ -25,7 +25,7 @@ export default function Process() {
         project: understand the problem deeply, wireframe and iterate fast, build a system that
         scales, then ship and test with real usage in mind.
       </p>
-      <div className="process-grid" style={{ gap: 16, marginTop: 24 }}>
+      <div className="process-grid mt-el" style={{ gap: 16 }}>
         {steps.map((s, i) => (
           <Card key={s.label} label={s.label} num="" body={s.body} delay={i * 0.08} bg={s.bg} icon={s.icon} />
         ))}

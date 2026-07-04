@@ -39,7 +39,7 @@ export default function FeaturedProject() {
 
       {/* ZENO detail */}
       <div ref={ref} style={{ ...col }} className="v3-section">
-        <div style={{ display: "flex", flexDirection: "column", gap: 24, ...revealStyle(inView) }}>
+        <div className="el-gap" style={{ display: "flex", flexDirection: "column", ...revealStyle(inView) }}>
 
           {/* Identity */}
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
@@ -76,14 +76,14 @@ export default function FeaturedProject() {
         </div>
 
         {/* Stats — 2×2 grid */}
-        <div className="stats-grid" style={{ display: "grid", gap: 16, marginTop: 24 }}>
+        <div className="stats-grid mt-el" style={{ display: "grid", gap: 16 }}>
           {stats.map((s, i) => (
             <Card key={s.label} label={s.label} num="" body={s.body} delay={i * 0.08} bg={s.bg} icon={s.icon} />
           ))}
         </div>
 
         {/* CTAs */}
-        <div className="btn-row" style={{ marginTop: 24 }}>
+        <div className="btn-row mt-el">
           <a href="/zeno" target="_blank" rel="noopener noreferrer" style={{
             display: "flex", alignItems: "center", gap: 10,
             background: C.t1, color: C.bg, padding: "11px 22px",

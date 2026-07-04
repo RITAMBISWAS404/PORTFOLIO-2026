@@ -127,6 +127,14 @@ textarea { resize: none; }
   .mt-section-card { margin-top: 16px; }
 }
 
+/* Element-to-element spacing within a section body: 16px mobile, 24px desktop */
+.el-gap { gap: 16px; }
+.mt-el  { margin-top: 16px; }
+@media (min-width: 768px) {
+  .el-gap { gap: 24px; }
+  .mt-el  { margin-top: 24px; }
+}
+
 /* /new page: 16px top/bottom, 24px left/right on mobile (rail is 8px from edge, so 16px gap to content) */
 .v3-section { padding: 16px 24px; }
 @media (min-width: 768px) {
