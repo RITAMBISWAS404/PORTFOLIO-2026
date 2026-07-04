@@ -59,7 +59,7 @@ export default function NavbarNew({ homePath = "/new" }: { homePath?: string }) 
           position: "fixed", top: 0, left: 0, right: 0, zIndex: 1000,
           height: 56,
           background: "#222222",
-          boxShadow: "0 8px 24px rgba(244,244,244,0.9)",
+          boxShadow: "0 4px 16px rgba(244,244,244,0.4)",
           display: "flex", alignItems: "center", justifyContent: "space-between",
           padding: "0 20px",
         }}>
@@ -137,7 +137,7 @@ export default function NavbarNew({ homePath = "/new" }: { homePath?: string }) 
         transform: "translateY(-70px)",
         background: "#222222",
         borderRadius: 8,
-        boxShadow: "0 8px 24px rgba(244,244,244,0.9)",
+        boxShadow: "0 4px 16px rgba(244,244,244,0.4)",
         display: "flex", alignItems: "center", gap: 5,
       }}>
         <a href={resolveHref("#hero")} style={{
