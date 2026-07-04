@@ -5,7 +5,7 @@ import { C, col } from "@/lib/tokensV2";
 
 export default function Socials() {
   return (
-    <section id="socials" style={{ ...col }} className="v3-section">
+    <section id="socials" style={{ ...col, paddingTop: 0, paddingBottom: 0 }} className="v3-section">
       <SectionHeadingV3 title="My Socials" />
       <div className="mt-section-card">
         {socials.map((s, i) => (
@@ -20,15 +20,16 @@ export default function Socials() {
           }}
           onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = C.hover; }}
           onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = ""; }}>
-            <div style={{ ...col, padding: "0", display:"flex",
-              borderTop: i === 0 ? "none" : `1px solid ${C.border}`,
-              alignItems:"center", justifyContent:"space-between", height:58 }}>
-              <span className="f16" style={{ fontWeight:400,color:C.t1 }}>{s.name}</span>
-              <span className="f16" style={{ fontWeight:400,color:C.t3, transition:"color 0.25s" }}
-                onMouseEnter={e => (e.currentTarget as HTMLSpanElement).style.color = C.t2}
-                onMouseLeave={e => (e.currentTarget as HTMLSpanElement).style.color = C.t3}>
-                {s.handle}
-              </span>
+            <div style={{ ...col }}>
+              {i !== 0 && <div className="v3-heading-line" />}
+              <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", height:58 }}>
+                <span className="f16" style={{ fontWeight:400,color:C.t1 }}>{s.name}</span>
+                <span className="f16" style={{ fontWeight:400,color:C.t3, transition:"color 0.25s" }}
+                  onMouseEnter={e => (e.currentTarget as HTMLSpanElement).style.color = C.t2}
+                  onMouseLeave={e => (e.currentTarget as HTMLSpanElement).style.color = C.t3}>
+                  {s.handle}
+                </span>
+              </div>
             </div>
           </a>
         ))}
