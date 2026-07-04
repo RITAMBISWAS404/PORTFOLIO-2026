@@ -32,7 +32,9 @@ function ExpEntry({ e, delay, isFirst }: { e: typeof experience[0]; delay: numbe
     }}
     onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.background = C.hover; }}
     onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.background = ""; }}>
-      <div style={{ ...col, padding: "16px 0", borderTop: isFirst ? "none" : `1px solid ${C.border}` }}>
+      <div style={{ ...col }}>
+        {!isFirst && <div className="v3-heading-line" />}
+        <div style={{ paddingTop: 16, paddingBottom: 16 }}>
         <div className="exp-entry-row">
           {/* Left: role + logos + company */}
           <div style={{ display:"flex", alignItems:"center", flexWrap:"wrap", gap:8 }}>
@@ -55,6 +57,7 @@ function ExpEntry({ e, delay, isFirst }: { e: typeof experience[0]; delay: numbe
         <div className="exp-meta-mobile" style={{ fontSize:12, fontWeight:500, color:C.t3, marginTop:4 }}>{fullMeta}</div>
         {/* Desktop: mode + location below */}
         <div className="exp-details-desktop" style={{ fontSize:12, fontWeight:500, color:C.t3, marginTop:4 }}>{details}</div>
+        </div>
       </div>
     </div>
   );
