@@ -21,7 +21,7 @@ function Divider() {
 
 export default function NewHome() {
   return (
-    <main style={{ position: "relative" }}>
+    <main style={{ position: "relative", background: "var(--exp-bg)" }} className="new-palette">
       <GridLines />
       <Hero />
       <Divider />

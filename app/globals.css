@@ -166,3 +166,12 @@ body.menu-open { overflow: hidden; }
   from { transform: scale(2.4) rotate(0deg); }
   to   { transform: scale(2.4) rotate(360deg); }
 }
+
+/* ── /new-only experimental palette (staging, not applied to live pages) ─── */
+.new-palette {
+  --exp-bg:          #ECEBE6;
+  --exp-card-bg:     #ffffff;
+  --exp-card-fg:     #222222;
+  --exp-card-heading:#919191;
+  --exp-grid-border: #ECEBE6;
+}
