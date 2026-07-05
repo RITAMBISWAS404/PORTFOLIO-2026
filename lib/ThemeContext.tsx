@@ -5,7 +5,7 @@ type Theme = "dark" | "light";
 interface ThemeCtx { theme: Theme; toggle: () => void; }
 const Ctx = createContext<ThemeCtx>({ theme: "dark", toggle: () => {} });
 
-export function ThemeProvider({ children, defaultTheme = "dark" }: { children: React.ReactNode; defaultTheme?: Theme }) {
+export function ThemeProvider({ children, defaultTheme = "dark", experimentalPalette = false }: { children: React.ReactNode; defaultTheme?: Theme; experimentalPalette?: boolean }) {
   const [theme, setTheme] = useState<Theme>(defaultTheme);
 
   // Restore from localStorage on first mount
@@ -20,6 +20,14 @@ export function ThemeProvider({ children, defaultTheme = "dark" }: { children: R
     // When navigating away from /new, restore dark default
     return () => { document.documentElement.removeAttribute("data-theme"); };
   }, [theme]);
+
+  // Scope the experimental /new palette to <body> too, so the reserved
+  // nav-offset strip above <main> (body's own padding-top) also gets it.
+  useEffect(() => {
+    if (!experimentalPalette) return;
+    document.body.classList.add("new-palette");
+    return () => { document.body.classList.remove("new-palette"); };
+  }, [experimentalPalette]);
 
   const toggle = () => setTheme(t => {
     const next = t === "dark" ? "light" : "dark";

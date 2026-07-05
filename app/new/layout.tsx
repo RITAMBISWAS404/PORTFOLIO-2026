@@ -3,7 +3,7 @@ import NavbarNew from "@/components/NavbarNew";
 
 export default function NewLayout({ children }: { children: React.ReactNode }) {
   return (
-    <ThemeProvider defaultTheme="light">
+    <ThemeProvider defaultTheme="light" experimentalPalette>
       <NavbarNew />
       {children}
     </ThemeProvider>

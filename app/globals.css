@@ -173,5 +173,9 @@ body.menu-open { overflow: hidden; }
   --exp-card-bg:     #ffffff;
   --exp-card-fg:     #222222;
   --exp-card-heading:#919191;
-  --exp-grid-border: #ECEBE6;
+  --exp-grid-border: #CFCEC8;
 }
+
+/* Reserved nav-offset strip above <main> is part of <body>, not <main>,
+   so it needs the experimental bg applied directly to body too. */
+body.new-palette { background: var(--exp-bg); }
