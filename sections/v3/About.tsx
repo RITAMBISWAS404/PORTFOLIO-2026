@@ -1,5 +1,6 @@
 "use client";
 import { useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { useInView } from "framer-motion";
 import { Copy, Check, Rocket, BookOpen } from "lucide-react";
 import SectionHeadingV3 from "@/components/SectionHeadingV3";
@@ -28,6 +29,9 @@ export default function About() {
   const bioInView  = useInView(bioRef,  { once: true, margin: "-10% 0px" });
   const bentInView = useInView(bentRef, { once: true, margin: "-10% 0px" });
   const [copied, setCopied] = useState(false);
+  const pathname = usePathname();
+  const isNew = pathname === "/new" || pathname?.startsWith("/new/");
+  const photoSrc = isNew ? "/images/ritam_light.jpeg" : "/images/ritam_new.png";
 
   function copyEmail() {
     navigator.clipboard.writeText(EMAIL);
@@ -43,12 +47,12 @@ export default function About() {
       <p ref={bioRef} className="f16 mt-section"
         style={{ fontWeight: 400, color: C.t2, lineHeight: 1.7, ...revealStyle(bioInView) }}>
         Namaste!{" "}
-        <strong style={{ color: "var(--pop-blue)", fontWeight: 500 }}>
+        <strong style={{ color: "var(--exp-hero-b, var(--pop-blue))", fontWeight: 500 }}>
           I&apos;m Ritam Biswas, a Product Designer with a CS background.
         </strong>{" "}
         I spent my early years as a graphic designer and illustrator, chasing good visuals, until I
         realized good visuals mean nothing if no one can use them.{" "}
-        <strong style={{ color: "var(--pop-blue)", fontWeight: 500 }}>Graphic designer turned UX designer</strong>,
+        <strong style={{ color: "var(--exp-hero-b, var(--pop-blue))", fontWeight: 500 }}>Graphic designer turned UX designer</strong>,
         that&apos;s the short version of how I got here. I&apos;m currently a Founding Product Designer for a
         Denmark-based EV energy startup, 2+ years into the role, with the app I designed live on the
         App Store and Play Store.
@@ -66,7 +70,7 @@ export default function About() {
             width: "100%",
           }}>
             <img
-              src="/images/ritam_new.png"
+              src={photoSrc}
               alt="Ritam Biswas"
               style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
             />
