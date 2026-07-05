@@ -71,7 +71,10 @@ export default function Hero() {
             letterSpacing: "-0.02em",
             fontFamily: "Poppins, sans-serif",
           }}>
-            Complex data <span style={{ color: "var(--pop-blue)" }}>doesn&apos;t have to feel</span> complex.
+            <span style={{ color: "var(--exp-hero-a, var(--color-text-1))" }}>Complex data</span>{" "}
+            <span style={{ color: "var(--exp-hero-b, var(--pop-blue))" }}>doesn&apos;t</span>
+            <span style={{ color: "var(--exp-hero-a, var(--pop-blue))" }}> have to feel</span>{" "}
+            <span style={{ color: "var(--exp-hero-b, var(--color-text-1))" }}>complex.</span>
           </h1>
         </motion.div>
 

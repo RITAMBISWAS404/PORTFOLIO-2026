@@ -174,6 +174,8 @@ body.menu-open { overflow: hidden; }
   --exp-card-fg:     #222222;
   --exp-card-heading:#919191;
   --exp-grid-border: #CFCEC8;
+  --exp-hero-a:      #878784;
+  --exp-hero-b:      #222222;
 }
 
 /* Reserved nav-offset strip above <main> is part of <body>, not <main>,
