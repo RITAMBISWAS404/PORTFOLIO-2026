@@ -14,7 +14,7 @@ function Divider() {
     <div style={{
       width: "100%",
       height: 1,
-      background: "var(--color-border)",
+      background: "var(--exp-grid-border, var(--color-border))",
     }} />
   );
 }

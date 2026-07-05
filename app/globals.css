@@ -146,6 +146,7 @@ textarea { resize: none; }
 @media (min-width: 768px) {
   .v3-heading-line { margin-left: -24px; margin-right: -24px; }
 }
+.new-palette .v3-heading-line { background: var(--exp-grid-border); }
 
 /* Responsive body text: 14px mobile → 16px desktop */
 .f16 { font-size: 14px; }
@@ -176,6 +177,12 @@ body.menu-open { overflow: hidden; }
   --exp-grid-border: #CFCEC8;
   --exp-hero-a:      #878784;
   --exp-hero-b:      #222222;
+  --exp-about-item-bg: rgba(0,0,0,0.06);
+  --exp-about-muted:   rgba(0,0,0,0.45);
+  --exp-card-hover-overlay: rgba(0,0,0,0.05);
+  --exp-chip-active-bg:     #ffffff;
+  --exp-chip-active-border: #ffffff;
+  --exp-chip-active-text:   #222222;
 }
 
 /* Reserved nav-offset strip above <main> is part of <body>, not <main>,

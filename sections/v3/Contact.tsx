@@ -116,17 +116,17 @@ export default function Contact() {
                   style={{
                     display: "flex", alignItems: "center", gap: 6,
                     padding: "6px 14px",
-                    border: `1px solid ${active ? chipColor : C.border}`,
+                    border: `1px solid ${active ? `var(--exp-chip-active-border, ${chipColor})` : C.border}`,
                     borderRadius: 9999,
-                    background: active ? chipColor : "transparent",
+                    background: active ? `var(--exp-chip-active-bg, ${chipColor})` : "transparent",
                     fontSize: 12, fontWeight: 500,
-                    color: active ? "#ffffff" : C.t3,
+                    color: active ? "var(--exp-chip-active-text, #ffffff)" : C.t3,
                     letterSpacing: "0.06em",
                     cursor: "pointer",
                     fontFamily: "Poppins, sans-serif",
                     transition: "border-color 0.2s, background 0.2s, color 0.2s",
                   }}>
-                  {active && <Check size={11} strokeWidth={2.5} color="#ffffff" />}
+                  {active && <Check size={11} strokeWidth={2.5} color="var(--exp-chip-active-text, #ffffff)" />}
                   {opt}
                 </button>
               );

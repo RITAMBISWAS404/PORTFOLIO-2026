@@ -76,7 +76,7 @@ export default function About() {
         {/* Info card */}
         <div className="about-info-cell" style={{
           borderRadius: 8,
-          background: "#222222",
+          background: "var(--exp-card-bg, #222222)",
           padding: 16,
           display: "flex",
           flexDirection: "column",
@@ -91,15 +91,15 @@ export default function About() {
               const isEmail = label === "Email";
               return (
                 <div key={label} style={isLast ? { gridColumn: "1 / -1" } : {}}>
-                  <div style={{ fontSize: 11, fontWeight: 500, color: "rgba(255,255,255,0.50)", letterSpacing: "0.05em", marginBottom: 4 }}>
+                  <div style={{ fontSize: 11, fontWeight: 500, color: "var(--exp-card-heading, rgba(255,255,255,0.50))", letterSpacing: "0.05em", marginBottom: 4 }}>
                     {label}
                   </div>
                   {isEmail ? (
                     <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                      <div className="f16" style={{ fontWeight: 500, color: "#ffffff" }}>{value}</div>
+                      <div className="f16" style={{ fontWeight: 500, color: "var(--exp-card-fg, #ffffff)" }}>{value}</div>
                       <button onClick={copyEmail} title="Copy email" style={{
                         background: "none", border: "none", cursor: "pointer", padding: 4,
-                        color: copied ? "#4ade80" : "rgba(255,255,255,0.45)",
+                        color: copied ? "#4ade80" : "var(--exp-about-muted, rgba(255,255,255,0.45))",
                         display: "flex", alignItems: "center",
                         borderRadius: 8,
                         transition: "color 0.2s",
@@ -109,7 +109,7 @@ export default function About() {
                       </button>
                     </div>
                   ) : (
-                    <div className="f16" style={{ fontWeight: 500, color: "#ffffff" }}>{value}</div>
+                    <div className="f16" style={{ fontWeight: 500, color: "var(--exp-card-fg, #ffffff)" }}>{value}</div>
                   )}
                 </div>
               );
@@ -117,13 +117,13 @@ export default function About() {
           </div>
 
           <div style={{ marginTop: 20 }}>
-            <div style={{ fontSize: 11, fontWeight: 500, color: "rgba(255,255,255,0.50)", letterSpacing: "0.05em", marginBottom: 10 }}>
+            <div style={{ fontSize: 11, fontWeight: 500, color: "var(--exp-card-heading, rgba(255,255,255,0.50))", letterSpacing: "0.05em", marginBottom: 10 }}>
               My Toolkit
             </div>
             <div style={{ overflow: "hidden", position: "relative" }}>
               <div style={{
                 position: "absolute", inset: 0, zIndex: 1, pointerEvents: "none",
-                background: `linear-gradient(to right, #222222 0%, transparent 18%, transparent 82%, #222222 100%)`,
+                background: `linear-gradient(to right, var(--exp-card-bg, #222222) 0%, transparent 18%, transparent 82%, var(--exp-card-bg, #222222) 100%)`,
               }} />
               <div className="toolkit-track">
                 {[...stack, ...stack].map((name, i) => {
@@ -133,7 +133,7 @@ export default function About() {
                     <div key={i} title={name} style={{
                       width: 44, height: 44, borderRadius: 8, flexShrink: 0,
                       overflow: "hidden",
-                      background: "rgba(255,255,255,0.08)",
+                      background: "var(--exp-about-item-bg, rgba(255,255,255,0.08))",
                     }}>
                       <img src={c.img} alt={name} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
                     </div>

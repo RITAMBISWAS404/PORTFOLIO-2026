@@ -161,7 +161,7 @@ function PageNav() {
 }
 
 function Divider() {
-  return <div style={{ width: "100%", height: 1, background: "var(--color-border)" }} />;
+  return <div style={{ width: "100%", height: 1, background: "var(--exp-grid-border, var(--color-border))" }} />;
 }
 
 /* ── Page ──────────────────────────────────────────────────────── */
@@ -574,7 +574,7 @@ export default function ZenoPage() {
         @media (min-width: 1200px) { .zeno-page-nav { display: flex; } }
         .zeno-hero-img-wrap { aspect-ratio: 4 / 3; }
         @media (min-width: 768px) { .zeno-hero-img-wrap { aspect-ratio: 16 / 9; } }
-        .zeno-decision-line { height: 1px; background: var(--color-border); margin: 16px -16px; }
+        .zeno-decision-line { height: 1px; background: var(--exp-grid-border, var(--color-border)); margin: 16px -16px; }
         @media (min-width: 768px) { .zeno-decision-line { margin: 24px -24px; } }
         .zeno-stats-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
         .zeno-meta-grid  { display: grid; grid-template-columns: 1fr; gap: 16px; }

@@ -25,7 +25,7 @@ export default function IconCard({ icon: Icon, label, right, body, bg, delay = 0
         transition: `${revealStyle(inView, delay).transition}, transform 0.2s cubic-bezier(.22,1,.36,1)`,
       }}>
       <div style={{
-        position: "absolute", inset: 0, background: "rgba(0,0,0,0.10)",
+        position: "absolute", inset: 0, background: "var(--exp-card-hover-overlay, rgba(0,0,0,0.10))",
         opacity: hovered ? 1 : 0, transition: "opacity 0.2s", pointerEvents: "none",
       }} />
       <Icon size={24} className="card-colored-icon" color={`var(--exp-card-fg, ${iconColor})`} strokeWidth={2} style={{ position: "relative", zIndex: 1 }} />
