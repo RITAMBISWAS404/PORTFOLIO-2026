@@ -31,7 +31,7 @@ export default function About() {
   const [copied, setCopied] = useState(false);
   const pathname = usePathname();
   const isNew = pathname === "/new" || pathname?.startsWith("/new/");
-  const photoSrc = isNew ? "/images/ritam_light.jpeg" : "/images/ritam_new.png";
+  const photoSrc = isNew ? "/images/ritam_new_light.png" : "/images/ritam_new.png";
 
   function copyEmail() {
     navigator.clipboard.writeText(EMAIL);
@@ -151,7 +151,7 @@ export default function About() {
         {/* Bottom cards row */}
         <div className="about-cards-row">
           {cards.map((card, i) => (
-            <Card key={card.title} label={card.title} num="" body={card.body} delay={0.16 + i * 0.08} bg={card.bg} icon={card.icon} />
+            <Card key={card.title} label={card.title} num="" body={card.body} delay={0.16 + i * 0.08} bg={card.bg} icon={card.icon} chipIcon />
           ))}
         </div>
       </div>

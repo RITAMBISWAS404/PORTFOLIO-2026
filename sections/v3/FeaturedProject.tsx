@@ -78,7 +78,7 @@ export default function FeaturedProject() {
         {/* Stats — 2×2 grid */}
         <div className="stats-grid mt-el" style={{ display: "grid", gap: 16 }}>
           {stats.map((s, i) => (
-            <Card key={s.label} label={s.label} num="" body={s.body} delay={i * 0.08} bg={s.bg} icon={s.icon} />
+            <Card key={s.label} label={s.label} num="" body={s.body} delay={i * 0.08} bg={s.bg} icon={s.icon} chipIcon />
           ))}
         </div>
 

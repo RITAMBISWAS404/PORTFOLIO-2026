@@ -27,7 +27,7 @@ export default function Process() {
       </p>
       <div className="process-grid mt-el" style={{ gap: 16 }}>
         {steps.map((s, i) => (
-          <Card key={s.label} label={s.label} num="" body={s.body} delay={i * 0.08} bg={s.bg} icon={s.icon} />
+          <Card key={s.label} label={s.label} num="" body={s.body} delay={i * 0.08} bg={s.bg} icon={s.icon} chipIcon />
         ))}
       </div>
       <style>{`

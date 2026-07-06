@@ -4,9 +4,9 @@ import { useInView } from "framer-motion";
 import { LucideIcon } from "lucide-react";
 import { revealStyle } from "@/lib/tokens";
 
-interface Props { label: string; num: string; body: string; delay?: number; bg?: string; icon?: LucideIcon; iconColor?: string; textColor?: string; border?: string; noHover?: boolean; }
+interface Props { label: string; num: string; body: string; delay?: number; bg?: string; icon?: LucideIcon; iconColor?: string; textColor?: string; border?: string; noHover?: boolean; chipIcon?: boolean; }
 
-export default function Card({ label, num, body, delay = 0, bg, icon: Icon, iconColor = "#ffffff", textColor = "#ffffff", border, noHover = false }: Props) {
+export default function Card({ label, num, body, delay = 0, bg, icon: Icon, iconColor = "#ffffff", textColor = "#ffffff", border, noHover = false, chipIcon = false }: Props) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-10% 0px" });
   const [glow, setGlow] = useState("");
@@ -37,8 +37,8 @@ export default function Card({ label, num, body, delay = 0, bg, icon: Icon, icon
       className="card-chip"
       style={{
         position: "relative",
-        background: isColored ? `var(--exp-card-bg, ${bg})` : (glow || "var(--color-card)"),
-        border: isColored ? (border ?? "none") : "none",
+        background: isColored ? (chipIcon ? "#ffffff" : `var(--exp-card-bg, ${bg})`) : (glow || "var(--color-card)"),
+        border: isColored ? (border ?? (chipIcon ? "1px solid rgba(0,0,0,0.1)" : "none")) : "none",
         borderRadius: 8, padding: 16,
         display: "flex", flexDirection: "column", gap: 8, cursor: "default",
         overflow: "hidden",
@@ -56,12 +56,24 @@ export default function Card({ label, num, body, delay = 0, bg, icon: Icon, icon
       )}
       {isColored ? (
         <>
-          {Icon && <Icon size={24} className="card-colored-icon" color={`var(--exp-card-fg, ${iconColor})`} strokeWidth={2} style={{ position: "relative", zIndex: 1 }} />}
+          {Icon && (
+            chipIcon ? (
+              <span style={{
+                display: "inline-flex", alignSelf: "flex-start", alignItems: "center", justifyContent: "center",
+                padding: 6, borderRadius: 8, position: "relative", zIndex: 1,
+                background: "color-mix(in srgb, var(--pop-blue) 18%, transparent)",
+              }}>
+                <Icon size={20} className="card-colored-icon" color="var(--pop-blue)" strokeWidth={2} />
+              </span>
+            ) : (
+              <Icon size={24} className="card-colored-icon" color={`var(--exp-card-fg, ${iconColor})`} strokeWidth={2} style={{ position: "relative", zIndex: 1 }} />
+            )
+          )}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", position: "relative", zIndex: 1 }}>
-            <span className="card-colored-heading" style={{ fontWeight: 500, color: `var(--exp-card-heading, ${textColor})` }}>{label}</span>
-            {num && <span className="card-colored-heading" style={{ fontWeight: 500, color: `var(--exp-card-heading, ${textColor})`, opacity: 0.75, flexShrink: 0, marginLeft: 8 }}>{num}</span>}
+            <span className="card-colored-heading" style={{ fontWeight: 500, color: chipIcon ? "#222222" : `var(--exp-card-heading, ${textColor})` }}>{label}</span>
+            {num && <span className="card-colored-heading" style={{ fontWeight: 500, color: chipIcon ? "#222222" : `var(--exp-card-heading, ${textColor})`, opacity: 0.75, flexShrink: 0, marginLeft: 8 }}>{num}</span>}
           </div>
-          <p className="card-colored-body" style={{ fontWeight: 400, color: `var(--exp-card-fg, ${textColor})`, opacity: 0.9, lineHeight: 1.6, position: "relative", zIndex: 1 }}>{body}</p>
+          <p className="card-colored-body" style={{ fontWeight: 400, color: chipIcon ? "#999999" : `var(--exp-card-fg, ${textColor})`, opacity: chipIcon ? 1 : 0.9, lineHeight: 1.6, position: "relative", zIndex: 1 }}>{body}</p>
           <style>{`
             .card-colored-icon { width: 20px !important; height: 20px !important; }
             .card-colored-heading { font-size: 14px; }
