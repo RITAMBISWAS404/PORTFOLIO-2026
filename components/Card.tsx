@@ -57,17 +57,7 @@ export default function Card({ label, num, body, delay = 0, bg, icon: Icon, icon
       {isColored ? (
         <>
           {Icon && (
-            chipIcon ? (
-              <span style={{
-                display: "inline-flex", alignSelf: "flex-start", alignItems: "center", justifyContent: "center",
-                padding: 6, borderRadius: 8, position: "relative", zIndex: 1,
-                background: "color-mix(in srgb, var(--pop-blue) 18%, transparent)",
-              }}>
-                <Icon size={20} className="card-colored-icon" color="var(--pop-blue)" strokeWidth={2} />
-              </span>
-            ) : (
-              <Icon size={24} className="card-colored-icon" color={`var(--exp-card-fg, ${iconColor})`} strokeWidth={2} style={{ position: "relative", zIndex: 1 }} />
-            )
+            <Icon size={24} className="card-colored-icon" color={chipIcon ? "var(--pop-blue)" : `var(--exp-card-fg, ${iconColor})`} strokeWidth={2} style={{ position: "relative", zIndex: 1 }} />
           )}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", position: "relative", zIndex: 1 }}>
             <span className="card-colored-heading" style={{ fontWeight: 500, color: chipIcon ? "#222222" : `var(--exp-card-heading, ${textColor})` }}>{label}</span>
