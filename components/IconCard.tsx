@@ -9,7 +9,7 @@ interface Props {
   bg: string; delay?: number; iconColor?: string; textColor?: string; border?: string; noHover?: boolean;
 }
 
-export default function IconCard({ icon: Icon, label, right, body, bg, delay = 0, iconColor = "#ffffff", textColor = "#ffffff", border, noHover = false }: Props) {
+export default function IconCard({ label, right, body, bg, delay = 0, iconColor = "#ffffff", textColor = "#ffffff", border, noHover = false }: Props) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-10% 0px" });
   const [hovered, setHovered] = useState(false);
@@ -28,7 +28,6 @@ export default function IconCard({ icon: Icon, label, right, body, bg, delay = 0
         position: "absolute", inset: 0, background: "var(--exp-card-hover-overlay, rgba(0,0,0,0.10))",
         opacity: hovered ? 1 : 0, transition: "opacity 0.2s", pointerEvents: "none",
       }} />
-      <Icon size={24} className="card-colored-icon" color={`var(--exp-card-fg, ${iconColor})`} strokeWidth={2} style={{ position: "relative", zIndex: 1 }} />
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", position: "relative", zIndex: 1 }}>
         <span className="card-colored-heading" style={{ fontWeight: 500, color: `var(--exp-card-heading, ${textColor})` }}>{label}</span>
         {right && (

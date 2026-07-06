@@ -6,7 +6,7 @@ import { revealStyle } from "@/lib/tokens";
 
 interface Props { label: string; num: string; body: string; delay?: number; bg?: string; icon?: LucideIcon; iconColor?: string; textColor?: string; border?: string; noHover?: boolean; chipIcon?: boolean; }
 
-export default function Card({ label, num, body, delay = 0, bg, icon: Icon, iconColor = "#ffffff", textColor = "#ffffff", border, noHover = false, chipIcon = false }: Props) {
+export default function Card({ label, num, body, delay = 0, bg, iconColor = "#ffffff", textColor = "#ffffff", border, noHover = false, chipIcon = false }: Props) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-10% 0px" });
   const [glow, setGlow] = useState("");
@@ -56,9 +56,6 @@ export default function Card({ label, num, body, delay = 0, bg, icon: Icon, icon
       )}
       {isColored ? (
         <>
-          {Icon && (
-            <Icon size={24} className="card-colored-icon" color={chipIcon ? "var(--pop-blue)" : `var(--exp-card-fg, ${iconColor})`} strokeWidth={2} style={{ position: "relative", zIndex: 1 }} />
-          )}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", position: "relative", zIndex: 1 }}>
             <span className="card-colored-heading" style={{ fontWeight: 500, color: chipIcon ? "#222222" : `var(--exp-card-heading, ${textColor})` }}>{label}</span>
             {num && <span className="card-colored-heading" style={{ fontWeight: 500, color: chipIcon ? "#222222" : `var(--exp-card-heading, ${textColor})`, opacity: 0.75, flexShrink: 0, marginLeft: 8 }}>{num}</span>}
