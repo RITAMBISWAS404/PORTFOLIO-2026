@@ -41,11 +41,11 @@ function ExpEntry({ e, delay, isFirst }: { e: typeof experience[0]; delay: numbe
             <span className="f16" style={{ fontWeight:500, color:C.t1 }}>{e.role}</span>
             {e.img
               ? (Array.isArray(e.img) ? e.img : [e.img]).map((src: string, idx: number) => (
-                  <div key={idx} style={{ width:24, height:24, borderRadius:8, flexShrink:0, overflow:"hidden" }}>
+                  <div key={idx} style={{ width:32, height:32, borderRadius:8, flexShrink:0, overflow:"hidden" }}>
                     <img src={src} alt={e.company} style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}}/>
                   </div>
                 ))
-              : <div style={{ width:24, height:24, borderRadius:8, flexShrink:0, background:e.logoBg,
+              : <div style={{ width:32, height:32, borderRadius:8, flexShrink:0, background:e.logoBg,
                   display:"flex", alignItems:"center", justifyContent:"center", fontSize:10, fontWeight:500, color:"#fff" }}>{e.logo}</div>
             }
             <span className="f16" style={{ fontWeight:500, color:C.t1 }}>{e.company}</span>
@@ -54,9 +54,9 @@ function ExpEntry({ e, delay, isFirst }: { e: typeof experience[0]; delay: numbe
           <span className="exp-date f16" style={{ fontWeight:400, color:C.t3 }}>{date}</span>
         </div>
         {/* Mobile: full meta below */}
-        <div className="exp-meta-mobile" style={{ fontSize:12, fontWeight:500, color:C.t3, marginTop:4 }}>{fullMeta}</div>
+        <div className="exp-meta-mobile" style={{ fontSize:12, fontWeight:500, color:C.t3, marginTop:8 }}>{fullMeta}</div>
         {/* Desktop: mode + location below */}
-        <div className="exp-details-desktop" style={{ fontSize:12, fontWeight:500, color:C.t3, marginTop:4 }}>{details}</div>
+        <div className="exp-details-desktop" style={{ fontSize:12, fontWeight:500, color:C.t3, marginTop:8 }}>{details}</div>
         </div>
       </div>
     </div>
