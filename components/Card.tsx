@@ -56,13 +56,28 @@ export default function Card({ label, num, body, delay = 0, bg, icon: Icon, icon
       )}
       {isColored ? (
         <>
-          {Icon && (
-            <Icon size={24} className="card-colored-icon" color={chipIcon ? "var(--pop-blue)" : `var(--exp-card-fg, ${iconColor})`} strokeWidth={2} style={{ position: "relative", zIndex: 1 }} />
+          {chipIcon ? (
+            <div style={{ display: "flex", alignItems: "center", gap: 7, width: "100%", position: "relative", zIndex: 1 }}>
+              {Icon && (
+                <span style={{
+                  width: 26, height: 26, borderRadius: 8, background: "var(--pop-blue)",
+                  display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+                }}>
+                  <Icon size={16} color="#ffffff" strokeWidth={2} />
+                </span>
+              )}
+              <span className="card-colored-heading" style={{ fontWeight: 500, color: "#222222", flex: 1 }}>{label}</span>
+              {num && <span className="card-colored-heading" style={{ fontWeight: 500, color: "#222222", opacity: 0.75, flexShrink: 0, marginLeft: 8 }}>{num}</span>}
+            </div>
+          ) : (
+            <>
+              {Icon && <Icon size={24} className="card-colored-icon" color={`var(--exp-card-fg, ${iconColor})`} strokeWidth={2} style={{ position: "relative", zIndex: 1 }} />}
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", position: "relative", zIndex: 1 }}>
+                <span className="card-colored-heading" style={{ fontWeight: 500, color: `var(--exp-card-heading, ${textColor})` }}>{label}</span>
+                {num && <span className="card-colored-heading" style={{ fontWeight: 500, color: `var(--exp-card-heading, ${textColor})`, opacity: 0.75, flexShrink: 0, marginLeft: 8 }}>{num}</span>}
+              </div>
+            </>
           )}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", position: "relative", zIndex: 1 }}>
-            <span className="card-colored-heading" style={{ fontWeight: 500, color: chipIcon ? "#222222" : `var(--exp-card-heading, ${textColor})` }}>{label}</span>
-            {num && <span className="card-colored-heading" style={{ fontWeight: 500, color: chipIcon ? "#222222" : `var(--exp-card-heading, ${textColor})`, opacity: 0.75, flexShrink: 0, marginLeft: 8 }}>{num}</span>}
-          </div>
           <p className="card-colored-body" style={{ fontWeight: 400, color: chipIcon ? "#999999" : `var(--exp-card-fg, ${textColor})`, opacity: chipIcon ? 1 : 0.9, lineHeight: 1.6, position: "relative", zIndex: 1 }}>{body}</p>
           <style>{`
             .card-colored-icon { width: 20px !important; height: 20px !important; }
