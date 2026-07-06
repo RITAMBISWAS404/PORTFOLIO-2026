@@ -2,157 +2,31 @@
 import { useRef, useState, useEffect } from "react";
 import { useInView } from "framer-motion";
 import {
-  Store, GitBranch, Clock, PenTool, Smartphone, BookOpen,
-  ArrowUp, Lock, FileText, MessageCircle, Lightbulb, Zap,
-  LucideIcon,
+  Store, GitBranch, Clock,
+  BookOpen, Lock, FileText,
+  Quote as QuoteIcon, Lightbulb, Smartphone,
 } from "lucide-react";
-import Footer from "@/sections/Footer";
-import { C, col, tagStyle, tagHv, revealStyle } from "@/lib/tokens";
+import Footer from "@/sections/v3/Footer";
+import GridLines from "@/components/GridLines";
+import NavbarNew from "@/components/NavbarNew";
+import { ThemeProvider } from "@/lib/ThemeContext";
+import SectionHeadingV3 from "@/components/SectionHeadingV3";
+import Card from "@/components/Card";
+import IconCard from "@/components/IconCard";
+import { C, col, revealStyle } from "@/lib/tokensV2";
 
-/* ── Stat card — icon prominent above number ────────────────────── */
-
-function StatCard({
-  icon: Icon, iconColor, stat, label, body, delay = 0,
-}: {
-  icon: LucideIcon; iconColor: string; stat: string;
-  label: string; body: string; delay?: number;
-}) {
-  const ref    = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-10% 0px" });
-  const [glow, setGlow] = useState("");
-
-  return (
-    <div ref={ref}
-      onMouseMove={e => {
-        const r = e.currentTarget.getBoundingClientRect();
-        const x = (((e.clientX - r.left) / r.width)  * 100).toFixed(1);
-        const y = (((e.clientY - r.top)  / r.height) * 100).toFixed(1);
-        setGlow(`radial-gradient(circle at ${x}% ${y}%, rgba(255,255,255,0.05) 0%, ${C.card} 65%)`);
-      }}
-      onMouseEnter={e => {
-        const el = e.currentTarget;
-        el.style.borderColor = "rgba(255,255,255,0.12)";
-        el.style.boxShadow   = "0 4px 20px rgba(0,0,0,0.5)";
-        el.style.transform   = "translateY(-4px)";
-      }}
-      onMouseLeave={e => {
-        setGlow("");
-        const el = e.currentTarget;
-        el.style.borderColor = C.border;
-        el.style.boxShadow   = "";
-        el.style.transform   = "translateY(0)";
-      }}
-      style={{
-        background: glow || C.card,
-        border: `1px solid ${C.border}`, borderRadius: 8, padding: 16,
-        display: "flex", flexDirection: "column", gap: 10, cursor: "default",
-        ...revealStyle(inView, delay),
-        transition: `${revealStyle(inView, delay).transition}, border-color 0.15s, box-shadow 0.15s, transform 0.2s cubic-bezier(.22,1,.36,1)`,
-      }}>
-      <Icon size={16} color={iconColor} strokeWidth={2} />
-      <div>
-        <div style={{ fontSize: 22, fontWeight: 600, color: C.t1, fontFamily: "Poppins, sans-serif", lineHeight: 1.1 }}>{stat}</div>
-        <div style={{ fontSize: 12, fontWeight: 500, color: C.t1, letterSpacing: "0.08em", marginTop: 2 }}>{label}</div>
-      </div>
-      <p className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6 }}>{body}</p>
-    </div>
-  );
-}
-
-/* ── Regular card — icon + label inline, used in Reflection ─────── */
-
-function ShopCard({
-  icon: Icon, iconColor, label, right, body, delay = 0,
-}: {
-  icon: LucideIcon; iconColor: string; label: string;
-  right?: string; body: string; delay?: number;
-}) {
-  const ref    = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-10% 0px" });
-  const [glow,    setGlow]    = useState("");
-  const [hovered, setHovered] = useState(false);
-
-  return (
-    <div ref={ref}
-      onMouseMove={e => {
-        const r = e.currentTarget.getBoundingClientRect();
-        const x = (((e.clientX - r.left) / r.width)  * 100).toFixed(1);
-        const y = (((e.clientY - r.top)  / r.height) * 100).toFixed(1);
-        setGlow(`radial-gradient(circle at ${x}% ${y}%, rgba(255,255,255,0.05) 0%, ${C.card} 65%)`);
-      }}
-      onMouseEnter={e => {
-        setHovered(true);
-        const el = e.currentTarget;
-        el.style.borderColor = "rgba(255,255,255,0.12)";
-        el.style.boxShadow   = "0 4px 20px rgba(0,0,0,0.5)";
-        el.style.transform   = "translateY(-4px)";
-      }}
-      onMouseLeave={e => {
-        setHovered(false); setGlow("");
-        const el = e.currentTarget;
-        el.style.borderColor = C.border;
-        el.style.boxShadow   = "";
-        el.style.transform   = "translateY(0)";
-      }}
-      style={{
-        background: glow || C.card,
-        border: `1px solid ${C.border}`, borderRadius: 8, padding: 16,
-        display: "flex", flexDirection: "column", gap: 8, cursor: "default",
-        ...revealStyle(inView, delay),
-        transition: `${revealStyle(inView, delay).transition}, border-color 0.15s, box-shadow 0.15s, transform 0.2s cubic-bezier(.22,1,.36,1)`,
-      }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <Icon size={14} color={iconColor} strokeWidth={2} />
-          <span style={{ fontSize: 13, fontWeight: 500, color: C.t1 }}>{label}</span>
-        </div>
-        {right && (
-          <span style={{ fontSize: 12, fontWeight: 500, color: hovered ? C.t2 : C.t3, transition: "color 0.15s", flexShrink: 0, marginLeft: 8 }}>
-            {right}
-          </span>
-        )}
-      </div>
-      <p className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6 }}>{body}</p>
-    </div>
-  );
-}
-
-/* ── Callout variants ───────────────────────────────────────────── */
+/* ── Callout variants — thin wrappers around IconCard ────────────── */
 
 function Perspective({ text }: { text: string }) {
-  return (
-    <div style={{ background: C.card, borderRadius: 8, padding: "16px 20px", border: `1px solid ${C.border}` }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-        <MessageCircle size={14} color={C.accent} strokeWidth={2} />
-        <span style={{ fontSize: 13, fontWeight: 500, color: C.t1 }}>Perspective</span>
-      </div>
-      <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>&ldquo;{text}&rdquo;</p>
-    </div>
-  );
+  return <IconCard icon={QuoteIcon} label="Perspective" body={`“${text}”`} bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover />;
 }
 
 function Lesson({ text }: { text: string }) {
-  return (
-    <div style={{ background: C.card, borderRadius: 8, padding: "16px 20px", border: `1px solid ${C.border}` }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-        <BookOpen size={14} color={C.blue} strokeWidth={2} />
-        <span style={{ fontSize: 13, fontWeight: 500, color: C.t1 }}>Lesson</span>
-      </div>
-      <p className="f16" style={{ color: C.t2, lineHeight: 1.6 }}>{text}</p>
-    </div>
-  );
+  return <IconCard icon={BookOpen} label="Lesson" body={text} bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover />;
 }
 
 function Insight({ text }: { text: string }) {
-  return (
-    <div style={{ background: C.card, borderRadius: 8, padding: "16px 20px", border: `1px solid ${C.border}` }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-        <Lightbulb size={14} color={C.yellow} strokeWidth={2} />
-        <span style={{ fontSize: 13, fontWeight: 500, color: C.t1 }}>Insight</span>
-      </div>
-      <p className="f16" style={{ color: C.t2, lineHeight: 1.6 }}>{text}</p>
-    </div>
-  );
+  return <IconCard icon={Lightbulb} label="Insight" body={text} bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover />;
 }
 
 /* ── Scroll reveal wrapper ──────────────────────────────────────── */
@@ -173,7 +47,7 @@ function TwoColTable({ headers, rows }: { headers: [string, string]; rows: [stri
           <div key={i} style={{
             padding: "10px 16px", fontSize: 12, fontWeight: 600,
             color: C.t1, letterSpacing: "0.08em",
-            background: "rgba(255,255,255,0.03)",
+            background: "#ffffff",
             borderRight: i === 0 ? `1px solid ${C.border}` : "none",
           }}>{h}</div>
         ))}
@@ -198,7 +72,7 @@ function ThreeColTable({ headers, rows }: { headers: [string, string, string]; r
           <div key={i} style={{
             padding: "10px 16px", fontSize: 12, fontWeight: 600,
             color: C.t1, letterSpacing: "0.08em",
-            background: "rgba(255,255,255,0.03)",
+            background: "#ffffff",
             borderRight: i < 2 ? `1px solid ${C.border}` : "none",
           }}>{h}</div>
         ))}
@@ -218,44 +92,16 @@ function ThreeColTable({ headers, rows }: { headers: [string, string, string]; r
   );
 }
 
-/* ── Button copy comparison — inline visual for Decision 04 ─────── */
-
-function ButtonComparison() {
-  return (
-    <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 8, padding: "24px 20px", display: "flex", flexDirection: "column", gap: 16, alignItems: "flex-start" }}>
-      <div style={{ display: "flex", flexDirection: "column", gap: 12, width: "100%" }}>
-        {/* Before */}
-        <div>
-          <span style={{ fontSize: 11, fontWeight: 600, color: C.t3, letterSpacing: "0.1em" }}>BEFORE</span>
-          <div style={{ marginTop: 8, display: "inline-flex", alignItems: "center", gap: 8, padding: "11px 22px", borderRadius: 8, border: `1px solid ${C.red}`, background: "rgba(244,63,94,0.06)", position: "relative" }}>
-            <span style={{ fontSize: 14, fontWeight: 500, color: C.red, textDecoration: "line-through", textDecorationColor: C.red }}>Confirm Transaction</span>
-          </div>
-          <p style={{ marginTop: 6, fontSize: 12, color: C.t3, lineHeight: 1.5 }}>Sounds like a bank. Implies something formal and final.</p>
-        </div>
-        <div style={{ height: 1, background: C.border }} />
-        {/* After */}
-        <div>
-          <span style={{ fontSize: 11, fontWeight: 600, color: C.t3, letterSpacing: "0.1em" }}>AFTER</span>
-          <div style={{ marginTop: 8, display: "inline-flex", alignItems: "center", gap: 8, padding: "11px 22px", borderRadius: 8, border: `1px solid #7c3aed`, background: "rgba(124,58,237,0.08)" }}>
-            <span style={{ fontSize: 14, fontWeight: 500, color: "#a78bfa" }}>Continue to Bill</span>
-          </div>
-          <p style={{ marginTop: 6, fontSize: 12, color: C.t3, lineHeight: 1.5 }}>Says the work is already done. You are finishing something, not beginning it.</p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 /* ── Decision block ─────────────────────────────────────────────── */
 
 function Decision({ num, title, first = false, children }: {
   num: string; title: string; first?: boolean; children: React.ReactNode;
 }) {
-  const ref    = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-5% 0px" });
   return (
     <>
-      {!first && <div style={{ height: 1, background: C.border, margin: "40px 0" }} />}
+      {!first && <div className="shop-decision-line" />}
       <div ref={ref} style={{ display: "flex", flexDirection: "column", gap: 16, ...revealStyle(inView) }}>
         <span style={{ fontSize: 11, fontWeight: 600, color: C.t3, letterSpacing: "0.12em" }}>DECISION {num}</span>
         <h3 className="f16" style={{ fontWeight: 500, color: C.t1, lineHeight: 1.5 }}>{title}</h3>
@@ -281,35 +127,7 @@ function ShopImg({ src, alt, caption }: { src: string; alt: string; caption?: st
   );
 }
 
-/* ── Section heading ────────────────────────────────────────────── */
-
-function SectionHeading({ label, num }: { label: string; num: string }) {
-  const ref    = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-20% 0px" });
-  return (
-    <div ref={ref} className="shop-sh-wrap">
-      <span className="shop-sh-num" style={{
-        fontSize: "clamp(20px, 3.5vw, 26px)", fontWeight: 500,
-        color: C.t3, flexShrink: 0, letterSpacing: "0.02em",
-        fontFamily: "Poppins, sans-serif",
-        opacity: inView ? 1 : 0, transition: "opacity 0.6s ease 0.5s",
-      }}>{num}</span>
-      <h2 className="shop-sh-label" style={{
-        fontSize: "clamp(20px, 3.5vw, 26px)", fontWeight: 500,
-        color: C.t1, lineHeight: 1.2, letterSpacing: "0.02em",
-        fontFamily: "Poppins, sans-serif", margin: 0, flexShrink: 0,
-      }}>{label}</h2>
-      <div className="shop-sh-line" style={{
-        flex: 1, height: 1, background: C.border,
-        transformOrigin: "left center",
-        transform: inView ? "scaleX(1)" : "scaleX(0)",
-        transition: "transform 0.9s cubic-bezier(.22,1,.36,1) 0.15s",
-      }} />
-    </div>
-  );
-}
-
-/* ── Side nav — labels match section headings ───────────────────── */
+/* ── Page-level section navigator ────────────────────────────────── */
 
 const NAV_SECTIONS = [
   { id: "shop-overview",   label: "What ShopEZ Does" },
@@ -372,15 +190,22 @@ function PageNav() {
   );
 }
 
-/* ── Page ───────────────────────────────────────────────────────── */
+function Divider() {
+  return <div style={{ width: "100%", height: 1, background: "var(--color-border)" }} />;
+}
+
+/* ── Page ──────────────────────────────────────────────────────── */
 
 export default function ShopEZPage() {
   return (
-    <main>
-      <PageNav />
+    <ThemeProvider defaultTheme="light">
+      <NavbarNew homePath="/" />
+      <main style={{ position: "relative" }}>
+        <GridLines />
+        <PageNav />
 
-      {/* ── HERO ─────────────────────────────────────────────── */}
-      <section style={{ ...col, padding: "48px 24px 0" }}>
+      {/* ── HERO ────────────────────────────────────────────── */}
+      <section style={{ ...col, paddingBottom: 0 }} className="v3-section">
         <Reveal>
           <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 24 }}>
             <div style={{ width: 64, height: 64, borderRadius: 8, overflow: "hidden", flexShrink: 0 }}>
@@ -392,58 +217,48 @@ export default function ShopEZPage() {
             </div>
           </div>
 
-          <h1 style={{ fontSize: "clamp(22px, 4vw, 32px)", fontWeight: 500, color: C.t1, lineHeight: 1.35, marginBottom: 24, fontFamily: "Poppins, sans-serif" }}>
+          <h1 style={{ fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 550, letterSpacing: "-0.02em", color: C.t1, lineHeight: 1.15, marginBottom: 24 }}>
             How I redesigned a hackathon billing app for the person actually standing behind the counter.
           </h1>
 
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 24 }}>
-            {[
-              { label: "UX DESIGN",      icon: <PenTool    size={12} color={C.accent} strokeWidth={2} /> },
-              { label: "AI INTEGRATION", icon: <Zap        size={12} color={C.yellow} strokeWidth={2} /> },
-              { label: "MOBILE",         icon: <Smartphone size={12} color={C.blue}   strokeWidth={2} /> },
-              { label: "INDIAN RETAIL",  icon: <Store      size={12} color={C.red}    strokeWidth={2} /> },
-            ].map(t => (
-              <div key={t.label} style={{ ...tagStyle, borderRadius: 8 }} onMouseEnter={e => tagHv(e, true)} onMouseLeave={e => tagHv(e, false)}>
-                {t.icon} {t.label}
+            {["UX DESIGN", "AI INTEGRATION", "MOBILE", "INDIAN RETAIL"].map(label => (
+              <div key={label} style={{ display: "flex", alignItems: "center", gap: 6, padding: "5px 12px", borderRadius: 9999, background: "#ffffff", border: "1px solid rgba(0,0,0,0.10)", color: "#222222", fontSize: 12, fontWeight: 500, letterSpacing: "0.08em", whiteSpace: "nowrap" }}>
+                {label}
               </div>
             ))}
           </div>
 
-          <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 8, padding: "14px 16px", display: "flex", flexDirection: "column", gap: 8 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <Lock size={14} color={C.yellow} strokeWidth={2} />
-              <span style={{ fontSize: 13, fontWeight: 500, color: C.t1 }}>A quick note</span>
-            </div>
-            <p style={{ fontSize: 13, color: C.t2, lineHeight: 1.6 }}>
-              ShopEZ started at a hackathon. We built something rough, won the Open Innovation track, and moved on. A year later I came back to the same problem with fresh eyes. What you are reading is the redesign: same product idea, completely different level of thinking.
-            </p>
-          </div>
+          <IconCard icon={Lock} label="A Quick Note" bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover
+            body="ShopEZ started at a hackathon. We built something rough, won the Open Innovation track, and moved on. A year later I came back to the same problem with fresh eyes. What you are reading is the redesign: same product idea, completely different level of thinking." />
         </Reveal>
       </section>
 
-      {/* ── HERO IMAGE ───────────────────────────────────────── */}
-      <div style={{ ...col, padding: "32px 24px 0" }}>
-        <div style={{ borderRadius: 8, overflow: "hidden", width: "100%", background: C.card, border: `1px solid ${C.border}` }}>
+      {/* ── HERO IMAGE ──────────────────────────────────────── */}
+      <div style={{ ...col, paddingBottom: 0 }} className="v3-section">
+        <div style={{ borderRadius: 8, overflow: "hidden", width: "100%" }}>
           <img
             src="/images/shopez/hero.png"
             alt="ShopEZ — Point. Scan. Bill."
-            style={{ width: "100%", height: "auto", display: "block" }}
+            style={{ width: "100%", height: "auto", display: "block", border: `1px solid ${C.border}`, borderRadius: 8 }}
           />
         </div>
       </div>
 
-      {/* ── STATS — icon above number ────────────────────────── */}
-      <section style={{ ...col, padding: "32px 24px 0" }}>
+      {/* ── STATS ───────────────────────────────────────────── */}
+      <section style={{ ...col }} className="v3-section">
         <div className="shop-stats-grid">
-          <StatCard icon={Store}     iconColor={C.accent} stat="12M+"  label="Kirana Stores" body="Neighbourhood grocery shops across India, most still running on paper."  delay={0}    />
-          <StatCard icon={GitBranch} iconColor={C.blue}   stat="05"    label="Core Flows"    body="Splash, onboarding, dashboard, scan-to-bill, credit management."          delay={0.08} />
-          <StatCard icon={Clock}     iconColor={C.yellow} stat="30s"   label="Per Bill"      body="Typical time from scan to payment confirmation for a 5-item bill."         delay={0.16} />
+          <Card label="12M+ Kirana Stores" num="" body="Neighbourhood grocery shops across India, most still running on paper." delay={0}    bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover icon={Store} />
+          <Card label="5 Core Flows"       num="" body="Splash, onboarding, dashboard, scan-to-bill, credit management." delay={0.08} bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover icon={GitBranch} />
+          <Card label="30 Second Bills"    num="" body="Typical time from scan to payment confirmation for a 5-item bill." delay={0.16} bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover icon={Clock} />
         </div>
       </section>
 
+      <Divider />
+
       {/* ── 01 WHAT SHOPEZ DOES ──────────────────────────────── */}
-      <section id="shop-overview" style={{ ...col, padding: "64px 24px 0" }}>
-        <SectionHeading label="WHAT SHOPEZ DOES" num="01" />
+      <section id="shop-overview" style={{ ...col }} className="v3-section">
+        <SectionHeadingV3 title="What ShopEZ Does" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
             <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
@@ -466,11 +281,12 @@ export default function ShopEZPage() {
         </div>
       </section>
 
+      <Divider />
+
       {/* ── 02 WHY IT MATTERS ────────────────────────────────── */}
-      <section id="shop-why" style={{ ...col, padding: "64px 24px 0" }}>
-        <SectionHeading label="WHY IT MATTERS" num="02" />
+      <section id="shop-why" style={{ ...col }} className="v3-section">
+        <SectionHeadingV3 title="Why It Matters" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-          {/* Sketch 02 only — Sketch 01 lives exclusively in Decision 01 */}
           <Reveal>
             <ShopImg
               src="/images/shopez/sketch-before-after.png"
@@ -478,7 +294,6 @@ export default function ShopEZPage() {
               caption="Why the paper system had to go."
             />
           </Reveal>
-          {/* Connecting body text before the table */}
           <Reveal delay={0.08}>
             <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
               The kirana store problem is not a technology problem. It is a workflow problem. The existing tools ignored how shopkeepers actually work — hands full, counter busy, no time for menus or search bars. The table below shows the gap between what exists and what was actually happening.
@@ -498,9 +313,11 @@ export default function ShopEZPage() {
         </div>
       </section>
 
+      <Divider />
+
       {/* ── 03 WHERE IT STARTED ──────────────────────────────── */}
-      <section id="shop-started" style={{ ...col, padding: "64px 24px 0" }}>
-        <SectionHeading label="WHERE IT STARTED" num="03" />
+      <section id="shop-started" style={{ ...col }} className="v3-section">
+        <SectionHeadingV3 title="Where It Started" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
             <ShopImg
@@ -529,9 +346,11 @@ export default function ShopEZPage() {
         </div>
       </section>
 
+      <Divider />
+
       {/* ── 04 WHAT CHANGED ──────────────────────────────────── */}
-      <section id="shop-changed" style={{ ...col, padding: "64px 24px 0" }}>
-        <SectionHeading label="WHAT CHANGED" num="04" />
+      <section id="shop-changed" style={{ ...col }} className="v3-section">
+        <SectionHeadingV3 title="What Changed" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
             <ShopImg src="/images/shopez/dashboard-annotated.png" alt="Dashboard with callout annotations" />
@@ -552,12 +371,13 @@ export default function ShopEZPage() {
         </div>
       </section>
 
+      <Divider />
+
       {/* ── 05 THE DECISION JOURNEY ──────────────────────────── */}
-      <section id="shop-decisions" style={{ ...col, padding: "64px 24px 0" }}>
-        <SectionHeading label="THE DECISION JOURNEY" num="05" />
+      <section id="shop-decisions" style={{ ...col }} className="v3-section">
+        <SectionHeadingV3 title="The Decision Journey" />
         <div className="mt-section">
 
-          {/* Decision 01 — Sketch 01 lives here exclusively */}
           <Decision num="01" title="Leading with the camera" first>
             <ShopImg
               src="/images/shopez/sketch-billing-flow.png"
@@ -646,9 +466,11 @@ export default function ShopEZPage() {
         </div>
       </section>
 
-      {/* ── 06 THE FLOW ──────────────────────────────────────── */}
-      <section id="shop-flow" style={{ ...col, padding: "64px 24px 0" }}>
-        <SectionHeading label="THE FLOW" num="06" />
+      <Divider />
+
+      {/* ── 06 THE FLOW ───────────────────────────────────────── */}
+      <section id="shop-flow" style={{ ...col }} className="v3-section">
+        <SectionHeadingV3 title="The Flow" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
             <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>The entire product in one strip.</p>
@@ -657,7 +479,7 @@ export default function ShopEZPage() {
             <ShopImg src="/images/shopez/full-flow-strip.png" alt="Full flow strip — all 8 screens with labels and arrows" />
           </Reveal>
           <Reveal delay={0.12}>
-            <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 8, padding: "20px 24px", textAlign: "center" }}>
+            <div style={{ background: "#ffffff", border: `1px solid ${C.border}`, borderRadius: 8, padding: "20px 24px", textAlign: "center" }}>
               <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
                 &ldquo;A typical 5-item bill: under 30 seconds from scan to done.&rdquo;
               </p>
@@ -666,26 +488,29 @@ export default function ShopEZPage() {
         </div>
       </section>
 
+      <Divider />
+
       {/* ── 07 REFLECTION ────────────────────────────────────── */}
-      <section id="shop-reflection" style={{ ...col, padding: "64px 24px 0" }}>
-        <SectionHeading label="REFLECTION" num="07" />
+      <section id="shop-reflection" style={{ ...col }} className="v3-section">
+        <SectionHeadingV3 title="Reflection" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-            <ShopCard icon={FileText}   iconColor={C.accent} label="Test with real users earlier"  right="01" body="All design decisions here came from observation and research. One session watching an actual kirana owner use the scan screen would have caught the gap before it became a gap."   delay={0}    />
-            <ShopCard icon={Lightbulb}  iconColor={C.blue}   label="Design the failure states"     right="02" body="Every happy path is designed. None of the error states are. Unrecognised items, camera failure, no internet. Those screens do not exist yet and they should."                 delay={0.08} />
-            <ShopCard icon={Smartphone} iconColor={C.yellow} label="Language toggle from day one"  right="03" body="The app is in English. A lot of shopkeepers who need this most are not comfortable in English. Hindi or regional language should have been in the first frame of the Figma file." delay={0.16} />
+          <div className="shop-reflection-grid">
+            <IconCard icon={FileText}   label="Test with real users earlier" body="All design decisions here came from observation and research. One session watching an actual kirana owner use the scan screen would have caught the gap before it became a gap." bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover delay={0}    />
+            <IconCard icon={Lightbulb}  label="Design the failure states"    body="Every happy path is designed. None of the error states are. Unrecognised items, camera failure, no internet. Those screens do not exist yet and they should." bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover delay={0.08} />
+            <IconCard icon={Smartphone} label="Language toggle from day one" body="The app is in English. A lot of shopkeepers who need this most are not comfortable in English. Hindi or regional language should have been in the first frame of the Figma file." bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover delay={0.16} />
           </div>
         </div>
       </section>
 
+      <Divider />
 
-      {/* ── BACK TO TOP ──────────────────────────────────────── */}
-      <div style={{ ...col, padding: "48px 24px 0", display: "flex", justifyContent: "flex-start" }}>
+      {/* ── BACK TO TOP ─────────────────────────────────────── */}
+      <div style={{ ...col, display: "flex", justifyContent: "flex-start" }} className="v3-section">
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           style={{
             display: "flex", alignItems: "center", gap: 10,
-            background: "rgba(255,255,255,0.05)", color: C.t1,
+            background: "rgba(0,0,0,0.04)", color: C.t1,
             border: "none", padding: "11px 22px",
             borderRadius: 8, fontSize: 14, fontWeight: 500,
             cursor: "pointer", fontFamily: "Poppins, sans-serif",
@@ -694,26 +519,16 @@ export default function ShopEZPage() {
           onMouseEnter={e => { const b = e.currentTarget; b.style.opacity = "0.88"; b.style.transform = "translateY(-2px)"; }}
           onMouseLeave={e => { const b = e.currentTarget; b.style.opacity = "1"; b.style.transform = ""; }}
         >
-          <ArrowUp size={14} strokeWidth={2} /> Back to top
+          Back to top
         </button>
       </div>
 
-      {/* ── FOOTER ───────────────────────────────────────────── */}
+      {/* ── FOOTER ──────────────────────────────────────────── */}
       <div style={{ marginTop: 48 }}>
         <Footer />
       </div>
 
       <style>{`
-        .shop-sh-wrap  { display: flex; align-items: center; gap: 8px; }
-        .shop-sh-num   { display: none; }
-        .shop-sh-label { order: 1; }
-        .shop-sh-line  { display: none; }
-        @media (min-width: 768px) {
-          .shop-sh-wrap  { gap: 16px; }
-          .shop-sh-num   { display: block; order: 2; }
-          .shop-sh-label { order: 0; }
-          .shop-sh-line  { display: block; order: 1; }
-        }
         .shop-page-nav {
           display: none;
           position: fixed;
@@ -725,15 +540,16 @@ export default function ShopEZPage() {
           z-index: 100;
         }
         @media (min-width: 1200px) { .shop-page-nav { display: flex; } }
+        .shop-decision-line { height: 1px; background: var(--color-border); margin: 16px -16px; }
+        @media (min-width: 768px) { .shop-decision-line { margin: 24px -24px; } }
         .shop-stats-grid      { display: grid; grid-template-columns: 1fr; gap: 16px; }
         .shop-reflection-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
         @media (min-width: 600px) {
           .shop-stats-grid      { grid-template-columns: 1fr 1fr 1fr; }
           .shop-reflection-grid { grid-template-columns: 1fr 1fr 1fr; }
         }
-        .mt-section { margin-top: 32px; }
-        .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
       `}</style>
-    </main>
+      </main>
+    </ThemeProvider>
   );
 }
