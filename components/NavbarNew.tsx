@@ -16,7 +16,7 @@ export default function NavbarNew({ homePath = "/new" }: { homePath?: string }) 
   const pathname = usePathname();
   const isHome = pathname === homePath || (homePath !== "/" && pathname?.startsWith(`${homePath}/`));
   const resolveHref = (href: string) => isHome ? href : `${homePath}${href}`;
-  const logoSrc = homePath === "/new" ? "/images/logo_light.png" : "/images/logo-new.png";
+  const logoSrc = "/images/logo_light.png";
 
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 767px)");

@@ -1,11 +1,8 @@
 "use client";
-import { usePathname } from "next/navigation";
 import { C, col } from "@/lib/tokensV2";
 
 export default function Footer(){
-  const pathname = usePathname();
-  const isNew = pathname === "/new" || pathname?.startsWith("/new/");
-  const logoSrc = isNew ? "/images/logo_dark.png" : "/images/logo-new.png";
+  const logoSrc = "/images/logo_dark.png";
   return(
     <footer style={{...col,padding:"64px 24px 64px",textAlign:"center",display:"flex",flexDirection:"column",alignItems:"center",gap:16}}>
       <img src={logoSrc} alt="Ritam Biswas" style={{width:28,height:28,objectFit:"contain"}}/>
