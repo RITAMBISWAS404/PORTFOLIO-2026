@@ -74,7 +74,7 @@ export const experience = [
   },
 ];
 
-export const stack = ["Figma","Framer","Claude Code","Claude","Gemini","Stitch","VS Code","Notion","Figr","ProtoPie","Painter","Pinterest"];
+export const stack = ["Figma","Framer","Claude Code","Claude","Gemini","Stitch","VS Code","Notion","Figr","ProtoPie"];
 export const stackColors: Record<string,{bg:string;color:string;img:string}> = {
   Figma:         { bg:"#0c0a1a", color:"#a259ff", img:"/images/new tech stack/figma.png" },
   Framer:        { bg:"#020d1a", color:"#0055ff", img:"/images/new tech stack/framer.png" },
@@ -88,8 +88,6 @@ export const stackColors: Record<string,{bg:string;color:string;img:string}> = {
   Notion:        { bg:"#191919", color:"#e5e5e5", img:"/images/new tech stack/notion.png" },
   Figr:          { bg:"#0c0a1a", color:"#a259ff", img:"/images/new tech stack/figr.png" },
   ProtoPie:      { bg:"#0d0510", color:"#e5e5e5", img:"/images/new tech stack/protopie.png" },
-  Painter:       { bg:"#0a0a0a", color:"#e5e5e5", img:"/images/new tech stack/painter.png" },
-  Pinterest:     { bg:"#1a0008", color:"#e60023", img:"/images/new tech stack/pinterrest.png" },
 };
 
 export const stackTag: Record<string, string> = {
@@ -105,8 +103,6 @@ export const stackTag: Record<string, string> = {
   Notion:        "Planning",
   Figr:          "Tokens",
   ProtoPie:      "Motion",
-  Painter:       "Illustration",
-  Pinterest:     "Moodboard",
 };
 
 export const stackDesc: Record<string, string> = {
@@ -122,8 +118,6 @@ export const stackDesc: Record<string, string> = {
   Notion:        "Project management, design documentation, and client briefs in one place.",
   Figr:          "Design system management and design token documentation for scalable UI.",
   ProtoPie:      "Advanced interaction prototyping for complex animations and micro-interactions.",
-  Painter:       "Digital illustration and visual asset creation for branding and campaigns.",
-  Pinterest:     "Visual inspiration and mood boarding for design research and creative direction.",
 };
 
 export const socials = [
