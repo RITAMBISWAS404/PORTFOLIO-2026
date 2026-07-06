@@ -36,7 +36,7 @@ export default function IconCard({ label, right, body, bg, delay = 0, iconColor 
           </span>
         )}
       </div>
-      <p className="card-colored-body" style={{ fontWeight: 400, color: `var(--exp-card-fg, ${textColor})`, opacity: 0.9, lineHeight: 1.6, position: "relative", zIndex: 1 }}>{body}</p>
+      <p className="card-colored-body" style={{ fontWeight: 400, color: "#999999", opacity: 1, lineHeight: 1.6, position: "relative", zIndex: 1 }}>{body}</p>
       <style>{`
         .card-colored-icon { width: 20px !important; height: 20px !important; }
         .card-colored-heading { font-size: 14px; }

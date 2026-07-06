@@ -60,7 +60,7 @@ export default function Card({ label, num, body, delay = 0, bg, iconColor = "#ff
             <span className="card-colored-heading" style={{ fontWeight: 500, color: chipIcon ? "#222222" : `var(--exp-card-heading, ${textColor})` }}>{label}</span>
             {num && <span className="card-colored-heading" style={{ fontWeight: 500, color: chipIcon ? "#222222" : `var(--exp-card-heading, ${textColor})`, opacity: 0.75, flexShrink: 0, marginLeft: 8 }}>{num}</span>}
           </div>
-          <p className="card-colored-body" style={{ fontWeight: 400, color: chipIcon ? "#999999" : `var(--exp-card-fg, ${textColor})`, opacity: chipIcon ? 1 : 0.9, lineHeight: 1.6, position: "relative", zIndex: 1 }}>{body}</p>
+          <p className="card-colored-body" style={{ fontWeight: 400, color: "#999999", opacity: 1, lineHeight: 1.6, position: "relative", zIndex: 1 }}>{body}</p>
           <style>{`
             .card-colored-icon { width: 20px !important; height: 20px !important; }
             .card-colored-heading { font-size: 14px; }
