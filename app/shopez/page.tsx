@@ -545,8 +545,7 @@ export default function ShopEZPage() {
         .shop-stats-grid      { display: grid; grid-template-columns: 1fr; gap: 16px; }
         .shop-reflection-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
         @media (min-width: 600px) {
-          .shop-stats-grid      { grid-template-columns: 1fr 1fr 1fr; }
-          .shop-reflection-grid { grid-template-columns: 1fr 1fr 1fr; }
+          .shop-stats-grid { grid-template-columns: 1fr 1fr 1fr; }
         }
       `}</style>
       </main>
