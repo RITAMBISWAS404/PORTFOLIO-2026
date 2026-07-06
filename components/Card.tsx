@@ -48,7 +48,7 @@ export default function Card({ label, num, body, delay = 0, bg, iconColor = "#ff
       {isColored && (
         <div style={{
           position: "absolute", inset: 0,
-          background: "var(--exp-card-hover-overlay, rgba(0,0,0,0.10))",
+          background: "var(--exp-card-hover-overlay, rgba(0,0,0,0.025))",
           opacity: hovered ? 1 : 0,
           transition: "opacity 0.2s",
           pointerEvents: "none",
