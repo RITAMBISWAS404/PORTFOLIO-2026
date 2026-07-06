@@ -28,14 +28,21 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
           display:"flex", flexDirection:"column",
           color:"inherit", textDecoration:"none",
         }}>
+          {/* Header — icon badge + title, white background */}
+          <div style={{display:"flex",alignItems:"center",gap:8,padding:"16px 16px 0",background:"#ffffff",borderTop:"1px solid rgba(0,0,0,0.10)",borderLeft:"1px solid rgba(0,0,0,0.10)",borderRight:"1px solid rgba(0,0,0,0.10)",borderRadius:"8px 8px 0 0"}}>
+            <div style={{width:32,height:32,borderRadius:8,overflow:"hidden",flexShrink:0}}>
+              <img src={p.icon} alt="" style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}} />
+            </div>
+            <div className="f16" style={{fontWeight:500,color:"#222222"}}>{p.title}</div>
+          </div>
           {/* Image — white background */}
-          <div style={{height:192,overflow:"hidden",background:"#ffffff",borderTop:"1px solid rgba(0,0,0,0.10)",borderLeft:"1px solid rgba(0,0,0,0.10)",borderRight:"1px solid rgba(0,0,0,0.10)",borderRadius:"8px 8px 0 0"}}>
+          <div style={{height:192,overflow:"hidden",background:"#ffffff",borderLeft:"1px solid rgba(0,0,0,0.10)",borderRight:"1px solid rgba(0,0,0,0.10)"}}>
             <img src={p.img} alt={p.title} style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}} loading="lazy"/>
           </div>
-          {/* Title + subtitle — dark background */}
+          {/* Eyebrow + description — dark background */}
           <div style={{padding:"16px 16px 0",background:"#222222"}}>
-            <div className="f16" style={{fontWeight:500,color:"#ffffff"}}>{p.title}</div>
-            <div className="f16" style={{fontWeight:400,color:"rgba(255,255,255,0.55)",marginTop:4}}>{p.sub}</div>
+            <div style={{fontSize:12,fontWeight:500,color:"#909090",letterSpacing:"0.06em",textTransform:"uppercase"}}>{p.eyebrow}</div>
+            <div className="f16" style={{fontWeight:500,color:"#ffffff",marginTop:4}}>{p.desc}</div>
           </div>
           {/* Pills — dark background */}
           <div style={{padding:16,display:"flex",flexWrap:"wrap",gap:8,background:"#222222"}}>
