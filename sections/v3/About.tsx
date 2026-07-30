@@ -103,7 +103,7 @@ export default function About() {
                         background: "none", border: "none", cursor: "pointer", padding: 4,
                         color: copied ? "#4ade80" : "var(--exp-about-muted, rgba(255,255,255,0.45))",
                         display: "flex", alignItems: "center",
-                        borderRadius: 20,
+                        borderRadius: 12,
                         transition: "color 0.2s",
                         flexShrink: 0,
                       }}>

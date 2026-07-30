@@ -32,10 +32,10 @@ function Avatar() {
   return (
     <div ref={ref} onMouseMove={move} onMouseLeave={leave} onMouseEnter={() => setEgg(true)}
       style={{ position: "relative", width: 56, height: 56, flexShrink: 0 }}>
-      <motion.div style={{ width: 56, height: 56, borderRadius: 20, overflow: "hidden", border: "1px solid rgba(0,0,0,0.10)", transform }}>
+      <motion.div style={{ width: 56, height: 56, borderRadius: 12, overflow: "hidden", border: "1px solid rgba(0,0,0,0.10)", transform }}>
         <div style={{ position: "absolute", inset: 0, background: "#ffffff" }} />
         <img src={egg ? "/images/happy-catto.gif" : "/images/avatar.png"} alt="Ritam Biswas"
-          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", borderRadius: 20 }} />
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", borderRadius: 12 }} />
       </motion.div>
     </div>
   );
@@ -100,7 +100,7 @@ export default function Hero() {
           <a href="#projects" style={{
             display: "flex", alignItems: "center", gap: 10,
             background: C.t1, color: C.bg, padding: "11px 22px",
-            borderRadius: 20, fontSize: 14, fontWeight: 600, textDecoration: "none",
+            borderRadius: 12, fontSize: 14, fontWeight: 600, textDecoration: "none",
             transition: "opacity 0.25s, transform 0.25s",
           }}
             onMouseEnter={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.opacity = "0.88"; a.style.transform = "translateY(-2px)"; }}
@@ -110,7 +110,7 @@ export default function Hero() {
           <a href="#contact" style={{
             display: "flex", alignItems: "center", gap: 10,
             background: "rgba(0,0,0,0.05)", color: C.t1, padding: "11px 22px",
-            borderRadius: 20, fontSize: 14, fontWeight: 600, textDecoration: "none",
+            borderRadius: 12, fontSize: 14, fontWeight: 600, textDecoration: "none",
             border: "1px solid rgba(0,0,0,0.05)",
             transition: "background 0.25s, transform 0.25s",
           }}

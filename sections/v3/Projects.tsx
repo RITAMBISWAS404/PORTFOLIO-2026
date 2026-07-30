@@ -63,7 +63,7 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
           display:"flex",alignItems:"center",
           padding:"6px 14px",
           background:C.card,border:`1px solid ${C.borderHv}`,
-          borderRadius:"0 20px 20px 20px",
+          borderRadius:"0 12px 12px 12px",
           fontSize:12,fontWeight:600,color:C.t1,
           letterSpacing:"0.08em",whiteSpace:"nowrap",
         }}>

@@ -143,7 +143,7 @@ export default function ShopEZPage() {
       <section style={{ ...col, paddingBottom: 0 }} className="v3-section">
         <Reveal>
           <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 24 }}>
-            <div style={{ width: 64, height: 64, borderRadius: 20, overflow: "hidden", flexShrink: 0 }}>
+            <div style={{ width: 64, height: 64, borderRadius: 12, overflow: "hidden", flexShrink: 0 }}>
               <img src="/images/shopez logo.png" alt="ShopEZ" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             </div>
             <div>
@@ -447,7 +447,7 @@ export default function ShopEZPage() {
             display: "flex", alignItems: "center", gap: 10,
             background: "rgba(0,0,0,0.04)", color: C.t1,
             border: "none", padding: "11px 22px",
-            borderRadius: 20, fontSize: 14, fontWeight: 600,
+            borderRadius: 12, fontSize: 14, fontWeight: 600,
             cursor: "pointer", fontFamily: "'Plus Jakarta Sans', sans-serif",
             transition: "opacity 0.25s, transform 0.25s",
           }}

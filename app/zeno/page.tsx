@@ -146,7 +146,7 @@ export default function ZenoPage() {
       <section style={{ ...col, paddingBottom: 0 }} className="v3-section">
         <Reveal>
           <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 24 }}>
-            <div style={{ width: 64, height: 64, borderRadius: 20, overflow: "hidden", flexShrink: 0 }}>
+            <div style={{ width: 64, height: 64, borderRadius: 12, overflow: "hidden", flexShrink: 0 }}>
               <img src="/images/zeno logo.png" alt="ZENO" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             </div>
             <div>
@@ -454,7 +454,7 @@ export default function ZenoPage() {
             <div className="btn-row">
               <a href="https://www.figma.com/design/HQiowSEZWtefmjVP5cqZuY/ZENO?node-id=0-1&p=f&t=ZuWU0JArTeGN7yjv-0"
                 target="_blank" rel="noopener noreferrer"
-                style={{ display: "flex", alignItems: "center", gap: 10, background: "rgba(0,0,0,0.04)", color: C.t1, padding: "11px 22px", borderRadius: 20, fontSize: 14, fontWeight: 600, textDecoration: "none", transition: "background 0.25s, transform 0.25s" }}
+                style={{ display: "flex", alignItems: "center", gap: 10, background: "rgba(0,0,0,0.04)", color: C.t1, padding: "11px 22px", borderRadius: 12, fontSize: 14, fontWeight: 600, textDecoration: "none", transition: "background 0.25s, transform 0.25s" }}
                 onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = "rgba(0,0,0,0.10)"; (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-2px)"; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = "rgba(0,0,0,0.04)"; (e.currentTarget as HTMLAnchorElement).style.transform = ""; }}
               >
@@ -492,7 +492,7 @@ export default function ZenoPage() {
             display: "flex", alignItems: "center", gap: 10,
             background: "rgba(0,0,0,0.04)", color: C.t1,
             border: "none", padding: "11px 22px",
-            borderRadius: 20, fontSize: 14, fontWeight: 600,
+            borderRadius: 12, fontSize: 14, fontWeight: 600,
             cursor: "pointer", fontFamily: "'Plus Jakarta Sans', sans-serif",
             transition: "opacity 0.25s, transform 0.25s",
           }}
