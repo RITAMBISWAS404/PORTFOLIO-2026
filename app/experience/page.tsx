@@ -152,6 +152,7 @@ export default function ExperiencePage() {
     <main>
       <section style={{ ...col, padding: "48px 24px 0" }}>
         <a href="/"
+          className="pill-radius"
           style={{
             display: "inline-flex", alignItems: "center", gap: 10,
             background: "rgba(255,255,255,0.05)", color: C.t1,

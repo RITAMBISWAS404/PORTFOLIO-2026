@@ -53,7 +53,7 @@ function ShopImg({ src, alt, caption }: { src: string; alt: string; caption?: st
     <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
       <img
         src={src} alt={alt} loading="lazy"
-        style={{ width: "100%", height: "auto", display: "block", borderRadius: 12, border: `1px solid ${C.border}` }}
+        style={{ width: "100%", height: "auto", display: "block", borderRadius: 20, border: `1px solid ${C.border}` }}
       />
       {caption && (
         <p style={{ fontSize: 12, fontWeight: 500, color: C.t3, textAlign: "center", lineHeight: 1.5 }}>{caption}</p>
@@ -143,7 +143,7 @@ export default function ShopEZPage() {
       <section style={{ ...col, paddingBottom: 0 }} className="v3-section">
         <Reveal>
           <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 24 }}>
-            <div style={{ width: 64, height: 64, borderRadius: 12, overflow: "hidden", flexShrink: 0 }}>
+            <div style={{ width: 64, height: 64, borderRadius: 20, overflow: "hidden", flexShrink: 0 }}>
               <img src="/images/shopez logo.png" alt="ShopEZ" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             </div>
             <div>
@@ -158,7 +158,7 @@ export default function ShopEZPage() {
 
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 24 }}>
             {["UX DESIGN", "AI INTEGRATION", "MOBILE", "INDIAN RETAIL"].map(label => (
-              <div key={label} style={{ ...tagStyle, padding: "5px 12px", borderRadius: 9999, background: "#ffffff", border: "1px solid rgba(0,0,0,0.10)", color: "#222222" }}>
+              <div key={label} className="pill-radius" style={{ ...tagStyle, padding: "5px 12px", borderRadius: 9999, background: "#ffffff", border: "1px solid rgba(0,0,0,0.10)", color: "#222222" }}>
                 {label}
               </div>
             ))}
@@ -171,11 +171,11 @@ export default function ShopEZPage() {
 
       {/* ── HERO IMAGE ──────────────────────────────────────── */}
       <div style={{ ...col, paddingBottom: 0 }} className="v3-section">
-        <div style={{ borderRadius: 12, overflow: "hidden", width: "100%" }}>
+        <div style={{ borderRadius: 20, overflow: "hidden", width: "100%" }}>
           <img
             src="/images/shopez/hero.png"
             alt="ShopEZ — Point. Scan. Bill."
-            style={{ width: "100%", height: "auto", display: "block", border: `1px solid ${C.border}`, borderRadius: 12 }}
+            style={{ width: "100%", height: "auto", display: "block", border: `1px solid ${C.border}`, borderRadius: 20 }}
           />
         </div>
       </div>
@@ -414,7 +414,7 @@ export default function ShopEZPage() {
             <ShopImg src="/images/shopez/full-flow-strip.png" alt="Full flow strip — all 8 screens with labels and arrows" />
           </Reveal>
           <Reveal delay={0.12}>
-            <div style={{ background: "#ffffff", border: `1px solid ${C.border}`, borderRadius: 12, padding: "20px 24px", textAlign: "center" }}>
+            <div style={{ background: "#ffffff", border: `1px solid ${C.border}`, borderRadius: 20, padding: "20px 24px", textAlign: "center" }}>
               <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.7 }}>
                 &ldquo;A typical 5-item bill: under 30 seconds from scan to done.&rdquo;
               </p>
@@ -447,7 +447,7 @@ export default function ShopEZPage() {
             display: "flex", alignItems: "center", gap: 10,
             background: "rgba(0,0,0,0.04)", color: C.t1,
             border: "none", padding: "11px 22px",
-            borderRadius: 12, fontSize: 14, fontWeight: 600,
+            borderRadius: 20, fontSize: 14, fontWeight: 600,
             cursor: "pointer", fontFamily: "'Plus Jakarta Sans', sans-serif",
             transition: "opacity 0.25s, transform 0.25s",
           }}

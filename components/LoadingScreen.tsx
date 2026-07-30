@@ -61,8 +61,8 @@ export default function LoadingScreen() {
           {/* Bar + counter */}
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 14, width: 140 }}>
             {/* Track */}
-            <div style={{ width: "100%", height: 1, background: "rgba(255,255,255,0.08)", borderRadius: 999, overflow: "hidden" }}>
-              <div style={{
+            <div className="pill-radius" style={{ width: "100%", height: 1, background: "rgba(255,255,255,0.08)", borderRadius: 999, overflow: "hidden" }}>
+              <div className="pill-radius" style={{
                 height: "100%",
                 width: `${progress}%`,
                 background: "rgba(255,255,255,0.7)",

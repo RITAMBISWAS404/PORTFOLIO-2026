@@ -5,7 +5,7 @@ interface Props { headers: [string, string]; rows: [string, string][]; }
 
 export default function TwoColTable({ headers, rows }: Props) {
   return (
-    <div style={{ border: `1px solid ${C.border}`, borderRadius: 12, overflow: "hidden" }}>
+    <div style={{ border: `1px solid ${C.border}`, borderRadius: 20, overflow: "hidden" }}>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
         {headers.map((h, i) => (
           <div key={i} style={{

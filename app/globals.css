@@ -116,7 +116,7 @@ section[id], div[id] { scroll-margin-top: 60px; }
 ::-webkit-scrollbar-thumb        { background: var(--color-border); border-radius: 999px; }
 
 ::selection { background: rgba(52,168,83,0.15); color: #fff; }
-:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; border-radius: 12px; }
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; border-radius: 20px; }
 textarea { resize: none; }
 
 /* Section heading → first element gap (matches section padding) */
