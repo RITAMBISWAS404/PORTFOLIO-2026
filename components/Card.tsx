@@ -39,7 +39,7 @@ export default function Card({ label, num, body, delay = 0, bg, iconColor = "#ff
         position: "relative",
         background: isColored ? (chipIcon ? "#ffffff" : `var(--exp-card-bg, ${bg})`) : (glow || "var(--color-card)"),
         border: isColored ? (border ?? (chipIcon ? "1px solid rgba(0,0,0,0.1)" : "none")) : "none",
-        borderRadius: 8, padding: 16,
+        borderRadius: 12, padding: 16,
         display: "flex", flexDirection: "column", gap: 8, cursor: "default",
         overflow: "hidden",
         ...revealStyle(inView, delay),

@@ -19,7 +19,7 @@ const config: Config = {
         t3:      "#555555",
       },
       borderRadius: {
-        xs: "6px", sm: "8px", md: "12px", lg: "16px",
+        xs: "6px", sm: "12px", md: "12px", lg: "16px",
       },
       fontSize: {
         xs: "10px", sm: "12px", base: "14px", md: "16px",

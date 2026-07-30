@@ -42,7 +42,7 @@ export const revealStyle=(inView:boolean,delay=0):React.CSSProperties=>({
   transition:`opacity 0.7s ${ease} ${delay}s, filter 0.7s ${ease} ${delay}s, transform 0.7s ${ease} ${delay}s`,
 });
 export const inputBase:React.CSSProperties={
-  width:"100%",background:C.input,border:`1px solid ${C.border}`,borderRadius:8,
+  width:"100%",background:C.input,border:`1px solid ${C.border}`,borderRadius:12,
   padding:12,fontFamily:"'Plus Jakarta Sans',sans-serif",fontSize:14,fontWeight:500,color:C.t1,
   outline:"none",WebkitAppearance:"none",appearance:"none",
   transition:"border-color 0.25s,box-shadow 0.25s,transform 0.25s",

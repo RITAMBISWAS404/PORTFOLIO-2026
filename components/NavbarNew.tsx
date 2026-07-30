@@ -137,7 +137,7 @@ export default function NavbarNew({ homePath = "/new" }: { homePath?: string }) 
         width: 54, height: 54, padding: 5,
         transform: "translateY(-70px)",
         background: "#222222",
-        borderRadius: 8,
+        borderRadius: 12,
         border: "1px solid rgba(255,255,255,0.08)",
         display: "flex", alignItems: "center", gap: 5,
       }}>
@@ -156,7 +156,7 @@ export default function NavbarNew({ homePath = "/new" }: { homePath?: string }) 
             return (
               <a key={label} href={resolveHref(href)} className="nav-link-new" style={{
                 display: "flex", alignItems: "center",
-                height: 34, padding: "0 12px", borderRadius: 8,
+                height: 34, padding: "0 12px", borderRadius: 12,
                 fontSize: 12, fontWeight: 600,
                 color: isActive ? "#ffffff" : "rgba(255,255,255,0.42)",
                 letterSpacing: "0.08em", textTransform: "uppercase",

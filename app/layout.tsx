@@ -26,6 +26,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
+        {/* Raw, unprocessed CSS — Tailwind v4's Lightning CSS build step strips
+            `corner-shape` since it doesn't yet recognize the property, so this
+            bypasses the pipeline entirely. Chromium-only; other browsers ignore
+            it and keep the normal circular-arc corner (safe no-op fallback). */}
+        <style>{`* { corner-shape: squircle; }`}</style>
         <AppReadyProvider>
           <LoadingScreen />
           <ConditionalNavbar />

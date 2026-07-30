@@ -62,7 +62,7 @@ export default function About() {
         {/* Image card */}
         <div className="about-img-cell" style={{ ...revealStyle(bentInView, 0.04) }}>
           <div className="about-img-inner" style={{
-            borderRadius: 8,
+            borderRadius: 12,
             overflow: "hidden",
             background: C.card,
             width: "100%",
@@ -77,7 +77,7 @@ export default function About() {
 
         {/* Info card */}
         <div className="about-info-cell" style={{
-          borderRadius: 8,
+          borderRadius: 12,
           background: "var(--exp-card-bg, #222222)",
           padding: 16,
           display: "flex",
@@ -103,7 +103,7 @@ export default function About() {
                         background: "none", border: "none", cursor: "pointer", padding: 4,
                         color: copied ? "#4ade80" : "var(--exp-about-muted, rgba(255,255,255,0.45))",
                         display: "flex", alignItems: "center",
-                        borderRadius: 8,
+                        borderRadius: 12,
                         transition: "color 0.2s",
                         flexShrink: 0,
                       }}>
@@ -133,7 +133,7 @@ export default function About() {
                   if (!c) return null;
                   return (
                     <div key={i} title={name} style={{
-                      width: 44, height: 44, borderRadius: 8, flexShrink: 0,
+                      width: 44, height: 44, borderRadius: 12, flexShrink: 0,
                       overflow: "hidden",
                       background: "var(--exp-about-item-bg, rgba(255,255,255,0.08))",
                     }}>

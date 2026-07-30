@@ -11,7 +11,7 @@ interface Props {
 
 export default function ThreeColTable({ headers, rows, cellColor = "graduated", preLine = false }: Props) {
   return (
-    <div style={{ border: `1px solid ${C.border}`, borderRadius: 8, overflow: "hidden", overflowX: "auto" }}>
+    <div style={{ border: `1px solid ${C.border}`, borderRadius: 12, overflow: "hidden", overflowX: "auto" }}>
       <div style={{ minWidth: 480, display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}>
         {headers.map((h, i) => (
           <div key={i} style={{
