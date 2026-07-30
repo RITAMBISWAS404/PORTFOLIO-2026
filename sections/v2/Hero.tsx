@@ -35,10 +35,10 @@ function Avatar() {
   return (
     <div ref={ref} onMouseMove={move} onMouseLeave={leave} onMouseEnter={() => setEgg(true)}
       style={{ position: "relative", width: 56, height: 56, flexShrink: 0 }}>
-      <motion.div style={{ width: 56, height: 56, borderRadius: 20, overflow: "hidden", transform }}>
+      <motion.div style={{ width: 56, height: 56, borderRadius: 8, overflow: "hidden", transform }}>
         <div style={{ position: "absolute", inset: 0, background: "#ffffff" }} />
         <img src={egg ? "/images/happy-catto.gif" : "/images/avatar.png"} alt="Ritam Biswas"
-          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", borderRadius: 20 }} />
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", borderRadius: 8 }} />
       </motion.div>
     </div>
   );
@@ -486,7 +486,7 @@ function DotMatrix() {
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
-      style={{ width: "100%", borderRadius: 20, overflow: "hidden", cursor: "crosshair", touchAction: "none" }}
+      style={{ width: "100%", borderRadius: 8, overflow: "hidden", cursor: "crosshair", touchAction: "none" }}
     >
       <canvas ref={canvasRef} style={{ display: "block" }} />
     </div>
@@ -526,7 +526,7 @@ export default function Hero() {
             { label: "MOBILE + WEB UX",        icon: <Smartphone size={12} color={C.blue}   strokeWidth={2} /> },
             { label: "SYSTEMS THINKING",       icon: <Network    size={12} color={C.red}     strokeWidth={2} /> },
           ].map(b => (
-            <div key={b.label} style={{ ...tagStyle, borderRadius: 20 }}
+            <div key={b.label} style={{ ...tagStyle, borderRadius: 8 }}
               onMouseEnter={e => tagHv(e, true)} onMouseLeave={e => tagHv(e, false)}>
               {b.icon} {b.label}
             </div>
@@ -549,7 +549,7 @@ export default function Hero() {
           <a href="#projects" style={{
             display: "flex", alignItems: "center", gap: 10,
             background: C.t1, color: C.bg, padding: "11px 22px",
-            borderRadius: 20, fontSize: 14, fontWeight: 600, textDecoration: "none",
+            borderRadius: 8, fontSize: 14, fontWeight: 600, textDecoration: "none",
             transition: "opacity 0.25s, transform 0.25s, box-shadow 0.25s",
           }}
             onMouseEnter={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.opacity = "0.9"; a.style.transform = "translateY(-2px)"; a.style.boxShadow = "0 4px 16px rgba(0,0,0,0.6)"; }}
@@ -559,7 +559,7 @@ export default function Hero() {
           <a href="#contact" style={{
             display: "flex", alignItems: "center", gap: 10,
             background: "rgba(255,255,255,0.05)", color: C.t1, padding: "11px 22px",
-            borderRadius: 20, fontSize: 14, fontWeight: 600, textDecoration: "none",
+            borderRadius: 8, fontSize: 14, fontWeight: 600, textDecoration: "none",
             transition: "background 0.25s, transform 0.25s",
           }}
             onMouseEnter={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.background = "rgba(255,255,255,0.09)"; a.style.transform = "translateY(-2px)"; }}

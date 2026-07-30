@@ -30,10 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             `corner-shape` since it doesn't yet recognize the property, so this
             bypasses the pipeline entirely. Chromium-only; other browsers ignore
             it and keep the normal circular-arc corner (safe no-op fallback). */}
-        <style>{`
-          * { corner-shape: squircle; }
-          .pill-radius { corner-shape: round; }
-        `}</style>
+        <style>{`* { corner-shape: squircle; }`}</style>
         <AppReadyProvider>
           <LoadingScreen />
           <ConditionalNavbar />

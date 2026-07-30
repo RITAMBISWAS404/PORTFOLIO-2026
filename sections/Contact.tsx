@@ -105,7 +105,7 @@ export default function Contact() {
                     display: "flex", alignItems: "center", gap: 6,
                     padding: "6px 14px",
                     border: `1px solid ${active ? "rgba(255,255,255,0.28)" : C.border}`,
-                    borderRadius: 9999,
+                    borderRadius: 8,
                     background: active ? "rgba(255,255,255,0.07)" : "transparent",
                     fontSize: 12, fontWeight: 600,
                     color: active ? C.t1 : C.t3,
@@ -129,7 +129,7 @@ export default function Contact() {
         <button type="submit" disabled={status === "sending" || status === "sent"}
           style={{
             height: 48, background: btnBg, color: btnCol,
-            borderRadius: 9999, border: "none",
+            borderRadius: 8, border: "none",
             cursor: status === "sending" || status === "sent" ? "not-allowed" : "pointer",
             fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 14, fontWeight: 600,
             transition: "opacity 0.25s, transform 0.25s, box-shadow 0.25s",

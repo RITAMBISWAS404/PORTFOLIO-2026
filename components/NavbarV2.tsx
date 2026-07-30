@@ -188,7 +188,7 @@ export default function NavbarV2() {
         width: 54, height: 54, padding: 5,
         transform: "translateY(-70px)",
         background: "#222222",
-        borderRadius: 20,
+        borderRadius: 8,
         boxShadow: "none",
         display: "flex", alignItems: "center", gap: 5,
       }}>
@@ -209,7 +209,7 @@ export default function NavbarV2() {
             return (
               <a key={label} href={resolveHref(href)} className="nav-link" style={{
                 display: "flex", alignItems: "center",
-                height: 34, padding: "0 12px", borderRadius: 20,
+                height: 34, padding: "0 12px", borderRadius: 8,
                 fontSize: 12, fontWeight: 600,
                 color: isActive ? linkActive : linkInactive,
                 letterSpacing: "0.08em", textTransform: "uppercase",
@@ -230,7 +230,7 @@ export default function NavbarV2() {
           {/* Theme toggle — animates in with nav links via .nav-link class */}
           <button onClick={toggle} className="nav-link" aria-label="Toggle theme" style={{
             display: "flex", alignItems: "center", justifyContent: "center",
-            width: 34, height: 34, borderRadius: 20,
+            width: 34, height: 34, borderRadius: 8,
             background: "none", border: "none",
             cursor: "pointer",
             color: toggleColor,

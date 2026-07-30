@@ -28,7 +28,7 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
   const [cursor,setCursor]=useState<{x:number;y:number}|null>(null);
   return(
     <>
-      <a ref={ref} href={p.href} target="_blank" rel="noopener noreferrer" style={{border:`1px solid ${C.border}`,borderRadius:16,overflow:"hidden",
+      <a ref={ref} href={p.href} target="_blank" rel="noopener noreferrer" style={{border:`1px solid ${C.border}`,borderRadius:8,overflow:"hidden",
         display:"flex",flexDirection:"column",color:"inherit",textDecoration:"none",
         position:"relative",
         background: glow || C.card,
@@ -67,7 +67,7 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
           padding:"6px 14px",
           background:C.card,
           border:`1px solid ${C.borderHv}`,
-          borderRadius:"0 9999px 9999px 9999px",
+          borderRadius:"0 8px 8px 8px",
           fontSize:12, fontWeight:600, color:C.t1,
           letterSpacing:"0.08em", whiteSpace:"nowrap",
         }}>

@@ -41,11 +41,11 @@ function ExpEntry({ e, delay, isFirst }: { e: typeof experience[0]; delay: numbe
             <span className="f16" style={{ fontWeight:600, color:C.t1 }}>{e.role}</span>
             {e.img
               ? (Array.isArray(e.img) ? e.img : [e.img]).map((src: string, idx: number) => (
-                  <div key={idx} style={{ width:32, height:32, borderRadius:12, flexShrink:0, overflow:"hidden", border:"1px solid rgba(0,0,0,0.1)"}}>
+                  <div key={idx} style={{ width:32, height:32, borderRadius:8, flexShrink:0, overflow:"hidden", border:"1px solid rgba(0,0,0,0.1)"}}>
                     <img src={src} alt={e.company} style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}}/>
                   </div>
                 ))
-              : <div style={{ width:32, height:32, borderRadius:12, flexShrink:0, background:e.logoBg, border:"1px solid rgba(0,0,0,0.1)",
+              : <div style={{ width:32, height:32, borderRadius:8, flexShrink:0, background:e.logoBg, border:"1px solid rgba(0,0,0,0.1)",
                   display:"flex", alignItems:"center", justifyContent:"center", fontSize:10, fontWeight:600, color:"#fff" }}>{e.logo}</div>
             }
             <span className="f16" style={{ fontWeight:600, color:C.t1 }}>{e.company}</span>

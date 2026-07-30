@@ -46,7 +46,7 @@ export default function FeaturedProject() {
         }}/>
 
         <div style={{ ...col, position: "relative", zIndex: 1 }}>
-          <div className="feature-img-wrap" style={{ borderRadius: 16, overflow: "hidden", width: "100%" }}>
+          <div className="feature-img-wrap" style={{ borderRadius: 8, overflow: "hidden", width: "100%" }}>
             <picture>
               <source media="(min-width: 768px)" srcSet="/images/16_9.png" />
               <img
@@ -78,7 +78,7 @@ export default function FeaturedProject() {
 
           {/* Identity */}
           <div style={{ display:"flex",alignItems:"center",gap:16 }}>
-            <div style={{ width:64,height:64,borderRadius:16,overflow:"hidden",flexShrink:0 }}>
+            <div style={{ width:64,height:64,borderRadius:8,overflow:"hidden",flexShrink:0 }}>
               <img src="/images/zeno logo.png" alt="ZENO" style={{width:"100%",height:"100%",objectFit:"cover"}}/>
             </div>
             <div>
@@ -116,7 +116,7 @@ export default function FeaturedProject() {
             <a key={btn.label} href={btn.href} target="_blank" rel="noopener noreferrer" style={{
               display:"flex",alignItems:"center",gap:10,
               background:btn.bg,color:btn.color,padding:"11px 22px",
-              borderRadius:9999,fontSize:14,fontWeight:600,textDecoration:"none",
+              borderRadius:8,fontSize:14,fontWeight:600,textDecoration:"none",
               transition:"opacity 0.25s,transform 0.25s"}}
               onMouseEnter={e=>{(e.currentTarget as HTMLAnchorElement).style.opacity="0.88";(e.currentTarget as HTMLAnchorElement).style.transform="translateY(-2px)";}}
               onMouseLeave={e=>{(e.currentTarget as HTMLAnchorElement).style.opacity="1";(e.currentTarget as HTMLAnchorElement).style.transform="";}}>

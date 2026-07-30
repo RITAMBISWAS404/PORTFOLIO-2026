@@ -36,14 +36,14 @@ function Avatar() {
   return (
     <div ref={ref} onMouseMove={move} onMouseLeave={leave} onMouseEnter={()=>setEgg(true)}
       style={{position:"relative",width:64,height:64,flexShrink:0}}>
-      <motion.div style={{width:64,height:64,borderRadius:16,overflow:"hidden",transform}}>
+      <motion.div style={{width:64,height:64,borderRadius:8,overflow:"hidden",transform}}>
         <div style={{position:"absolute",inset:0,
           background:"conic-gradient(from 0deg, #20d455, #4488ff, #ff2626, #ffc200, #20d455)",
           filter:"blur(8px)",
           animation:"aura 10s linear infinite"}}/>
         <img src={egg ? "/images/happy-catto.gif" : "/images/avatar.png"}
           alt="Ritam Biswas"
-          style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",borderRadius:16}}/>
+          style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",borderRadius:8}}/>
       </motion.div>
     </div>
   );
@@ -69,7 +69,7 @@ export default function Hero() {
 
         {/* Bio card */}
         <motion.div variants={item}
-          style={{background:C.card,border:`1px solid ${C.border}`,borderRadius:16,
+          style={{background:C.card,border:`1px solid ${C.border}`,borderRadius:8,
             padding:16,display:"flex",flexDirection:"column",gap:8}}>
           <span style={{fontSize:12,fontWeight:600,color:C.t1,letterSpacing:"0.08em"}}>BIO</span>
           <p className="f16" style={{fontWeight:500,color:C.t2,lineHeight:1.6}}
@@ -96,7 +96,7 @@ export default function Hero() {
         {/* CTAs */}
         <motion.div variants={item} className="btn-row">
           <a href="#projects" style={{display:"flex",alignItems:"center",gap:10,
-            background:C.t1,color:C.bg,padding:"11px 22px",borderRadius:9999,
+            background:C.t1,color:C.bg,padding:"11px 22px",borderRadius:8,
             fontSize:14,fontWeight:600,textDecoration:"none",
             transition:"opacity 0.25s,transform 0.25s,box-shadow 0.25s"}}
             onMouseEnter={e=>{const a=e.currentTarget;a.style.opacity="0.9";a.style.transform="translateY(-2px)";a.style.boxShadow="0 4px 16px rgba(0,0,0,0.6)";}}
@@ -104,7 +104,7 @@ export default function Hero() {
             <ArrowRight size={14} strokeWidth={2}/> View my Work
           </a>
           <a href="#contact" style={{display:"flex",alignItems:"center",gap:10,
-            background:"rgba(255,255,255,0.05)",color:C.t1,padding:"11px 22px",borderRadius:9999,
+            background:"rgba(255,255,255,0.05)",color:C.t1,padding:"11px 22px",borderRadius:8,
             fontSize:14,fontWeight:600,textDecoration:"none",
             transition:"background 0.25s,transform 0.25s"}}
             onMouseEnter={e=>{const a=e.currentTarget;a.style.background="rgba(255,255,255,0.09)";a.style.transform="translateY(-2px)";}}

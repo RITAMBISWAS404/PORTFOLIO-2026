@@ -11,7 +11,7 @@ export const col  = { maxWidth: 768, margin: "0 auto" } as const;
 
 export const tagStyle: React.CSSProperties = {
   display:"flex",alignItems:"center",gap:6,padding:"5px 12px 5px 10px",
-  border:`1px solid ${C.border}`,borderRadius:9999,
+  border:`1px solid ${C.border}`,borderRadius:8,
   fontSize:12,fontWeight:700,color:C.t1,letterSpacing:"0.08em",
   whiteSpace:"nowrap",cursor:"default",
   transition:"border-color 0.25s,background 0.25s",
@@ -28,7 +28,7 @@ export const revealStyle=(inView:boolean,delay=0):React.CSSProperties=>({
   transition:`opacity 0.7s ${ease} ${delay}s, filter 0.7s ${ease} ${delay}s, transform 0.7s ${ease} ${delay}s`,
 });
 export const inputBase:React.CSSProperties={
-  width:"100%",background:C.input,border:`1px solid ${C.border}`,borderRadius:16,
+  width:"100%",background:C.input,border:`1px solid ${C.border}`,borderRadius:8,
   padding:12,fontFamily:"'Plus Jakarta Sans',sans-serif",fontSize:14,fontWeight:500,color:C.t1,
   outline:"none",WebkitAppearance:"none",appearance:"none",
   transition:"border-color 0.25s,box-shadow 0.25s,transform 0.25s",

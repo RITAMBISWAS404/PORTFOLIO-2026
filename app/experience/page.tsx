@@ -115,13 +115,13 @@ function ExpDetailEntry({ e, isFirst }: { e: ExpEntry; isFirst: boolean }) {
           <span className="f16" style={{ fontWeight: 600, color: C.t1 }}>{e.role}</span>
           {imgs.length > 0
             ? imgs.map((src, idx) => (
-                <div key={idx} style={{ width: 24, height: 24, borderRadius: 6, flexShrink: 0, overflow: "hidden" }}>
+                <div key={idx} style={{ width: 24, height: 24, borderRadius: 8, flexShrink: 0, overflow: "hidden" }}>
                   <img src={src} alt={e.company} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
                 </div>
               ))
             : (
                 <div style={{
-                  width: 24, height: 24, borderRadius: 6, flexShrink: 0,
+                  width: 24, height: 24, borderRadius: 8, flexShrink: 0,
                   background: e.logoBg, display: "flex", alignItems: "center",
                   justifyContent: "center", fontSize: 10, fontWeight: 600, color: "#fff",
                 }}>
@@ -152,11 +152,10 @@ export default function ExperiencePage() {
     <main>
       <section style={{ ...col, padding: "48px 24px 0" }}>
         <a href="/"
-          className="pill-radius"
           style={{
             display: "inline-flex", alignItems: "center", gap: 10,
             background: "rgba(255,255,255,0.05)", color: C.t1,
-            padding: "11px 22px", borderRadius: 9999,
+            padding: "11px 22px", borderRadius: 8,
             fontSize: 14, fontWeight: 600, textDecoration: "none",
             marginBottom: 32,
             transition: "opacity 0.25s, transform 0.25s",

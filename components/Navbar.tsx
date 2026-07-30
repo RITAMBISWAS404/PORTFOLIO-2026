@@ -173,7 +173,7 @@ export default function Navbar() {
         border: scrolled
           ? "1px solid rgba(255,255,255,0.13)"
           : "1px solid rgba(255,255,255,0.09)",
-        borderRadius: 20,
+        borderRadius: 8,
         display: "flex", alignItems: "center", gap: 5,
         overflow: "hidden",
         boxShadow: scrolled
@@ -198,7 +198,7 @@ export default function Navbar() {
             return (
               <a key={label} href={resolveHref(href)} className="nav-link" style={{
                 display: "flex", alignItems: "center",
-                height: 34, padding: "0 12px", borderRadius: 20,
+                height: 34, padding: "0 12px", borderRadius: 8,
                 fontSize: 12, fontWeight: 600,
                 color: isActive ? "#ffffff" : "rgba(255,255,255,0.42)",
                 letterSpacing: "0.08em", textTransform: "uppercase",

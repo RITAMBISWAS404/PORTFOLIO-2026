@@ -69,14 +69,14 @@ export default function Contact() {
           <div>
             <label htmlFor="f-name" style={lbl}>Name</label>
             <input id="f-name" name="name" type="text" placeholder="Your name" required
-              style={{ ...inputBase, height: 44, borderRadius: 12 }}
+              style={{ ...inputBase, height: 44, borderRadius: 8 }}
               onFocus={focusIn as React.FocusEventHandler}
               onBlur={focusOut as React.FocusEventHandler} />
           </div>
           <div>
             <label htmlFor="f-email" style={lbl}>Email</label>
             <input id="f-email" name="email" type="email" placeholder="you@company.com" required
-              style={{ ...inputBase, height: 44, borderRadius: 12 }}
+              style={{ ...inputBase, height: 44, borderRadius: 8 }}
               onFocus={focusIn as React.FocusEventHandler}
               onBlur={focusOut as React.FocusEventHandler} />
           </div>
@@ -87,7 +87,7 @@ export default function Contact() {
           <label htmlFor="f-msg" style={lbl}>Project / Message</label>
           <textarea id="f-msg" name="message"
             placeholder="Tell me a bit about the project, role, or idea." required
-            style={{ ...inputBase, height: 110, resize: "none", borderRadius: 12 }}
+            style={{ ...inputBase, height: 110, resize: "none", borderRadius: 8 }}
             onFocus={focusIn as React.FocusEventHandler}
             onBlur={focusOut as React.FocusEventHandler} />
         </div>
@@ -100,12 +100,11 @@ export default function Contact() {
               const active = selected.includes(opt);
               return (
                 <button key={opt} type="button" onClick={() => toggleOption(opt)}
-                  className="pill-radius"
                   style={{
                     display: "flex", alignItems: "center", gap: 6,
                     padding: "6px 14px",
                     border: `1px solid ${active ? `var(--exp-chip-active-border, ${CHIP_COLOR})` : C.border}`,
-                    borderRadius: 9999,
+                    borderRadius: 8,
                     background: active ? `var(--exp-chip-active-bg, ${CHIP_COLOR})` : "transparent",
                     fontSize: 12, fontWeight: 600,
                     color: active ? "var(--exp-chip-active-text, #ffffff)" : C.t3,
@@ -129,7 +128,7 @@ export default function Contact() {
         <button type="submit" disabled={status === "sending" || status === "sent"}
           style={{
             height: 48, background: btnBg, color: btnCol,
-            borderRadius: 12, border: "none",
+            borderRadius: 8, border: "none",
             cursor: status === "sending" || status === "sent" ? "not-allowed" : "pointer",
             fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 14, fontWeight: 600,
             transition: "opacity 0.25s, transform 0.25s",

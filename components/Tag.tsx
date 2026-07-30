@@ -5,7 +5,7 @@ export default function Tag({ label, iconColor = "#555" }: Props) {
     <div style={{
       display: "flex", alignItems: "center", gap: 8,
       padding: "8px 12px 8px 10px",
-      border: "1px solid #222", borderRadius: 9999,
+      border: "1px solid #222", borderRadius: 8,
       fontSize: 12, fontWeight: 600, color: "#fff",
       letterSpacing: "0.08em", whiteSpace: "nowrap",
       transition: "border-color 0.25s, background 0.25s",
