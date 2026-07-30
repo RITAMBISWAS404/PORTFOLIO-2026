@@ -29,14 +29,14 @@ export default function IconCard({ label, right, body, bg, delay = 0, iconColor 
         opacity: hovered ? 1 : 0, transition: "opacity 0.2s", pointerEvents: "none",
       }} />
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", position: "relative", zIndex: 1 }}>
-        <span className="card-colored-heading" style={{ fontWeight: 500, color: `var(--exp-card-heading, ${textColor})` }}>{label}</span>
+        <span className="card-colored-heading" style={{ fontWeight: 600, color: `var(--exp-card-heading, ${textColor})` }}>{label}</span>
         {right && (
-          <span className="card-colored-heading" style={{ fontWeight: 500, color: `var(--exp-card-heading, ${textColor})`, opacity: 0.75, flexShrink: 0, marginLeft: 8 }}>
+          <span className="card-colored-heading" style={{ fontWeight: 600, color: `var(--exp-card-heading, ${textColor})`, opacity: 0.75, flexShrink: 0, marginLeft: 8 }}>
             {right}
           </span>
         )}
       </div>
-      <p className="card-colored-body" style={{ fontWeight: 400, color: "#999999", opacity: 1, lineHeight: 1.6, position: "relative", zIndex: 1 }}>{body}</p>
+      <p className="card-colored-body" style={{ fontWeight: 500, color: "#666666", opacity: 1, lineHeight: 1.6, position: "relative", zIndex: 1 }}>{body}</p>
       <style>{`
         .card-colored-icon { width: 20px !important; height: 20px !important; }
         .card-colored-heading { font-size: 14px; }

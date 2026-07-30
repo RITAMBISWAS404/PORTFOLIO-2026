@@ -2,6 +2,7 @@
 import { useRef } from "react";
 import { useInView } from "framer-motion";
 import ScrambleText from "./ScrambleText";
+import { eyebrow, headingLg } from "@/lib/typography";
 
 interface Props {
   num?: string;
@@ -9,7 +10,7 @@ interface Props {
   eyebrow?: string;
 }
 
-export default function SectionHeadingV3({ num, title, eyebrow }: Props) {
+export default function SectionHeadingV3({ num, title, eyebrow: eyebrowText }: Props) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-15% 0px" });
 
@@ -19,25 +20,12 @@ export default function SectionHeadingV3({ num, title, eyebrow }: Props) {
       transform: inView ? "translateY(0)" : "translateY(14px)",
       transition: "opacity 0.55s ease, transform 0.55s cubic-bezier(.22,1,.36,1)",
     }}>
-      {eyebrow && (
-        <div style={{
-          fontSize: 12,
-          fontWeight: 500,
-          letterSpacing: "0.08em",
-          color: "var(--color-text-3)",
-          marginBottom: 6,
-        }}>
-          <ScrambleText text={eyebrow} active={inView} />
+      {eyebrowText && (
+        <div style={{ ...eyebrow, marginBottom: 6 }}>
+          <ScrambleText text={eyebrowText} active={inView} />
         </div>
       )}
-      <h2 style={{
-        fontSize: "clamp(28px, 4vw, 40px)",
-        fontWeight: 550,
-        letterSpacing: "-0.02em",
-        lineHeight: 1.15,
-        margin: 0,
-        paddingBottom: 20,
-      }}>
+      <h2 style={{ ...headingLg, margin: 0, paddingBottom: 20 }}>
         {num && <span style={{ color: "var(--color-text-3)" }}>{num} </span>}
         <span style={{ color: "var(--color-text-1)" }}>{title}</span>
       </h2>

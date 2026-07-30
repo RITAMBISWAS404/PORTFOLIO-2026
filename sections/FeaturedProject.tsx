@@ -82,8 +82,8 @@ export default function FeaturedProject() {
               <img src="/images/zeno logo.png" alt="ZENO" style={{width:"100%",height:"100%",objectFit:"cover"}}/>
             </div>
             <div>
-              <div className="f16" style={{ fontWeight:500,color:C.t1 }}>{zeno.name}</div>
-              <div className="f16" style={{ fontWeight:400,color:C.t2 }}>{zeno.sub}</div>
+              <div className="f16" style={{ fontWeight:600,color:C.t1 }}>{zeno.name}</div>
+              <div className="f16" style={{ fontWeight:500,color:C.t2 }}>{zeno.sub}</div>
             </div>
           </div>
 
@@ -97,7 +97,7 @@ export default function FeaturedProject() {
             ))}
           </div>
 
-          <p className="f16" style={{ fontWeight:400,color:C.t2,lineHeight:1.6 }}>{zeno.desc}</p>
+          <p className="f16" style={{ fontWeight:500,color:C.t2,lineHeight:1.6 }}>{zeno.desc}</p>
         </div>
 
         {/* Stats grid */}
@@ -116,7 +116,7 @@ export default function FeaturedProject() {
             <a key={btn.label} href={btn.href} target="_blank" rel="noopener noreferrer" style={{
               display:"flex",alignItems:"center",gap:10,
               background:btn.bg,color:btn.color,padding:"11px 22px",
-              borderRadius:9999,fontSize:14,fontWeight:500,textDecoration:"none",
+              borderRadius:9999,fontSize:14,fontWeight:600,textDecoration:"none",
               transition:"opacity 0.25s,transform 0.25s"}}
               onMouseEnter={e=>{(e.currentTarget as HTMLAnchorElement).style.opacity="0.88";(e.currentTarget as HTMLAnchorElement).style.transform="translateY(-2px)";}}
               onMouseLeave={e=>{(e.currentTarget as HTMLAnchorElement).style.opacity="1";(e.currentTarget as HTMLAnchorElement).style.transform="";}}>

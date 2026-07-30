@@ -60,9 +60,9 @@ export default function Hero() {
         <motion.div variants={item} style={{display:"flex",alignItems:"center",gap:16}}>
           <Avatar />
           <div>
-            <div className="f16" style={{fontWeight:500,color:C.t1,letterSpacing:"0.01em"}}>{hero.name}</div>
-            <div className="f16" style={{fontWeight:400,color:C.t2}}>
-              {hero.role} <strong style={{color:C.t1,fontWeight:500}}>{hero.roleHighlight}</strong>
+            <div className="f16" style={{fontWeight:600,color:C.t1,letterSpacing:"0.01em"}}>{hero.name}</div>
+            <div className="f16" style={{fontWeight:500,color:C.t2}}>
+              {hero.role} <strong style={{color:C.t1,fontWeight:600}}>{hero.roleHighlight}</strong>
             </div>
           </div>
         </motion.div>
@@ -71,8 +71,8 @@ export default function Hero() {
         <motion.div variants={item}
           style={{background:C.card,border:`1px solid ${C.border}`,borderRadius:16,
             padding:16,display:"flex",flexDirection:"column",gap:8}}>
-          <span style={{fontSize:12,fontWeight:500,color:C.t1,letterSpacing:"0.08em"}}>BIO</span>
-          <p className="f16" style={{fontWeight:400,color:C.t2,lineHeight:1.6}}
+          <span style={{fontSize:12,fontWeight:600,color:C.t1,letterSpacing:"0.08em"}}>BIO</span>
+          <p className="f16" style={{fontWeight:500,color:C.t2,lineHeight:1.6}}
             dangerouslySetInnerHTML={{__html:hero.bio
               .replace(/<b>/g,'<strong style="color:#fff;font-weight:500">')
               .replace(/<\/b>/g,'</strong>')}}/>
@@ -97,7 +97,7 @@ export default function Hero() {
         <motion.div variants={item} className="btn-row">
           <a href="#projects" style={{display:"flex",alignItems:"center",gap:10,
             background:C.t1,color:C.bg,padding:"11px 22px",borderRadius:9999,
-            fontSize:14,fontWeight:500,textDecoration:"none",
+            fontSize:14,fontWeight:600,textDecoration:"none",
             transition:"opacity 0.25s,transform 0.25s,box-shadow 0.25s"}}
             onMouseEnter={e=>{const a=e.currentTarget;a.style.opacity="0.9";a.style.transform="translateY(-2px)";a.style.boxShadow="0 4px 16px rgba(0,0,0,0.6)";}}
             onMouseLeave={e=>{const a=e.currentTarget;a.style.opacity="1";a.style.transform="";a.style.boxShadow="";}}>
@@ -105,7 +105,7 @@ export default function Hero() {
           </a>
           <a href="#contact" style={{display:"flex",alignItems:"center",gap:10,
             background:"rgba(255,255,255,0.05)",color:C.t1,padding:"11px 22px",borderRadius:9999,
-            fontSize:14,fontWeight:500,textDecoration:"none",
+            fontSize:14,fontWeight:600,textDecoration:"none",
             transition:"background 0.25s,transform 0.25s"}}
             onMouseEnter={e=>{const a=e.currentTarget;a.style.background="rgba(255,255,255,0.09)";a.style.transform="translateY(-2px)";}}
             onMouseLeave={e=>{const a=e.currentTarget;a.style.background="rgba(255,255,255,0.05)";a.style.transform="";}}>

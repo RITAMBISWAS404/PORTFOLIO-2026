@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -92,7 +92,7 @@ html { scroll-behavior: smooth; }
 body {
   background: var(--color-bg);
   color: var(--color-text-1);
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 14px;        /* mobile base */
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;

@@ -157,7 +157,7 @@ export default function NavbarV2() {
               <a key={label} href={resolveHref(href)} onClick={closeMenu} style={{
                 display: "flex", alignItems: "center",
                 height: 52, padding: "0 24px",
-                fontSize: 13, fontWeight: 500,
+                fontSize: 13, fontWeight: 600,
                 color: isActive ? mobileLinkActive : mobileLinkInactive,
                 letterSpacing: "0.1em", textTransform: "uppercase",
                 textDecoration: "none",
@@ -210,7 +210,7 @@ export default function NavbarV2() {
               <a key={label} href={resolveHref(href)} className="nav-link" style={{
                 display: "flex", alignItems: "center",
                 height: 34, padding: "0 12px", borderRadius: 8,
-                fontSize: 12, fontWeight: 500,
+                fontSize: 12, fontWeight: 600,
                 color: isActive ? linkActive : linkInactive,
                 letterSpacing: "0.08em", textTransform: "uppercase",
                 textDecoration: "none", whiteSpace: "nowrap",
@@ -235,7 +235,7 @@ export default function NavbarV2() {
             cursor: "pointer",
             color: toggleColor,
             opacity: 0, filter: "blur(4px)",
-            fontFamily: "Poppins, sans-serif",
+            fontFamily: "'Plus Jakarta Sans', sans-serif",
             transition: "color 0.25s",
           }}
           onMouseEnter={e => { e.currentTarget.style.color = toggleHover; }}

@@ -2,6 +2,7 @@
 import { useRef } from "react";
 import { useInView } from "framer-motion";
 import { LucideIcon } from "lucide-react";
+import { eyebrow } from "@/lib/typography";
 
 interface Props { icon:LucideIcon; label:string; num:string; iconColor?:string; iconHref?:string; iconTarget?:string; }
 
@@ -15,12 +16,12 @@ export default function SectionLabel({ icon:Icon, label, num, iconColor="var(--c
         {iconHref
           ? <a href={iconHref} target={iconTarget} rel={iconTarget === "_blank" ? "noopener noreferrer" : undefined} style={{display:"flex",alignItems:"center",color:"inherit",textDecoration:"none"}} title="View case study">{iconEl}</a>
           : iconEl}
-        <span style={{fontSize:12,fontWeight:500,color:"var(--color-text-1)",letterSpacing:"0.08em",whiteSpace:"nowrap"}}>{label}</span>
+        <span style={{...eyebrow,color:"var(--color-text-1)",whiteSpace:"nowrap"}}>{label}</span>
       </div>
       <div style={{flex:1,height:1,background:"var(--color-border)",transformOrigin:"left center",
         transform:inView?"scaleX(1)":"scaleX(0)",
         transition:"transform 0.9s cubic-bezier(.22,1,.36,1) 0.15s"}}/>
-      <span style={{fontSize:12,fontWeight:500,color:"var(--color-text-1)",letterSpacing:"0.08em",flexShrink:0,
+      <span style={{...eyebrow,color:"var(--color-text-1)",flexShrink:0,
         opacity:inView?1:0,transition:"opacity 0.6s ease 0.5s"}}>{num}</span>
     </div>
   );

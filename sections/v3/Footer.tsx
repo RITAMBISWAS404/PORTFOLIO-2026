@@ -6,10 +6,10 @@ export default function Footer(){
   return(
     <footer style={{...col,padding:"64px 24px 64px",textAlign:"center",display:"flex",flexDirection:"column",alignItems:"center",gap:16}}>
       <img src={logoSrc} alt="Ritam Biswas" style={{width:28,height:28,objectFit:"contain"}}/>
-      <p style={{fontSize:12,fontWeight:500,color:C.t3,letterSpacing:"0.02em"}}>
+      <p style={{fontSize:12,fontWeight:600,color:C.t3,letterSpacing:"0.02em"}}>
         &quot;Designing with clarity, minimalism, and purpose&quot;
       </p>
-      <p style={{fontSize:12,fontWeight:500,color:C.t3}}>Copyright © 2026 Ritam Biswas. All rights reserved.</p>
+      <p style={{fontSize:12,fontWeight:600,color:C.t3}}>Copyright © 2026 Ritam Biswas. All rights reserved.</p>
     </footer>
   );
 }

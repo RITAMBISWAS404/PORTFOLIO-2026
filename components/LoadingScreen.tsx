@@ -73,8 +73,8 @@ export default function LoadingScreen() {
 
             {/* Number */}
             <span style={{
-              fontFamily: "Poppins, sans-serif",
-              fontSize: 10, fontWeight: 500,
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              fontSize: 10, fontWeight: 600,
               color: "rgba(255,255,255,0.25)",
               letterSpacing: "0.15em",
             }}>

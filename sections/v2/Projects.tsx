@@ -47,8 +47,8 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
           <img src={p.img} alt={p.title} style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}} loading="lazy"/>
         </div>
         <div style={{padding:"16px 16px 0"}}>
-          <div className="f16" style={{fontWeight:500,color:C.t1}}>{p.title}</div>
-          <div className="f16" style={{fontWeight:400,color:C.t2,marginTop:4}}>{p.sub}</div>
+          <div className="f16" style={{fontWeight:600,color:C.t1}}>{p.title}</div>
+          <div className="f16" style={{fontWeight:500,color:C.t2,marginTop:4}}>{p.sub}</div>
         </div>
         <div style={{padding:16,display:"flex",flexWrap:"wrap",gap:8}}>
           {p.tags.map(t=>(
@@ -68,7 +68,7 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
           background:C.card,
           border:`1px solid ${C.borderHv}`,
           borderRadius:"0 8px 8px 8px",
-          fontSize:12, fontWeight:500, color:C.t1,
+          fontSize:12, fontWeight:600, color:C.t1,
           letterSpacing:"0.08em", whiteSpace:"nowrap",
         }}>
           view project

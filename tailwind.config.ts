@@ -4,7 +4,7 @@ const config: Config = {
   content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
   theme: {
     extend: {
-      fontFamily: { sans: ["Poppins", "sans-serif"] },
+      fontFamily: { sans: ["Plus Jakarta Sans", "sans-serif"] },
       colors: {
         bg:      "#0d0d0d",
         card:    "#121212",

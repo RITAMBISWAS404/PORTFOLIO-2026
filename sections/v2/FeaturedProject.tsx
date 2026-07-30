@@ -52,8 +52,8 @@ export default function FeaturedProject() {
               <img src="/images/zeno logo.png" alt="ZENO" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             </div>
             <div>
-              <div className="f16" style={{ fontWeight: 500, color: C.t1 }}>{zeno.name}</div>
-              <div className="f16" style={{ fontWeight: 400, color: C.t2 }}>{zeno.sub}</div>
+              <div className="f16" style={{ fontWeight: 600, color: C.t1 }}>{zeno.name}</div>
+              <div className="f16" style={{ fontWeight: 500, color: C.t2 }}>{zeno.sub}</div>
             </div>
           </div>
 
@@ -68,9 +68,9 @@ export default function FeaturedProject() {
           </div>
 
           {/* Description */}
-          <p className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6 }}>
+          <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.6 }}>
             ZENO{" "}
-            <strong style={{ color: C.t1, fontWeight: 500 }}>
+            <strong style={{ color: C.t1, fontWeight: 600 }}>
               turns a data-heavy EV charging app into a four-second experience
             </strong>
             . I owned the product end to end from a blank Figma file: user research, information
@@ -97,7 +97,7 @@ export default function FeaturedProject() {
             <a key={btn.label} href={btn.href} target="_blank" rel="noopener noreferrer" style={{
               display: "flex", alignItems: "center", gap: 10,
               background: btn.bg, color: btn.color, padding: "11px 22px",
-              borderRadius: 8, fontSize: 14, fontWeight: 500, textDecoration: "none",
+              borderRadius: 8, fontSize: 14, fontWeight: 600, textDecoration: "none",
               transition: "opacity 0.25s, transform 0.25s",
             }}
               onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.opacity = "0.88"; (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-2px)"; }}

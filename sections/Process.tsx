@@ -13,7 +13,7 @@ export default function Process(){
   return(
     <section id="process" style={{...col,padding:"64px 24px 0"}}>
       <SectionLabel icon={Lightbulb} label="HOW I WORK" num="03" iconColor={C.yellow}/>
-      <p ref={ref} className="f16 mt-section" style={{fontWeight:400,color:C.t2,lineHeight:1.6,...revealStyle(inView)}}>
+      <p ref={ref} className="f16 mt-section" style={{fontWeight:500,color:C.t2,lineHeight:1.6,...revealStyle(inView)}}>
         Good design doesn&apos;t happen by accident. I follow a clear headspace when approaching any problem, starting with understanding, moving through exploration, and always ending with something that actually ships.
       </p>
       <div className="process-grid" style={{gap:16,marginTop:24}}>

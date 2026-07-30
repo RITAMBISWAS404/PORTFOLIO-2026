@@ -11,7 +11,7 @@ const CHIP_COLOR = "var(--pop-blue)";
 type Status = "idle" | "sending" | "sent" | "error";
 
 const lbl: React.CSSProperties = {
-  fontSize: 14, fontWeight: 500, color: C.t3, display: "block", marginBottom: 8,
+  fontSize: 14, fontWeight: 600, color: C.t3, display: "block", marginBottom: 8,
 };
 const focusIn = (e: React.FocusEvent<HTMLElement>) => {
   e.target.style.borderColor = C.t3;
@@ -57,7 +57,7 @@ export default function Contact() {
       <SectionHeadingV3 title="Let's Build Together" eyebrow="MIGHT AS WELL SAY HI" />
 
       {/* Subheading */}
-      <p className="f16 mt-section" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6, marginBottom: 24 }}>
+      <p className="f16 mt-section" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.6, marginBottom: 24 }}>
         Whether it&apos;s a collaboration, an opportunity, or just a conversation, I&apos;m always open. Tell me what&apos;s on your mind.
       </p>
 
@@ -106,11 +106,11 @@ export default function Contact() {
                     border: `1px solid ${active ? `var(--exp-chip-active-border, ${CHIP_COLOR})` : C.border}`,
                     borderRadius: 9999,
                     background: active ? `var(--exp-chip-active-bg, ${CHIP_COLOR})` : "transparent",
-                    fontSize: 12, fontWeight: 500,
+                    fontSize: 12, fontWeight: 600,
                     color: active ? "var(--exp-chip-active-text, #ffffff)" : C.t3,
                     letterSpacing: "0.06em",
                     cursor: "pointer",
-                    fontFamily: "Poppins, sans-serif",
+                    fontFamily: "'Plus Jakarta Sans', sans-serif",
                     transition: "border-color 0.2s, background 0.2s, color 0.2s",
                   }}>
                   {active && <Check size={11} strokeWidth={2.5} color="var(--exp-chip-active-text, #ffffff)" />}
@@ -130,7 +130,7 @@ export default function Contact() {
             height: 48, background: btnBg, color: btnCol,
             borderRadius: 8, border: "none",
             cursor: status === "sending" || status === "sent" ? "not-allowed" : "pointer",
-            fontFamily: "Poppins, sans-serif", fontSize: 14, fontWeight: 500,
+            fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 14, fontWeight: 600,
             transition: "opacity 0.25s, transform 0.25s",
             opacity: status === "sending" ? 0.7 : 1,
           }}

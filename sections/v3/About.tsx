@@ -45,14 +45,14 @@ export default function About() {
 
       {/* Bio */}
       <p ref={bioRef} className="f16 mt-section"
-        style={{ fontWeight: 400, color: C.t2, lineHeight: 1.7, ...revealStyle(bioInView) }}>
+        style={{ fontWeight: 500, color: C.t2, lineHeight: 1.7, ...revealStyle(bioInView) }}>
         Namaste!{" "}
-        <strong style={{ color: "var(--exp-hero-b, var(--pop-blue))", fontWeight: 500 }}>
+        <strong style={{ color: "var(--exp-hero-b, var(--pop-blue))", fontWeight: 600 }}>
           I&apos;m Ritam Biswas, a Product Designer with a CS background.
         </strong>{" "}
         I spent my early years as a graphic designer and illustrator, chasing good visuals, until I
         realized good visuals mean nothing if no one can use them.{" "}
-        <strong style={{ color: "var(--exp-hero-b, var(--pop-blue))", fontWeight: 500 }}>Graphic designer turned UX designer</strong>,
+        <strong style={{ color: "var(--exp-hero-b, var(--pop-blue))", fontWeight: 600 }}>Graphic designer turned UX designer</strong>,
         that&apos;s the short version of how I got here.
       </p>
 
@@ -93,12 +93,12 @@ export default function About() {
               const isEmail = label === "Email";
               return (
                 <div key={label} style={isLast ? { gridColumn: "1 / -1" } : {}}>
-                  <div style={{ fontSize: 11, fontWeight: 500, color: "var(--exp-card-heading, rgba(255,255,255,0.50))", letterSpacing: "0.05em", marginBottom: 4 }}>
+                  <div style={{ fontSize: 11, fontWeight: 600, color: "var(--exp-card-heading, rgba(255,255,255,0.50))", letterSpacing: "0.05em", marginBottom: 4 }}>
                     {label}
                   </div>
                   {isEmail ? (
                     <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                      <div className="f16" style={{ fontWeight: 500, color: "var(--exp-card-fg, #ffffff)" }}>{value}</div>
+                      <div className="f16" style={{ fontWeight: 600, color: "var(--exp-card-fg, #ffffff)" }}>{value}</div>
                       <button onClick={copyEmail} title="Copy email" style={{
                         background: "none", border: "none", cursor: "pointer", padding: 4,
                         color: copied ? "#4ade80" : "var(--exp-about-muted, rgba(255,255,255,0.45))",
@@ -111,7 +111,7 @@ export default function About() {
                       </button>
                     </div>
                   ) : (
-                    <div className="f16" style={{ fontWeight: 500, color: "var(--exp-card-fg, #ffffff)" }}>{value}</div>
+                    <div className="f16" style={{ fontWeight: 600, color: "var(--exp-card-fg, #ffffff)" }}>{value}</div>
                   )}
                 </div>
               );
@@ -119,7 +119,7 @@ export default function About() {
           </div>
 
           <div style={{ marginTop: 20 }}>
-            <div style={{ fontSize: 11, fontWeight: 500, color: "var(--exp-card-heading, rgba(255,255,255,0.50))", letterSpacing: "0.05em", marginBottom: 10 }}>
+            <div style={{ fontSize: 11, fontWeight: 600, color: "var(--exp-card-heading, rgba(255,255,255,0.50))", letterSpacing: "0.05em", marginBottom: 10 }}>
               My Toolkit
             </div>
             <div style={{ overflow: "hidden", position: "relative" }}>

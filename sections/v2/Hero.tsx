@@ -508,8 +508,8 @@ export default function Hero() {
         <motion.div variants={item} style={{ display: "flex", alignItems: "center", gap: 16 }}>
           <Avatar />
           <div>
-            <div className="f16" style={{ fontWeight: 500, color: C.t1, letterSpacing: "0.01em" }}>Ritam Biswas</div>
-            <div className="f16" style={{ fontWeight: 400, color: C.t2 }}>Product &amp; UX/UI Designer</div>
+            <div className="f16" style={{ fontWeight: 600, color: C.t1, letterSpacing: "0.01em" }}>Ritam Biswas</div>
+            <div className="f16" style={{ fontWeight: 500, color: C.t2 }}>Product &amp; UX/UI Designer</div>
           </div>
         </motion.div>
 
@@ -535,10 +535,10 @@ export default function Hero() {
 
         {/* Copy */}
         <motion.div variants={item} style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-          <p className="f16" style={{ fontWeight: 500, color: C.t1, lineHeight: 1.4 }}>
+          <p className="f16" style={{ fontWeight: 600, color: C.t1, lineHeight: 1.4 }}>
             Complex data doesn&apos;t have to feel complex.
           </p>
-          <p className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6 }}>
+          <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.6 }}>
             I turn information-heavy products into clean, minimal experiences. 2+ years building
             for startups, most recently a Copenhagen-based EV energy company.
           </p>
@@ -549,7 +549,7 @@ export default function Hero() {
           <a href="#projects" style={{
             display: "flex", alignItems: "center", gap: 10,
             background: C.t1, color: C.bg, padding: "11px 22px",
-            borderRadius: 8, fontSize: 14, fontWeight: 500, textDecoration: "none",
+            borderRadius: 8, fontSize: 14, fontWeight: 600, textDecoration: "none",
             transition: "opacity 0.25s, transform 0.25s, box-shadow 0.25s",
           }}
             onMouseEnter={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.opacity = "0.9"; a.style.transform = "translateY(-2px)"; a.style.boxShadow = "0 4px 16px rgba(0,0,0,0.6)"; }}
@@ -559,7 +559,7 @@ export default function Hero() {
           <a href="#contact" style={{
             display: "flex", alignItems: "center", gap: 10,
             background: "rgba(255,255,255,0.05)", color: C.t1, padding: "11px 22px",
-            borderRadius: 8, fontSize: 14, fontWeight: 500, textDecoration: "none",
+            borderRadius: 8, fontSize: 14, fontWeight: 600, textDecoration: "none",
             transition: "background 0.25s, transform 0.25s",
           }}
             onMouseEnter={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.background = "rgba(255,255,255,0.09)"; a.style.transform = "translateY(-2px)"; }}

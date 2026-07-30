@@ -10,7 +10,7 @@ const REACH_OUT_OPTIONS = ["Product Design", "UX/UI Design", "Branding & Identit
 type Status = "idle" | "sending" | "sent" | "error";
 
 const lbl: React.CSSProperties = {
-  fontSize: 14, fontWeight: 500, color: C.t3, display: "block", marginBottom: 8,
+  fontSize: 14, fontWeight: 600, color: C.t3, display: "block", marginBottom: 8,
 };
 const focusIn = (e: React.FocusEvent<HTMLElement>) => {
   e.target.style.borderColor = C.t3;
@@ -58,7 +58,7 @@ export default function Contact() {
       <SectionLabel icon={Mail} label="LETS BUILD TOGETHER" num="06" iconColor={C.accent} />
 
       {/* Subheading */}
-      <p className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6, marginTop: 24, marginBottom: 32 }}>
+      <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.6, marginTop: 24, marginBottom: 32 }}>
         Whether it&apos;s a collaboration, an opportunity, or just a conversation, I&apos;m always open. Tell me what&apos;s on your mind.
       </p>
 
@@ -107,11 +107,11 @@ export default function Contact() {
                     border: `1px solid ${active ? "rgba(255,255,255,0.28)" : C.border}`,
                     borderRadius: 8,
                     background: active ? "rgba(255,255,255,0.07)" : "transparent",
-                    fontSize: 12, fontWeight: 500,
+                    fontSize: 12, fontWeight: 600,
                     color: active ? C.t1 : C.t3,
                     letterSpacing: "0.06em",
                     cursor: "pointer",
-                    fontFamily: "Poppins, sans-serif",
+                    fontFamily: "'Plus Jakarta Sans', sans-serif",
                     transition: "border-color 0.2s, background 0.2s, color 0.2s",
                   }}>
                   {active && <Check size={11} strokeWidth={2.5} />}
@@ -131,7 +131,7 @@ export default function Contact() {
             height: 48, background: btnBg, color: btnCol,
             borderRadius: 8, border: "none",
             cursor: status === "sending" || status === "sent" ? "not-allowed" : "pointer",
-            fontFamily: "Poppins, sans-serif", fontSize: 14, fontWeight: 500,
+            fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 14, fontWeight: 600,
             transition: "opacity 0.25s, transform 0.25s, box-shadow 0.25s",
             opacity: status === "sending" ? 0.7 : 1,
           }}

@@ -13,7 +13,10 @@ import { ThemeProvider } from "@/lib/ThemeContext";
 import SectionHeadingV3 from "@/components/SectionHeadingV3";
 import Card from "@/components/Card";
 import IconCard from "@/components/IconCard";
-import { C, col, revealStyle } from "@/lib/tokensV2";
+import TwoColTable from "@/components/TwoColTable";
+import ThreeColTable from "@/components/ThreeColTable";
+import DecisionBase from "@/components/Decision";
+import { C, col, tagStyle, revealStyle } from "@/lib/tokensV2";
 
 /* ── Callout variants — thin wrappers around IconCard ────────────── */
 
@@ -37,78 +40,10 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
   return <div ref={ref} style={revealStyle(inView, delay)}>{children}</div>;
 }
 
-/* ── Two-column comparison table ────────────────────────────────── */
-
-function TwoColTable({ headers, rows }: { headers: [string, string]; rows: [string, string][] }) {
-  return (
-    <div style={{ border: `1px solid ${C.border}`, borderRadius: 8, overflow: "hidden" }}>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
-        {headers.map((h, i) => (
-          <div key={i} style={{
-            padding: "10px 16px", fontSize: 12, fontWeight: 600,
-            color: C.t1, letterSpacing: "0.08em",
-            background: "#ffffff",
-            borderRight: i === 0 ? `1px solid ${C.border}` : "none",
-          }}>{h}</div>
-        ))}
-      </div>
-      {rows.map(([left, right], i) => (
-        <div key={i} style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
-          <div style={{ padding: "12px 16px", fontSize: 14, color: C.t2, lineHeight: 1.6, borderTop: `1px solid ${C.border}`, borderRight: `1px solid ${C.border}` }}>{left}</div>
-          <div style={{ padding: "12px 16px", fontSize: 14, color: C.t1, lineHeight: 1.6, borderTop: `1px solid ${C.border}` }}>{right}</div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-/* ── Three-column table ─────────────────────────────────────────── */
-
-function ThreeColTable({ headers, rows }: { headers: [string, string, string]; rows: [string, string, string][] }) {
-  return (
-    <div style={{ border: `1px solid ${C.border}`, borderRadius: 8, overflow: "hidden", overflowX: "auto" }}>
-      <div style={{ minWidth: 480, display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}>
-        {headers.map((h, i) => (
-          <div key={i} style={{
-            padding: "10px 16px", fontSize: 12, fontWeight: 600,
-            color: C.t1, letterSpacing: "0.08em",
-            background: "#ffffff",
-            borderRight: i < 2 ? `1px solid ${C.border}` : "none",
-          }}>{h}</div>
-        ))}
-      </div>
-      {rows.map((row, i) => (
-        <div key={i} style={{ minWidth: 480, display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}>
-          {row.map((cell, j) => (
-            <div key={j} style={{
-              padding: "12px 16px", fontSize: 13, color: j === 0 ? C.t2 : C.t1,
-              lineHeight: 1.6, borderTop: `1px solid ${C.border}`,
-              borderRight: j < 2 ? `1px solid ${C.border}` : "none",
-            }}>{cell}</div>
-          ))}
-        </div>
-      ))}
-    </div>
-  );
-}
-
 /* ── Decision block ─────────────────────────────────────────────── */
 
-function Decision({ num, title, first = false, children }: {
-  num: string; title: string; first?: boolean; children: React.ReactNode;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-5% 0px" });
-  return (
-    <>
-      {!first && <div className="shop-decision-line" />}
-      <div ref={ref} style={{ display: "flex", flexDirection: "column", gap: 16, ...revealStyle(inView) }}>
-        <span style={{ fontSize: 11, fontWeight: 600, color: C.t3, letterSpacing: "0.12em" }}>DECISION {num}</span>
-        <h3 className="f16" style={{ fontWeight: 500, color: C.t1, lineHeight: 1.5 }}>{title}</h3>
-        {children}
-      </div>
-    </>
-  );
+function Decision(props: { num: string; title: string; first?: boolean; children: React.ReactNode }) {
+  return <DecisionBase {...props} lineClassName="shop-decision-line" />;
 }
 
 /* ── Image block ────────────────────────────────────────────────── */
@@ -121,7 +56,7 @@ function ShopImg({ src, alt, caption }: { src: string; alt: string; caption?: st
         style={{ width: "100%", height: "auto", display: "block", borderRadius: 8, border: `1px solid ${C.border}` }}
       />
       {caption && (
-        <p style={{ fontSize: 12, color: C.t3, textAlign: "center", lineHeight: 1.5 }}>{caption}</p>
+        <p style={{ fontSize: 12, fontWeight: 500, color: C.t3, textAlign: "center", lineHeight: 1.5 }}>{caption}</p>
       )}
     </div>
   );
@@ -174,9 +109,9 @@ function PageNav() {
             style={{
               background: "none", border: "none", cursor: "pointer", padding: 0,
               display: "flex", alignItems: "center", gap: 8, textAlign: "left",
-              fontSize: 12, fontWeight: isActive ? 500 : 400,
+              fontSize: 12, fontWeight: isActive ? 600 : 500,
               color: isActive ? C.t1 : C.t3,
-              fontFamily: "Poppins, sans-serif",
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
               transition: "color 0.2s",
             }}
             onMouseEnter={e => (e.currentTarget as HTMLButtonElement).style.color = C.t2}
@@ -212,18 +147,18 @@ export default function ShopEZPage() {
               <img src="/images/shopez logo.png" alt="ShopEZ" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             </div>
             <div>
-              <div className="f16" style={{ fontWeight: 500, color: C.t1 }}>ShopEZ</div>
-              <div className="f16" style={{ fontWeight: 400, color: C.t2 }}>AI-Powered Kirana Billing</div>
+              <div className="f16" style={{ fontWeight: 600, color: C.t1 }}>ShopEZ</div>
+              <div className="f16" style={{ fontWeight: 500, color: C.t2 }}>AI-Powered Kirana Billing</div>
             </div>
           </div>
 
-          <h1 style={{ fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 550, letterSpacing: "-0.02em", color: C.t1, lineHeight: 1.15, marginBottom: 24 }}>
+          <h1 style={{ fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 650, letterSpacing: "-0.02em", color: C.t1, lineHeight: 1.15, marginBottom: 24 }}>
             How I redesigned a hackathon billing app for the person actually standing behind the counter.
           </h1>
 
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 24 }}>
             {["UX DESIGN", "AI INTEGRATION", "MOBILE", "INDIAN RETAIL"].map(label => (
-              <div key={label} style={{ display: "flex", alignItems: "center", gap: 6, padding: "5px 12px", borderRadius: 9999, background: "#ffffff", border: "1px solid rgba(0,0,0,0.10)", color: "#222222", fontSize: 12, fontWeight: 500, letterSpacing: "0.08em", whiteSpace: "nowrap" }}>
+              <div key={label} style={{ ...tagStyle, padding: "5px 12px", borderRadius: 9999, background: "#ffffff", border: "1px solid rgba(0,0,0,0.10)", color: "#222222" }}>
                 {label}
               </div>
             ))}
@@ -261,17 +196,17 @@ export default function ShopEZPage() {
         <SectionHeadingV3 title="What ShopEZ Does" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
-            <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
+            <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.7 }}>
               India has 12 million neighbourhood grocery stores. Most track bills by hand and manage customer credit in worn notebooks.
             </p>
           </Reveal>
           <Reveal delay={0.06}>
-            <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
+            <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.7 }}>
               The apps that exist were built for people comfortable with technology. These shopkeepers are not. Their hands are full, the counter is busy, and they have no patience for a learning curve.
             </p>
           </Reveal>
           <Reveal delay={0.1}>
-            <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
+            <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.7 }}>
               ShopEZ starts with the camera. Point at products. The bill builds itself.
             </p>
           </Reveal>
@@ -295,7 +230,7 @@ export default function ShopEZPage() {
             />
           </Reveal>
           <Reveal delay={0.08}>
-            <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
+            <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.7 }}>
               The kirana store problem is not a technology problem. It is a workflow problem. The existing tools ignored how shopkeepers actually work — hands full, counter busy, no time for menus or search bars. The table below shows the gap between what exists and what was actually happening.
             </p>
           </Reveal>
@@ -326,17 +261,17 @@ export default function ShopEZPage() {
             />
           </Reveal>
           <Reveal delay={0.06}>
-            <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
+            <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.7 }}>
               The original app could scan items and generate a bill. That was roughly it.
             </p>
           </Reveal>
           <Reveal delay={0.1}>
-            <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
+            <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.7 }}>
               The home screen opened to a customer list with no business summary. Credit tracking was buried. The first screen asked shopkeepers to choose between &ldquo;Retailer&rdquo; and &ldquo;Customer,&rdquo; a decision that should never have existed.
             </p>
           </Reveal>
           <Reveal delay={0.14}>
-            <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
+            <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.7 }}>
               We won the hackathon with that version. Looking back a year later, the question became simple:
             </p>
           </Reveal>
@@ -384,10 +319,10 @@ export default function ShopEZPage() {
               alt="The core interaction model, mapped out early"
               caption="The core interaction model, mapped out early."
             />
-            <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
+            <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.7 }}>
               Every other billing app starts with a search bar or a product list. ShopEZ starts with the camera, because that is how the transaction actually happens. The product is already in the shopkeeper&apos;s hand. They should not need to look it up.
             </p>
-            <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
+            <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.7 }}>
               &ldquo;Point. Scan. Bill.&rdquo; is not just a tagline. It is the entire interaction model in three words.
             </p>
             <Insight text="The best interface for a busy person meets them exactly where they already are." />
@@ -397,10 +332,10 @@ export default function ShopEZPage() {
           <Decision num="02" title="Making the AI visible, not invisible">
             <ShopImg src="/images/shopez/scan-screen.png" alt="Scan screen with radar element and annotations" />
             <ShopImg src="/images/shopez/sketch-ai-confidence.png" alt="AI confidence decision logic doodle" />
-            <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
+            <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.7 }}>
               Most AI features hide their uncertainty. ShopEZ shows it.
             </p>
-            <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
+            <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.7 }}>
               Every detected item shows a confidence score. 95% in green. 88% in amber. The shopkeeper instantly knows which detections to trust and which to double-check.
             </p>
             <TwoColTable
@@ -417,13 +352,13 @@ export default function ShopEZPage() {
 
           <Decision num="03" title="The Walk-in Customer button">
             <ShopImg src="/images/shopez/review-bill-select-customer.png" alt="Review Bill and Select Customer side by side" />
-            <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
+            <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.7 }}>
               The first version of customer selection assumed every sale was tied to a registered customer.
             </p>
-            <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
+            <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.7 }}>
               It was not. Most kirana sales are quick anonymous cash transactions. Forcing a customer lookup for every bill added friction with no reason to exist.
             </p>
-            <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
+            <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.7 }}>
               One button fixed it. &ldquo;Walk-in Customer&rdquo; skips selection entirely, straight to payment. Registered credit customers still get the full flow, with recent customers surfaced at the top.
             </p>
             <Insight text="Design for the most common case first. The exception can still be handled, just not in the main path." />
@@ -432,13 +367,13 @@ export default function ShopEZPage() {
 
           <Decision num="04" title="Words on a button">
             <ShopImg src="/images/shopez/button-copy-comparison.png" alt="Confirm Transaction vs Continue to Bill button comparison" />
-            <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
+            <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.7 }}>
               &ldquo;Confirm Transaction&rdquo; sounds like a bank. It implies something formal and final.
             </p>
-            <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
+            <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.7 }}>
               By the time the shopkeeper reaches the bill summary screen, the transaction started three screens ago when the camera scanned the first item. Calling it a confirmation made it feel like starting over.
             </p>
-            <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
+            <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.7 }}>
               &ldquo;Continue to Bill&rdquo; says the work is already done. You are finishing something, not beginning it.
             </p>
             <Insight text="The words on a button carry as much UX weight as the layout around it." />
@@ -448,7 +383,7 @@ export default function ShopEZPage() {
           <Decision num="05" title="Digitising udhaar without making it awkward">
             <ShopImg src="/images/shopez/bill-summary-ledger.png" alt="Bill Summary and Customer Ledger side by side" />
             <ShopImg src="/images/shopez/sketch-udhaar-cycle.png" alt="Udhaar credit cycle doodle" />
-            <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
+            <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.7 }}>
               Credit in Indian retail is personal. The shopkeeper knows their customers by face, by family, by what they usually buy. Asking for payment can feel uncomfortable in that kind of relationship.
             </p>
             <ThreeColTable
@@ -473,14 +408,14 @@ export default function ShopEZPage() {
         <SectionHeadingV3 title="The Flow" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
-            <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>The entire product in one strip.</p>
+            <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.7 }}>The entire product in one strip.</p>
           </Reveal>
           <Reveal delay={0.06}>
             <ShopImg src="/images/shopez/full-flow-strip.png" alt="Full flow strip — all 8 screens with labels and arrows" />
           </Reveal>
           <Reveal delay={0.12}>
             <div style={{ background: "#ffffff", border: `1px solid ${C.border}`, borderRadius: 8, padding: "20px 24px", textAlign: "center" }}>
-              <p className="f16" style={{ color: C.t2, lineHeight: 1.7 }}>
+              <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.7 }}>
                 &ldquo;A typical 5-item bill: under 30 seconds from scan to done.&rdquo;
               </p>
             </div>
@@ -512,8 +447,8 @@ export default function ShopEZPage() {
             display: "flex", alignItems: "center", gap: 10,
             background: "rgba(0,0,0,0.04)", color: C.t1,
             border: "none", padding: "11px 22px",
-            borderRadius: 8, fontSize: 14, fontWeight: 500,
-            cursor: "pointer", fontFamily: "Poppins, sans-serif",
+            borderRadius: 8, fontSize: 14, fontWeight: 600,
+            cursor: "pointer", fontFamily: "'Plus Jakarta Sans', sans-serif",
             transition: "opacity 0.25s, transform 0.25s",
           }}
           onMouseEnter={e => { const b = e.currentTarget; b.style.opacity = "0.88"; b.style.transform = "translateY(-2px)"; }}

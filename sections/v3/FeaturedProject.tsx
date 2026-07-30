@@ -47,8 +47,8 @@ export default function FeaturedProject() {
               <img src="/images/zeno logo.png" alt="ZENO" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             </div>
             <div>
-              <div className="f16" style={{ fontWeight: 500, color: C.t1 }}>{zeno.name}</div>
-              <div className="f16" style={{ fontWeight: 400, color: C.t2 }}>{zeno.sub}</div>
+              <div className="f16" style={{ fontWeight: 600, color: C.t1 }}>{zeno.name}</div>
+              <div className="f16" style={{ fontWeight: 500, color: C.t2 }}>{zeno.sub}</div>
             </div>
           </div>
 
@@ -62,9 +62,9 @@ export default function FeaturedProject() {
           </div>
 
           {/* Description */}
-          <p className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6 }}>
+          <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.6 }}>
             ZENO{" "}
-            <strong style={{ color: "var(--exp-hero-b, var(--pop-blue))", fontWeight: 500 }}>
+            <strong style={{ color: "var(--exp-hero-b, var(--pop-blue))", fontWeight: 600 }}>
               turns a data-heavy EV charging app into a four-second experience
             </strong>
             . I owned the product end to end from a blank Figma file: user research, information
@@ -87,7 +87,7 @@ export default function FeaturedProject() {
           <a href="/zeno" target="_blank" rel="noopener noreferrer" style={{
             display: "flex", alignItems: "center", gap: 10,
             background: C.t1, color: C.bg, padding: "11px 22px",
-            borderRadius: 8, fontSize: 14, fontWeight: 500, textDecoration: "none",
+            borderRadius: 8, fontSize: 14, fontWeight: 600, textDecoration: "none",
             transition: "opacity 0.25s, transform 0.25s",
           }}
             onMouseEnter={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.opacity = "0.88"; a.style.transform = "translateY(-2px)"; }}
@@ -97,7 +97,7 @@ export default function FeaturedProject() {
           <a href="https://www.figma.com/design/HQiowSEZWtefmjVP5cqZuY/ZENO?node-id=0-1&p=f&t=ZuWU0JArTeGN7yjv-0" target="_blank" rel="noopener noreferrer" style={{
             display: "flex", alignItems: "center", gap: 10,
             background: "rgba(0,0,0,0.05)", color: C.t1, padding: "11px 22px",
-            borderRadius: 8, fontSize: 14, fontWeight: 500, textDecoration: "none",
+            borderRadius: 8, fontSize: 14, fontWeight: 600, textDecoration: "none",
             border: "1px solid rgba(0,0,0,0.05)",
             transition: "background 0.25s, transform 0.25s",
           }}

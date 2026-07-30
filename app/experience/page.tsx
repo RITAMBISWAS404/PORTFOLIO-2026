@@ -112,7 +112,7 @@ function ExpDetailEntry({ e, isFirst }: { e: ExpEntry; isFirst: boolean }) {
 
         {/* Role + logos + company */}
         <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
-          <span className="f16" style={{ fontWeight: 500, color: C.t1 }}>{e.role}</span>
+          <span className="f16" style={{ fontWeight: 600, color: C.t1 }}>{e.role}</span>
           {imgs.length > 0
             ? imgs.map((src, idx) => (
                 <div key={idx} style={{ width: 24, height: 24, borderRadius: 6, flexShrink: 0, overflow: "hidden" }}>
@@ -123,22 +123,22 @@ function ExpDetailEntry({ e, isFirst }: { e: ExpEntry; isFirst: boolean }) {
                 <div style={{
                   width: 24, height: 24, borderRadius: 6, flexShrink: 0,
                   background: e.logoBg, display: "flex", alignItems: "center",
-                  justifyContent: "center", fontSize: 10, fontWeight: 500, color: "#fff",
+                  justifyContent: "center", fontSize: 10, fontWeight: 600, color: "#fff",
                 }}>
                   {e.logo}
                 </div>
               )
           }
-          <span className="f16" style={{ fontWeight: 500, color: C.t1 }}>{e.company}</span>
+          <span className="f16" style={{ fontWeight: 600, color: C.t1 }}>{e.company}</span>
         </div>
 
         {/* Meta */}
-        <div style={{ fontSize: 12, fontWeight: 500, color: C.t3, marginTop: 8 }}>{e.meta}</div>
+        <div style={{ fontSize: 12, fontWeight: 600, color: C.t3, marginTop: 8 }}>{e.meta}</div>
 
         {/* Paragraphs */}
         <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 16 }}>
           {e.paragraphs.map((p, i) => (
-            <p key={i} className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.7 }}>{p}</p>
+            <p key={i} className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.7 }}>{p}</p>
           ))}
         </div>
 
@@ -156,7 +156,7 @@ export default function ExperiencePage() {
             display: "inline-flex", alignItems: "center", gap: 10,
             background: "rgba(255,255,255,0.05)", color: C.t1,
             padding: "11px 22px", borderRadius: 9999,
-            fontSize: 14, fontWeight: 500, textDecoration: "none",
+            fontSize: 14, fontWeight: 600, textDecoration: "none",
             marginBottom: 32,
             transition: "opacity 0.25s, transform 0.25s",
           }}
@@ -166,13 +166,13 @@ export default function ExperiencePage() {
           <ArrowLeft size={14} strokeWidth={2} /> Back to Portfolio
         </a>
         <h1 style={{
-          fontSize: "clamp(22px, 4vw, 32px)", fontWeight: 500,
-          color: C.t1, lineHeight: 1.35, fontFamily: "Poppins, sans-serif",
+          fontSize: "clamp(22px, 4vw, 32px)", fontWeight: 600,
+          color: C.t1, lineHeight: 1.35, fontFamily: "'Plus Jakarta Sans', sans-serif",
           marginBottom: 12,
         }}>
           The Journey So Far
         </h1>
-        <p className="f16" style={{ fontWeight: 400, color: C.t2, lineHeight: 1.6 }}>
+        <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.6 }}>
           Startups, open source, and student communities, each one sharpened something different.
         </p>
       </section>

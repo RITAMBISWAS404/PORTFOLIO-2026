@@ -27,7 +27,7 @@ function ExpEntry({ e, delay, isFirst }: { e: typeof experience[0]; delay: numbe
         <div className="exp-entry-row">
           {/* Left: role + logos + company */}
           <div style={{ display:"flex", alignItems:"center", flexWrap:"wrap", gap:8 }}>
-            <span className="f16" style={{ fontWeight:500, color:C.t1 }}>{e.role}</span>
+            <span className="f16" style={{ fontWeight:600, color:C.t1 }}>{e.role}</span>
             {e.img
               ? (Array.isArray(e.img) ? e.img : [e.img]).map((src: string, idx: number) => (
                   <div key={idx} style={{ width:24, height:24, borderRadius:6, flexShrink:0, overflow:"hidden" }}>
@@ -35,17 +35,17 @@ function ExpEntry({ e, delay, isFirst }: { e: typeof experience[0]; delay: numbe
                   </div>
                 ))
               : <div style={{ width:24, height:24, borderRadius:6, flexShrink:0, background:e.logoBg,
-                  display:"flex", alignItems:"center", justifyContent:"center", fontSize:10, fontWeight:500, color:"#fff" }}>{e.logo}</div>
+                  display:"flex", alignItems:"center", justifyContent:"center", fontSize:10, fontWeight:600, color:"#fff" }}>{e.logo}</div>
             }
-            <span className="f16" style={{ fontWeight:500, color:C.t1 }}>{e.company}</span>
+            <span className="f16" style={{ fontWeight:600, color:C.t1 }}>{e.company}</span>
           </div>
           {/* Date — desktop right side only */}
-          <span className="exp-date f16" style={{ fontWeight:400, color:C.t3 }}>{date}</span>
+          <span className="exp-date f16" style={{ fontWeight:500, color:C.t3 }}>{date}</span>
         </div>
         {/* Mobile: full meta below */}
-        <div className="exp-meta-mobile" style={{ fontSize:12, fontWeight:500, color:C.t3, marginTop:4 }}>{e.meta}</div>
+        <div className="exp-meta-mobile" style={{ fontSize:12, fontWeight:600, color:C.t3, marginTop:4 }}>{e.meta}</div>
         {/* Desktop: mode + location below */}
-        <div className="exp-details-desktop" style={{ fontSize:12, fontWeight:500, color:C.t3, marginTop:4 }}>{details}</div>
+        <div className="exp-details-desktop" style={{ fontSize:12, fontWeight:600, color:C.t3, marginTop:4 }}>{details}</div>
       </div>
     </div>
   );

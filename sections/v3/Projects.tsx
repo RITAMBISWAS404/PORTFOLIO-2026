@@ -33,7 +33,7 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
             <div style={{width:32,height:32,borderRadius:8,overflow:"hidden",flexShrink:0}}>
               <img src={p.icon} alt="" style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}} />
             </div>
-            <div className="f16" style={{fontWeight:500,color:"#222222"}}>{p.title}</div>
+            <div className="f16" style={{fontWeight:600,color:"#222222"}}>{p.title}</div>
           </div>
           {/* Image — white background */}
           <div style={{height:192,overflow:"hidden",background:"#ffffff",borderLeft:"1px solid rgba(0,0,0,0.10)",borderRight:"1px solid rgba(0,0,0,0.10)"}}>
@@ -41,8 +41,8 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
           </div>
           {/* Eyebrow + description — dark background */}
           <div style={{padding:"16px 16px 0",background:"#222222"}}>
-            <div style={{fontSize:12,fontWeight:500,color:"#909090",letterSpacing:"0.06em",textTransform:"uppercase"}}>{p.eyebrow}</div>
-            <div className="f16" style={{fontWeight:500,color:"#ffffff",marginTop:4}}>{p.desc}</div>
+            <div style={{fontSize:12,fontWeight:600,color:"#909090",letterSpacing:"0.06em",textTransform:"uppercase"}}>{p.eyebrow}</div>
+            <div className="f16" style={{fontWeight:600,color:"#ffffff",marginTop:4}}>{p.desc}</div>
           </div>
           {/* Pills — dark background */}
           <div style={{padding:16,display:"flex",flexWrap:"wrap",gap:8,background:"#222222"}}>
@@ -64,7 +64,7 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
           padding:"6px 14px",
           background:C.card,border:`1px solid ${C.borderHv}`,
           borderRadius:"0 8px 8px 8px",
-          fontSize:12,fontWeight:500,color:C.t1,
+          fontSize:12,fontWeight:600,color:C.t1,
           letterSpacing:"0.08em",whiteSpace:"nowrap",
         }}>
           view project

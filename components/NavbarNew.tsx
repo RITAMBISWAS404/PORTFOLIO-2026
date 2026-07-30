@@ -107,7 +107,7 @@ export default function NavbarNew({ homePath = "/new" }: { homePath?: string }) 
               <a key={label} href={resolveHref(href)} onClick={closeMenu} style={{
                 display: "flex", alignItems: "center",
                 height: 52, padding: "0 24px",
-                fontSize: 13, fontWeight: 500,
+                fontSize: 13, fontWeight: 600,
                 color: isActive ? "#ffffff" : "rgba(255,255,255,0.5)",
                 letterSpacing: "0.1em", textTransform: "uppercase",
                 textDecoration: "none",
@@ -157,7 +157,7 @@ export default function NavbarNew({ homePath = "/new" }: { homePath?: string }) 
               <a key={label} href={resolveHref(href)} className="nav-link-new" style={{
                 display: "flex", alignItems: "center",
                 height: 34, padding: "0 12px", borderRadius: 8,
-                fontSize: 12, fontWeight: 500,
+                fontSize: 12, fontWeight: 600,
                 color: isActive ? "#ffffff" : "rgba(255,255,255,0.42)",
                 letterSpacing: "0.08em", textTransform: "uppercase",
                 textDecoration: "none", whiteSpace: "nowrap",
