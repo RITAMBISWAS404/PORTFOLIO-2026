@@ -1,8 +1,7 @@
 "use client";
 import { useRef, useState } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { C, tagStyle } from "@/lib/tokensV2";
-import { useAppReady } from "@/lib/AppReadyContext";
+import { C, tagStyle } from "@/lib/experiment/tokensV2";
 
 const container = { hidden: {}, show: { transition: { staggerChildren: 0.1, delayChildren: 0.05 } } };
 const item = {
@@ -42,22 +41,21 @@ function Avatar() {
 }
 
 export default function Hero() {
-  const { ready } = useAppReady();
   return (
-    <section id="hero" style={{ maxWidth: 768, margin: "0 auto" }} className="v3-section">
+    <section id="hero" style={{ maxWidth: 768, margin: "0 auto" }} className="exp-v3-section">
       <motion.div
         variants={container}
         initial="hidden"
-        animate={ready ? "show" : "hidden"}
-        className="el-gap"
+        animate="show"
+        className="exp-el-gap"
         style={{ display: "flex", flexDirection: "column" }}
       >
         {/* Identity — avatar + name side by side */}
         <motion.div variants={item} style={{ display: "flex", alignItems: "center", gap: 16 }}>
           <Avatar />
           <div>
-            <div className="f16" style={{ fontWeight: 600, color: C.t1, letterSpacing: "0.01em" }}>Ritam Biswas</div>
-            <div className="f16" style={{ fontWeight: 500, color: C.t2 }}>Product &amp; UX/UI Designer</div>
+            <div className="exp-f16" style={{ fontWeight: 600, color: C.t1, letterSpacing: "0.01em" }}>Ritam Biswas</div>
+            <div className="exp-f16" style={{ fontWeight: 500, color: C.t2 }}>Product &amp; UX/UI Designer</div>
           </div>
         </motion.div>
 
@@ -71,17 +69,17 @@ export default function Hero() {
             letterSpacing: "-0.02em",
             fontFamily: "'Plus Jakarta Sans', sans-serif",
           }}>
-            <span style={{ color: "var(--exp-hero-a, var(--color-text-1))" }}>Complex data</span>{" "}
-            <span style={{ color: "var(--exp-hero-b, #ED7454)" }}>doesn&apos;t</span>
-            <span style={{ color: "var(--exp-hero-b, #ED7454)" }}> have to feel</span>{" "}
-            <span style={{ color: "var(--exp-hero-a, var(--color-text-1))" }}>complex.</span>
+            <span style={{ color: "var(--color-text-1)" }}>Complex data</span>{" "}
+            <span style={{ color: "var(--pop-blue)" }}>doesn&apos;t</span>
+            <span style={{ color: "var(--pop-blue)" }}> have to feel</span>{" "}
+            <span style={{ color: "var(--color-text-1)" }}>complex.</span>
           </h1>
         </motion.div>
 
         {/* Badges */}
         <motion.div variants={item} style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
           {["OPEN TO COLLABORATIONS", "2+ YEARS EXP", "MOBILE + WEB UX"].map(label => (
-            <div key={label} style={{ ...tagStyle, border: "none", borderRadius: 9999, boxShadow: "0px 2px 4px 0px rgba(0,0,0,0.05)", background: "#ffffff", color: "#222222" }}>
+            <div key={label} style={{ ...tagStyle, background: "#ffffff", color: "#222222" }}>
               {label}
             </div>
           ))}
@@ -89,14 +87,14 @@ export default function Hero() {
 
         {/* Body */}
         <motion.div variants={item}>
-          <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.6 }}>
+          <p className="exp-f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.6 }}>
             I turn information-heavy products into clean, minimal experiences. 2+ years building
             for startups, most recently a Copenhagen-based EV energy company.
           </p>
         </motion.div>
 
         {/* CTAs */}
-        <motion.div variants={item} className="btn-row">
+        <motion.div variants={item} className="exp-btn-row">
           <a href="#projects" style={{
             display: "flex", alignItems: "center", gap: 10,
             background: C.t1, color: C.bg, padding: "11px 22px",

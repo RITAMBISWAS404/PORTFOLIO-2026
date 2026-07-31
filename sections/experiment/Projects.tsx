@@ -2,9 +2,9 @@
 import { useRef } from "react";
 import { useInView } from "framer-motion";
 import { useState } from "react";
-import SectionHeadingV3 from "@/components/SectionHeadingV3";
-import { projects } from "@/data/content";
-import { C, tagStyle, tagHv, revealStyle, col } from "@/lib/tokensV2";
+import SectionHeadingV3 from "@/components/experiment/SectionHeadingV3";
+import { projects } from "@/data/experiment-content";
+import { C, tagStyle, revealStyle, col } from "@/lib/experiment/tokensV2";
 
 function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
   const ref=useRef(null);
@@ -12,7 +12,7 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
   const [cursor,setCursor]=useState<{x:number;y:number}|null>(null);
   return(
     <>
-      {/* Outer wrapper carries the card-level shadow (no stroke) */}
+      {/* Outer wrapper carries the card-level shadow (no stroke) per Figma node 13-1696 */}
       <div ref={ref} style={{
           borderRadius:8,
           overflow:"hidden",
@@ -33,15 +33,15 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
           <div style={{height:192,overflow:"hidden",background:"#ffffff"}}>
             <img src={p.img} alt={p.title} style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}} loading="lazy"/>
           </div>
-          {/* Title + description — dark background */}
+          {/* Eyebrow + description — dark background */}
           <div style={{padding:"16px 16px 0",background:"#222222"}}>
             <div style={{fontSize:12,fontWeight:600,color:"#909090",letterSpacing:"0.06em",textTransform:"uppercase"}}>{p.title}</div>
-            <div className="f16" style={{fontWeight:600,color:"#ffffff",marginTop:4}}>{p.desc}</div>
+            <div className="exp-f16" style={{fontWeight:600,color:"#ffffff",marginTop:4}}>{p.desc}</div>
           </div>
           {/* Pills — dark background */}
           <div style={{padding:16,display:"flex",flexWrap:"wrap",gap:8,background:"#222222"}}>
             {p.tags.map(t=>(
-              <div key={t} style={{...tagStyle,border:"none",borderRadius:9999,boxShadow:"none",background:"rgba(255,255,255,0.10)",color:"#ffffff"}}>
+              <div key={t} style={{...tagStyle,boxShadow:"none",background:"rgba(255,255,255,0.10)",border:"none",color:"#ffffff"}}>
                 {t}
               </div>
             ))}
@@ -70,9 +70,9 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
 
 export default function Projects(){
   return(
-    <section id="projects" style={{...col}} className="v3-section">
-      <SectionHeadingV3 title="Selected Projects" eyebrow="THERE'S MORE" eyebrowColor="#ED7454" />
-      <div className="mt-section" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))",gap:16}}>
+    <section id="projects" style={{...col}} className="exp-v3-section">
+      <SectionHeadingV3 title="Selected Projects" eyebrow="THERE'S MORE" />
+      <div className="exp-mt-section" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))",gap:16}}>
         {projects.map((p,i)=><ProjectCard key={p.title} p={p} delay={i*0.06}/>)}
       </div>
     </section>

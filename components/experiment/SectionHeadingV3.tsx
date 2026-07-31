@@ -2,16 +2,15 @@
 import { useRef } from "react";
 import { useInView } from "framer-motion";
 import ScrambleText from "./ScrambleText";
-import { eyebrow, headingLg } from "@/lib/typography";
+import { eyebrow, headingLg } from "@/lib/experiment/typography";
 
 interface Props {
   num?: string;
   title: string;
   eyebrow?: string;
-  eyebrowColor?: string;
 }
 
-export default function SectionHeadingV3({ num, title, eyebrow: eyebrowText, eyebrowColor }: Props) {
+export default function SectionHeadingV3({ num, title, eyebrow: eyebrowText }: Props) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-15% 0px" });
 
@@ -22,7 +21,7 @@ export default function SectionHeadingV3({ num, title, eyebrow: eyebrowText, eye
       transition: "opacity 0.55s ease, transform 0.55s cubic-bezier(.22,1,.36,1)",
     }}>
       {eyebrowText && (
-        <div style={{ ...eyebrow, marginBottom: 6, ...(eyebrowColor ? { color: eyebrowColor } : {}) }}>
+        <div style={{ ...eyebrow, marginBottom: 6 }}>
           <ScrambleText text={eyebrowText} active={inView} />
         </div>
       )}
@@ -30,7 +29,7 @@ export default function SectionHeadingV3({ num, title, eyebrow: eyebrowText, eye
         {num && <span style={{ color: "var(--color-text-3)" }}>{num} </span>}
         <span style={{ color: "var(--color-text-1)" }}>{title}</span>
       </h2>
-      <div className="v3-heading-line" />
+      <div className="exp-heading-line" />
     </div>
   );
 }

@@ -10,7 +10,21 @@
       "Bash(git push *)",
       "Bash(Get-ChildItem -Recurse -Depth 2)",
       "Bash(Select-Object FullName)",
-      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\biswa\\\\Downloads\\\\portfolio-nextjs_1\\\\portfolio\" -Recurse -Depth 2 | Select-Object FullName | ForEach-Object {$_.FullName})"
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\biswa\\\\Downloads\\\\portfolio-nextjs_1\\\\portfolio\" -Recurse -Depth 2 | Select-Object FullName | ForEach-Object {$_.FullName})",
+      "Bash(node \"C:\\\\Users\\\\biswa\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-biswa-Downloads-portfolio-nextjs-1-portfolio\\\\df367ab7-e7a7-46fa-a1fb-07d8acb9bb48\\\\scratchpad\\\\bump-font-weight.js\" \"C:\\\\Users\\\\biswa\\\\Downloads\\\\portfolio-nextjs_1\\\\portfolio\")",
+      "Bash(npx tsc *)",
+      "Bash(npx eslint *)",
+      "Bash(git commit -m ' *)",
+      "Bash(node \"C:\\\\Users\\\\biswa\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-biswa-Downloads-portfolio-nextjs-1-portfolio\\\\df367ab7-e7a7-46fa-a1fb-07d8acb9bb48\\\\scratchpad\\\\bump-radius.js\" \"C:\\\\Users\\\\biswa\\\\Downloads\\\\portfolio-nextjs_1\\\\portfolio\")",
+      "WebSearch",
+      "Bash(node \"C:\\\\Users\\\\biswa\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-biswa-Downloads-portfolio-nextjs-1-portfolio\\\\df367ab7-e7a7-46fa-a1fb-07d8acb9bb48\\\\scratchpad\\\\bump-radius-20.js\" \"C:\\\\Users\\\\biswa\\\\Downloads\\\\portfolio-nextjs_1\\\\portfolio\")",
+      "Bash(node \"C:\\\\Users\\\\biswa\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-biswa-Downloads-portfolio-nextjs-1-portfolio\\\\df367ab7-e7a7-46fa-a1fb-07d8acb9bb48\\\\scratchpad\\\\reset-radius-4.js\" \"C:\\\\Users\\\\biswa\\\\Downloads\\\\portfolio-nextjs_1\\\\portfolio\")",
+      "Bash(node \"C:\\\\Users\\\\biswa\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-biswa-Downloads-portfolio-nextjs-1-portfolio\\\\df367ab7-e7a7-46fa-a1fb-07d8acb9bb48\\\\scratchpad\\\\radius-4-to-8.js\" \"C:\\\\Users\\\\biswa\\\\Downloads\\\\portfolio-nextjs_1\\\\portfolio\")",
+      "Bash(npm install *)",
+      "Bash(npm audit *)",
+      "Bash(npm uninstall *)",
+      "Bash(git checkout *)",
+      "mcp__291b695e-fdf7-49da-ac15-41f565de8e91__get_figma_skill"
     ]
   }
 }

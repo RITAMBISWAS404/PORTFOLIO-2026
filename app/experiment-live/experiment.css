@@ -1,0 +1,100 @@
+/* Fully isolated stylesheet for /experiment-live. Edit freely — nothing here
+   is shared with app/globals.css, so changes never touch the live homepage. */
+
+.exp-scope {
+  --color-bg:          #f4f4f4;
+  --color-card:        #ffffff;
+  --color-input:       #f9f9f9;
+  --color-border:      #d6d6d6;
+  --color-border-hover:#c8c8c8;
+  --color-text-1:      #222222;
+  --color-text-2:      #555555;
+  --color-text-3:      #999999;
+  --color-placeholder: #bbbbbb;
+  --color-accent:      #1e8c3a;
+  --color-red:         #e11d48;
+  --color-yellow:      #c27803;
+  --color-blue:        #2563eb;
+  --color-hover:       rgba(0,0,0,0.03);
+  --color-hover-bg:    rgba(0,0,0,0.05);
+  --color-card-glow:        rgba(0,0,0,0.03);
+  --color-card-hover-border:rgba(0,0,0,0.14);
+  --shadow-card-hover:      0 4px 16px rgba(0,0,0,0.08);
+  --color-dot:         rgba(0,0,0,0.07);
+  --color-dot-bright:  rgba(0,0,0,0.25);
+
+  --pop-green:        #54B0AF;
+  --pop-light-green:  #7DD9D8;
+  --pop-pink:         #EC6995;
+  --pop-light-pink:   #FF8CB3;
+  --pop-blue:         #487AB9;
+  --pop-light-blue:   #70A3E2;
+  --pop-orange:       #FE7759;
+  --pop-light-orange: #FFA38E;
+  --pop-yellow:       #FBD85A;
+  --pop-light-yellow: #FFE68C;
+  --pop-red:          #D95C74;
+  --pop-light-red:    #F3A7B7;
+  --pop-purple:       #8B6FE8;
+  --pop-light-purple: #BCA8FF;
+
+  background: var(--color-bg);
+  color: var(--color-text-1);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  display: block;
+  min-height: 100vh;
+}
+
+@media (min-width: 768px) {
+  .exp-scope { font-size: 16px; }
+}
+
+.exp-scope ::placeholder { color: var(--color-placeholder); opacity: 1; }
+.exp-scope ::selection { background: rgba(61,107,232,0.18); color: #111111; }
+.exp-scope :focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; border-radius: 8px; }
+.exp-scope textarea { resize: none; }
+.exp-scope section[id], .exp-scope div[id] { scroll-margin-top: 60px; }
+
+/* Section heading → first element gap */
+.exp-mt-section      { margin-top: 16px; }
+.exp-mt-section-card { margin-top: 8px;  }
+@media (min-width: 768px) {
+  .exp-mt-section      { margin-top: 24px; }
+  .exp-mt-section-card { margin-top: 16px; }
+}
+
+/* Element-to-element spacing within a section body */
+.exp-el-gap { gap: 16px; }
+.exp-mt-el  { margin-top: 16px; }
+@media (min-width: 768px) {
+  .exp-el-gap { gap: 24px; }
+  .exp-mt-el  { margin-top: 24px; }
+}
+
+/* Section padding */
+.exp-v3-section { padding: 16px 24px; }
+@media (min-width: 768px) {
+  .exp-v3-section { padding: 24px; }
+}
+
+/* SectionHeadingV3 underline — reaches the rail */
+.exp-heading-line { height: 1px; background: var(--color-border); margin-left: -16px; margin-right: -16px; }
+@media (min-width: 768px) {
+  .exp-heading-line { margin-left: -24px; margin-right: -24px; }
+}
+
+/* Responsive body text: 14px mobile → 16px desktop */
+.exp-f16 { font-size: 14px; }
+@media (min-width: 768px) { .exp-f16 { font-size: 16px; } }
+
+/* Responsive buttons: stacked + full width on mobile, row on desktop */
+.exp-btn-row { display: flex; flex-direction: column; gap: 8px; }
+.exp-btn-row > a, .exp-btn-row > button { width: 100%; justify-content: center; }
+@media (min-width: 768px) {
+  .exp-btn-row { flex-direction: row; flex-wrap: wrap; }
+  .exp-btn-row > a, .exp-btn-row > button { width: auto; }
+}
+
+body.exp-menu-open { overflow: hidden; }

@@ -1,13 +1,13 @@
 "use client";
-import SectionHeadingV3 from "@/components/SectionHeadingV3";
-import { socials } from "@/data/content";
-import { C, col } from "@/lib/tokensV2";
+import SectionHeadingV3 from "@/components/experiment/SectionHeadingV3";
+import { socials } from "@/data/experiment-content";
+import { C, col } from "@/lib/experiment/tokensV2";
 
 export default function Socials() {
   return (
-    <section id="socials" style={{ ...col, paddingBottom: 0 }} className="v3-section">
-      <SectionHeadingV3 title="My Socials" eyebrow="THE USUAL SUSPECTS" eyebrowColor="#ED7454" />
-      <div className="mt-section-card" style={{ marginTop: 0 }}>
+    <section id="socials" style={{ ...col, paddingBottom: 0 }} className="exp-v3-section">
+      <SectionHeadingV3 title="My Socials" eyebrow="THE USUAL SUSPECTS" />
+      <div className="exp-mt-section-card" style={{ marginTop: 0 }}>
         {socials.map((s, i) => (
           <a key={s.name} href={s.href} target="_blank" rel="noopener" style={{
             display: "block", textDecoration: "none", color: "inherit",
@@ -21,10 +21,10 @@ export default function Socials() {
           onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = C.hover; }}
           onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = ""; }}>
             <div style={{ ...col }}>
-              {i !== 0 && <div className="v3-heading-line" />}
+              {i !== 0 && <div className="exp-heading-line" />}
               <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", height:58 }}>
-                <span className="f16" style={{ fontWeight:500,color:C.t1 }}>{s.name}</span>
-                <span className="f16" style={{ fontWeight:500,color:C.t3, transition:"color 0.25s" }}
+                <span className="exp-f16" style={{ fontWeight:500,color:C.t1 }}>{s.name}</span>
+                <span className="exp-f16" style={{ fontWeight:500,color:C.t3, transition:"color 0.25s" }}
                   onMouseEnter={e => (e.currentTarget as HTMLSpanElement).style.color = C.t2}
                   onMouseLeave={e => (e.currentTarget as HTMLSpanElement).style.color = C.t3}>
                   {s.handle}
@@ -34,7 +34,7 @@ export default function Socials() {
           </a>
         ))}
         <div style={{ ...col }}>
-          <div className="v3-heading-line" />
+          <div className="exp-heading-line" />
         </div>
       </div>
     </section>

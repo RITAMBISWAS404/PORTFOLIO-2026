@@ -1,11 +1,11 @@
 "use client";
 import { useRef } from "react";
 import { useInView } from "framer-motion";
-import { MdSmartphone, MdAccountTree, MdWidgets, MdDirectionsRun } from "react-icons/md";
-import SectionHeadingV3 from "@/components/SectionHeadingV3";
-import CardV3 from "@/components/CardV3";
-import { zeno } from "@/data/content";
-import { C, tagStyle, revealStyle, col } from "@/lib/tokensV2";
+import { MdSmartphone, MdAccountTree, MdWidgets, MdBolt } from "react-icons/md";
+import SectionHeadingV3 from "@/components/experiment/SectionHeadingV3";
+import Card from "@/components/experiment/Card";
+import { zeno } from "@/data/experiment-content";
+import { C, tagStyle, revealStyle, col } from "@/lib/experiment/tokensV2";
 
 const tags = ["UX DESIGN", "EV APP", "B2C"];
 
@@ -13,7 +13,7 @@ const stats = [
   { label: "35+ High Fidelity Screens", body: "Covers every key user flow from onboarding through dashboard, analytics, and account settings.", icon: MdSmartphone },
   { label: "5 Complete User Flows",     body: "Onboarding, dashboard, charging session, analytics, and settings.", icon: MdAccountTree },
   { label: "40+ Reusable Components",   body: "A full design system built using Figma variables and design tokens for UI consistency.", icon: MdWidgets },
-  { label: "2 Month Design Sprint",     body: "Blank file to production-ready designs, shipped end to end in just 2 months.", icon: MdDirectionsRun },
+  { label: "2 Month Design Sprint",     body: "Blank file to production-ready designs, shipped end to end in just 2 months.", icon: MdBolt },
 ];
 
 export default function FeaturedProject() {
@@ -22,13 +22,13 @@ export default function FeaturedProject() {
 
   return (
     <>
-      <div id="featured" style={{ ...col, paddingBottom: 0 }} className="v3-section">
-        <SectionHeadingV3 title="Featured Project" eyebrow="NOT BAD, HONESTLY" eyebrowColor="#ED7454" />
+      <div id="featured" style={{ ...col, paddingBottom: 0 }} className="exp-v3-section">
+        <SectionHeadingV3 title="Featured Project" eyebrow="NOT BAD, HONESTLY" />
       </div>
 
       {/* Feature image */}
-      <div style={{ ...col, paddingBottom: 0 }} className="v3-section">
-        <div className="feature-img-wrap" style={{ borderRadius: 8, overflow: "hidden", width: "100%" }}>
+      <div style={{ ...col, paddingBottom: 0 }} className="exp-v3-section">
+        <div className="exp-feature-img-wrap" style={{ borderRadius: 8, overflow: "hidden", width: "100%" }}>
           <picture>
             <source media="(min-width: 768px)" srcSet="/images/16_9.png" />
             <img src="/images/4_3.png" alt="ZENO App"
@@ -38,33 +38,33 @@ export default function FeaturedProject() {
       </div>
 
       {/* ZENO detail */}
-      <div ref={ref} style={{ ...col }} className="v3-section">
-        <div className="el-gap" style={{ display: "flex", flexDirection: "column", ...revealStyle(inView) }}>
+      <div ref={ref} style={{ ...col }} className="exp-v3-section">
+        <div className="exp-el-gap" style={{ display: "flex", flexDirection: "column", ...revealStyle(inView) }}>
 
           {/* Identity */}
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-            <div className="v3-identity-logo" style={{ overflow: "hidden", flexShrink: 0 }}>
+            <div style={{ width: 64, height: 64, borderRadius: 8, overflow: "hidden", flexShrink: 0 }}>
               <img src="/images/zeno logo.png" alt="ZENO" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             </div>
             <div>
-              <div className="f16" style={{ fontWeight: 600, color: C.t1 }}>{zeno.name}</div>
-              <div className="f16" style={{ fontWeight: 500, color: C.t2 }}>{zeno.sub}</div>
+              <div className="exp-f16" style={{ fontWeight: 600, color: C.t1 }}>{zeno.name}</div>
+              <div className="exp-f16" style={{ fontWeight: 500, color: C.t2 }}>{zeno.sub}</div>
             </div>
           </div>
 
           {/* Tags */}
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
             {tags.map(label => (
-              <div key={label} style={{ ...tagStyle, border: "none", borderRadius: 9999, boxShadow: "0px 2px 4px 0px rgba(0,0,0,0.05)", background: "#ffffff", color: "#222222" }}>
+              <div key={label} style={{ ...tagStyle, background: "#ffffff", color: "#222222" }}>
                 {label}
               </div>
             ))}
           </div>
 
           {/* Description */}
-          <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.6 }}>
+          <p className="exp-f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.6 }}>
             ZENO{" "}
-            <strong style={{ color: "var(--exp-hero-b, #222222)", fontWeight: 600 }}>
+            <strong style={{ color: "var(--pop-blue)", fontWeight: 600 }}>
               turns a data-heavy EV charging app into a four-second experience
             </strong>
             . I owned the product end to end from a blank Figma file: user research, information
@@ -76,14 +76,14 @@ export default function FeaturedProject() {
         </div>
 
         {/* Stats — 2×2 grid */}
-        <div className="stats-grid mt-el" style={{ display: "grid", gap: 16 }}>
+        <div className="exp-stats-grid exp-mt-el" style={{ display: "grid", gap: 16 }}>
           {stats.map((s, i) => (
-            <CardV3 key={s.label} label={s.label} body={s.body} delay={i * 0.08} icon={s.icon} />
+            <Card key={s.label} label={s.label} body={s.body} delay={i * 0.08} icon={s.icon} />
           ))}
         </div>
 
         {/* CTAs */}
-        <div className="btn-row mt-el">
+        <div className="exp-btn-row exp-mt-el">
           <a href="/zeno" target="_blank" rel="noopener noreferrer" style={{
             display: "flex", alignItems: "center", gap: 10,
             background: C.t1, color: C.bg, padding: "11px 22px",
@@ -109,12 +109,10 @@ export default function FeaturedProject() {
       </div>
 
       <style>{`
-        .stats-grid { grid-template-columns: 1fr; }
-        @media (min-width: 600px) { .stats-grid { grid-template-columns: 1fr 1fr; } }
-        .feature-img-wrap { aspect-ratio: 4 / 3; }
-        @media (min-width: 768px) { .feature-img-wrap { aspect-ratio: 16 / 9; } }
-        .v3-identity-logo { width: 48px; height: 48px; border-radius: 6px; }
-        @media (min-width: 768px) { .v3-identity-logo { width: 64px; height: 64px; border-radius: 8px; } }
+        .exp-stats-grid { grid-template-columns: 1fr; }
+        @media (min-width: 600px) { .exp-stats-grid { grid-template-columns: 1fr 1fr; } }
+        .exp-feature-img-wrap { aspect-ratio: 4 / 3; }
+        @media (min-width: 768px) { .exp-feature-img-wrap { aspect-ratio: 16 / 9; } }
       `}</style>
     </>
   );

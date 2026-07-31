@@ -1,3 +1,4 @@
+// Isolated copy of data/content.ts for /experiment-live.
 export const hero = {
   name: "Ritam Biswas",
   role: "Final Year CSE Student at",
@@ -38,46 +39,39 @@ export const process = [
 
 export const experience = [
   {
-    id: "foss-kolkata",
-    role: "Designer at", company: "FOSS United Kolkata",
-    logo: "F", logoBg: "#1a1a2e", img: "/images/Foss 1.png",
-    desc: "Worked as the designer for the Kolkata city chapter of FOSS United, creating visuals, posters, and digital content for community meetups, events, and outreach campaigns.",
-    meta: "Aug 2024 – Present | Remote | Kolkata, India",
-  },
-  {
     id: "startup",
     role: "Founding Product Designer at", company: "EU Smart Energy Startup",
     logo: "🔒", logoBg: "#1a1a1a", img: "/images/stealth.png",
-    desc: "Built an EV charging app for iOS and Android from scratch. Owned research, UI design, the full design system, and developer handoff. Now live with 10,000+ registered users in Denmark.",
+    desc: "Designed and shipped two full iterations of a smart EV charging app for iOS and Android, owning the product end-to-end: user research, information architecture, wireframes, UI design, and developer handoff. Built a 40+ component design system using Figma variables and design tokens. Now live with 3,000+ registered users.",
     meta: "Jan 2024 – Jun 2026 | Remote | Europe",
-  },
-  {
-    id: "gdg",
-    role: "Creative Lead at", company: "GDG & WOC 4.0",
-    logo: "G", logoBg: "linear-gradient(135deg,#4285f4,#34a853)", img: "/images/gdg.png",
-    desc: "Ran visual design across a full year of GDG developer events and took complete ownership of the WOC 4.0 brand identity, a Google Summer of Code inspired open-source program.",
-    meta: "Oct 2024 – Dec 2025 | Hybrid | IIIT Kalyani",
   },
   {
     id: "statuscode2",
     role: "Lead Designer at", company: "StatusCode2 (MLH)",
     logo: "SC2", logoBg: "linear-gradient(135deg,#4285f4,#34a853)", img: "/images/status code 2.png",
-    desc: "Handled all design for IIIT Kalyani's flagship MLH hackathon, building the event identity from scratch and creating all promotional graphics and assets across marketing and outreach.",
+    desc: "Led end-to-end visual identity and branding for StatusCode2, the flagship MLH-associated hackathon of IIIT Kalyani. Designed the event identity system, promotional graphics, and digital assets used across marketing and participant communication for 4,000+ applicants and 500+ selected participants.",
     meta: "May 2025 – Aug 2025 | Hybrid | IIIT Kalyani",
+  },
+  {
+    id: "gdg",
+    role: "Creative Lead at", company: "GDG & WOC 4.0",
+    logo: "G", logoBg: "linear-gradient(135deg,#4285f4,#34a853)", img: ["/images/gdg.png", "/images/woc.png"] as string[],
+    desc: "Directed visual design and branding for 10+ developer community events at GDG IIIT Kalyani. Also led the complete visual identity for WOC 4.0, a Google Summer of Code-inspired open-source contribution program, designing outreach and onboarding assets for 500+ contributors.",
+    meta: "Oct 2024 – Dec 2025 | Hybrid | IIIT Kalyani",
   },
   {
     id: "sukriya",
     role: "UI/UX Intern at", company: "Sukriya",
     logo: "Su", logoBg: "linear-gradient(135deg,#0ea5e9,#6366f1)", img: "/images/sukriya.png",
-    desc: "Took the product from scratch to a full design, independently handling user research, information architecture, UI design, a reusable component library, and Dev Mode specs for the dev team.",
+    desc: "Independently owned the full UX process for a freelance marketplace platform: researched 10+ competing platforms, defined product strategy, and designed 27 iOS screens in Figma. Built dual role-based flows for two personas covering onboarding, discovery, messaging, payments, and project management, along with a reusable component library and Dev Mode specs for developer handoff.",
     meta: "Sep 2024 – Mar 2025 | Remote | Kolkata, India",
   },
   {
-    id: "foss-iiitk",
-    role: "Designer and Content Writer at", company: "FOSS Club IIIT Kalyani",
-    logo: "F", logoBg: "#1a1a2e", img: "/images/Foss 2.png",
-    desc: "Served as Designer and Content Writer for the FOSS Club at IIIT Kalyani, handling visual design and written content for major events, campaigns, posters, and social media.",
-    meta: "Dec 2023 – Dec 2024 | Hybrid | IIIT Kalyani",
+    id: "foss",
+    role: "Core Team Member at", company: "FOSS",
+    logo: "F", logoBg: "#1a1a2e", img: ["/images/Foss 1.png", "/images/Foss 2.png"] as string[],
+    desc: "Contributed to two chapters of FOSS United, India's leading open-source community. Served as Lead Designer at the IIIT Kalyani campus club and supported the Kolkata city chapter, creating event posters, promotional creatives, and digital assets across meetups, workshops, and community campaigns.",
+    meta: "Dec 2023 – Dec 2024 | Hybrid | Kolkata, India",
   },
 ];
 

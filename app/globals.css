@@ -54,7 +54,7 @@
 /* ── Light mode ── */
 [data-theme="light"] {
   /* Surfaces */
-  --color-bg:               #f4f4f4;   /* user-specified off-white canvas */
+  --color-bg:               #ECEBE7;   /* user-specified off-white canvas */
   --color-card:             #ffffff;   /* pure white cards float above canvas */
   --color-input:            #f9f9f9;
   /* Borders */
@@ -96,6 +96,8 @@ body {
   font-size: 14px;        /* mobile base */
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
   overflow-x: hidden;
   /* Mobile: body offset = sticky nav height */
   padding-top: var(--nav-height-mobile);

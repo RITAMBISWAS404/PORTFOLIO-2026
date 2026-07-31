@@ -1,8 +1,8 @@
 "use client";
 import { useRef, useState } from "react";
-import SectionHeadingV3 from "@/components/SectionHeadingV3";
-import { C, inputBase, col } from "@/lib/tokensV2";
-import { eyebrow } from "@/lib/typography";
+import SectionHeadingV3 from "@/components/experiment/SectionHeadingV3";
+import { C, inputBase, col } from "@/lib/experiment/tokensV2";
+import { eyebrow } from "@/lib/experiment/typography";
 
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/mredrnrp";
 
@@ -45,11 +45,11 @@ export default function Contact() {
   const btnLabel = status === "sent" ? "Sent!" : status === "error" ? "Try again" : status === "sending" ? "Sending…" : "Send Message";
 
   return (
-    <section id="contact" style={{ ...col }} className="v3-section">
-      <SectionHeadingV3 title="Let's Build Together" eyebrow="MIGHT AS WELL SAY HI" eyebrowColor="#ED7454" />
+    <section id="contact" style={{ ...col }} className="exp-v3-section">
+      <SectionHeadingV3 title="Let's Build Together" eyebrow="MIGHT AS WELL SAY HI" />
 
       {/* Subheading */}
-      <p className="f16 mt-section" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.6, marginBottom: 24 }}>
+      <p className="exp-f16 exp-mt-section" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.6, marginBottom: 24 }}>
         Whether it&apos;s a collaboration, an opportunity, or just a conversation, I&apos;m always open. Tell me what&apos;s on your mind.
       </p>
 
@@ -57,17 +57,17 @@ export default function Contact() {
         style={{ display: "flex", flexDirection: "column", gap: 20 }}>
 
         {/* Name + Email — side by side on desktop */}
-        <div className="contact-name-email">
+        <div className="exp-contact-name-email">
           <div>
-            <label htmlFor="f-name" style={lbl}>Name</label>
-            <input id="f-name" name="name" type="text" placeholder="Your name" required
+            <label htmlFor="exp-f-name" style={lbl}>Name</label>
+            <input id="exp-f-name" name="name" type="text" placeholder="Your name" required
               style={{ ...inputBase, height: 44, borderRadius: 8 }}
               onFocus={focusIn as React.FocusEventHandler}
               onBlur={focusOut as React.FocusEventHandler} />
           </div>
           <div>
-            <label htmlFor="f-email" style={lbl}>Email</label>
-            <input id="f-email" name="email" type="email" placeholder="you@company.com" required
+            <label htmlFor="exp-f-email" style={lbl}>Email</label>
+            <input id="exp-f-email" name="email" type="email" placeholder="you@company.com" required
               style={{ ...inputBase, height: 44, borderRadius: 8 }}
               onFocus={focusIn as React.FocusEventHandler}
               onBlur={focusOut as React.FocusEventHandler} />
@@ -76,8 +76,8 @@ export default function Contact() {
 
         {/* Message */}
         <div>
-          <label htmlFor="f-msg" style={lbl}>Project / Message</label>
-          <textarea id="f-msg" name="message"
+          <label htmlFor="exp-f-msg" style={lbl}>Project / Message</label>
+          <textarea id="exp-f-msg" name="message"
             placeholder="Tell me a bit about the project, role, or idea." required
             style={{ ...inputBase, height: 110, resize: "none", borderRadius: 8 }}
             onFocus={focusIn as React.FocusEventHandler}
@@ -104,9 +104,9 @@ export default function Contact() {
       </form>
 
       <style>{`
-        .contact-name-email { display: grid; grid-template-columns: 1fr; gap: 16px; }
+        .exp-contact-name-email { display: grid; grid-template-columns: 1fr; gap: 16px; }
         @media (min-width: 768px) {
-          .contact-name-email { grid-template-columns: 1fr 1fr; }
+          .exp-contact-name-email { grid-template-columns: 1fr 1fr; }
         }
       `}</style>
     </section>
