@@ -79,9 +79,7 @@ export default function Hero() {
         {/* Body */}
         <motion.div variants={item}>
           <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.6 }}>
-            For me, product design is less about making things beautiful and more about making them
-            obvious. I enjoy simplifying complex systems into experiences that people understand from
-            the very first interaction.
+            Making digital products easier to use than the coffee machine in most offices.
           </p>
         </motion.div>
 
