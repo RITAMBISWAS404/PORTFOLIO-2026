@@ -16,7 +16,7 @@ import IconCard from "@/components/IconCard";
 import TwoColTable from "@/components/TwoColTable";
 import ThreeColTable from "@/components/ThreeColTable";
 import DecisionBase from "@/components/Decision";
-import { C, col, tagStyle, revealStyle } from "@/lib/tokensV2";
+import { C, col, revealStyle } from "@/lib/tokensV2";
 
 /* ── Callout variants — thin wrappers around IconCard ────────────── */
 
@@ -155,14 +155,6 @@ export default function ShopEZPage() {
           <h1 style={{ fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 650, letterSpacing: "-0.02em", color: C.t1, lineHeight: 1.15, marginBottom: 24 }}>
             How I redesigned a hackathon billing app for the person actually standing behind the counter.
           </h1>
-
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 24 }}>
-            {["UX DESIGN", "AI INTEGRATION", "MOBILE", "INDIAN RETAIL"].map(label => (
-              <div key={label} style={{ ...tagStyle, padding: "5px 12px", borderRadius: 8, background: "#ffffff", border: "1px solid rgba(0,0,0,0.10)", color: "#222222" }}>
-                {label}
-              </div>
-            ))}
-          </div>
 
           <IconCard icon={Lock} label="A Quick Note" bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover
             body="ShopEZ started at a hackathon. We built something rough, won the Open Innovation track, and moved on. A year later I came back to the same problem with fresh eyes. What you are reading is the redesign: same product idea, completely different level of thinking." />

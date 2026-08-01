@@ -16,7 +16,7 @@ import CardV3 from "@/components/CardV3";
 import TwoColTable from "@/components/TwoColTable";
 import ThreeColTable from "@/components/ThreeColTable";
 import DecisionBase from "@/components/Decision";
-import { C, col, tagStyle, revealStyle } from "@/lib/tokensV2";
+import { C, col, revealStyle } from "@/lib/tokensV2";
 
 /* ── Callout variants — thin wrappers around CardV3 ────────────── */
 
@@ -157,14 +157,6 @@ export default function ZenoPage() {
           <h1 style={{ fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 650, letterSpacing: "-0.02em", color: C.t1, lineHeight: 1.15, marginBottom: 24 }}>
             How I Turned a Data-Heavy EV App Into a Four-Second Experience.
           </h1>
-
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 24 }}>
-            {["UX DESIGN", "EV APP", "CASE STUDY"].map(label => (
-              <div key={label} style={{ ...tagStyle, border: "none", borderRadius: 9999, boxShadow: "0px 2px 4px 0px rgba(0,0,0,0.05)", background: "#ffffff", color: "#222222" }}>
-                {label}
-              </div>
-            ))}
-          </div>
 
           <CardV3 icon={MdLock} label="Confidential Note" noHover
             body="Zeno is a portfolio-safe recreation of a product I designed for a Copenhagen-based EV startup. With the company's permission, I rebuilt it under a new brand. Every decision, constraint, and insight here is real. Only the branding changed." />

@@ -1,7 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import { MdDirectionsRun, MdLocalCafe } from "react-icons/md";
-import { C, tagStyle } from "@/lib/tokensV2";
+import { C } from "@/lib/tokensV2";
 import { useAppReady } from "@/lib/AppReadyContext";
 
 const container = { hidden: {}, show: { transition: { staggerChildren: 0.1, delayChildren: 0.05 } } };
@@ -16,7 +16,7 @@ const item = {
 export default function Hero() {
   const { ready } = useAppReady();
   return (
-    <section id="hero" style={{ maxWidth: 768, margin: "0 auto", paddingTop: "clamp(32px, 8vw, 48px)" }} className="v3-section">
+    <section id="hero" style={{ maxWidth: 768, margin: "0 auto" }} className="v3-section">
       <motion.div
         variants={container}
         initial="hidden"
@@ -24,13 +24,15 @@ export default function Hero() {
         className="el-gap"
         style={{ display: "flex", flexDirection: "column" }}
       >
-        {/* Badges */}
-        <motion.div variants={item} style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-          {["OPEN TO COLLABORATIONS"].map(label => (
-            <div key={label} style={{ ...tagStyle, border: "none", borderRadius: 9999, boxShadow: "0px 2px 4px 0px rgba(0,0,0,0.05)", background: "#ffffff", color: "#222222" }}>
-              {label}
+        {/* Currently Reading */}
+        <motion.div variants={item} style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: "clamp(32px, 6vw, 48px)" }}>
+          <div style={{ width: 4, alignSelf: "stretch", background: "#ED7454", flexShrink: 0 }} />
+          <div>
+            <div style={{ fontSize: 12, fontWeight: 600, color: "#909090", letterSpacing: "0.06em", textTransform: "uppercase" }}>
+              Currently Reading
             </div>
-          ))}
+            <div style={{ fontSize: 16, fontWeight: 600, color: "#222222" }}>The Lowland</div>
+          </div>
         </motion.div>
 
         {/* Heading */}

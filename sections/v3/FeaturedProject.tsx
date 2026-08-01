@@ -5,9 +5,7 @@ import { MdSmartphone, MdAccountTree, MdWidgets, MdDirectionsRun, MdVerified } f
 import SectionHeadingV3 from "@/components/SectionHeadingV3";
 import CardV3 from "@/components/CardV3";
 import { zeno } from "@/data/content";
-import { C, tagStyle, revealStyle, col } from "@/lib/tokensV2";
-
-const tags = ["UX DESIGN", "EV APP", "B2C"];
+import { C, revealStyle, col } from "@/lib/tokensV2";
 
 const stats = [
   { label: "35+ High Fidelity Screens", body: "Covers every key user flow from onboarding through dashboard, analytics, and account settings.", icon: MdSmartphone },
@@ -50,15 +48,6 @@ export default function FeaturedProject() {
               <div className="f16" style={{ fontWeight: 600, color: C.t1 }}>{zeno.name}</div>
               <div className="f16" style={{ fontWeight: 500, color: C.t2 }}>{zeno.sub}</div>
             </div>
-          </div>
-
-          {/* Tags */}
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-            {tags.map(label => (
-              <div key={label} style={{ ...tagStyle, border: "none", borderRadius: 9999, boxShadow: "0px 2px 4px 0px rgba(0,0,0,0.05)", background: "#ffffff", color: "#222222" }}>
-                {label}
-              </div>
-            ))}
           </div>
 
           {/* Description */}
