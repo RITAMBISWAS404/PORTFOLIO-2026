@@ -36,7 +36,7 @@ function Insight({ text }: { text: string }) {
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-5% 0px" });
+  const inView = useInView(ref, { once: true, margin: "0px" });
   return <div ref={ref} style={revealStyle(inView, delay)}>{children}</div>;
 }
 

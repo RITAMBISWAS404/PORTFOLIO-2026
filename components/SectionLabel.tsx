@@ -8,7 +8,7 @@ interface Props { icon:LucideIcon; label:string; num:string; iconColor?:string; 
 
 export default function SectionLabel({ icon:Icon, label, num, iconColor="var(--color-text-3)", iconHref, iconTarget }: Props) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once:true, margin:"-20% 0px" });
+  const inView = useInView(ref, { once:true, margin:"0px" });
   const iconEl = <Icon size={14} color={iconColor} strokeWidth={2}/>;
   return (
     <div ref={ref} style={{display:"flex",alignItems:"center",gap:8,minHeight:15}}>

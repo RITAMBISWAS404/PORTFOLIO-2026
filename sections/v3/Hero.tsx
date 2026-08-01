@@ -13,6 +13,16 @@ const item = {
   },
 };
 
+// Fast left-to-right word-by-word reveal for the hero heading.
+const wordContainer = { hidden: {}, show: { transition: { staggerChildren: 0.06 } } };
+const word = {
+  hidden: { opacity: 0, x: -8 },
+  show: {
+    opacity: 1, x: 0,
+    transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] },
+  },
+};
+
 export default function Hero() {
   const { ready } = useAppReady();
   return (
@@ -37,27 +47,33 @@ export default function Hero() {
 
         {/* Heading */}
         <motion.div variants={item}>
-          <h1 style={{
-            fontSize: "clamp(36px, 7vw, 54px)",
-            fontWeight: 650,
-            lineHeight: 1.2,
-            letterSpacing: "-0.02em",
-            fontFamily: "'Plus Jakarta Sans', sans-serif",
-            display: "flex", flexWrap: "wrap", alignItems: "center", gap: 8,
-          }}>
-            <span style={{ color: "var(--exp-hero-a, var(--color-text-1))" }}>Namaste</span>
-            <MdDirectionsRun style={{ width: "1.2em", height: "1.2em", margin: "0 -1.5px" }} color="#222222" />
-            <span style={{ color: "var(--exp-hero-a, var(--color-text-1))" }}>I&apos;m</span>
-            <span style={{ color: "var(--exp-hero-a, var(--color-text-1))" }}>Ritam,</span>
-            <span style={{ color: "var(--exp-hero-a, var(--color-text-1))" }}>a</span>
-            <span style={{ color: "var(--exp-hero-a, var(--color-text-1))" }}>Product</span>
-            <span style={{ color: "var(--exp-hero-a, var(--color-text-1))" }}>Designer</span>
-            <MdLocalCafe style={{ width: "1.2em", height: "1.2em", margin: "0 -1.5px" }} color="var(--exp-hero-b, #ED7454)" />
-            <span style={{ color: "var(--exp-hero-b, #ED7454)" }}>turning</span>
-            <span style={{ color: "var(--exp-hero-b, #ED7454)" }}>complexity</span>
-            <span style={{ color: "var(--exp-hero-b, #ED7454)" }}>into</span>
-            <span style={{ color: "var(--exp-hero-b, #ED7454)" }}>clarity.</span>
-          </h1>
+          <motion.h1
+            variants={wordContainer}
+            style={{
+              fontSize: "clamp(36px, 7vw, 54px)",
+              fontWeight: 650,
+              lineHeight: 1.2,
+              letterSpacing: "-0.02em",
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              display: "flex", flexWrap: "wrap", alignItems: "center", gap: 8,
+            }}>
+            <motion.span variants={word} style={{ color: "var(--exp-hero-a, var(--color-text-1))" }}>Namaste</motion.span>
+            <motion.span variants={word} style={{ display: "inline-flex" }}>
+              <MdDirectionsRun style={{ width: "1.2em", height: "1.2em", margin: "0 -1.5px" }} color="#222222" />
+            </motion.span>
+            <motion.span variants={word} style={{ color: "var(--exp-hero-a, var(--color-text-1))" }}>I&apos;m</motion.span>
+            <motion.span variants={word} style={{ color: "var(--exp-hero-a, var(--color-text-1))" }}>Ritam,</motion.span>
+            <motion.span variants={word} style={{ color: "var(--exp-hero-a, var(--color-text-1))" }}>a</motion.span>
+            <motion.span variants={word} style={{ color: "var(--exp-hero-a, var(--color-text-1))" }}>Product</motion.span>
+            <motion.span variants={word} style={{ color: "var(--exp-hero-a, var(--color-text-1))" }}>Designer</motion.span>
+            <motion.span variants={word} style={{ display: "inline-flex" }}>
+              <MdLocalCafe style={{ width: "1.2em", height: "1.2em", margin: "0 -1.5px" }} color="var(--exp-hero-b, #ED7454)" />
+            </motion.span>
+            <motion.span variants={word} style={{ color: "var(--exp-hero-b, #ED7454)" }}>turning</motion.span>
+            <motion.span variants={word} style={{ color: "var(--exp-hero-b, #ED7454)" }}>complexity</motion.span>
+            <motion.span variants={word} style={{ color: "var(--exp-hero-b, #ED7454)" }}>into</motion.span>
+            <motion.span variants={word} style={{ color: "var(--exp-hero-b, #ED7454)" }}>clarity.</motion.span>
+          </motion.h1>
         </motion.div>
 
         {/* Body */}

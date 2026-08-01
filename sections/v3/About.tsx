@@ -27,8 +27,8 @@ const cards = [
 export default function About() {
   const bioRef  = useRef(null);
   const bentRef = useRef(null);
-  const bioInView  = useInView(bioRef,  { once: true, margin: "-10% 0px" });
-  const bentInView = useInView(bentRef, { once: true, margin: "-10% 0px" });
+  const bioInView  = useInView(bioRef,  { once: true, margin: "0px" });
+  const bentInView = useInView(bentRef, { once: true, margin: "0px" });
   const [copied, setCopied] = useState(false);
   const pathname = usePathname();
   const isNew = pathname === "/new" || pathname?.startsWith("/new/");

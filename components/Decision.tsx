@@ -11,7 +11,7 @@ interface Props {
 
 export default function Decision({ num, title, first = false, children, lineClassName = "decision-line" }: Props) {
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-5% 0px" });
+  const inView = useInView(ref, { once: true, margin: "0px" });
   return (
     <>
       {!first && <div className={lineClassName} />}

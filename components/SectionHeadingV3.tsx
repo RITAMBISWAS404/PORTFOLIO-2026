@@ -18,7 +18,7 @@ interface Props {
 
 export default function SectionHeadingV3({ num, title, eyebrow: eyebrowText, eyebrowColor, icon: Icon, iconAfter }: Props) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-15% 0px" });
+  const inView = useInView(ref, { once: true, margin: "0px" });
 
   const words = title.split(" ");
   const hasIcon = Icon && iconAfter !== undefined && iconAfter > 0 && iconAfter < words.length;

@@ -16,7 +16,7 @@ const stats = [
 
 export default function FeaturedProject() {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-10% 0px" });
+  const inView = useInView(ref, { once: true, margin: "0px" });
 
   return (
     <>

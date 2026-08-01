@@ -8,7 +8,7 @@ import { C, revealStyle, col } from "@/lib/tokensV2";
 
 function StackCard({ name, delay }: { name: string; delay: number }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-10% 0px" });
+  const inView = useInView(ref, { once: true, margin: "0px" });
   const [glow, setGlow] = useState("");
   const c = stackColors[name];
 

@@ -27,7 +27,7 @@ function LogoIcon({ src, alt, fallback, fallbackBg }: { src?: string; alt: strin
 
 function ExperienceCard({ e, delay }: { e: typeof experience[0]; delay: number }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-10% 0px" });
+  const inView = useInView(ref, { once: true, margin: "0px" });
   const [date, mode, location] = e.meta.split(' | ');
   const role = e.role.replace(/\s+at$/i, "");
   const logos = e.img ? (Array.isArray(e.img) ? e.img : [e.img]) : null;

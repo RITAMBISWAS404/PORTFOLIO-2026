@@ -11,7 +11,7 @@ interface Props {
 
 export default function IconCard({ label, right, body, bg, delay = 0, iconColor = "#ffffff", textColor = "#ffffff", border, noHover = false }: Props) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-10% 0px" });
+  const inView = useInView(ref, { once: true, margin: "0px" });
   const [hovered, setHovered] = useState(false);
 
   return (

@@ -8,7 +8,7 @@ interface Props { label: string; num: string; body: string; delay?: number; bg?:
 
 export default function Card({ label, num, body, delay = 0, bg, iconColor = "#ffffff", textColor = "#ffffff", border, noHover = false, chipIcon = false }: Props) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-10% 0px" });
+  const inView = useInView(ref, { once: true, margin: "0px" });
   const [glow, setGlow] = useState("");
   const [hovered, setHovered] = useState(false);
   const isColored = !!bg;

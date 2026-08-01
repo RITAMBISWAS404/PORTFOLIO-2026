@@ -10,7 +10,7 @@ interface Props { label: string; body: string; delay?: number; icon: IconType; n
 // v3-only — does not touch the shared components/Card.tsx used by v2 and case studies.
 export default function CardV3({ label, body, delay = 0, icon: Icon, noHover = false }: Props) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-10% 0px" });
+  const inView = useInView(ref, { once: true, margin: "0px" });
 
   return (
     <div ref={ref}

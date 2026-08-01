@@ -9,7 +9,7 @@ import { C, tagStyle, tagHv, revealStyle, col } from "@/lib/tokensV2";
 
 function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
   const ref=useRef(null);
-  const inView=useInView(ref,{once:true,margin:"-10% 0px"});
+  const inView=useInView(ref,{once:true,margin:"0px"});
   const [cursor,setCursor]=useState<{x:number;y:number}|null>(null);
   return(
     <>
