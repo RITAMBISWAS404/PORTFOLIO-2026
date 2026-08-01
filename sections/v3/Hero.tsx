@@ -16,7 +16,7 @@ const item = {
 export default function Hero() {
   const { ready } = useAppReady();
   return (
-    <section id="hero" style={{ maxWidth: 768, margin: "0 auto" }} className="v3-section">
+    <section id="hero" style={{ maxWidth: 768, margin: "0 auto", paddingTop: "clamp(32px, 8vw, 48px)" }} className="v3-section">
       <motion.div
         variants={container}
         initial="hidden"
