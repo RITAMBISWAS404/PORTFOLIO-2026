@@ -42,7 +42,7 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
           {/* Pills — dark background */}
           <div style={{padding:16,display:"flex",flexWrap:"wrap",gap:8,background:"#222222"}}>
             {p.tags.map(t=>(
-              <div key={t} style={{...tagStyle,border:"none",borderRadius:9999,boxShadow:"none",background:"rgba(255,255,255,0.10)",color:"#ffffff"}}>
+              <div key={t} style={{...tagStyle,border:"none",borderRadius:4,boxShadow:"none",background:"rgba(255,255,255,0.10)",color:"#ffffff"}}>
                 {t}
               </div>
             ))}
