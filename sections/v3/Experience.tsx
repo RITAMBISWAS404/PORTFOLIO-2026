@@ -1,6 +1,7 @@
 "use client";
 import { useRef } from "react";
 import { useInView } from "framer-motion";
+import { MdStyle } from "react-icons/md";
 import SectionHeadingV3 from "@/components/SectionHeadingV3";
 import { experience } from "@/data/content";
 import { revealStyle, col } from "@/lib/tokensV2";
@@ -72,7 +73,7 @@ function ExperienceCard({ e, delay }: { e: typeof experience[0]; delay: number }
 export default function Experience() {
   return (
     <section id="experience" style={{ ...col }} className="v3-section">
-      <SectionHeadingV3 title="Experience" eyebrow="SOMEHOW EMPLOYED" eyebrowColor="#ED7454" />
+      <SectionHeadingV3 title="My Design Journey" eyebrow="SOMEHOW EMPLOYED" icon={MdStyle} iconAfter={2} />
       <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
         {experience.map((e, i) => (
           <ExperienceCard key={e.company} e={e} delay={i * 0.06} />

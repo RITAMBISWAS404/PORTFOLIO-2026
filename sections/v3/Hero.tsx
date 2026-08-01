@@ -1,6 +1,6 @@
 "use client";
-import { useRef, useState } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
+import { MdDirectionsRun, MdLocalCafe } from "react-icons/md";
 import { C, tagStyle } from "@/lib/tokensV2";
 import { useAppReady } from "@/lib/AppReadyContext";
 
@@ -13,34 +13,6 @@ const item = {
   },
 };
 
-function Avatar() {
-  const ref = useRef<HTMLDivElement>(null);
-  const rx  = useMotionValue(0);
-  const ry  = useMotionValue(0);
-  const sRx = useSpring(rx, { stiffness: 160, damping: 22 });
-  const sRy = useSpring(ry, { stiffness: 160, damping: 22 });
-  const transform = useTransform(
-    [sRx, sRy], ([x, y]) => `perspective(400px) rotateX(${y}deg) rotateY(${x}deg)`,
-  );
-  const [egg, setEgg] = useState(false);
-  const move  = (e: React.MouseEvent) => {
-    const r = ref.current!.getBoundingClientRect();
-    rx.set(((e.clientX - r.left) / r.width  - 0.5) * 12);
-    ry.set(-((e.clientY - r.top)  / r.height - 0.5) * 12);
-  };
-  const leave = () => { rx.set(0); ry.set(0); setEgg(false); };
-  return (
-    <div ref={ref} onMouseMove={move} onMouseLeave={leave} onMouseEnter={() => setEgg(true)}
-      style={{ position: "relative", width: 56, height: 56, flexShrink: 0 }}>
-      <motion.div style={{ width: 56, height: 56, borderRadius: 8, overflow: "hidden", border: "1px solid rgba(0,0,0,0.10)", transform }}>
-        <div style={{ position: "absolute", inset: 0, background: "#ffffff" }} />
-        <img src={egg ? "/images/happy-catto.gif" : "/images/avatar.png"} alt="Ritam Biswas"
-          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", borderRadius: 8 }} />
-      </motion.div>
-    </div>
-  );
-}
-
 export default function Hero() {
   const { ready } = useAppReady();
   return (
@@ -52,13 +24,13 @@ export default function Hero() {
         className="el-gap"
         style={{ display: "flex", flexDirection: "column" }}
       >
-        {/* Identity — avatar + name side by side */}
-        <motion.div variants={item} style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <Avatar />
-          <div>
-            <div className="f16" style={{ fontWeight: 600, color: C.t1, letterSpacing: "0.01em" }}>Ritam Biswas</div>
-            <div className="f16" style={{ fontWeight: 500, color: C.t2 }}>Product &amp; UX/UI Designer</div>
-          </div>
+        {/* Badges */}
+        <motion.div variants={item} style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+          {["OPEN TO COLLABORATIONS"].map(label => (
+            <div key={label} style={{ ...tagStyle, border: "none", borderRadius: 9999, boxShadow: "0px 2px 4px 0px rgba(0,0,0,0.05)", background: "#ffffff", color: "#222222" }}>
+              {label}
+            </div>
+          ))}
         </motion.div>
 
         {/* Heading */}
@@ -66,32 +38,31 @@ export default function Hero() {
           <h1 style={{
             fontSize: "clamp(36px, 7vw, 54px)",
             fontWeight: 650,
-            color: C.t1,
             lineHeight: 1.2,
             letterSpacing: "-0.02em",
             fontFamily: "'Plus Jakarta Sans', sans-serif",
+            display: "flex", flexWrap: "wrap", alignItems: "center", gap: 8,
           }}>
-            <span style={{ color: "var(--exp-hero-a, var(--color-text-1))" }}>Complex data</span>{" "}
-            <span style={{ color: "var(--exp-hero-b, #ED7454)" }}>doesn&apos;t</span>
-            <span style={{ color: "var(--exp-hero-b, #ED7454)" }}> have to feel</span>{" "}
-            <span style={{ color: "var(--exp-hero-a, var(--color-text-1))" }}>complex.</span>
+            <span style={{ color: "var(--exp-hero-a, var(--color-text-1))" }}>Namaste</span>
+            <MdDirectionsRun style={{ width: "1.2em", height: "1.2em", margin: "0 -1.5px" }} color="#222222" />
+            <span style={{ color: "var(--exp-hero-a, var(--color-text-1))" }}>I&apos;m</span>
+            <span style={{ color: "var(--exp-hero-a, var(--color-text-1))" }}>Ritam,</span>
+            <span style={{ color: "var(--exp-hero-a, var(--color-text-1))" }}>a</span>
+            <span style={{ color: "var(--exp-hero-a, var(--color-text-1))" }}>Product</span>
+            <span style={{ color: "var(--exp-hero-a, var(--color-text-1))" }}>Designer</span>
+            <MdLocalCafe style={{ width: "1.2em", height: "1.2em", margin: "0 -1.5px" }} color="var(--exp-hero-b, #ED7454)" />
+            <span style={{ color: "var(--exp-hero-b, #ED7454)" }}>turning</span>
+            <span style={{ color: "var(--exp-hero-b, #ED7454)" }}>complexity</span>
+            <span style={{ color: "var(--exp-hero-b, #ED7454)" }}>into</span>
+            <span style={{ color: "var(--exp-hero-b, #ED7454)" }}>clarity.</span>
           </h1>
-        </motion.div>
-
-        {/* Badges */}
-        <motion.div variants={item} style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-          {["OPEN TO COLLABORATIONS", "2+ YEARS EXP", "MOBILE + WEB UX"].map(label => (
-            <div key={label} style={{ ...tagStyle, border: "none", borderRadius: 9999, boxShadow: "0px 2px 4px 0px rgba(0,0,0,0.05)", background: "#ffffff", color: "#222222" }}>
-              {label}
-            </div>
-          ))}
         </motion.div>
 
         {/* Body */}
         <motion.div variants={item}>
           <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.6 }}>
-            I turn information-heavy products into clean, minimal experiences. 2+ years building
-            for startups, most recently a Copenhagen-based EV energy company.
+            I help startups simplify complex workflows through thoughtful product design, creating
+            intuitive mobile and web experiences that people understand from the very first interaction.
           </p>
         </motion.div>
 

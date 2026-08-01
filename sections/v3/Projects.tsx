@@ -2,6 +2,7 @@
 import { useRef } from "react";
 import { useInView } from "framer-motion";
 import { useState } from "react";
+import { MdApps } from "react-icons/md";
 import SectionHeadingV3 from "@/components/SectionHeadingV3";
 import { projects } from "@/data/content";
 import { C, tagStyle, tagHv, revealStyle, col } from "@/lib/tokensV2";
@@ -71,7 +72,7 @@ function ProjectCard({p,delay}:{p:typeof projects[0];delay:number}){
 export default function Projects(){
   return(
     <section id="projects" style={{...col}} className="v3-section">
-      <SectionHeadingV3 title="Selected Projects" eyebrow="THERE'S MORE" eyebrowColor="#ED7454" />
+      <SectionHeadingV3 title="Selected Projects" eyebrow="THERE'S MORE" icon={MdApps} iconAfter={1} />
       <div className="mt-section" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))",gap:16}}>
         {projects.map((p,i)=><ProjectCard key={p.title} p={p} delay={i*0.06}/>)}
       </div>

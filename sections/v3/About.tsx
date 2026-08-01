@@ -3,7 +3,7 @@ import { useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useInView } from "framer-motion";
 import { Copy, Check } from "lucide-react";
-import { MdConstruction, MdBook } from "react-icons/md";
+import { MdConstruction, MdBook, MdSelfImprovement } from "react-icons/md";
 import SectionHeadingV3 from "@/components/SectionHeadingV3";
 import CardV3 from "@/components/CardV3";
 import { C, revealStyle, col } from "@/lib/tokensV2";
@@ -42,7 +42,7 @@ export default function About() {
 
   return (
     <section id="about" style={{ ...col }} className="v3-section">
-      <SectionHeadingV3 title="A Bit About Me" eyebrow="OBLIGATORY INTRODUCTION" eyebrowColor="#ED7454" />
+      <SectionHeadingV3 title="A Bit About Me" eyebrow="OBLIGATORY INTRODUCTION" icon={MdSelfImprovement} iconAfter={3} />
 
       {/* Bio */}
       <p ref={bioRef} className="f16 mt-section"

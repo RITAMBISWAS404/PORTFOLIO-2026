@@ -1,5 +1,6 @@
 "use client";
 import { useRef, useState } from "react";
+import { MdSupervisedUserCircle } from "react-icons/md";
 import SectionHeadingV3 from "@/components/SectionHeadingV3";
 import { C, inputBase, col } from "@/lib/tokensV2";
 import { eyebrow } from "@/lib/typography";
@@ -46,7 +47,7 @@ export default function Contact() {
 
   return (
     <section id="contact" style={{ ...col }} className="v3-section">
-      <SectionHeadingV3 title="Let's Build Together" eyebrow="MIGHT AS WELL SAY HI" eyebrowColor="#ED7454" />
+      <SectionHeadingV3 title="Let's Build Together" eyebrow="MIGHT AS WELL SAY HI" icon={MdSupervisedUserCircle} iconAfter={2} />
 
       {/* Subheading */}
       <p className="f16 mt-section" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.6, marginBottom: 24 }}>

@@ -1,7 +1,7 @@
 "use client";
 import { useRef } from "react";
 import { useInView } from "framer-motion";
-import { MdSmartphone, MdAccountTree, MdWidgets, MdDirectionsRun } from "react-icons/md";
+import { MdSmartphone, MdAccountTree, MdWidgets, MdDirectionsRun, MdVerified } from "react-icons/md";
 import SectionHeadingV3 from "@/components/SectionHeadingV3";
 import CardV3 from "@/components/CardV3";
 import { zeno } from "@/data/content";
@@ -23,7 +23,7 @@ export default function FeaturedProject() {
   return (
     <>
       <div id="featured" style={{ ...col, paddingBottom: 0 }} className="v3-section">
-        <SectionHeadingV3 title="Featured Project" eyebrow="NOT BAD, HONESTLY" eyebrowColor="#ED7454" />
+        <SectionHeadingV3 title="Featured Project" eyebrow="NOT BAD, HONESTLY" icon={MdVerified} iconAfter={1} />
       </div>
 
       {/* Feature image */}
