@@ -54,8 +54,8 @@ export default function Hero() {
         <motion.div variants={item}>
           <motion.h1
             variants={wordContainer}
+            className="hero-heading"
             style={{
-              fontSize: "clamp(36px, 7vw, 54px)",
               fontWeight: 650,
               lineHeight: 1.2,
               letterSpacing: "-0.02em",
@@ -129,6 +129,10 @@ export default function Hero() {
             margin-left: calc(min(900px, 96vw) / -2);
             margin-bottom: -4px;
           }
+        }
+        .hero-heading { font-size: clamp(28px, 4vw, 40px); }
+        @media (min-width: 768px) {
+          .hero-heading { font-size: clamp(36px, 7vw, 54px); }
         }
       `}</style>
     </section>
