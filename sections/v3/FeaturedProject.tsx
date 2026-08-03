@@ -1,6 +1,7 @@
 "use client";
 import { useRef } from "react";
 import { useInView } from "framer-motion";
+import { usePathname } from "next/navigation";
 import { MdSmartphone, MdAccountTree, MdWidgets, MdDirectionsRun, MdVerified } from "react-icons/md";
 import SectionHeadingV3 from "@/components/SectionHeadingV3";
 import CardV3 from "@/components/CardV3";
@@ -17,16 +18,18 @@ const stats = [
 export default function FeaturedProject() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "0px" });
+  const pathname = usePathname();
+  const isNew = pathname === "/new" || pathname?.startsWith("/new/");
 
   return (
     <>
       <div id="featured" style={{ ...col, paddingBottom: 0 }} className="v3-section">
-        <SectionHeadingV3 title="Featured Project" eyebrow="NOT BAD, HONESTLY" icon={MdVerified} iconAfter={1} />
+        <SectionHeadingV3 title="Featured Project" eyebrow="NOT BAD, HONESTLY" icon={MdVerified} iconSrc="/images/Feature%20project.png" iconAfter={1} />
       </div>
 
       {/* Feature image */}
       <div style={{ ...col, paddingBottom: 0 }} className="v3-section">
-        <div className="feature-img-wrap" style={{ borderRadius: 8, overflow: "hidden", width: "100%" }}>
+        <div className="feature-img-wrap" style={{ borderRadius: isNew ? 8 : 0, overflow: "hidden", width: "100%" }}>
           <picture>
             <source media="(min-width: 768px)" srcSet="/images/16_9.png" />
             <img src="/images/4_3.png" alt="ZENO App"
@@ -76,7 +79,7 @@ export default function FeaturedProject() {
           <a href="/zeno" target="_blank" rel="noopener noreferrer" style={{
             display: "flex", alignItems: "center", gap: 10,
             background: C.t1, color: C.bg, padding: "11px 22px",
-            borderRadius: 8, fontSize: 14, fontWeight: 600, textDecoration: "none",
+            borderRadius: isNew ? 8 : 0, fontSize: 14, fontWeight: 600, textDecoration: "none",
             transition: "opacity 0.25s, transform 0.25s",
           }}
             onMouseEnter={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.opacity = "0.88"; a.style.transform = "translateY(-2px)"; }}
@@ -86,7 +89,7 @@ export default function FeaturedProject() {
           <a href="https://www.figma.com/design/HQiowSEZWtefmjVP5cqZuY/ZENO?node-id=0-1&p=f&t=ZuWU0JArTeGN7yjv-0" target="_blank" rel="noopener noreferrer" style={{
             display: "flex", alignItems: "center", gap: 10,
             background: "rgba(0,0,0,0.05)", color: C.t1, padding: "11px 22px",
-            borderRadius: 8, fontSize: 14, fontWeight: 600, textDecoration: "none",
+            borderRadius: isNew ? 8 : 0, fontSize: 14, fontWeight: 600, textDecoration: "none",
             border: "none",
             transition: "background 0.25s, transform 0.25s",
           }}
@@ -102,8 +105,8 @@ export default function FeaturedProject() {
         @media (min-width: 600px) { .stats-grid { grid-template-columns: 1fr 1fr; } }
         .feature-img-wrap { aspect-ratio: 4 / 3; }
         @media (min-width: 768px) { .feature-img-wrap { aspect-ratio: 16 / 9; } }
-        .v3-identity-logo { width: 48px; height: 48px; border-radius: 6px; }
-        @media (min-width: 768px) { .v3-identity-logo { width: 64px; height: 64px; border-radius: 8px; } }
+        .v3-identity-logo { width: 48px; height: 48px; border-radius: ${isNew ? "6px" : "0"}; }
+        @media (min-width: 768px) { .v3-identity-logo { width: 64px; height: 64px; border-radius: ${isNew ? "8px" : "0"}; } }
       `}</style>
     </>
   );

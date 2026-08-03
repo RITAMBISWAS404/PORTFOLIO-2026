@@ -1,6 +1,7 @@
 "use client";
 import { useRef } from "react";
 import { useInView } from "framer-motion";
+import { usePathname } from "next/navigation";
 import { MdStyle } from "react-icons/md";
 import SectionHeadingV3 from "@/components/SectionHeadingV3";
 import { experience } from "@/data/content";
@@ -25,7 +26,7 @@ function LogoIcon({ src, alt, fallback, fallbackBg }: { src?: string; alt: strin
   );
 }
 
-function ExperienceCard({ e, delay }: { e: typeof experience[0]; delay: number }) {
+function ExperienceCard({ e, delay, isNew }: { e: typeof experience[0]; delay: number; isNew: boolean }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "0px" });
   const [date, mode, location] = e.meta.split(' | ');
@@ -34,9 +35,9 @@ function ExperienceCard({ e, delay }: { e: typeof experience[0]; delay: number }
 
   return (
     <div ref={ref} style={{
-      background: "#ffffff",
-      boxShadow: "0px 2px 8px 0px rgba(0,0,0,0.05)",
-      borderRadius: 8,
+      background: isNew ? "#ffffff" : "#f4f4f4",
+      boxShadow: isNew ? "0px 2px 8px 0px rgba(0,0,0,0.05)" : "none",
+      borderRadius: isNew ? 8 : 0,
       padding: 16,
       display: "flex", flexDirection: "column", gap: 8,
       overflow: "hidden",
@@ -53,8 +54,8 @@ function ExperienceCard({ e, delay }: { e: typeof experience[0]; delay: number }
           : <LogoIcon alt={e.company} fallback={e.logo} fallbackBg={e.logoBg} />
         }
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <span className="f16" style={{ fontWeight: 600, color: "#222222" }}>{e.company}</span>
-          <span style={{ fontSize: 12, fontWeight: 600, color: "#222222", letterSpacing: "0.06em", textTransform: "uppercase" }}>{role}</span>
+          <span className="f16" style={{ fontWeight: 600, color: "var(--exp-black, #222222)" }}>{e.company}</span>
+          <span style={{ fontSize: 12, fontWeight: 600, color: "var(--exp-black, #222222)", letterSpacing: "0.06em", textTransform: "uppercase" }}>{role}</span>
         </div>
       </div>
 
@@ -64,25 +65,52 @@ function ExperienceCard({ e, delay }: { e: typeof experience[0]; delay: number }
         <span className="v3-exp-meta-full">{date} | {mode} | {location}</span>
       </div>
 
-      {/* Description */}
-      <p style={{ fontSize: 14, fontWeight: 500, color: "#222222", lineHeight: 1.6 }}>{e.desc}</p>
+      {/* Description — dropped on live per the Figma card layout, kept on /new */}
+      {isNew && (
+        <p style={{ fontSize: 14, fontWeight: 500, color: "var(--exp-black, #222222)", lineHeight: 1.6 }}>{e.desc}</p>
+      )}
     </div>
   );
 }
 
 export default function Experience() {
+  const pathname = usePathname();
+  const isNew = pathname === "/new" || pathname?.startsWith("/new/");
+
   return (
     <section id="experience" style={{ ...col }} className="v3-section">
-      <SectionHeadingV3 title="My Design Journey" eyebrow="SOMEHOW EMPLOYED" icon={MdStyle} iconAfter={2} />
-      <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+      <SectionHeadingV3 title="My Design Journey" eyebrow="SOMEHOW EMPLOYED" icon={MdStyle} iconSrc="/images/How%20i%20work-1.png" iconAfter={2} />
+      <div className={isNew ? "mt-section" : "mt-section exp-grid"} style={isNew ? { display: "flex", flexDirection: "column", gap: 16 } : undefined}>
         {experience.map((e, i) => (
-          <ExperienceCard key={e.company} e={e} delay={i * 0.06} />
+          <ExperienceCard key={e.company} e={e} delay={i * 0.06} isNew={isNew} />
         ))}
+        {!isNew && experience.length % 2 !== 0 && (
+          <div className="exp-filler">
+            <span>Guess I should stop working<br />and touch some grass.</span>
+          </div>
+        )}
       </div>
       <style>{`
         .v3-exp-meta-full    { display: none; }
         .v3-exp-meta-compact { display: inline; }
-        .v3-exp-logo { width: 32px; height: 32px; border-radius: 4px; font-size: 9px; }
+        .v3-exp-logo { width: 32px; height: 32px; border-radius: ${isNew ? "4px" : "0"}; font-size: 9px; }
+        .exp-grid { display: flex; flex-direction: column; gap: 16px; }
+        .exp-filler {
+          display: none;
+          background: #f4f4f4;
+          padding: 16px;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+        }
+        .exp-filler span {
+          font-size: 12px; font-weight: 600; color: #909090;
+          letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.6;
+        }
+        @media (min-width: 600px) {
+          .exp-grid { display: grid; grid-template-columns: 1fr 1fr; }
+          .exp-filler { display: flex; }
+        }
         @media (min-width: 768px) {
           .v3-exp-meta-full    { display: inline; }
           .v3-exp-meta-compact { display: none; }

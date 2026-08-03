@@ -12,16 +12,18 @@ interface Props {
   eyebrowColor?: string;
   /** Icon dropped mid-title. Word-split, so it must land strictly between two words. */
   icon?: IconType;
+  /** Square image dropped mid-title instead of `icon`, when provided. */
+  iconSrc?: string;
   /** Number of leading words before the icon (1 = after the 1st word, etc). */
   iconAfter?: number;
 }
 
-export default function SectionHeadingV3({ num, title, eyebrow: eyebrowText, eyebrowColor, icon: Icon, iconAfter }: Props) {
+export default function SectionHeadingV3({ num, title, eyebrow: eyebrowText, eyebrowColor, icon: Icon, iconSrc, iconAfter }: Props) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "0px" });
 
   const words = title.split(" ");
-  const hasIcon = Icon && iconAfter !== undefined && iconAfter > 0 && iconAfter < words.length;
+  const hasIcon = (Icon || iconSrc) && iconAfter !== undefined && iconAfter > 0 && iconAfter < words.length;
   const before = hasIcon ? words.slice(0, iconAfter).join(" ") : title;
   const after = hasIcon ? words.slice(iconAfter).join(" ") : "";
 
@@ -44,7 +46,9 @@ export default function SectionHeadingV3({ num, title, eyebrow: eyebrowText, eye
         <span style={{ color: "var(--color-text-1)" }}>{before}</span>
         {hasIcon && (
           <>
-            <Icon style={{ width: "1.2em", height: "1.2em", margin: "0 -1.5px" }} color="#ED7454" />
+            {iconSrc
+              ? <img src={iconSrc} alt="" style={{ width: "1.2em", height: "1.2em", margin: "0 -1.5px", objectFit: "contain" }} />
+              : Icon && <Icon style={{ width: "1.2em", height: "1.2em", margin: "0 -1.5px" }} color="#ED7454" />}
             <span style={{ color: "var(--color-text-1)" }}>{after}</span>
           </>
         )}

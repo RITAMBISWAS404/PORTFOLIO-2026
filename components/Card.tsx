@@ -1,6 +1,7 @@
 "use client";
 import { useRef, useState } from "react";
 import { useInView } from "framer-motion";
+import { usePathname } from "next/navigation";
 import { LucideIcon } from "lucide-react";
 import { revealStyle } from "@/lib/tokens";
 
@@ -12,6 +13,8 @@ export default function Card({ label, num, body, delay = 0, bg, iconColor = "#ff
   const [glow, setGlow] = useState("");
   const [hovered, setHovered] = useState(false);
   const isColored = !!bg;
+  const pathname = usePathname();
+  const isShopez = pathname === "/shopez";
 
   return (
     <div ref={ref}
@@ -39,7 +42,7 @@ export default function Card({ label, num, body, delay = 0, bg, iconColor = "#ff
         position: "relative",
         background: isColored ? (chipIcon ? "#ffffff" : `var(--exp-card-bg, ${bg})`) : (glow || "var(--color-card)"),
         border: isColored ? (border ?? (chipIcon ? "1px solid rgba(0,0,0,0.1)" : "none")) : "none",
-        borderRadius: 8, padding: 16,
+        borderRadius: isShopez ? 0 : 8, padding: 16,
         display: "flex", flexDirection: "column", gap: 8, cursor: "default",
         overflow: "hidden",
         ...revealStyle(inView, delay),

@@ -21,15 +21,15 @@ import { C, col, revealStyle } from "@/lib/tokensV2";
 /* ── Callout variants — thin wrappers around IconCard ────────────── */
 
 function Perspective({ text }: { text: string }) {
-  return <IconCard icon={QuoteIcon} label="Perspective" body={`“${text}”`} bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover />;
+  return <IconCard icon={QuoteIcon} label="Perspective" body={`“${text}”`} bg="#f4f4f4" iconColor="#36A2E1" textColor="#222222" noHover />;
 }
 
 function Lesson({ text }: { text: string }) {
-  return <IconCard icon={BookOpen} label="Lesson" body={text} bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover />;
+  return <IconCard icon={BookOpen} label="Lesson" body={text} bg="#f4f4f4" iconColor="#36A2E1" textColor="#222222" noHover />;
 }
 
 function Insight({ text }: { text: string }) {
-  return <IconCard icon={Lightbulb} label="Insight" body={text} bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover />;
+  return <IconCard icon={Lightbulb} label="Insight" body={text} bg="#f4f4f4" iconColor="#36A2E1" textColor="#222222" noHover />;
 }
 
 /* ── Scroll reveal wrapper ──────────────────────────────────────── */
@@ -53,7 +53,7 @@ function ShopImg({ src, alt, caption }: { src: string; alt: string; caption?: st
     <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
       <img
         src={src} alt={alt} loading="lazy"
-        style={{ width: "100%", height: "auto", display: "block", borderRadius: 8, border: `1px solid ${C.border}` }}
+        style={{ width: "100%", height: "auto", display: "block", borderRadius: 0, border: `1px solid ${C.border}` }}
       />
       {caption && (
         <p style={{ fontSize: 12, fontWeight: 500, color: C.t3, textAlign: "center", lineHeight: 1.5 }}>{caption}</p>
@@ -135,7 +135,7 @@ export default function ShopEZPage() {
   return (
     <ThemeProvider defaultTheme="light">
       <NavbarNew homePath="/" />
-      <main style={{ position: "relative" }}>
+      <main style={{ position: "relative" }} className="v3-white-bg">
         <GridLines />
         <PageNav />
 
@@ -143,7 +143,7 @@ export default function ShopEZPage() {
       <section style={{ ...col, paddingBottom: 0 }} className="v3-section">
         <Reveal>
           <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 24 }}>
-            <div style={{ width: 64, height: 64, borderRadius: 8, overflow: "hidden", flexShrink: 0 }}>
+            <div style={{ width: 64, height: 64, borderRadius: 0, overflow: "hidden", flexShrink: 0 }}>
               <img src="/images/shopez logo.png" alt="ShopEZ" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             </div>
             <div>
@@ -156,18 +156,18 @@ export default function ShopEZPage() {
             How I redesigned a hackathon billing app for the person actually standing behind the counter.
           </h1>
 
-          <IconCard icon={Lock} label="A Quick Note" bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover
+          <IconCard icon={Lock} label="A Quick Note" bg="#f4f4f4" iconColor="#36A2E1" textColor="#222222" noHover
             body="ShopEZ started at a hackathon. We built something rough, won the Open Innovation track, and moved on. A year later I came back to the same problem with fresh eyes. What you are reading is the redesign: same product idea, completely different level of thinking." />
         </Reveal>
       </section>
 
       {/* ── HERO IMAGE ──────────────────────────────────────── */}
       <div style={{ ...col, paddingBottom: 0 }} className="v3-section">
-        <div style={{ borderRadius: 8, overflow: "hidden", width: "100%" }}>
+        <div style={{ borderRadius: 0, overflow: "hidden", width: "100%" }}>
           <img
             src="/images/shopez/hero.png"
             alt="ShopEZ — Point. Scan. Bill."
-            style={{ width: "100%", height: "auto", display: "block", border: `1px solid ${C.border}`, borderRadius: 8 }}
+            style={{ width: "100%", height: "auto", display: "block", border: `1px solid ${C.border}`, borderRadius: 0 }}
           />
         </div>
       </div>
@@ -175,9 +175,9 @@ export default function ShopEZPage() {
       {/* ── STATS ───────────────────────────────────────────── */}
       <section style={{ ...col }} className="v3-section">
         <div className="shop-stats-grid">
-          <Card label="12M+ Kirana Stores" num="" body="Neighbourhood grocery shops across India, most still running on paper." delay={0}    bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover icon={Store} />
-          <Card label="5 Core Flows"       num="" body="Splash, onboarding, dashboard, scan-to-bill, credit management." delay={0.08} bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover icon={GitBranch} />
-          <Card label="30 Second Bills"    num="" body="Typical time from scan to payment confirmation for a 5-item bill." delay={0.16} bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover icon={Clock} />
+          <Card label="12M+ Kirana Stores" num="" body="Neighbourhood grocery shops across India, most still running on paper." delay={0}    bg="#f4f4f4" iconColor="#36A2E1" textColor="#222222" noHover icon={Store} />
+          <Card label="5 Core Flows"       num="" body="Splash, onboarding, dashboard, scan-to-bill, credit management." delay={0.08} bg="#f4f4f4" iconColor="#36A2E1" textColor="#222222" noHover icon={GitBranch} />
+          <Card label="30 Second Bills"    num="" body="Typical time from scan to payment confirmation for a 5-item bill." delay={0.16} bg="#f4f4f4" iconColor="#36A2E1" textColor="#222222" noHover icon={Clock} />
         </div>
       </section>
 
@@ -406,7 +406,7 @@ export default function ShopEZPage() {
             <ShopImg src="/images/shopez/full-flow-strip.png" alt="Full flow strip — all 8 screens with labels and arrows" />
           </Reveal>
           <Reveal delay={0.12}>
-            <div style={{ background: "#ffffff", border: `1px solid ${C.border}`, borderRadius: 8, padding: "20px 24px", textAlign: "center" }}>
+            <div style={{ background: "#f4f4f4", borderRadius: 0, padding: "20px 24px", textAlign: "center" }}>
               <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.7 }}>
                 &ldquo;A typical 5-item bill: under 30 seconds from scan to done.&rdquo;
               </p>
@@ -422,9 +422,9 @@ export default function ShopEZPage() {
         <SectionHeadingV3 title="Reflection" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div className="shop-reflection-grid">
-            <IconCard icon={FileText}   label="Test with real users earlier" body="All design decisions here came from observation and research. One session watching an actual kirana owner use the scan screen would have caught the gap before it became a gap." bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover delay={0}    />
-            <IconCard icon={Lightbulb}  label="Design the failure states"    body="Every happy path is designed. None of the error states are. Unrecognised items, camera failure, no internet. Those screens do not exist yet and they should." bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover delay={0.08} />
-            <IconCard icon={Smartphone} label="Language toggle from day one" body="The app is in English. A lot of shopkeepers who need this most are not comfortable in English. Hindi or regional language should have been in the first frame of the Figma file." bg="#ffffff" iconColor="#36A2E1" textColor="#222222" border="1px solid rgba(0,0,0,0.10)" noHover delay={0.16} />
+            <IconCard icon={FileText}   label="Test with real users earlier" body="All design decisions here came from observation and research. One session watching an actual kirana owner use the scan screen would have caught the gap before it became a gap." bg="#f4f4f4" iconColor="#36A2E1" textColor="#222222" noHover delay={0}    />
+            <IconCard icon={Lightbulb}  label="Design the failure states"    body="Every happy path is designed. None of the error states are. Unrecognised items, camera failure, no internet. Those screens do not exist yet and they should." bg="#f4f4f4" iconColor="#36A2E1" textColor="#222222" noHover delay={0.08} />
+            <IconCard icon={Smartphone} label="Language toggle from day one" body="The app is in English. A lot of shopkeepers who need this most are not comfortable in English. Hindi or regional language should have been in the first frame of the Figma file." bg="#f4f4f4" iconColor="#36A2E1" textColor="#222222" noHover delay={0.16} />
           </div>
         </div>
       </section>
@@ -439,7 +439,7 @@ export default function ShopEZPage() {
             display: "flex", alignItems: "center", gap: 10,
             background: "rgba(0,0,0,0.04)", color: C.t1,
             border: "none", padding: "11px 22px",
-            borderRadius: 8, fontSize: 14, fontWeight: 600,
+            borderRadius: 0, fontSize: 14, fontWeight: 600,
             cursor: "pointer", fontFamily: "'Plus Jakarta Sans', sans-serif",
             transition: "opacity 0.25s, transform 0.25s",
           }}

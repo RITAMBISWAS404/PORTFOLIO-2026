@@ -25,7 +25,7 @@ export default function Home() {
   return (
     <ThemeProvider defaultTheme="light">
       <NavbarNew homePath="/" />
-      <main style={{ position: "relative" }}>
+      <main style={{ position: "relative" }} className="v3-home">
         <GridLines />
         <Hero />
         <Divider />

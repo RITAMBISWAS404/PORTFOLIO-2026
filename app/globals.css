@@ -49,6 +49,9 @@
   --nav-top:            18px;
   /* Mobile sticky nav */
   --nav-height-mobile:  56px;
+  /* Nav surface: translucent + blurred, site-wide */
+  --nav-bg:             rgba(17, 17, 17, 0.8);
+  --nav-blur:           blur(14px);
 }
 
 /* ── Light mode ── */
@@ -84,6 +87,9 @@
 
 [data-theme="light"] ::selection { background: rgba(61,107,232,0.18); color: #111111; }
 
+/* Home (/) and case studies (/zeno, /shopez): pure white canvas instead of the off-white default */
+body:has(.v3-home), body:has(.v3-white-bg) { --color-bg: #ffffff; }
+
 ::placeholder { color: var(--color-placeholder); opacity: 1; }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -108,6 +114,11 @@ body {
     font-size: 16px;      /* desktop base */
     /* Desktop: floating nav with top gap */
     padding-top: calc(var(--nav-top) + var(--nav-height-desktop) + 8px);
+  }
+
+  /* Home / /new: hero image sits flush under the floating nav, no reserved gap */
+  body:has(.new-palette), body:has(.v3-home) {
+    padding-top: 0;
   }
 }
 
@@ -172,19 +183,20 @@ body.menu-open { overflow: hidden; }
 
 /* ── /new-only experimental palette (staging, not applied to live pages) ─── */
 .new-palette {
-  --exp-bg:          #ECEBE6;
+  --exp-bg:          #ffffff;
   --exp-card-bg:     #ffffff;
-  --exp-card-fg:     #222222;
+  --exp-card-fg:     #111111;
   --exp-card-heading:#919191;
   --exp-grid-border: #CFCEC8;
   --exp-hero-a:      #878784;
-  --exp-hero-b:      #222222;
+  --exp-hero-b:      #111111;
+  --exp-black:       #111111;
   --exp-about-item-bg: rgba(0,0,0,0.06);
   --exp-about-muted:   rgba(0,0,0,0.45);
   --exp-card-hover-overlay: rgba(0,0,0,0.05);
   --exp-chip-active-bg:     #ffffff;
   --exp-chip-active-border: #ffffff;
-  --exp-chip-active-text:   #222222;
+  --exp-chip-active-text:   #111111;
 }
 
 /* Reserved nav-offset strip above <main> is part of <body>, not <main>,

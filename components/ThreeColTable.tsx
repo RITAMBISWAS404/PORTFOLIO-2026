@@ -1,3 +1,5 @@
+"use client";
+import { usePathname } from "next/navigation";
 import { C } from "@/lib/tokensV2";
 import { tableHeader, tableCellMuted, tableCellStrong } from "@/lib/typography";
 
@@ -10,8 +12,11 @@ interface Props {
 }
 
 export default function ThreeColTable({ headers, rows, cellColor = "graduated", preLine = false }: Props) {
+  const pathname = usePathname();
+  const isNew = pathname === "/new" || pathname?.startsWith("/new/");
+
   return (
-    <div style={{ border: `1px solid ${C.border}`, borderRadius: 8, overflow: "hidden", overflowX: "auto" }}>
+    <div style={{ border: `1px solid ${C.border}`, borderRadius: isNew ? 8 : 0, overflow: "hidden", overflowX: "auto" }}>
       <div style={{ minWidth: 480, display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}>
         {headers.map((h, i) => (
           <div key={i} style={{

@@ -15,6 +15,8 @@ export default function NavbarNew({ homePath = "/new" }: { homePath?: string }) 
   const { ready } = useAppReady();
   const pathname = usePathname();
   const isHome = pathname === homePath || (homePath !== "/" && pathname?.startsWith(`${homePath}/`));
+  // Squared-off corners are the live/case-study treatment — /new and /new/zeno keep the rounded pill.
+  const isLiveHome = pathname === "/" || pathname === "/zeno" || pathname === "/shopez";
   const resolveHref = (href: string) => isHome ? href : `${homePath}${href}`;
   const logoSrc = "/images/logo_light.png";
 
@@ -59,7 +61,9 @@ export default function NavbarNew({ homePath = "/new" }: { homePath?: string }) 
         <header style={{
           position: "fixed", top: 0, left: 0, right: 0, zIndex: 1000,
           height: 56,
-          background: "#222222",
+          background: "var(--nav-bg, #222222)",
+          backdropFilter: "var(--nav-blur, none)",
+          WebkitBackdropFilter: "var(--nav-blur, none)",
           border: "1px solid rgba(255,255,255,0.08)",
           display: "flex", alignItems: "center", justifyContent: "space-between",
           padding: "0 20px",
@@ -93,7 +97,9 @@ export default function NavbarNew({ homePath = "/new" }: { homePath?: string }) 
 
         <nav style={{
           position: "fixed", top: 56, left: 0, right: 0, zIndex: 999,
-          background: "#222222",
+          background: "var(--nav-bg, #222222)",
+          backdropFilter: "var(--nav-blur, none)",
+          WebkitBackdropFilter: "var(--nav-blur, none)",
           padding: "8px 0",
           transform: menuOpen ? "translateY(0)" : "translateY(-8px)",
           opacity: menuOpen ? 1 : 0,
@@ -125,7 +131,7 @@ export default function NavbarNew({ homePath = "/new" }: { homePath?: string }) 
     );
   }
 
-  // ─── DESKTOP ───────────────────────────────────────────────────────────────
+  // ─── DESKTOP: floating pill ─────────────────────────────────────────────────
   return (
     <div style={{
       position: "fixed", top: 18, left: 0, right: 0,
@@ -136,8 +142,10 @@ export default function NavbarNew({ homePath = "/new" }: { homePath?: string }) 
         pointerEvents: "all",
         width: 54, height: 54, padding: 5,
         transform: "translateY(-70px)",
-        background: "#222222",
-        borderRadius: 8,
+        background: "var(--nav-bg, #222222)",
+        backdropFilter: "var(--nav-blur, none)",
+        WebkitBackdropFilter: "var(--nav-blur, none)",
+        borderRadius: isLiveHome ? 0 : 8,
         border: "1px solid rgba(255,255,255,0.08)",
         display: "flex", alignItems: "center", gap: 5,
       }}>
@@ -156,7 +164,7 @@ export default function NavbarNew({ homePath = "/new" }: { homePath?: string }) 
             return (
               <a key={label} href={resolveHref(href)} className="nav-link-new" style={{
                 display: "flex", alignItems: "center",
-                height: 34, padding: "0 12px", borderRadius: 8,
+                height: 34, padding: "0 12px", borderRadius: isLiveHome ? 0 : 8,
                 fontSize: 12, fontWeight: 600,
                 color: isActive ? "#ffffff" : "rgba(255,255,255,0.42)",
                 letterSpacing: "0.08em", textTransform: "uppercase",
