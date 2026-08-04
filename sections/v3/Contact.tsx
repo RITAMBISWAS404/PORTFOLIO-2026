@@ -65,14 +65,14 @@ export default function Contact() {
           <div>
             <label htmlFor="f-name" style={lbl}>Name</label>
             <input id="f-name" name="name" type="text" placeholder="Your name" required
-              style={{ ...inputBase, height: 44, borderRadius: isNew ? 8 : 0 }}
+              style={{ ...inputBase, height: 44, borderRadius: 4 }}
               onFocus={focusIn as React.FocusEventHandler}
               onBlur={focusOut as React.FocusEventHandler} />
           </div>
           <div>
             <label htmlFor="f-email" style={lbl}>Email</label>
             <input id="f-email" name="email" type="email" placeholder="you@company.com" required
-              style={{ ...inputBase, height: 44, borderRadius: isNew ? 8 : 0 }}
+              style={{ ...inputBase, height: 44, borderRadius: 4 }}
               onFocus={focusIn as React.FocusEventHandler}
               onBlur={focusOut as React.FocusEventHandler} />
           </div>
@@ -83,7 +83,7 @@ export default function Contact() {
           <label htmlFor="f-msg" style={lbl}>Project / Message</label>
           <textarea id="f-msg" name="message"
             placeholder="Tell me a bit about the project, role, or idea." required
-            style={{ ...inputBase, height: 110, resize: "none", borderRadius: isNew ? 8 : 0 }}
+            style={{ ...inputBase, height: 110, resize: "none", borderRadius: 4 }}
             onFocus={focusIn as React.FocusEventHandler}
             onBlur={focusOut as React.FocusEventHandler} />
         </div>
@@ -95,7 +95,7 @@ export default function Contact() {
         <button type="submit" disabled={status === "sending" || status === "sent"}
           style={{
             height: 48, background: btnBg, color: btnCol,
-            borderRadius: isNew ? 8 : 0, border: "none",
+            borderRadius: isNew ? 8 : 9999, border: "none",
             cursor: status === "sending" || status === "sent" ? "not-allowed" : "pointer",
             fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 14, fontWeight: 600,
             transition: "opacity 0.25s, transform 0.25s",

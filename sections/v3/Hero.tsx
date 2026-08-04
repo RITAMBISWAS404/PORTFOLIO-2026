@@ -93,7 +93,7 @@ export default function Hero() {
           <a href="#projects" style={{
             display: "flex", alignItems: "center", gap: 10,
             background: C.t1, color: C.bg, padding: "11px 22px",
-            borderRadius: 0, fontSize: 14, fontWeight: 600, textDecoration: "none",
+            borderRadius: isNew ? 0 : 9999, fontSize: 14, fontWeight: 600, textDecoration: "none",
             transition: "opacity 0.25s, transform 0.25s",
           }}
             onMouseEnter={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.opacity = "0.88"; a.style.transform = "translateY(-2px)"; }}
@@ -102,8 +102,8 @@ export default function Hero() {
           </a>
           <a href="#contact" style={{
             display: "flex", alignItems: "center", gap: 10,
-            background: "rgba(0,0,0,0.05)", color: C.t1, padding: "11px 22px",
-            borderRadius: 0, fontSize: 14, fontWeight: 600, textDecoration: "none",
+            background: "rgba(0,0,0,0.08)", color: C.t1, padding: "11px 22px",
+            borderRadius: isNew ? 0 : 9999, fontSize: 14, fontWeight: 600, textDecoration: "none",
             border: "none",
             transition: "background 0.25s, transform 0.25s",
           }}

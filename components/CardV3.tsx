@@ -20,10 +20,10 @@ export default function CardV3({ label, body, delay = 0, icon: Icon, noHover = f
       onMouseEnter={noHover ? undefined : e => { e.currentTarget.style.transform = "translateY(-4px)"; }}
       onMouseLeave={noHover ? undefined : e => { e.currentTarget.style.transform = inView ? "translateY(0)" : "translateY(16px)"; }}
       style={{
-        background: isNew ? "#ffffff" : "#f4f4f4",
-        boxShadow: isNew ? "0px 2px 8px 0px rgba(0,0,0,0.05)" : "none",
+        background: "#ffffff",
+        boxShadow: isNew ? "0px 2px 8px 0px rgba(0,0,0,0.05)" : "0px 2px 9px 0px rgba(0,0,0,0.05)",
         border: "none",
-        borderRadius: isNew ? 8 : 0,
+        borderRadius: 8,
         padding: "16px 16px 20px",
         display: "flex", flexDirection: "column", gap: 8, cursor: "default",
         overflow: "hidden",

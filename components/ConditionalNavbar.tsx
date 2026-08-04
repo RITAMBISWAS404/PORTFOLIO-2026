@@ -4,6 +4,6 @@ import Navbar from "./Navbar";
 
 export default function ConditionalNavbar() {
   const pathname = usePathname();
-  if (pathname === "/" || pathname === "/zeno" || pathname === "/new" || pathname?.startsWith("/new/")) return null;
+  if (pathname === "/" || pathname === "/zeno" || pathname === "/shopez" || pathname === "/new" || pathname?.startsWith("/new/")) return null;
   return <Navbar />;
 }

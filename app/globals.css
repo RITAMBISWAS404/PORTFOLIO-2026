@@ -87,8 +87,8 @@
 
 [data-theme="light"] ::selection { background: rgba(61,107,232,0.18); color: #111111; }
 
-/* Home (/) and case studies (/zeno, /shopez): pure white canvas instead of the off-white default */
-body:has(.v3-home), body:has(.v3-white-bg) { --color-bg: #ffffff; }
+/* Home (/) and case studies (/zeno, /shopez): flat #f2f2f2 canvas instead of the off-white default */
+body:has(.v3-home), body:has(.v3-white-bg) { --color-bg: #f2f2f2; }
 
 ::placeholder { color: var(--color-placeholder); opacity: 1; }
 

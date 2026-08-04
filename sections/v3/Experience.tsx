@@ -35,9 +35,9 @@ function ExperienceCard({ e, delay, isNew }: { e: typeof experience[0]; delay: n
 
   return (
     <div ref={ref} style={{
-      background: isNew ? "#ffffff" : "#f4f4f4",
-      boxShadow: isNew ? "0px 2px 8px 0px rgba(0,0,0,0.05)" : "none",
-      borderRadius: isNew ? 8 : 0,
+      background: "#ffffff",
+      boxShadow: isNew ? "0px 2px 8px 0px rgba(0,0,0,0.05)" : "0px 2px 9px 0px rgba(0,0,0,0.05)",
+      borderRadius: 8,
       padding: 16,
       display: "flex", flexDirection: "column", gap: 8,
       overflow: "hidden",
@@ -93,11 +93,13 @@ export default function Experience() {
       <style>{`
         .v3-exp-meta-full    { display: none; }
         .v3-exp-meta-compact { display: inline; }
-        .v3-exp-logo { width: 32px; height: 32px; border-radius: ${isNew ? "4px" : "0"}; font-size: 9px; }
+        .v3-exp-logo { width: 32px; height: 32px; border-radius: 4px; font-size: 9px; }
         .exp-grid { display: flex; flex-direction: column; gap: 16px; }
         .exp-filler {
           display: none;
-          background: #f4f4f4;
+          background: #ffffff;
+          box-shadow: 0px 2px 9px 0px rgba(0,0,0,0.05);
+          border-radius: 8px;
           padding: 16px;
           align-items: center;
           justify-content: center;

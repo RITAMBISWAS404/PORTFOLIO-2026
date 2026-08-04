@@ -52,7 +52,7 @@ function ZenoImg({ src, alt }: { src: string; alt: string }) {
   return (
     <img
       src={src} alt={alt} loading="lazy"
-      style={{ width: "100%", height: "auto", display: "block", borderRadius: 0, border: `1px solid ${C.border}` }}
+      style={{ width: "100%", height: "auto", display: "block", borderRadius: 8, border: `1px solid ${C.border}` }}
     />
   );
 }
@@ -165,7 +165,7 @@ export default function ZenoPage() {
 
       {/* ── HERO IMAGE ──────────────────────────────────────── */}
       <div style={{ ...col, paddingBottom: 0 }} className="v3-section">
-        <div className="zeno-hero-img-wrap" style={{ borderRadius: 0, overflow: "hidden", width: "100%" }}>
+        <div className="zeno-hero-img-wrap" style={{ borderRadius: 8, overflow: "hidden", width: "100%" }}>
           <picture>
             <source media="(min-width: 768px)" srcSet="/images/zeno/hero-16_9.png" />
             <img
@@ -445,7 +445,7 @@ export default function ZenoPage() {
             <div className="btn-row">
               <a href="https://www.figma.com/design/HQiowSEZWtefmjVP5cqZuY/ZENO?node-id=0-1&p=f&t=ZuWU0JArTeGN7yjv-0"
                 target="_blank" rel="noopener noreferrer"
-                style={{ display: "flex", alignItems: "center", gap: 10, background: "rgba(0,0,0,0.05)", color: C.t1, padding: "11px 22px", borderRadius: 0, fontSize: 14, fontWeight: 600, textDecoration: "none", border: "none", transition: "background 0.25s, transform 0.25s" }}
+                style={{ display: "flex", alignItems: "center", gap: 10, background: "rgba(0,0,0,0.08)", color: C.t1, padding: "11px 22px", borderRadius: 9999, fontSize: 14, fontWeight: 600, textDecoration: "none", border: "none", transition: "background 0.25s, transform 0.25s" }}
                 onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = "rgba(0,0,0,0.12)"; (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-2px)"; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = "rgba(0,0,0,0.05)"; (e.currentTarget as HTMLAnchorElement).style.transform = ""; }}
               >
@@ -481,9 +481,9 @@ export default function ZenoPage() {
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           style={{
             display: "flex", alignItems: "center", gap: 10,
-            background: "rgba(0,0,0,0.05)", color: C.t1,
+            background: "rgba(0,0,0,0.08)", color: C.t1,
             border: "none", padding: "11px 22px",
-            borderRadius: 0, fontSize: 14, fontWeight: 600,
+            borderRadius: 9999, fontSize: 14, fontWeight: 600,
             cursor: "pointer", fontFamily: "'Plus Jakarta Sans', sans-serif",
             transition: "opacity 0.25s, transform 0.25s",
           }}
@@ -500,8 +500,8 @@ export default function ZenoPage() {
       </div>
 
       <style>{`
-        .v3-identity-logo { width: 48px; height: 48px; border-radius: 0; }
-        @media (min-width: 768px) { .v3-identity-logo { width: 64px; height: 64px; border-radius: 0; } }
+        .v3-identity-logo { width: 48px; height: 48px; border-radius: 8px; }
+        @media (min-width: 768px) { .v3-identity-logo { width: 64px; height: 64px; border-radius: 8px; } }
         .zeno-page-nav {
           display: none;
           position: fixed;

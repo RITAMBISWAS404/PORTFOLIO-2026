@@ -29,7 +29,7 @@ export default function FeaturedProject() {
 
       {/* Feature image */}
       <div style={{ ...col, paddingBottom: 0 }} className="v3-section">
-        <div className="feature-img-wrap" style={{ borderRadius: isNew ? 8 : 0, overflow: "hidden", width: "100%" }}>
+        <div className="feature-img-wrap" style={{ borderRadius: 8, overflow: "hidden", width: "100%" }}>
           <picture>
             <source media="(min-width: 768px)" srcSet="/images/16_9.png" />
             <img src="/images/4_3.png" alt="ZENO App"
@@ -79,7 +79,7 @@ export default function FeaturedProject() {
           <a href="/zeno" target="_blank" rel="noopener noreferrer" style={{
             display: "flex", alignItems: "center", gap: 10,
             background: C.t1, color: C.bg, padding: "11px 22px",
-            borderRadius: isNew ? 8 : 0, fontSize: 14, fontWeight: 600, textDecoration: "none",
+            borderRadius: isNew ? 8 : 9999, fontSize: 14, fontWeight: 600, textDecoration: "none",
             transition: "opacity 0.25s, transform 0.25s",
           }}
             onMouseEnter={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.opacity = "0.88"; a.style.transform = "translateY(-2px)"; }}
@@ -88,8 +88,8 @@ export default function FeaturedProject() {
           </a>
           <a href="https://www.figma.com/design/HQiowSEZWtefmjVP5cqZuY/ZENO?node-id=0-1&p=f&t=ZuWU0JArTeGN7yjv-0" target="_blank" rel="noopener noreferrer" style={{
             display: "flex", alignItems: "center", gap: 10,
-            background: "rgba(0,0,0,0.05)", color: C.t1, padding: "11px 22px",
-            borderRadius: isNew ? 8 : 0, fontSize: 14, fontWeight: 600, textDecoration: "none",
+            background: "rgba(0,0,0,0.08)", color: C.t1, padding: "11px 22px",
+            borderRadius: isNew ? 8 : 9999, fontSize: 14, fontWeight: 600, textDecoration: "none",
             border: "none",
             transition: "background 0.25s, transform 0.25s",
           }}
@@ -105,8 +105,8 @@ export default function FeaturedProject() {
         @media (min-width: 600px) { .stats-grid { grid-template-columns: 1fr 1fr; } }
         .feature-img-wrap { aspect-ratio: 4 / 3; }
         @media (min-width: 768px) { .feature-img-wrap { aspect-ratio: 16 / 9; } }
-        .v3-identity-logo { width: 48px; height: 48px; border-radius: ${isNew ? "6px" : "0"}; }
-        @media (min-width: 768px) { .v3-identity-logo { width: 64px; height: 64px; border-radius: ${isNew ? "8px" : "0"}; } }
+        .v3-identity-logo { width: 48px; height: 48px; border-radius: ${isNew ? "6px" : "8px"}; }
+        @media (min-width: 768px) { .v3-identity-logo { width: 64px; height: 64px; border-radius: 8px; } }
       `}</style>
     </>
   );

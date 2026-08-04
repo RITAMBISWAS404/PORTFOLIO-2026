@@ -63,11 +63,11 @@ export default function About() {
         {/* Image card */}
         <div className="about-img-cell" style={{ ...revealStyle(bentInView, 0.04) }}>
           <div className="about-img-inner" style={{
-            borderRadius: isNew ? 8 : 0,
+            borderRadius: 8,
             overflow: "hidden",
             background: C.card,
             width: "100%",
-            boxShadow: isNew ? "0px 2px 8px 0px rgba(0,0,0,0.05)" : "none",
+            boxShadow: isNew ? "0px 2px 8px 0px rgba(0,0,0,0.05)" : "0px 2px 9px 0px rgba(0,0,0,0.05)",
           }}>
             <img
               src={photoSrc}
@@ -79,7 +79,7 @@ export default function About() {
 
         {/* Info card */}
         <div className="about-info-cell" style={{
-          borderRadius: isNew ? 8 : 0,
+          borderRadius: 8,
           background: "var(--exp-card-bg, #222222)",
           padding: 16,
           display: "flex",
@@ -87,7 +87,7 @@ export default function About() {
           boxSizing: "border-box",
           minWidth: 0,
           overflow: "hidden",
-          boxShadow: isNew ? "0px 2px 8px 0px rgba(0,0,0,0.05)" : "none",
+          boxShadow: isNew ? "0px 2px 8px 0px rgba(0,0,0,0.05)" : "0px 2px 9px 0px rgba(0,0,0,0.05)",
           ...revealStyle(bentInView, 0.10),
         }}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px 16px" }}>
@@ -136,7 +136,7 @@ export default function About() {
                   if (!c) return null;
                   return (
                     <div key={i} title={name} style={{
-                      width: 44, height: 44, borderRadius: isNew ? 8 : 0, flexShrink: 0,
+                      width: 44, height: 44, borderRadius: isNew ? 8 : 4, flexShrink: 0,
                       overflow: "hidden",
                       background: "var(--exp-about-item-bg, rgba(255,255,255,0.08))",
                     }}>

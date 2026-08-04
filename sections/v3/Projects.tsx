@@ -12,9 +12,9 @@ function ProjectCardBleed({p,delay,isNew}:{p:typeof projects[0];delay:number;isN
   const inView=useInView(ref,{once:true,margin:"0px"});
   return(
     <div ref={ref} style={{
-        borderRadius:isNew?8:0,
+        borderRadius:8,
         overflow:"hidden",
-        boxShadow:isNew?"0px 2px 4px 0px rgba(0,0,0,0.05)":"none",
+        boxShadow:isNew?"0px 2px 4px 0px rgba(0,0,0,0.05)":"0px 2px 9px 0px rgba(0,0,0,0.05)",
         ...revealStyle(inView,delay),
         transition:`${revealStyle(inView,delay).transition},transform 0.2s cubic-bezier(.22,1,.36,1)`,
       }}
@@ -34,7 +34,7 @@ function ProjectCardBleed({p,delay,isNew}:{p:typeof projects[0];delay:number;isN
           </div>
           <div style={{display:"flex",flexWrap:"wrap",gap:8}}>
             {p.tags.map(t=>(
-              <div key={t} style={{...tagStyle,border:"none",borderRadius:isNew?4:0,boxShadow:"none",background:"rgba(255,255,255,0.10)",color:"#ffffff"}}>
+              <div key={t} style={{...tagStyle,border:"none",borderRadius:isNew?4:9999,boxShadow:"none",background:"rgba(255,255,255,0.10)",color:"#ffffff"}}>
                 {t}
               </div>
             ))}

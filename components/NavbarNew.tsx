@@ -145,7 +145,7 @@ export default function NavbarNew({ homePath = "/new" }: { homePath?: string }) 
         background: "var(--nav-bg, #222222)",
         backdropFilter: "var(--nav-blur, none)",
         WebkitBackdropFilter: "var(--nav-blur, none)",
-        borderRadius: isLiveHome ? 0 : 8,
+        borderRadius: 8,
         border: "1px solid rgba(255,255,255,0.08)",
         display: "flex", alignItems: "center", gap: 5,
       }}>

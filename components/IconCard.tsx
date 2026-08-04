@@ -22,7 +22,8 @@ export default function IconCard({ label, right, body, bg, delay = 0, iconColor 
       onMouseEnter={noHover ? undefined : e => { setHovered(true); e.currentTarget.style.transform = "translateY(-4px)"; }}
       onMouseLeave={noHover ? undefined : e => { setHovered(false); e.currentTarget.style.transform = "translateY(0)"; }}
       style={{
-        position: "relative", background: `var(--exp-card-bg, ${bg})`, border: border ?? "none", borderRadius: isNew ? 8 : 0, padding: 16,
+        position: "relative", background: `var(--exp-card-bg, ${bg})`, border: border ?? "none", borderRadius: 8, padding: 16,
+        boxShadow: isNew ? "none" : "0px 2px 9px 0px rgba(0,0,0,0.05)",
         display: "flex", flexDirection: "column", gap: 8, cursor: "default", overflow: "hidden",
         ...revealStyle(inView, delay),
         transition: `${revealStyle(inView, delay).transition}, transform 0.2s cubic-bezier(.22,1,.36,1)`,
