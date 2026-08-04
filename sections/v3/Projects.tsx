@@ -57,7 +57,7 @@ export default function Projects(){
   return(
     <section id="projects" style={{...col}} className="v3-section">
       <SectionHeadingV3 title="Selected Projects" eyebrow="THERE'S MORE" icon={MdApps} iconSrc="/images/Selected%20project.png" iconAfter={1} />
-      <div className="mt-section" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(360px,1fr))",gap:16}}>
+      <div className="mt-section" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(min(360px,100%),1fr))",gap:16}}>
         {projects.map((p,i)=><ProjectCardBleed key={p.title} p={p} delay={i*0.06} isNew={isNew}/>)}
       </div>
       <style>{`
