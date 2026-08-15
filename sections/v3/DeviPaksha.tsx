@@ -74,7 +74,7 @@ export default function DeviPaksha() {
           {/* Top group: project info + stats */}
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-              <div className="v3-identity-logo" style={{ overflow: "hidden", flexShrink: 0, background: "#f4f4f4" }}>
+              <div className="v3-identity-logo" style={{ overflow: "hidden", flexShrink: 0 }}>
                 <img src={DEVI_PAKSHA_LOGO_SRC} alt="Devi Paksha" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
               </div>
               <div>
@@ -137,7 +137,6 @@ export default function DeviPaksha() {
 
         .dp-video-card {
           position: relative; overflow: hidden; border-radius: 8px;
-          background: #111111;
           aspect-ratio: 9 / 16; width: 100%; height: 100%;
         }
         .dp-video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; border-radius: 8px; }
