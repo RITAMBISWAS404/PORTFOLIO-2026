@@ -136,11 +136,11 @@ export default function DeviPaksha() {
         .dp-info-cell  { grid-column: 1; }
 
         .dp-video-card {
-          position: relative; overflow: hidden;
+          position: relative; overflow: hidden; border-radius: 8px;
           background: #111111;
           aspect-ratio: 9 / 16; width: 100%; height: 100%;
         }
-        .dp-video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
+        .dp-video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; border-radius: 8px; }
 
         .dp-info-cell {
           border-radius: 8px;
