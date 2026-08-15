@@ -29,9 +29,9 @@ export default function NewHome() {
       <Divider />
       <Projects />
       <Divider />
-      <About />
-      <Divider />
       <DeviPaksha />
+      <Divider />
+      <About />
       <Divider />
       <Experience />
       <Divider />

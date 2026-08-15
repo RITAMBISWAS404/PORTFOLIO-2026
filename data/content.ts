@@ -142,6 +142,7 @@ export const socials = [
 
 export const navLinks = [
   { label: "WORK",       href: "#featured" },
+  { label: "HIGHLIGHTS", href: "#devi-paksha" },
   { label: "ABOUT",      href: "#about" },
   { label: "EXPERIENCE", href: "#experience" },
   { label: "CONTACT",    href: "#contact" },

@@ -33,9 +33,9 @@ export default function Home() {
         <Divider />
         <Projects />
         <Divider />
-        <About />
-        <Divider />
         <DeviPaksha />
+        <Divider />
+        <About />
         <Divider />
         <Experience />
         <Divider />
