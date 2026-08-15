@@ -143,7 +143,6 @@ export const socials = [
 export const navLinks = [
   { label: "WORK",       href: "#featured" },
   { label: "ABOUT",      href: "#about" },
-  { label: "PROCESS",    href: "#process" },
   { label: "EXPERIENCE", href: "#experience" },
   { label: "CONTACT",    href: "#contact" },
   { label: "SOCIALS",    href: "#socials" },

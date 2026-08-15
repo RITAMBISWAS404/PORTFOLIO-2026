@@ -2,7 +2,6 @@ import Hero from "@/sections/v3/Hero";
 import FeaturedProject from "@/sections/v3/FeaturedProject";
 import Projects from "@/sections/v3/Projects";
 import About from "@/sections/v3/About";
-import Process from "@/sections/v3/Process";
 import Experience from "@/sections/v3/Experience";
 import Contact from "@/sections/v3/Contact";
 import Socials from "@/sections/v3/Socials";
@@ -34,8 +33,6 @@ export default function Home() {
         <Projects />
         <Divider />
         <About />
-        <Divider />
-        <Process />
         <Divider />
         <Experience />
         <Divider />
