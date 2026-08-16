@@ -61,7 +61,7 @@ function ExperienceCard({ e, delay, isNew }: { e: typeof experience[0]; delay: n
 
       {/* Date | mode | location */}
       <div style={{ fontSize: 12, fontWeight: 600, color: "#909090", letterSpacing: "0.06em", textTransform: "uppercase" }}>
-        <span className="v3-exp-meta-compact">{date}</span>
+        <span className="v3-exp-meta-compact">{date} | {location}</span>
         <span className="v3-exp-meta-full">{date} | {mode} | {location}</span>
       </div>
 

@@ -38,25 +38,25 @@ export const process = [
 
 export const experience = [
   {
-    id: "bedr",
-    role: "Product Design Intern at", company: "BedR",
-    logo: "B", logoBg: "#1a1a1a", img: "/images/bedr.png",
-    desc: "Working as a Product Design Intern at BedR, contributing to product design across the platform.",
-    meta: "Jun 2026 – Present | Hybrid | Mumbai, India",
-  },
-  {
     id: "foss-kolkata",
     role: "Designer at", company: "FOSS United Kolkata",
     logo: "F", logoBg: "#1a1a2e", img: "/images/Foss 1.png",
     desc: "Worked as the designer for the Kolkata city chapter of FOSS United, creating visuals, posters, and digital content for community meetups, events, and outreach campaigns.",
-    meta: "Aug 2024 – Present | Remote | Kolkata, India",
+    meta: "Aug 2024 – Present | Remote | Kolkata",
+  },
+  {
+    id: "bedr",
+    role: "Product Design Intern at", company: "BedR",
+    logo: "B", logoBg: "#1a1a1a", img: "/images/bedr.png",
+    desc: "Working as a Product Design Intern at BedR, contributing to product design across the platform.",
+    meta: "Jun 2026 – Aug 2026 | Hybrid | Mumbai",
   },
   {
     id: "startup",
     role: "Founding Product Designer at", company: "EU Smart Energy Startup",
     logo: "🔒", logoBg: "#1a1a1a", img: "/images/stealth.png",
     desc: "Built an EV charging app for iOS and Android from scratch. Owned research, UI design, the full design system, and developer handoff. Now live with 10,000+ registered users in Denmark.",
-    meta: "Jan 2024 – Jun 2026 | Remote | Europe",
+    meta: "Jan 2024 – Jun 2026 | Remote | Denmark",
   },
   {
     id: "gdg",
@@ -77,7 +77,7 @@ export const experience = [
     role: "UI/UX Intern at", company: "Sukriya",
     logo: "Su", logoBg: "linear-gradient(135deg,#0ea5e9,#6366f1)", img: "/images/sukriya.png",
     desc: "Took the product from scratch to a full design, independently handling user research, information architecture, UI design, a reusable component library, and Dev Mode specs for the dev team.",
-    meta: "Sep 2024 – Mar 2025 | Remote | Kolkata, India",
+    meta: "Sep 2024 – Mar 2025 | Remote | Kolkata",
   },
   {
     id: "foss-iiitk",
