@@ -94,8 +94,13 @@ export default function DeviPaksha() {
   const isNew = pathname === "/new" || pathname?.startsWith("/new/");
   const introRef = useRef(null);
   const cardRef = useRef(null);
+  const statsRef = useRef(null);
   const introInView = useInView(introRef, { once: true, margin: "0px" });
   const cardInView = useInView(cardRef, { once: true, margin: "0px" });
+  // Count-up trigger: watches the stats grid itself (not the whole section/card),
+  // firing once roughly half of it is on-screen, so the animation is still running
+  // when the user actually scrolls the numbers into view.
+  const statsInView = useInView(statsRef, { once: true, amount: 0.5 });
 
   return (
     <section id="devi-paksha" style={{ ...col }} className="v3-section">
@@ -143,10 +148,10 @@ export default function DeviPaksha() {
               <span style={{ color: "var(--exp-card-fg, #ffffff)" }}>2 days</span>.
             </p>
 
-            <div className="dp-stats-grid">
+            <div ref={statsRef} className="dp-stats-grid">
               {stats.map(s => (
                 <div key={s.label}>
-                  <StatValue target={s.target} decimals={s.decimals} suffix={s.suffix} active={cardInView} />
+                  <StatValue target={s.target} decimals={s.decimals} suffix={s.suffix} active={statsInView} />
                   <div className="dp-stat-label">{s.label}</div>
                 </div>
               ))}
