@@ -7,7 +7,11 @@ import { C, revealStyle, col } from "@/lib/tokensV2";
 import { headingLg } from "@/lib/typography";
 
 const DEVI_PAKSHA_LOGO_SRC = "/images/Devi-paksha-logo.png";
-const DEVI_PAKSHA_REEL_EMBED_SRC = "https://player.cloudinary.com/embed/?cloud_name=homtmxwb&public_id=devipaksha-reel&controls=false&autoplay=on-scroll&muted=true&loop=true&fluid=true";
+// autoplay=true (not "on-scroll"): the iframe is only mounted once useInView below
+// confirms the player is already on-screen, so Cloudinary's own scroll-based trigger
+// would just add a second, redundant visibility check — a common source of autoplay
+// silently never firing on slower mobile connections.
+const DEVI_PAKSHA_REEL_EMBED_SRC = "https://player.cloudinary.com/embed/?cloud_name=homtmxwb&public_id=devipaksha-reel&controls=false&autoplay=true&muted=true&loop=true&fluid=true";
 const REEL_URL = "https://www.instagram.com/reel/Db92efXoaLf/";
 const WEBSITE_URL = "https://www.devipaksha.in/";
 
@@ -88,8 +92,8 @@ export default function DeviPaksha() {
             </p>
 
             <p className="dp-body" style={{ fontWeight: 500, color: "var(--exp-about-muted, rgba(255,255,255,0.65))", lineHeight: 1.6, marginTop: 8 }}>
-              The project went live just{" "}
-              <span style={{ color: "var(--exp-card-fg, #ffffff)" }}>2 days</span> ago, and these numbers are still growing.
+              The project went live, and these numbers capture what happened during its first{" "}
+              <span style={{ color: "var(--exp-card-fg, #ffffff)" }}>2 days</span>.
             </p>
 
             <div className="dp-stats-grid">
