@@ -145,7 +145,7 @@ export default function DeviPaksha() {
 
             <p className="dp-body" style={{ fontWeight: 500, color: "var(--exp-about-muted, rgba(255,255,255,0.65))", lineHeight: 1.6, marginTop: 8 }}>
               The project went live, and these numbers capture what happened during its first{" "}
-              <span style={{ color: "var(--exp-card-fg, #ffffff)" }}>2 days</span>.
+              <span style={{ color: "var(--exp-card-fg, #ffffff)" }}>2 days</span>. There&apos;s more to come.
             </p>
 
             <div ref={statsRef} className="dp-stats-grid">
