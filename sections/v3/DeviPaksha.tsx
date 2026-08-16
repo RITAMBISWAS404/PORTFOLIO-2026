@@ -1,5 +1,5 @@
 "use client";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useInView } from "framer-motion";
 import { usePathname } from "next/navigation";
 import SectionHeadingV3 from "@/components/SectionHeadingV3";
@@ -15,12 +15,59 @@ const DEVI_PAKSHA_REEL_EMBED_SRC = "https://player.cloudinary.com/embed/?cloud_n
 const REEL_URL = "https://www.instagram.com/reel/Db92efXoaLf/";
 const WEBSITE_URL = "https://www.devipaksha.in/";
 
+// target: numeric value to count up to; decimals: fixed decimal places to
+// render throughout the animation (so "1.1K+" never jitters to "1K+" or "1.14K+").
 const stats = [
-  { value: "300K+", label: "Reel views" },
-  { value: "30K+",  label: "Reel likes" },
-  { value: "1.1K+", label: "Shares" },
-  { value: "150K+", label: "Website visitors" },
+  { target: 300, decimals: 0, suffix: "K+", label: "Reel views" },
+  { target: 30,  decimals: 0, suffix: "K+", label: "Reel likes" },
+  { target: 1.1, decimals: 1, suffix: "K+", label: "Shares" },
+  { target: 150, decimals: 0, suffix: "K+", label: "Website visitors" },
 ];
+
+const COUNT_UP_DURATION = 1000;
+const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+
+// Counts up from 0 to `target` once `active` becomes true, then holds — never
+// restarts on subsequent `active` toggles. Skips straight to `target` for
+// prefers-reduced-motion. Driven by rAF rather than React state per frame of
+// anything else, so it doesn't touch unrelated parts of the tree.
+function useCountUp(target: number, active: boolean) {
+  const [value, setValue] = useState(0);
+  const startedRef = useRef(false);
+
+  useEffect(() => {
+    if (!active || startedRef.current) return;
+    startedRef.current = true;
+
+    const reduceMotion = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    let raf = 0;
+    if (reduceMotion) {
+      raf = requestAnimationFrame(() => setValue(target));
+      return () => cancelAnimationFrame(raf);
+    }
+
+    const start = performance.now();
+    const tick = (now: number) => {
+      const t = Math.min((now - start) / COUNT_UP_DURATION, 1);
+      setValue(target * easeOutCubic(t));
+      if (t < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [active, target]);
+
+  return value;
+}
+
+function StatValue({ target, decimals, suffix, active }: { target: number; decimals: number; suffix: string; active: boolean }) {
+  const value = useCountUp(target, active);
+  return (
+    <div className="dp-stat-value" style={{ fontSize: `calc(${headingLg.fontSize} * 0.65)` }}>
+      {value.toFixed(decimals)}{suffix}
+    </div>
+  );
+}
 
 function ReelPreview() {
   const ref = useRef<HTMLDivElement>(null);
@@ -99,7 +146,7 @@ export default function DeviPaksha() {
             <div className="dp-stats-grid">
               {stats.map(s => (
                 <div key={s.label}>
-                  <div className="dp-stat-value" style={{ fontSize: `calc(${headingLg.fontSize} * 0.65)` }}>{s.value}</div>
+                  <StatValue target={s.target} decimals={s.decimals} suffix={s.suffix} active={cardInView} />
                   <div className="dp-stat-label">{s.label}</div>
                 </div>
               ))}
