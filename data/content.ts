@@ -81,7 +81,7 @@ export const experience = [
   },
   {
     id: "foss-iiitk",
-    role: "Designer and Content Writer at", company: "FOSS Club IIIT Kalyani",
+    role: "Designer at", company: "FOSS Club IIIT Kalyani",
     logo: "F", logoBg: "#1a1a2e", img: "/images/Foss 2.png",
     desc: "Served as Designer and Content Writer for the FOSS Club at IIIT Kalyani, handling visual design and written content for major events, campaigns, posters, and social media.",
     meta: "Dec 2023 – Dec 2024 | Hybrid | IIIT Kalyani",
