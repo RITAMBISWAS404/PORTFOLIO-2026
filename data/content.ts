@@ -49,7 +49,7 @@ export const experience = [
     role: "Product Design Intern at", company: "BedR",
     logo: "B", logoBg: "#1a1a1a", img: "/images/bedr.png",
     desc: "Working as a Product Design Intern at BedR, contributing to product design across the platform.",
-    meta: "Jun 2026 – Aug 2026 | Hybrid | Mumbai",
+    meta: "Jul 2026 – Present | Hybrid | Mumbai",
   },
   {
     id: "startup",
