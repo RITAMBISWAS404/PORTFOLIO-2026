@@ -1,5 +1,7 @@
 "use client";
 import { useRef, useState } from "react";
+import { usePathname } from "next/navigation";
+import { MdSupervisedUserCircle } from "react-icons/md";
 import SectionHeadingV3 from "@/components/experiment/SectionHeadingV3";
 import { C, inputBase, col } from "@/lib/experiment/tokensV2";
 import { eyebrow } from "@/lib/experiment/typography";
@@ -23,6 +25,8 @@ const focusOut = (e: React.FocusEvent<HTMLElement>) => {
 export default function Contact() {
   const [status, setStatus] = useState<Status>("idle");
   const formRef = useRef<HTMLFormElement>(null);
+  const pathname = usePathname();
+  const isNew = pathname === "/new" || pathname?.startsWith("/new/");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,7 +50,7 @@ export default function Contact() {
 
   return (
     <section id="contact" style={{ ...col }} className="exp-v3-section">
-      <SectionHeadingV3 title="Let's Build Together" eyebrow="MIGHT AS WELL SAY HI" />
+      <SectionHeadingV3 title="Let's Build Together" eyebrow="MIGHT AS WELL SAY HI" icon={MdSupervisedUserCircle} iconSrc="/images/Work%20together.png" iconAfter={2} />
 
       {/* Subheading */}
       <p className="exp-f16 exp-mt-section" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.6, marginBottom: 24 }}>
@@ -59,16 +63,16 @@ export default function Contact() {
         {/* Name + Email — side by side on desktop */}
         <div className="exp-contact-name-email">
           <div>
-            <label htmlFor="exp-f-name" style={lbl}>Name</label>
-            <input id="exp-f-name" name="name" type="text" placeholder="Your name" required
-              style={{ ...inputBase, height: 44, borderRadius: 8 }}
+            <label htmlFor="f-name" style={lbl}>Name</label>
+            <input id="f-name" name="name" type="text" placeholder="Your name" required
+              style={{ ...inputBase, height: 44, borderRadius: 4 }}
               onFocus={focusIn as React.FocusEventHandler}
               onBlur={focusOut as React.FocusEventHandler} />
           </div>
           <div>
-            <label htmlFor="exp-f-email" style={lbl}>Email</label>
-            <input id="exp-f-email" name="email" type="email" placeholder="you@company.com" required
-              style={{ ...inputBase, height: 44, borderRadius: 8 }}
+            <label htmlFor="f-email" style={lbl}>Email</label>
+            <input id="f-email" name="email" type="email" placeholder="you@company.com" required
+              style={{ ...inputBase, height: 44, borderRadius: 4 }}
               onFocus={focusIn as React.FocusEventHandler}
               onBlur={focusOut as React.FocusEventHandler} />
           </div>
@@ -76,10 +80,10 @@ export default function Contact() {
 
         {/* Message */}
         <div>
-          <label htmlFor="exp-f-msg" style={lbl}>Project / Message</label>
-          <textarea id="exp-f-msg" name="message"
+          <label htmlFor="f-msg" style={lbl}>Project / Message</label>
+          <textarea id="f-msg" name="message"
             placeholder="Tell me a bit about the project, role, or idea." required
-            style={{ ...inputBase, height: 110, resize: "none", borderRadius: 8 }}
+            style={{ ...inputBase, height: 110, resize: "none", borderRadius: 4 }}
             onFocus={focusIn as React.FocusEventHandler}
             onBlur={focusOut as React.FocusEventHandler} />
         </div>
@@ -91,7 +95,7 @@ export default function Contact() {
         <button type="submit" disabled={status === "sending" || status === "sent"}
           style={{
             height: 48, background: btnBg, color: btnCol,
-            borderRadius: 8, border: "none",
+            borderRadius: isNew ? 8 : 9999, border: "none",
             cursor: status === "sending" || status === "sent" ? "not-allowed" : "pointer",
             fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 14, fontWeight: 600,
             transition: "opacity 0.25s, transform 0.25s",

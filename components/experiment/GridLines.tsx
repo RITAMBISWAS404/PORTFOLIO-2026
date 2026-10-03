@@ -1,13 +1,14 @@
 "use client";
 
-// Isolated copy of components/GridLines.tsx for /experiment-live.
+// Fixed vertical rails flanking the 768px content column.
+// On screens narrower than 768px the lines collapse to the viewport edges.
 export default function GridLines() {
   const lineStyle: React.CSSProperties = {
     position: "absolute",
     top: 0,
     bottom: 0,
     width: 1,
-    background: "var(--color-border)",
+    background: "var(--exp-grid-border, var(--color-border))",
     pointerEvents: "none",
   };
   return (

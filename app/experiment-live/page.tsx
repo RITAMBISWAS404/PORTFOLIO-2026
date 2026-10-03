@@ -3,13 +3,14 @@ import Hero from "@/sections/experiment/Hero";
 import FeaturedProject from "@/sections/experiment/FeaturedProject";
 import Projects from "@/sections/experiment/Projects";
 import About from "@/sections/experiment/About";
-import Process from "@/sections/experiment/Process";
+import DeviPaksha from "@/sections/experiment/DeviPaksha";
 import Experience from "@/sections/experiment/Experience";
 import Contact from "@/sections/experiment/Contact";
 import Socials from "@/sections/experiment/Socials";
 import Footer from "@/sections/experiment/Footer";
 import GridLines from "@/components/experiment/GridLines";
 import NavbarNew from "@/components/experiment/NavbarNew";
+import { ThemeProvider } from "@/lib/experiment/ThemeContext";
 
 function Divider() {
   return (
@@ -23,27 +24,29 @@ function Divider() {
 
 export default function ExperimentLivePage() {
   return (
-    <div className="exp-scope">
-      <NavbarNew homePath="/experiment-live" />
-      <main style={{ position: "relative" }}>
-        <GridLines />
-        <Hero />
-        <Divider />
-        <FeaturedProject />
-        <Divider />
-        <Projects />
-        <Divider />
-        <About />
-        <Divider />
-        <Process />
-        <Divider />
-        <Experience />
-        <Divider />
-        <Contact />
-        <Divider />
-        <Socials />
-        <Footer />
-      </main>
-    </div>
+    <ThemeProvider defaultTheme="light">
+      <div className="exp-scope">
+        <NavbarNew homePath="/experiment-live" />
+        <main style={{ position: "relative" }} className="exp-v3-home">
+          <GridLines />
+          <Hero />
+          <Divider />
+          <FeaturedProject />
+          <Divider />
+          <Projects />
+          <Divider />
+          <DeviPaksha />
+          <Divider />
+          <About />
+          <Divider />
+          <Experience />
+          <Divider />
+          <Contact />
+          <Divider />
+          <Socials />
+          <Footer />
+        </main>
+      </div>
+    </ThemeProvider>
   );
 }

@@ -1,29 +1,30 @@
 "use client";
 import { useRef } from "react";
 import { useInView } from "framer-motion";
-import { MdSmartphone, MdAccountTree, MdWidgets, MdBolt } from "react-icons/md";
+import { usePathname } from "next/navigation";
+import { MdSmartphone, MdAccountTree, MdWidgets, MdDirectionsRun, MdVerified } from "react-icons/md";
 import SectionHeadingV3 from "@/components/experiment/SectionHeadingV3";
-import Card from "@/components/experiment/Card";
+import CardV3 from "@/components/experiment/CardV3";
 import { zeno } from "@/data/experiment-content";
-import { C, tagStyle, revealStyle, col } from "@/lib/experiment/tokensV2";
-
-const tags = ["UX DESIGN", "EV APP", "B2C"];
+import { C, revealStyle, col } from "@/lib/experiment/tokensV2";
 
 const stats = [
   { label: "35+ High Fidelity Screens", body: "Covers every key user flow from onboarding through dashboard, analytics, and account settings.", icon: MdSmartphone },
   { label: "5 Complete User Flows",     body: "Onboarding, dashboard, charging session, analytics, and settings.", icon: MdAccountTree },
   { label: "40+ Reusable Components",   body: "A full design system built using Figma variables and design tokens for UI consistency.", icon: MdWidgets },
-  { label: "2 Month Design Sprint",     body: "Blank file to production-ready designs, shipped end to end in just 2 months.", icon: MdBolt },
+  { label: "2 Month Design Sprint",     body: "Blank file to production-ready designs, shipped end to end in just 2 months.", icon: MdDirectionsRun },
 ];
 
 export default function FeaturedProject() {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-10% 0px" });
+  const inView = useInView(ref, { once: true, margin: "0px" });
+  const pathname = usePathname();
+  const isNew = pathname === "/new" || pathname?.startsWith("/new/");
 
   return (
     <>
       <div id="featured" style={{ ...col, paddingBottom: 0 }} className="exp-v3-section">
-        <SectionHeadingV3 title="Featured Project" eyebrow="NOT BAD, HONESTLY" />
+        <SectionHeadingV3 title="Featured Project" eyebrow="NOT BAD, HONESTLY" icon={MdVerified} iconSrc="/images/Feature%20project.png" iconAfter={1} />
       </div>
 
       {/* Feature image */}
@@ -43,7 +44,7 @@ export default function FeaturedProject() {
 
           {/* Identity */}
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-            <div style={{ width: 64, height: 64, borderRadius: 8, overflow: "hidden", flexShrink: 0 }}>
+            <div className="exp-v3-identity-logo" style={{ overflow: "hidden", flexShrink: 0 }}>
               <img src="/images/zeno logo.png" alt="ZENO" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             </div>
             <div>
@@ -52,19 +53,10 @@ export default function FeaturedProject() {
             </div>
           </div>
 
-          {/* Tags */}
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-            {tags.map(label => (
-              <div key={label} style={{ ...tagStyle, background: "#ffffff", color: "#222222" }}>
-                {label}
-              </div>
-            ))}
-          </div>
-
           {/* Description */}
           <p className="exp-f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.6 }}>
             ZENO{" "}
-            <strong style={{ color: "var(--pop-blue)", fontWeight: 600 }}>
+            <strong style={{ color: "var(--exp-hero-b, #222222)", fontWeight: 600 }}>
               turns a data-heavy EV charging app into a four-second experience
             </strong>
             . I owned the product end to end from a blank Figma file: user research, information
@@ -78,7 +70,7 @@ export default function FeaturedProject() {
         {/* Stats — 2×2 grid */}
         <div className="exp-stats-grid exp-mt-el" style={{ display: "grid", gap: 16 }}>
           {stats.map((s, i) => (
-            <Card key={s.label} label={s.label} body={s.body} delay={i * 0.08} icon={s.icon} />
+            <CardV3 key={s.label} label={s.label} body={s.body} delay={i * 0.08} icon={s.icon} />
           ))}
         </div>
 
@@ -87,7 +79,7 @@ export default function FeaturedProject() {
           <a href="/zeno" target="_blank" rel="noopener noreferrer" style={{
             display: "flex", alignItems: "center", gap: 10,
             background: C.t1, color: C.bg, padding: "11px 22px",
-            borderRadius: 8, fontSize: 14, fontWeight: 600, textDecoration: "none",
+            borderRadius: isNew ? 8 : 9999, fontSize: 14, fontWeight: 600, textDecoration: "none",
             transition: "opacity 0.25s, transform 0.25s",
           }}
             onMouseEnter={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.opacity = "0.88"; a.style.transform = "translateY(-2px)"; }}
@@ -96,8 +88,8 @@ export default function FeaturedProject() {
           </a>
           <a href="https://www.figma.com/design/HQiowSEZWtefmjVP5cqZuY/ZENO?node-id=0-1&p=f&t=ZuWU0JArTeGN7yjv-0" target="_blank" rel="noopener noreferrer" style={{
             display: "flex", alignItems: "center", gap: 10,
-            background: "rgba(0,0,0,0.05)", color: C.t1, padding: "11px 22px",
-            borderRadius: 8, fontSize: 14, fontWeight: 600, textDecoration: "none",
+            background: "rgba(0,0,0,0.08)", color: C.t1, padding: "11px 22px",
+            borderRadius: isNew ? 8 : 9999, fontSize: 14, fontWeight: 600, textDecoration: "none",
             border: "none",
             transition: "background 0.25s, transform 0.25s",
           }}
@@ -113,6 +105,8 @@ export default function FeaturedProject() {
         @media (min-width: 600px) { .exp-stats-grid { grid-template-columns: 1fr 1fr; } }
         .exp-feature-img-wrap { aspect-ratio: 4 / 3; }
         @media (min-width: 768px) { .exp-feature-img-wrap { aspect-ratio: 16 / 9; } }
+        .exp-v3-identity-logo { width: 48px; height: 48px; border-radius: ${isNew ? "6px" : "8px"}; }
+        @media (min-width: 768px) { .exp-v3-identity-logo { width: 64px; height: 64px; border-radius: 8px; } }
       `}</style>
     </>
   );

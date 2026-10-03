@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { useAnimate, stagger } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { navLinks } from "@/data/experiment-content";
+import { useAppReady } from "@/lib/AppReadyContext";
 
 export default function NavbarNew({ homePath = "/experiment-live" }: { homePath?: string }) {
   const [active,   setActive]   = useState("");
@@ -11,8 +12,11 @@ export default function NavbarNew({ homePath = "/experiment-live" }: { homePath?
   const [isMobile, setIsMobile] = useState(false);
   const [scope, animate] = useAnimate();
   const animated = useRef(false);
+  const { ready } = useAppReady();
   const pathname = usePathname();
   const isHome = pathname === homePath || (homePath !== "/" && pathname?.startsWith(`${homePath}/`));
+  // Squared-off corners are the live/case-study treatment — /new and /new/zeno keep the rounded pill.
+  const isLiveHome = pathname === "/experiment-live";
   const resolveHref = (href: string) => isHome ? href : `${homePath}${href}`;
   const logoSrc = "/images/logo_light.png";
 
@@ -38,7 +42,7 @@ export default function NavbarNew({ homePath = "/experiment-live" }: { homePath?
   }, [menuOpen]);
 
   useEffect(() => {
-    if (isMobile || animated.current || !scope.current) return;
+    if (isMobile || animated.current || !scope.current || !ready) return;
     animated.current = true;
     const run = async () => {
       await animate(scope.current, { y: 0 },      { duration: 0.55, ease: [0.22,1,0.36,1] });
@@ -46,7 +50,7 @@ export default function NavbarNew({ homePath = "/experiment-live" }: { homePath?
       animate(".exp-nav-link-new", { opacity: 1, filter: "blur(0px)" }, { duration: 0.3, delay: stagger(0.07) });
     };
     run();
-  }, [isMobile, scope.current]);
+  }, [isMobile, ready, scope.current]);
 
   const closeMenu = useCallback(() => setMenuOpen(false), []);
 
@@ -57,7 +61,9 @@ export default function NavbarNew({ homePath = "/experiment-live" }: { homePath?
         <header style={{
           position: "fixed", top: 0, left: 0, right: 0, zIndex: 1000,
           height: 56,
-          background: "#222222",
+          background: "var(--nav-bg, #222222)",
+          backdropFilter: "var(--nav-blur, none)",
+          WebkitBackdropFilter: "var(--nav-blur, none)",
           border: "1px solid rgba(255,255,255,0.08)",
           display: "flex", alignItems: "center", justifyContent: "space-between",
           padding: "0 20px",
@@ -91,7 +97,9 @@ export default function NavbarNew({ homePath = "/experiment-live" }: { homePath?
 
         <nav style={{
           position: "fixed", top: 56, left: 0, right: 0, zIndex: 999,
-          background: "#222222",
+          background: "var(--nav-bg, #222222)",
+          backdropFilter: "var(--nav-blur, none)",
+          WebkitBackdropFilter: "var(--nav-blur, none)",
           padding: "8px 0",
           transform: menuOpen ? "translateY(0)" : "translateY(-8px)",
           opacity: menuOpen ? 1 : 0,
@@ -123,7 +131,7 @@ export default function NavbarNew({ homePath = "/experiment-live" }: { homePath?
     );
   }
 
-  // ─── DESKTOP ───────────────────────────────────────────────────────────────
+  // ─── DESKTOP: floating pill ─────────────────────────────────────────────────
   return (
     <div style={{
       position: "fixed", top: 18, left: 0, right: 0,
@@ -134,7 +142,9 @@ export default function NavbarNew({ homePath = "/experiment-live" }: { homePath?
         pointerEvents: "all",
         width: 54, height: 54, padding: 5,
         transform: "translateY(-70px)",
-        background: "#222222",
+        background: "var(--nav-bg, #222222)",
+        backdropFilter: "var(--nav-blur, none)",
+        WebkitBackdropFilter: "var(--nav-blur, none)",
         borderRadius: 8,
         border: "1px solid rgba(255,255,255,0.08)",
         display: "flex", alignItems: "center", gap: 5,
@@ -154,7 +164,7 @@ export default function NavbarNew({ homePath = "/experiment-live" }: { homePath?
             return (
               <a key={label} href={resolveHref(href)} className="exp-nav-link-new" style={{
                 display: "flex", alignItems: "center",
-                height: 34, padding: "0 12px", borderRadius: 8,
+                height: 34, padding: "0 12px", borderRadius: isLiveHome ? 0 : 8,
                 fontSize: 12, fontWeight: 600,
                 color: isActive ? "#ffffff" : "rgba(255,255,255,0.42)",
                 letterSpacing: "0.08em", textTransform: "uppercase",

@@ -1,28 +1,35 @@
-/* Fully isolated stylesheet for /experiment-live. Edit freely — nothing here
-   is shared with app/globals.css, so changes never touch the live homepage. */
+/* Fully isolated stylesheet for /experiment-live: a replica of every global rule the
+   production homepage (/) depends on in app/globals.css, re-scoped under .exp-scope /
+   exp- class names. Edit freely, nothing here is shared with the live homepage.
+   (Base resets, body font and the Plus Jakarta Sans import still come from the
+   app-wide globals.css, which is loaded for every route.) */
 
+/* Theme variables: dark defaults, light override (same switch as production:
+   <html data-theme="light|dark"> set by lib/experiment/ThemeContext). */
 .exp-scope {
-  --color-bg:          #f4f4f4;
-  --color-card:        #ffffff;
-  --color-input:       #f9f9f9;
-  --color-border:      #d6d6d6;
-  --color-border-hover:#c8c8c8;
-  --color-text-1:      #222222;
-  --color-text-2:      #555555;
-  --color-text-3:      #999999;
-  --color-placeholder: #bbbbbb;
-  --color-accent:      #1e8c3a;
-  --color-red:         #e11d48;
-  --color-yellow:      #c27803;
-  --color-blue:        #2563eb;
-  --color-hover:       rgba(0,0,0,0.03);
-  --color-hover-bg:    rgba(0,0,0,0.05);
-  --color-card-glow:        rgba(0,0,0,0.03);
-  --color-card-hover-border:rgba(0,0,0,0.14);
-  --shadow-card-hover:      0 4px 16px rgba(0,0,0,0.08);
-  --color-dot:         rgba(0,0,0,0.07);
-  --color-dot-bright:  rgba(0,0,0,0.25);
-
+  --color-bg:          #0d0d0d;
+  --color-card:        #121212;
+  --color-input:       #111111;
+  --color-border:      #222222;
+  --color-border-hover:#2a2a2a;
+  --color-text-1:      #ffffff;
+  --color-text-2:      #888888;
+  --color-text-3:      #555555;
+  --color-placeholder: #999999;
+  --color-accent:      #34a853;
+  --color-red:         #f43f5e;
+  --color-yellow:      #fbbc05;
+  --color-blue:        #4285f4;
+  --color-hover:       rgba(255,255,255,0.018);
+  --color-hover-bg:    rgba(255,255,255,0.03);
+  /* Card interaction */
+  --color-card-glow:        rgba(255,255,255,0.05);
+  --color-card-hover-border:rgba(255,255,255,0.12);
+  --shadow-card-hover:      0 4px 20px rgba(0,0,0,0.5);
+  /* Feature section dot pattern */
+  --color-dot:         rgba(255,255,255,0.15);
+  --color-dot-bright:  rgba(255,255,255,0.75);
+  /* ── Pop color palette ── */
   --pop-green:        #54B0AF;
   --pop-light-green:  #7DD9D8;
   --pop-pink:         #EC6995;
@@ -38,26 +45,66 @@
   --pop-purple:       #8B6FE8;
   --pop-light-purple: #BCA8FF;
 
-  background: var(--color-bg);
-  color: var(--color-text-1);
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 14px;
-  line-height: 1.6;
-  display: block;
-  min-height: 100vh;
+  --radius-xs: 4px;
+  --radius-sm: 4px;
+  --radius-md: 4px;
+  --radius-lg: 4px;
+  /* Desktop floating nav */
+  --nav-height-desktop: 54px;
+  --nav-top:            18px;
+  /* Mobile sticky nav */
+  --nav-height-mobile:  56px;
+  /* Nav surface: translucent + blurred, site-wide */
+  --nav-bg:             rgba(17, 17, 17, 0.8);
+  --nav-blur:           blur(14px);
+}
+[data-theme="light"] .exp-scope {
+  /* Surfaces */
+  --color-bg:               #ECEBE7;   /* user-specified off-white canvas */
+  --color-card:             #ffffff;   /* pure white cards float above canvas */
+  --color-input:            #f9f9f9;
+  /* Borders */
+  --color-border:           #d6d6d6;
+  --color-border-hover:     #c8c8c8;
+  /* Hover states */
+  --color-hover:            rgba(0,0,0,0.03);
+  --color-hover-bg:         rgba(0,0,0,0.05);
+  /* Text */
+  --color-text-1:           #222222;   /* primary — dark navy slate */
+  --color-text-2:           #555555;   /* secondary — mid gray */
+  --color-text-3:           #999999;   /* tertiary — muted */
+  --color-placeholder:      #bbbbbb;
+  /* Accent colors — darkened for contrast on white */
+  --color-accent:           #1e8c3a;   /* green */
+  --color-red:              #e11d48;   /* rose */
+  --color-yellow:           #c27803;   /* amber */
+  --color-blue:             #2563eb;   /* blue */
+  /* Card interactions */
+  --color-card-glow:        rgba(0,0,0,0.03);
+  --color-card-hover-border:rgba(0,0,0,0.14);
+  --shadow-card-hover:      0 4px 16px rgba(0,0,0,0.08);
+  /* Dot pattern */
+  --color-dot:              rgba(0,0,0,0.07);
+  --color-dot-bright:       rgba(0,0,0,0.25);
 }
 
+/* Home canvas: production forces a flat #f2f2f2 canvas on both themes
+   (body:has(.v3-home) in globals.css). Applied to body so the overscroll and
+   scrollbar-track areas match too. */
+body:has(.exp-scope) { --color-bg: #f2f2f2; }
+.exp-scope, [data-theme="light"] .exp-scope { --color-bg: #f2f2f2; }
+
+/* Desktop: hero sits flush under the floating nav, no reserved gap */
 @media (min-width: 768px) {
-  .exp-scope { font-size: 16px; }
+  body:has(.exp-scope) { padding-top: 0; }
 }
 
-.exp-scope ::placeholder { color: var(--color-placeholder); opacity: 1; }
-.exp-scope ::selection { background: rgba(61,107,232,0.18); color: #111111; }
-.exp-scope :focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; border-radius: 8px; }
-.exp-scope textarea { resize: none; }
-.exp-scope section[id], .exp-scope div[id] { scroll-margin-top: 60px; }
+/* Wrapper adds no box of its own, it only carries variables */
+.exp-scope { display: contents; }
 
-/* Section heading → first element gap */
+[data-theme="light"] .exp-scope ::selection { background: rgba(61,107,232,0.18); color: #111111; }
+
+/* Section heading -> first element gap */
 .exp-mt-section      { margin-top: 16px; }
 .exp-mt-section-card { margin-top: 8px;  }
 @media (min-width: 768px) {
@@ -73,19 +120,18 @@
   .exp-mt-el  { margin-top: 24px; }
 }
 
-/* Section padding */
 .exp-v3-section { padding: 16px 24px; }
 @media (min-width: 768px) {
   .exp-v3-section { padding: 24px; }
 }
 
-/* SectionHeadingV3 underline — reaches the rail */
-.exp-heading-line { height: 1px; background: var(--color-border); margin-left: -16px; margin-right: -16px; }
+/* SectionHeadingV3 underline, reaches the rail */
+.exp-v3-heading-line { height: 1px; background: var(--color-border); margin-left: -16px; margin-right: -16px; }
 @media (min-width: 768px) {
-  .exp-heading-line { margin-left: -24px; margin-right: -24px; }
+  .exp-v3-heading-line { margin-left: -24px; margin-right: -24px; }
 }
 
-/* Responsive body text: 14px mobile → 16px desktop */
+/* Responsive body text: 14px mobile -> 16px desktop */
 .exp-f16 { font-size: 14px; }
 @media (min-width: 768px) { .exp-f16 { font-size: 16px; } }
 
@@ -97,4 +143,5 @@
   .exp-btn-row > a, .exp-btn-row > button { width: auto; }
 }
 
+/* Mobile menu open: prevent body scroll */
 body.exp-menu-open { overflow: hidden; }

@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 
 const SCRAMBLE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-const DURATION = 400; // ms
+const DURATION = 1200; // ms
 
 interface Props {
   text: string;
