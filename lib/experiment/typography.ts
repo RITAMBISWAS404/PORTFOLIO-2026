@@ -1,4 +1,6 @@
-// Isolated copy of lib/typography.ts for /experiment-live.
+// Single source of truth for text styling (size / weight / color / hierarchy)
+// across the landing page and every case study. Change a value here and it
+// applies everywhere that role is used — no more hunting through per-page copies.
 import { C } from "./tokensV2";
 
 export const eyebrow: React.CSSProperties = {
@@ -24,6 +26,7 @@ export const heroHeading: React.CSSProperties = {
   color: C.t1,
 };
 
+// Pair with the "f16" utility class (14px mobile / 16px desktop) for size.
 export const body = (lineHeight: number = 1.6): React.CSSProperties => ({
   fontWeight: 500,
   color: C.t2,
@@ -56,6 +59,7 @@ export const tagPill: React.CSSProperties = {
   letterSpacing: "0.08em",
 };
 
+// ── Comparison-table roles ──────────────────────────────────────────
 export const tableHeader: React.CSSProperties = {
   fontSize: 12,
   fontWeight: 700,
