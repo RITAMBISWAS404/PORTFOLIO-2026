@@ -37,12 +37,12 @@ const LAYOUTS: Record<"desktop" | "mobile", Layout> = {
   // MOBILE_HERO: taller frame (852x720) with its own board scale and object poses (the board's slanted lower edge runs ~y 625 left to ~y 716 right of the 720 frame, objects hang over it).
   // Revert = restore the ORIGINAL mobile entry: w 852, h 480, board { cx: 600.48, cy: 133.155, w: 2592 * 0.7971 }, flame (280.39, 295, s 1.5), earphones (702.33, 155.57, s 1.18), ok (122.02, 110.7, s 1.5, rot 25.7).
   mobile: {
-    w: 852, h: 720, hideWhen: "(min-width: 768px)",
-    board: { cx: 660, cy: 398, w: 2592 * 0.85 },
+    w: 852, h: 620, hideWhen: "(min-width: 768px)",   // REFINEMENT 2: was h 720, board w 2592 * 0.85 at (660, 398); flame (262, 480, s 1.55), earphones (655, 300, s 1.15), ok (150, 150, s 1.7)
+    board: { cx: 620, cy: 298, w: 2592 * 0.62 },
     objects: [
-      { key: "flame",     src: "flame.png",     aw: 179, ah: 252, cx: 262,    cy: 480, s: 1.55, rot: -1.5 },
-      { key: "earphones", src: "earphones.png", aw: 456, ah: 526, cx: 655,    cy: 300, s: 1.15, rot: 0 },
-      { key: "ok",        src: "ok.png",        aw: 147, ah: 81,  cx: 150,    cy: 150, s: 1.7,  rot: 25.7 },
+      { key: "flame",     src: "flame.png",     aw: 179, ah: 252, cx: 250,    cy: 400, s: 1.4,  rot: -1.5 },
+      { key: "earphones", src: "earphones.png", aw: 456, ah: 526, cx: 660,    cy: 265, s: 1.0,  rot: 0 },
+      { key: "ok",        src: "ok.png",        aw: 147, ah: 81,  cx: 140,    cy: 140, s: 1.5,  rot: 25.7 },
     ],
   },
 };

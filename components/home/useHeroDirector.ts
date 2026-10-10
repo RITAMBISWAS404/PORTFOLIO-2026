@@ -23,7 +23,7 @@ import {
   type Env, type Existing, type Move, type Placed, type Plan, type Rect, type Shape,
 } from "./heroComposer";
 import type { ActorHandle } from "./HeroActors";
-import { CLIPPY, pickOne } from "@/lib/home/cursorCopy";
+import { CLIPPY, pickFresh } from "@/lib/home/cursorCopy";
 
 export type HeroItem = {
   id: string; assetId: string;
@@ -367,7 +367,7 @@ export function useHeroDirector(args: Args) {
     c.lock(true);
     mark(task, "picked-up");
     const drop = { x: pl.cx - gr.x / g.s, y: pl.cy - gr.y / g.s };
-    actor.show(true); place(actor, startHand); actor.say(pickOne(actor.carry));
+    actor.show(true); place(actor, startHand); actor.say(pickFresh(actor.carry));
     const rot0 = c.rot.get();
     const follow = (hx: number, hy: number, t: number) => { c.dx.set(hx * g.s + gr.x - pl.cx * g.s); c.dy.set(hy * g.s + gr.y - pl.cy * g.s); c.rot.set(rot0 + Math.sin(t * Math.PI * 3) * 3 * Math.sin(t * Math.PI)); };
     mark(task, "in-transit");
@@ -460,7 +460,7 @@ export function useHeroDirector(args: Args) {
           try { done = await carryIn(R, actor, pl, side, task); } finally { used.delete(side); release(op); }
           if (!done || R.dead) return;                                        // carryIn already marked the task failed and cleaned up; a dead Run says nothing and moves nothing
           mark(task, "committed");                                            // only a verified, rendered object is a placement; only then does the restocker say so
-          actor.say(pickOne(actor.placed)); await sleep(R, 250);
+          actor.say(pickFresh(actor.placed)); await sleep(R, 250);
           await retreat(R, actor, done.at, side);
         }));
         if (w + n < claimed.length) await sleep(R, rnd(450, 800));

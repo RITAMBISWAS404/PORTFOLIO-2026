@@ -23,6 +23,10 @@ export function CursorGlyph({ color }: { color: string }) {
 export const snapPx = (v: number) => { const d = (typeof window !== "undefined" && window.devicePixelRatio) || 1; return Math.round(v * d) / d; };
 
 const PAD = 16;                                   // pill horizontal padding (both sides) in px
+const PAD_PHONE = 20;                             // on phones (below 768px) the pill gets a little more air around its text
+const padFor = () => (typeof window !== "undefined" && window.matchMedia("(max-width: 767px)").matches ? PAD_PHONE : PAD);
+/** The text's LAYOUT width. getBoundingClientRect is shrunk by any CSS scale on the pill or its cursor (phones scale the cursors to .85), which made the pill too narrow for its text and left it with almost no padding. */
+function textWidth(t: HTMLElement) { const r = t.getBoundingClientRect().width, o = t.offsetWidth; return o ? Math.max(o, r >= o ? Math.ceil(r) : 0) : Math.ceil(r); }
 const timers = new WeakMap<HTMLElement, ReturnType<typeof setTimeout>>();
 
 /** Measure a cursor body's pill for its current text and fix its width (used once, on mount). */
@@ -30,15 +34,14 @@ export function initPill(root: HTMLElement) {
   const pill = root.querySelector<HTMLElement>(".hm-cur-pill"), t = root.querySelector<HTMLElement>(".hm-cur-text"), svg = root.querySelector<SVGElement>(".hm-cur-glyph");
   if (svg) { svg.setAttribute("width", String(snapPx(GLYPH_W))); svg.setAttribute("height", String(snapPx(GLYPH_H))); }   // whole device pixels at any zoom / DPR
   if (!pill || !t) return;
-  pill.style.width = `${snapPx(Math.ceil(t.getBoundingClientRect().width) + PAD)}px`;
+  pill.style.width = `${snapPx(textWidth(t) + padFor())}px`;
 }
 
 /**
  * Change a pill's text smoothly: the text dips out, the width eases to the new text's width, the text dips back in. DOM only, no React render.
- * `unscale`: a pill that is measured while a CSS `scale` is on it (or on its cursor) reads narrower than it will be laid out, so its padding came out short; pass true to measure at
- * scale 1. Only the Courier (whose pill pops in with a scale) opts in, so the other cursors are measured exactly as before.
+ * `_unscale` is kept for the existing callers: the width is now always measured at layout size (see textWidth), so no caller has to compensate for a CSS scale.
  */
-export function setPill(root: HTMLElement, text: string, unscale = false) {
+export function setPill(root: HTMLElement, text: string, _unscale = false) {
   const pill = root.querySelector<HTMLElement>(".hm-cur-pill"), t = root.querySelector<HTMLElement>(".hm-cur-text");
   if (!pill || !t || t.dataset.label === text) return;
   t.dataset.label = text;
@@ -46,11 +49,15 @@ export function setPill(root: HTMLElement, text: string, unscale = false) {
   t.style.opacity = "0";
   timers.set(root, setTimeout(() => {
     t.textContent = text;
-    let w = t.getBoundingClientRect().width;
-    if (unscale) { const sc = (e: Element) => { const v = parseFloat(getComputedStyle(e).scale); return v > 0 ? v : 1; }; w /= sc(pill) * sc(root); }
-    pill.style.width = `${snapPx(Math.ceil(w) + PAD)}px`;
+    pill.style.width = `${snapPx(textWidth(t) + padFor())}px`;
     t.style.opacity = "1";
   }, 70));
+}
+
+/** Recolour a cursor body (glyph fill and pill background together, so they cannot drift apart). */
+export function setCursorColor(root: HTMLElement, color: string) {
+  root.querySelector<SVGPathElement>(".hm-cur-glyph path")?.setAttribute("fill", color);
+  const pill = root.querySelector<HTMLElement>(".hm-cur-pill"); if (pill) pill.style.background = color;
 }
 
 export type CursorBodyProps = { color: string; label: string; className?: string; style?: CSSProperties };
@@ -58,7 +65,13 @@ export type CursorBodyProps = { color: string; label: string; className?: string
 /** The shared cursor body: glyph + pill in the SAME `color`, white pill text. Positioning (fixed for the user's pointer, absolute on the board for the visitors) is the parent's job. */
 export const CursorBody = forwardRef<HTMLDivElement, CursorBodyProps>(function CursorBody({ color, label, className = "", style }, ref) {
   const own = useRef<HTMLDivElement | null>(null);
-  useLayoutEffect(() => { if (own.current) initPill(own.current); }, []);
+  useLayoutEffect(() => {
+    const el = own.current; if (!el) return;
+    initPill(el);
+    let live = true;
+    document.fonts?.ready.then(() => { if (live) initPill(el); });   // measured again once the webfont is in: a fallback font is narrower, which left phone pills too tight
+    return () => { live = false; };
+  }, []);
   return (
     <div ref={el => { own.current = el; if (typeof ref === "function") ref(el); else if (ref) ref.current = el; }} className={`hm-cur ${className}`} style={style}>
       <CursorGlyph color={color} />

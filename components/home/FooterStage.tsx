@@ -37,14 +37,14 @@ const LAYOUTS: Record<"desktop" | "mobile", Layout> = {
   // MOBILE_FOOTER: taller frame (852x720) with its own board scale and object poses, sized from each asset's VISIBLE art (phone ink is only ~51% of its image width, sign ~77%, uno ~90%).
   // Revert = restore the ORIGINAL mobile entry: h 480, board { cx: 548, cy: 348, s: 0.98 }, sign (272.3, 446.5, s .81, 15.2), phone (54.8, 364.1, s 1.1, -10), unofront (759.7, 395, s .62, 14), credit (457.5, 301.5, s .85, .6), logo (426, 206.7, s .49).
   mobile: {
-    w: 852, h: 720, hideWhen: "(min-width: 768px)",
-    board: { cx: 440, cy: 370, s: 0.95, rot: 0 },
+    w: 852, h: 700, hideWhen: "(min-width: 768px)",   // REFINEMENT 2: was h 720, board s 0.95 at (440, 370); sign cy 610, phone cy 560, unofront cy 520, credit cy 360, logo cy 240
+    board: { cx: 440, cy: 350, s: 0.9, rot: 0 },
     objects: [
-      { key: "sign",     src: "sign.png",        aw: 308, ah: 308, cx: 335,   cy: 610, s: 1.1,  rot: 15.2 },
-      { key: "phone",    src: "phone.png",       aw: 457, ah: 674, cx: 95,    cy: 560, s: 1.25, rot: -10 },
-      { key: "unofront", src: "uno front.png",   aw: 294, ah: 437, cx: 735,   cy: 520, s: 1.0,  rot: 14 },
-      { key: "credit",   src: "credit text.png", aw: 431, ah: 71,  cx: 450,   cy: 360, s: 0.9,  rot: 0.6 },
-      { key: "logo",     src: "logo.png",        aw: 232, ah: 232, cx: 440,   cy: 240, s: 0.75, rot: 0 },
+      { key: "sign",     src: "sign.png",        aw: 308, ah: 308, cx: 335,   cy: 590, s: 1.1,  rot: 15.2 },
+      { key: "phone",    src: "phone.png",       aw: 457, ah: 674, cx: 95,    cy: 540, s: 1.25, rot: -10 },
+      { key: "unofront", src: "uno front.png",   aw: 294, ah: 437, cx: 735,   cy: 500, s: 1.0,  rot: 14 },
+      { key: "credit",   src: "credit text.png", aw: 431, ah: 71,  cx: 450,   cy: 345, s: 0.9,  rot: 0.6 },
+      { key: "logo",     src: "logo.png",        aw: 232, ah: 232, cx: 440,   cy: 228, s: 0.75, rot: 0 },
     ],
   },
 };
