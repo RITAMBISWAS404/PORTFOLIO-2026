@@ -1,0 +1,507 @@
+/* Fully isolated stylesheet for the home page: a replica of every global rule the
+   production homepage (/) depends on in app/globals.css, re-scoped under .hm-scope /
+   hm- class names. Edit freely, nothing here is shared with the live homepage.
+   (Base resets, body font and the Plus Jakarta Sans import still come from the
+   app-wide globals.css, which is loaded for every route.) */
+
+/* Theme variables: dark defaults, light override (same switch as production:
+   <html data-theme="light|dark"> set by lib/home/ThemeContext). */
+.hm-scope {
+  --color-bg:          #0d0d0d;
+  --color-card:        #121212;
+  --color-input:       #111111;
+  --color-border:      #222222;
+  --color-border-hover:#2a2a2a;
+  --color-text-1:      #ffffff;
+  --color-text-2:      #888888;
+  --color-text-3:      #555555;
+  --color-placeholder: #999999;
+  --color-accent:      #34a853;
+  --color-red:         #f43f5e;
+  --color-yellow:      #fbbc05;
+  --color-blue:        #4285f4;
+  --color-hover:       rgba(255,255,255,0.018);
+  --color-hover-bg:    rgba(255,255,255,0.03);
+  /* Card interaction */
+  --color-card-glow:        rgba(255,255,255,0.05);
+  --color-card-hover-border:rgba(255,255,255,0.12);
+  --shadow-card-hover:      0 4px 20px rgba(0,0,0,0.5);
+  /* Feature section dot pattern */
+  --color-dot:         rgba(255,255,255,0.15);
+  --color-dot-bright:  rgba(255,255,255,0.75);
+  /* ── Pop color palette ── */
+  --pop-green:        #54B0AF;
+  --pop-light-green:  #7DD9D8;
+  --pop-pink:         #EC6995;
+  --pop-light-pink:   #FF8CB3;
+  --pop-blue:         #487AB9;
+  --pop-light-blue:   #70A3E2;
+  --pop-orange:       #FE7759;
+  --pop-light-orange: #FFA38E;
+  --pop-yellow:       #FBD85A;
+  --pop-light-yellow: #FFE68C;
+  --pop-red:          #D95C74;
+  --pop-light-red:    #F3A7B7;
+  --pop-purple:       #8B6FE8;
+  --pop-light-purple: #BCA8FF;
+
+  --radius-xs: 4px;
+  --radius-sm: 4px;
+  --radius-md: 4px;
+  --radius-lg: 4px;
+  /* Desktop floating nav */
+  --nav-height-desktop: 54px;
+  --nav-top:            18px;
+  /* Mobile sticky nav */
+  --nav-height-mobile:  56px;
+  /* Nav surface: translucent + blurred, site-wide */
+  --nav-bg:             rgba(17, 17, 17, 0.8);
+  --nav-blur:           blur(14px);
+}
+[data-theme="light"] .hm-scope {
+  /* Surfaces */
+  --color-bg:               #ECEBE7;   /* user-specified off-white canvas */
+  --color-card:             #ffffff;   /* pure white cards float above canvas */
+  --color-input:            #f9f9f9;
+  /* Borders */
+  --color-border:           #d6d6d6;
+  --color-border-hover:     #c8c8c8;
+  /* Hover states */
+  --color-hover:            rgba(0,0,0,0.03);
+  --color-hover-bg:         rgba(0,0,0,0.05);
+  /* Text */
+  --color-text-1:           #222222;   /* primary — dark navy slate */
+  --color-text-2:           #555555;   /* secondary — mid gray */
+  --color-text-3:           #999999;   /* tertiary — muted */
+  --color-placeholder:      #bbbbbb;
+  /* Accent colors — darkened for contrast on white */
+  --color-accent:           #1e8c3a;   /* green */
+  --color-red:              #e11d48;   /* rose */
+  --color-yellow:           #c27803;   /* amber */
+  --color-blue:             #2563eb;   /* blue */
+  /* Card interactions */
+  --color-card-glow:        rgba(0,0,0,0.03);
+  --color-card-hover-border:rgba(0,0,0,0.14);
+  --shadow-card-hover:      0 4px 16px rgba(0,0,0,0.08);
+  /* Dot pattern */
+  --color-dot:              rgba(0,0,0,0.07);
+  --color-dot-bright:       rgba(0,0,0,0.25);
+}
+
+/* Home canvas: production forces a flat #f2f2f2 canvas on both themes
+   (body:has(.v3-home) in globals.css). Applied to body so the overscroll and
+   scrollbar-track areas match too. */
+body:has(.hm-scope) { --color-bg: #f2f2f2; }
+.hm-scope, [data-theme="light"] .hm-scope { --color-bg: #f2f2f2; }
+
+/* Desktop: hero sits flush under the floating nav, no reserved gap */
+@media (min-width: 768px) {
+  body:has(.hm-scope) { padding-top: 0; }
+}
+
+/* Wrapper adds no box of its own, it only carries variables */
+.hm-scope { display: contents; }
+
+[data-theme="light"] .hm-scope ::selection { background: rgba(61,107,232,0.18); color: #111111; }
+
+/* Section heading -> first element gap */
+.hm-mt-section      { margin-top: 16px; }
+.hm-mt-section-card { margin-top: 8px;  }
+@media (min-width: 768px) {
+  .hm-mt-section      { margin-top: 24px; }
+  .hm-mt-section-card { margin-top: 16px; }
+}
+
+/* Element-to-element spacing within a section body */
+.hm-el-gap { gap: 16px; }
+.hm-mt-el  { margin-top: 16px; }
+@media (min-width: 768px) {
+  .hm-el-gap { gap: 24px; }
+  .hm-mt-el  { margin-top: 24px; }
+}
+
+.hm-v3-section { padding: 16px 24px; }
+@media (min-width: 768px) {
+  .hm-v3-section { padding: 24px; }
+}
+
+/* SectionHeadingV3 underline, reaches the rail */
+/* One hairline rule for every structural line (dividers, heading underlines, the two rails): a 1 CSS px BORDER, never a 1px-high background box. The browser
+   rasterises a border as a whole number of device pixels, while a background box at a fractional offset covers 1 or 2 (it looks thick at fractional DPRs). */
+.hm-scope { --hm-hairline: 1px; }
+.hm-divider { width: 100%; height: 0; border-top: var(--hm-hairline) solid var(--color-border); }
+.hm-grid-rail { position: absolute; top: 0; bottom: 0; width: 0; border-left: var(--hm-hairline) solid var(--hm-grid-border, var(--color-border)); pointer-events: none; }
+.hm-grid-rail-l { left: max(8px, calc(50% - 384px)); left: max(8px, round(down, calc(50% - 384px), 1px)); }
+.hm-grid-rail-r { right: max(8px, calc(50% - 384px)); right: max(8px, round(down, calc(50% - 384px), 1px)); }
+.hm-v3-heading-line { height: 0; border-top: var(--hm-hairline) solid var(--color-border); margin-left: -16px; margin-right: -16px; }
+@media (min-width: 768px) {
+  .hm-v3-heading-line { margin-left: -24px; margin-right: -24px; }
+}
+
+/* Responsive body text: 14px mobile -> 16px desktop */
+.hm-f16 { font-size: 14px; }
+@media (min-width: 768px) { .hm-f16 { font-size: 16px; } }
+
+/* Responsive buttons: stacked + full width on mobile, row on desktop */
+.hm-btn-row { display: flex; flex-direction: column; gap: 8px; }
+.hm-btn-row > a, .hm-btn-row > button { width: 100%; justify-content: center; }
+@media (min-width: 768px) {
+  .hm-btn-row { flex-direction: row; flex-wrap: wrap; }
+  .hm-btn-row > a, .hm-btn-row > button { width: auto; }
+}
+
+/* Mobile menu open: prevent body scroll */
+body.hm-menu-open { overflow: hidden; }
+
+/* ── Hero: layered art stage (components/experiment/HeroStage.tsx) ─────────────
+   Same 2160x800 frame as the old flattened hero-top.png (2.7:1). Objects are placed in % of the stage. */
+.hm-hs-stage { position: relative; width: 100%; user-select: none; -webkit-user-select: none; }
+.hm-hs-boardclip { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }   /* mobile: only the BOARD is cropped to the frame (like the flattened image); objects are siblings, so they can leave it */
+.hm-hs-boardwrap { position: absolute; inset: 0; pointer-events: none; }
+/* Living pegboard: the board (a real <button>, so Enter/Space shake it too) sits under the objects; only the board wrapper shakes, never the text. */
+.hm-hs-shake { position: absolute; inset: 0; pointer-events: none; }
+.hm-hs-shake[data-shake] { animation: hm-hs-shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
+@keyframes hm-hs-shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0) rotate(-0.1deg); }
+  20%, 80% { transform: translate3d(2px, 1px, 0) rotate(0.2deg); }
+  30%, 50%, 70% { transform: translate3d(-3px, -1px, 0) rotate(-0.35deg); }
+  40%, 60% { transform: translate3d(3px, 1px, 0) rotate(0.35deg); }
+}
+.hm-hs-boardbtn { position: absolute; display: block; padding: 0; margin: 0; border: 0; background: none; pointer-events: auto; cursor: pointer; font: inherit; -webkit-tap-highlight-color: transparent; }
+.hm-hs-boardbtn:focus { outline: none; }
+.hm-hs-boardwrap:has(.hm-hs-boardbtn:focus-visible), .hm-hs-boardclip:has(.hm-hs-boardbtn:focus-visible) { outline: 2px solid var(--color-text-1); outline-offset: -4px; border-radius: 10px; }
+/* Cursor characters: Clippy and the Restocker are autonomous (never real pointers); their body is the shared .hm-cur (see below). */
+.hm-actor { position: absolute; left: 0; top: 0; z-index: 8; pointer-events: none; opacity: 0; transition: opacity 0.15s ease-out; }
+.hm-actor[data-on] { opacity: 1; }
+@media (max-width: 767px) { .hm-actor { transform-origin: 0 0; scale: 0.85; } }
+/* The visitor's pointer (components/experiment/OrangeCursor.tsx): visual only, never receives events; the native cursor is hidden only once it is live. */
+.hm-oc { position: fixed; left: 0; top: 0; width: 0; height: 0; z-index: 2147483000; pointer-events: none; opacity: 0; transition: opacity 0.12s ease-out; }
+.hm-oc[data-on] { opacity: 1; }
+.hm-oc[data-hide] { opacity: 0; }
+/* The shared cursor body (glyph + pill) used by the visitor's pointer, Clippy and the Restocker. Origin = the glyph tip (the hot spot). */
+.hm-cur { position: absolute; left: 0; top: 0; width: 0; height: 0; pointer-events: none; }
+.hm-cur-glyph { position: absolute; left: 0; top: 0; display: block; }
+.hm-cur-pill { position: absolute; left: 13px; top: 15px; height: 20px; border-radius: 9999px; overflow: hidden; display: flex; align-items: center; justify-content: center; color: #fff;
+  font: 600 11px/1 'Plus Jakarta Sans', sans-serif; letter-spacing: 0.01em; white-space: nowrap; transition: width 0.16s cubic-bezier(.22,1,.36,1); }
+.hm-cur-text { display: block; transition: opacity 0.07s ease-out; }
+.hm-cur[data-flip-x] .hm-cur-pill { left: auto; right: 10px; }
+.hm-cur[data-flip-y] .hm-cur-pill { top: auto; bottom: 12px; }
+html.hm-cursor-on, html.hm-cursor-on * { cursor: none !important; }
+html.hm-cursor-on :is(input:not([type="submit"], [type="button"], [type="checkbox"], [type="radio"]), textarea, [contenteditable=""], [contenteditable="true"]) { cursor: text !important; }
+.hm-hs-pic { display: contents; }
+.hm-hs-obj { position: absolute; transform: translate(-50%, -50%); pointer-events: none; }
+/* Hover = the object is picked up a little: small lift, tiny scale + tilt, soft shadow. Smooth, no shake. */
+.hm-hs-hover { display: block; transition: transform 200ms cubic-bezier(.22,1,.36,1), filter 200ms ease-out; }
+.hm-hs-hover[data-hover] { transform: translateY(-2px) scale(1.03) rotate(var(--tilt, 0.9deg)); filter: drop-shadow(0 6px 7px rgba(0,0,0,0.20)); }
+.hm-hs-drag { display: block; will-change: transform; }
+.hm-hs-stage img { pointer-events: none; -webkit-user-drag: none; }
+/* Objects (and the decorative heading icons) can be picked up on desktop (fine pointer only); the board cannot. */
+.hm-hs-drag[data-int] { pointer-events: auto; cursor: grab; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }   /* touch-action stays auto: a touch drag cancels scroll in JS only while an object is held */
+.hm-hs-drag[data-held] { cursor: grabbing; filter: drop-shadow(0 10px 12px rgba(0,0,0,0.22)); }
+.hm-icon { display: inline-flex; position: relative; }
+.hm-icon[data-held] { z-index: 20; }
+.hm-icon .hm-hs-idle, .hm-icon .hm-hs-hover, .hm-icon .hm-hs-drag { display: inline-flex; }
+
+/* Idle: stop-motion, not floating. Long holds, quick 1-2px / ~1deg re-poses, every object on its own
+   (co-prime) cycle and phase so they never move together. Always returns to the exact rest pose. */
+.hm-hs-idle { animation-timing-function: cubic-bezier(.3,.7,.4,1); animation-iteration-count: infinite; animation-fill-mode: both; }
+.hm-hs-idle[data-held] { animation-play-state: paused; }
+.hm-idle-glasses   { animation-name: hm-idle-glasses;   animation-duration: 15s;  animation-delay: -4s; }
+.hm-idle-flame     { animation-name: hm-idle-flame;     animation-duration: 9s;   animation-delay: -7s; }
+.hm-idle-earphones { animation-name: hm-idle-earphones; animation-duration: 18s;  animation-delay: -11s; }
+.hm-idle-ok        { animation-name: hm-idle-ok;        animation-duration: 7s;   animation-delay: -2s; }
+@keyframes hm-idle-glasses {
+  0%, 14%     { transform: translate(0, 0) rotate(0deg); }
+  15.2%, 33%  { transform: translate(2.2px, -1.5px) rotate(-1deg); }
+  34.4%, 56%  { transform: translate(-1.6px, 1.8px) rotate(0.9deg); }
+  57.4%, 78%  { transform: translate(1px, 0.4px) rotate(-0.5deg); }
+  79.4%, 100% { transform: translate(0, 0) rotate(0deg); }
+}
+@keyframes hm-idle-flame {
+  0%, 10%     { transform: translate(0, 0) rotate(0deg); }
+  11.4%, 27%  { transform: translate(0, -1.8px) rotate(2deg); }
+  28.4%, 47%  { transform: translate(1.4px, 0) rotate(-1.6deg); }
+  48.4%, 66%  { transform: translate(0, -1.2px) rotate(1.1deg); }
+  67.4%, 85%  { transform: translate(-0.8px, 0.7px) rotate(-0.7deg); }
+  86.4%, 100% { transform: translate(0, 0) rotate(0deg); }
+}
+@keyframes hm-idle-earphones {
+  0%, 8%      { transform: translate(0, 0) rotate(0deg); }
+  9.1%, 24%   { transform: translate(2.6px, 1.6px) rotate(0.9deg); }
+  25.3%, 31%  { transform: translate(-1.4px, 0.6px) rotate(0.25deg); }
+  32.4%, 55%  { transform: translate(-3px, -0.8px) rotate(-1.4deg); }
+  56.4%, 75%  { transform: translate(1.4px, -2.2px) rotate(0.6deg); }
+  76.4%, 100% { transform: translate(0, 0) rotate(0deg); }
+}
+@keyframes hm-idle-ok {
+  0%, 24%     { transform: rotate(0deg); }
+  25.6%       { transform: rotate(2.6deg); }
+  28.2%       { transform: rotate(-1.9deg); }
+  30.8%       { transform: rotate(1.2deg); }
+  33.4%       { transform: rotate(-0.6deg); }
+  36%, 100%   { transform: rotate(0deg); }
+}
+
+/* Heading sticker icons: independent, occasional tiny tilts (never continuous, never in sync) */
+.hm-idle-icon1 { animation-name: hm-icon-1; animation-duration: 13s; animation-delay: -2s; transform-origin: 50% 55%; }
+.hm-idle-icon2 { animation-name: hm-icon-2; animation-duration: 17s; animation-delay: -8s; transform-origin: 50% 55%; }
+@keyframes hm-icon-1 {
+  0%, 20%     { transform: none; }
+  21.5%, 34%  { transform: translateY(-1px) rotate(2.5deg); }
+  35.5%, 58%  { transform: translateY(0.5px) rotate(-1.5deg); }
+  59.5%, 100% { transform: none; }
+}
+@keyframes hm-icon-2 {
+  0%, 31%     { transform: none; }
+  32%, 42%    { transform: rotate(-4deg) scale(1.03); }
+  43.5%, 69%  { transform: rotate(1.5deg); }
+  70.5%, 100% { transform: none; }
+}
+
+
+/* Hero CTAs: tiny lift on hover, compress on press, clear focus ring that keeps the pill shape */
+.hm-hero-cta { transition: opacity 0.25s, background 0.25s, border-color 0.25s, transform 0.2s cubic-bezier(.22,1,.36,1); }
+.hm-hero-cta:hover { transform: translateY(-2px); }
+.hm-hero-cta:active { transform: translateY(0) scale(0.98); transition-duration: 0.1s; }
+.hm-hero-cta-primary:hover { opacity: 0.88; }
+.hm-hero-cta-secondary:hover { background: var(--hm-btn2-bg-hover, rgba(0,0,0,0.12)) !important; border-color: var(--hm-btn2-border-hover, transparent) !important; }
+.hm-hero-cta:focus-visible { outline: 2px solid var(--color-text-1); outline-offset: 3px; border-radius: 9999px; }
+
+/* ── Footer: layered board (components/experiment/FooterStage.tsx). Reuses the .hm-hs-* hover/drag styles above. ──
+   The frame clips its objects, as the flattened footer image did; idle poses are tiny and each object runs its own cycle. */
+.hm-hs-stage-clip { overflow: hidden; }
+/* Desktop footer: crop ONLY the bottom edge of the frame (and its scroll extent), so objects can be dragged anywhere else in the viewport.
+   The clip box reaches 100vh above the frame (padding cancelled by the negative margin, pointer-events off so it never blocks the content it overlaps). */
+.hm-fs-clip { position: relative; margin-top: -100vh; padding-top: 100vh; overflow-x: visible; overflow-y: clip; pointer-events: none; }
+.hm-fs-clip-m { overflow-x: clip; }   /* phone: stage = viewport width, so objects stop at the screen edge instead of widening the page */
+.hm-idle-f-paper    { animation-name: hm-idle-f-paper;    animation-duration: 21s; animation-delay: -9s; }
+.hm-idle-f-phone    { animation-name: hm-idle-f-phone;    animation-duration: 17s; animation-delay: -6s; }
+.hm-idle-f-unoback  { animation-name: hm-idle-f-unoback;  animation-duration: 13s; animation-delay: -3s; }
+.hm-idle-f-unofront { animation-name: hm-idle-f-unofront; animation-duration: 11s; animation-delay: -8s; }
+.hm-idle-f-sign     { animation-name: hm-idle-f-sign;     animation-duration: 8s;  animation-delay: -5s; }
+.hm-idle-f-credit   { animation-name: hm-idle-f-credit;   animation-duration: 19s; animation-delay: -12s; }
+.hm-idle-f-logo     { animation-name: hm-idle-f-logo;     animation-duration: 10s; animation-delay: -1s; }
+@keyframes hm-idle-f-paper {
+  0%, 18%     { transform: translate(0, 0) rotate(0deg); }
+  19.4%, 46%  { transform: translate(1.4px, -0.8px) rotate(0.3deg); }
+  47.4%, 74%  { transform: translate(-1px, 0.6px) rotate(-0.25deg); }
+  75.4%, 100% { transform: translate(0, 0) rotate(0deg); }
+}
+@keyframes hm-idle-f-phone {
+  0%, 12%     { transform: translate(0, 0) rotate(0deg); }
+  13.4%, 36%  { transform: translate(1.6px, -1.2px) rotate(0.45deg); }
+  37.4%, 62%  { transform: translate(-1.2px, 1px) rotate(-0.35deg); }
+  63.4%, 84%  { transform: translate(0.6px, 0.4px) rotate(0.2deg); }
+  85.4%, 100% { transform: translate(0, 0) rotate(0deg); }
+}
+@keyframes hm-idle-f-unoback {
+  0%, 15%     { transform: translate(0, 0) rotate(0deg); }
+  16.4%, 40%  { transform: translate(-1.4px, 1px) rotate(-0.7deg); }
+  41.4%, 68%  { transform: translate(1px, -1.4px) rotate(0.6deg); }
+  69.4%, 100% { transform: translate(0, 0) rotate(0deg); }
+}
+@keyframes hm-idle-f-unofront {
+  0%, 9%      { transform: translate(0, 0) rotate(0deg); }
+  10.4%, 31%  { transform: translate(1.8px, 1.2px) rotate(0.8deg); }
+  32.4%, 55%  { transform: translate(-1.2px, -1px) rotate(-0.9deg); }
+  56.4%, 79%  { transform: translate(0.8px, -0.6px) rotate(0.4deg); }
+  80.4%, 100% { transform: translate(0, 0) rotate(0deg); }
+}
+@keyframes hm-idle-f-sign {
+  0%, 22%     { transform: rotate(0deg); }
+  23.6%       { transform: rotate(2.2deg); }
+  26%         { transform: rotate(-1.6deg); }
+  28.4%       { transform: rotate(0.9deg); }
+  30.8%       { transform: rotate(-0.4deg); }
+  33%, 100%   { transform: rotate(0deg); }
+}
+@keyframes hm-idle-f-credit {
+  0%, 20%     { transform: translate(0, 0) rotate(0deg); }
+  21.4%, 52%  { transform: translate(1.6px, -0.6px) rotate(0.4deg); }
+  53.4%, 78%  { transform: translate(-1.2px, 0.8px) rotate(-0.3deg); }
+  79.4%, 100% { transform: translate(0, 0) rotate(0deg); }
+}
+@keyframes hm-idle-f-logo {
+  0%, 26%     { transform: rotate(0deg); }
+  27.4%       { transform: rotate(2.4deg); }
+  30%         { transform: rotate(-1.8deg); }
+  32.6%       { transform: rotate(1deg); }
+  35.2%       { transform: rotate(-0.4deg); }
+  38%, 100%   { transform: rotate(0deg); }
+}
+
+/* ── Section heading icons (components/experiment/SectionHeadingV3.tsx) ─────────────────────────────
+   Stop-motion idle: long holds, a few quick re-poses of 1-2px / 1-3deg, always settling back to the exact rest pose.
+   Three variants; duration and phase are set per heading, so no two icons move together. --k scales the amplitude down on phones. */
+.hm-sh-icon { display: inline-flex; --k: 1; animation-timing-function: cubic-bezier(.3,.7,.4,1); animation-iteration-count: infinite; animation-fill-mode: both; transform-origin: 50% 60%; }
+@media (max-width: 767px) { .hm-sh-icon { --k: 0.6; } }
+.hm-sh-idle-0 { animation-name: hm-sh-0; }
+.hm-sh-idle-1 { animation-name: hm-sh-1; }
+.hm-sh-idle-2 { animation-name: hm-sh-2; }
+@keyframes hm-sh-0 {
+  0%, 16%     { transform: translate(0, 0) rotate(0deg); }
+  18%, 36%    { transform: translate(calc(1.5px * var(--k)), calc(-1px * var(--k))) rotate(calc(2.5deg * var(--k))); }
+  38%, 56%    { transform: translate(calc(-1px * var(--k)), calc(0.8px * var(--k))) rotate(calc(-2deg * var(--k))); }
+  58%, 74%    { transform: translate(calc(0.5px * var(--k)), 0) rotate(calc(0.8deg * var(--k))); }
+  76%, 100%   { transform: translate(0, 0) rotate(0deg); }
+}
+@keyframes hm-sh-1 {
+  0%, 22%     { transform: translate(0, 0) rotate(0deg); }
+  24%, 34%    { transform: translate(calc(-1.5px * var(--k)), calc(-0.8px * var(--k))) rotate(calc(-3deg * var(--k))); }
+  36%, 60%    { transform: translate(calc(1px * var(--k)), calc(0.5px * var(--k))) rotate(calc(1.5deg * var(--k))); }
+  62%, 78%    { transform: translate(0, calc(-1px * var(--k))) rotate(calc(-1deg * var(--k))); }
+  80%, 100%   { transform: translate(0, 0) rotate(0deg); }
+}
+@keyframes hm-sh-2 {
+  0%, 12%     { transform: translate(0, 0) rotate(0deg); }
+  14%, 28%    { transform: translate(calc(1px * var(--k)), calc(1px * var(--k))) rotate(calc(2deg * var(--k))); }
+  30%, 44%    { transform: translate(calc(-0.5px * var(--k)), calc(-1.2px * var(--k))) rotate(calc(-2.5deg * var(--k))); }
+  46%, 66%    { transform: translate(calc(1.5px * var(--k)), 0) rotate(calc(1deg * var(--k))); }
+  68%, 100%   { transform: translate(0, 0) rotate(0deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hm-sh-icon { animation: none !important; }
+  .hm-hero-cta:hover, .hm-hero-cta:active { transform: none; }
+  .hm-hs-drag { will-change: auto; }
+  .hm-hs-idle { animation: none !important; }
+  .hm-hs-shake[data-shake] { animation: none !important; }
+  .hm-oc, .hm-cur-pill, .hm-cur-text { transition: none !important; }
+  .hm-actor { display: none; }
+  .hm-hs-hover { transition: none; }
+}
+
+/* Logo marquee (components/experiment/LogoMarquee.tsx): decorative, one CSS animation, edges dissolve into whatever the page background is (a mask, so no colour is hard-coded). */
+.hm-logo-marquee { --lm-gap: 48px; --lm-scale: 1; max-width: 768px; margin: 0 auto; min-height: 107px; padding: 0; display: flex; align-items: center; overflow: hidden; contain: paint; pointer-events: none; user-select: none;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 18%, #000 82%, transparent 100%); mask-image: linear-gradient(to right, transparent 0, #000 18%, #000 82%, transparent 100%); }
+.hm-lm-track { display: flex; width: max-content; animation: hm-lm-move 70s linear infinite; }
+.hm-lm-seq { display: flex; align-items: center; gap: var(--lm-gap); padding: 0 var(--lm-gap) 0 0; margin: 0; list-style: none; flex-shrink: 0; }
+.hm-lm-item { flex: none; position: relative; width: calc(var(--w) * var(--lm-scale)); height: calc(var(--h) * var(--lm-scale)); }   /* height scales WITH the width, so logos are never distorted */
+.hm-lm-item img { position: absolute; display: block; max-width: none; user-select: none; filter: grayscale(100%); opacity: var(--lo, 0.28); }   /* every logo fully grayscale at render time (the files are untouched), ~28% opacity; no hover state, border, card or shadow */
+@keyframes hm-lm-move { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+@media (max-width: 767px) { .hm-logo-marquee { --lm-gap: 32px; --lm-scale: 0.82; min-height: 102px; } }
+@media (max-width: 479px) { .hm-logo-marquee { --lm-gap: 22px; --lm-scale: 0.7; } }
+@media (prefers-reduced-motion: reduce) {
+  .hm-logo-marquee { -webkit-mask-image: none; mask-image: none; }
+  .hm-logo-marquee { padding: 18px 0; }                                   /* the wrapped static layout keeps some air, whatever its height */
+  .hm-lm-track { animation: none; width: auto; justify-content: center; }
+  .hm-lm-seq { flex-wrap: wrap; justify-content: center; padding: 0 12px; row-gap: 16px; }
+  .hm-lm-seq[aria-hidden="true"] { display: none; }
+}
+
+/* ── Surface tokens for light cards and fields. The defaults reproduce the previous look exactly (white card, hairline-free, soft shadow, grey field border). ── */
+.hm-scope { --hm-light-card-bg: #ffffff; --hm-light-card-border: none; --hm-light-card-shadow: 0px 2px 9px 0px rgba(0,0,0,0.05); --hm-field-border: var(--color-border); }
+
+/* ── EXPERIMENT: pure-white canvas + flat, hairline-bordered light cards. Remove the `hm-flat` class on the page wrapper (app/page.tsx) to revert.
+   The grid-line colour (--color-border) is deliberately NOT touched; cards and fields use their own #E6E6E6. Dark cards, media and the pegboard use other tokens. ── */
+body:has(.hm-flat) { --color-bg: #ffffff; }
+.hm-scope.hm-flat {
+  --color-bg: #ffffff;
+  --color-input: #fafafa;
+  --hm-light-card-bg: #fafafa;
+  --hm-light-card-border: 1px solid #e6e6e6;
+  --hm-light-card-shadow: none;
+  --hm-field-border: #e6e6e6;
+}
+
+/* ── EXPERIMENT B: the ORIGINAL off-white canvas (#f2f2f2, untouched above) + flat, pure-white cards with a #E5E5E5 hairline and no shadow; fields match.
+   Switch variants with the class on the page wrapper (app/page.tsx): `hm-flat-b` = this, `hm-flat` = experiment A (white canvas, #FAFAFA cards),
+   neither = the original elevated cards. No canvas or grid token is set here on purpose. ── */
+.hm-scope.hm-flat-b {
+  --color-input: #ffffff;
+  --hm-light-card-bg: #ffffff;
+  --hm-light-card-border: 1px solid #e5e5e5;
+  --hm-light-card-shadow: none;
+  --hm-field-border: #e5e5e5;
+}
+
+/* Media wrapper shadow (e.g. the Devi Paksha video cell): the previous look by default, none in the flat variants. */
+.hm-scope { --hm-media-shadow: 0px 2px 9px 0px rgba(0,0,0,0.05); }
+.hm-scope.hm-flat, .hm-scope.hm-flat-b { --hm-media-shadow: none; }
+
+/* ── Interactive-card hover (resting state stays flat). Tokens: lift, soft shadow, ease. `translate` (not `transform`) carries the lift, so it never fights the reveal animation's inline
+   transform, and it does not change layout. Fine pointers only: touch never gets a sticky hover. Reduced motion keeps the shadow/border change and drops the movement. ── */
+.hm-scope { --hm-hover-lift: -2px; --hm-hover-shadow: 0 4px 12px rgba(0,0,0,0.06); --hm-hover-shadow-dark: 0 6px 16px rgba(0,0,0,0.10); --hm-hover-ease: 200ms cubic-bezier(.22,1,.36,1); }
+@media (hover: hover) and (pointer: fine) {
+  .hm-lift:hover { translate: 0 var(--hm-hover-lift); box-shadow: var(--hm-hover-shadow) !important; border-color: var(--color-card-hover-border) !important; }
+  .hm-lift-dark:hover { box-shadow: var(--hm-hover-shadow-dark) !important; }
+}
+.hm-lift:focus-within { box-shadow: var(--hm-hover-shadow) !important; }                 /* keyboard: a focused link inside the card shows the same lifted state */
+.hm-lift:active { translate: 0 0; }                                                      /* pressed: the card settles back down */
+@media (prefers-reduced-motion: reduce) {
+  .hm-lift:hover { translate: none; }
+  .hm-lift { transition-property: box-shadow, border-color !important; }
+}
+.hm-proj-card-row:focus-visible { outline: 2px solid #ffffff; outline-offset: -4px; border-radius: 8px; }   /* visible keyboard focus on the project links */
+
+/* ── Grass scene on the last Experience card (components/experiment/GrassCard.tsx). The card keeps its grid cell, size, fill, border and radius (.hm-hm-filler); only its content is new. ── */
+.hm-hm-filler.hm-gr-card { position: relative; overflow: hidden; align-items: stretch; justify-content: flex-start; text-align: left; padding: 0; isolation: isolate; }
+.hm-gr-card .hm-gr-caption { position: absolute; top: 14px; left: 16px; max-width: calc(100% - 32px); z-index: 3; text-align: left; font-size: 11px; line-height: 1.5; }
+@media (max-width: 640px) { .hm-gr-card .hm-gr-caption { font-size: 10px; } }   /* the card is only ~270px wide just above its 600px breakpoint: keep the (longer) caption on one line */
+/* explicit layers inside the isolated card: grass (1) < bees (2) < caption (3) */
+.hm-gr-grass { position: absolute; inset: 0; z-index: 1; pointer-events: none; animation: hm-gr-gust 19s ease-in-out infinite; }
+.hm-gr-bees { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+/* the breeze: one slow, irregular 0..1 value shared by the whole patch; each instance scales its own sway by it (and leans a touch with it) */
+@property --gust { syntax: "<number>"; inherits: true; initial-value: 0.5; }
+@keyframes hm-gr-gust { 0% { --gust: 0.1; } 17% { --gust: 0.85; } 29% { --gust: 0.3; } 52% { --gust: 1; } 68% { --gust: 0.4; } 84% { --gust: 0.7; } 100% { --gust: 0.1; } }
+/* every instance: its VISIBLE roots sit --gs below the card's bottom edge (--gp is the measured empty padding under the blades), the card clips the overflow, and it pivots about
+   those roots. --bend is the pointer's contribution (CSS `rotate`), added on top of the keyframed `transform` rotation, so the two never fight. */
+.hm-gr-g { position: absolute; left: var(--gl); height: var(--gh); bottom: calc(var(--gh) * var(--gp) * -1 - var(--gs)); transform-origin: 50% calc((1 - var(--gp)) * 100%);
+  rotate: calc(var(--bend, 0) * 1deg); transition: rotate 0.8s cubic-bezier(.34, 1.45, .64, 1); will-change: transform;
+  animation: hm-gr-sway var(--gd, 5s) ease-in-out var(--gdl, 0s) infinite alternate; }
+.hm-gr-g img { display: block; width: 100%; height: 100%; object-fit: contain; user-select: none; }
+.hm-gr-card[data-hover] .hm-gr-g { transition: rotate 0.22s ease-out; }
+.hm-gr-card:not([data-active]) .hm-gr-g, .hm-gr-card:not([data-active]) .hm-gr-grass { animation-play-state: paused; }   /* off screen (or not yet seen): the wind is paused */
+@keyframes hm-gr-sway {
+  from { transform: rotate(calc(var(--gr, 0deg) + var(--gust, 0.5) * 1.1deg - var(--ga, 1.5deg) * (0.75 + 0.5 * var(--gust, 0.5)))); }
+  to   { transform: rotate(calc(var(--gr, 0deg) + var(--gust, 0.5) * 1.1deg + var(--ga, 1.5deg) * (0.75 + 0.5 * var(--gust, 0.5)))); }
+}
+/* the bees: positioned and steered by script (translate / rotate / scale / opacity); the artwork keeps its aspect ratio. Above the grass, below the caption. */
+.hm-gr-bee { position: absolute; left: 0; top: 0; aspect-ratio: 211 / 224; opacity: 0; will-change: translate, rotate; }
+.hm-gr-bee img { display: block; width: 100%; height: 100%; }
+@media (prefers-reduced-motion: reduce) {
+  .hm-gr-g, .hm-gr-grass { animation: none; transition: none; rotate: none; }
+}
+
+/* ── Section-heading icon slot + The Courier (components/experiment/SectionHeadingV3.tsx, Courier.tsx, courierController.ts) ──
+   The slot is EXPANDED by default (that is the original heading, and what a no-JS / reduced-motion / skipped delivery shows). While a delivery is pending the script sets data-courier="pending"
+   on the h2: the slot collapses to a word-space (flex gap 8 + 8, minus 3 + 3) and the h2 keeps its final height (min-height) so nothing below moves. "open" = the slot is being widened by the
+   Courier's push (Web Animation); in both states the slot's own icon is hidden: until the release the only icon is the one the Courier carries. Nothing here fades. */
+.hm-sh-slot { flex: none; display: inline-flex; justify-content: center; width: calc(1.2em - 3px); margin: 0; }
+h2[data-courier="pending"] .hm-sh-slot { width: 0; margin: 0 -3px; overflow: hidden; }
+h2[data-courier] .hm-sh-icon { visibility: hidden; }
+/* The Hero has TWO slots in one heading, so its state lives on the slot itself: data-slot="pending" (collapsed) / "open" (being widened); the icon inside is hidden in both. */
+.hm-sh-slot[data-slot="pending"] { width: 0; margin: 0 -3px; overflow: hidden; }
+.hm-sh-slot[data-slot] > * { visibility: hidden; }
+.hm-courier-layer { position: absolute; inset: 0; z-index: 30; overflow: hidden; pointer-events: none; }
+/* visible only while it is in transit (the controller toggles visibility, not opacity); it is moved by position alone */
+.hm-courier { position: absolute; left: 0; top: 0; width: 0; height: 0; visibility: hidden; pointer-events: none; will-change: transform; }
+.hm-courier .hm-cur-glyph { transform-origin: 0 0; }
+.hm-courier .hm-cur-pill { opacity: 0; scale: .85; transform-origin: 0 50%; transition: opacity .14s ease-out, scale .18s cubic-bezier(.34,1.4,.64,1); }
+.hm-courier[data-say] .hm-cur-pill { opacity: 1; scale: 1; }
+.hm-courier-cargo { position: absolute; left: 0; top: 0; translate: -50% -50%; line-height: 0; width: max-content; visibility: hidden; }   /* its containing block is 0 wide: size to the icon, not to it */
+.hm-courier-cargo img { max-width: none; }
+.hm-courier[data-carry] .hm-courier-cargo { visibility: visible; }
+.hm-courier-cargo .hm-sh-icon { animation: none; visibility: visible; }
+.hm-courier-cargo .hm-hs-idle { animation: none; }
+@media (max-width: 767px) { .hm-courier .hm-cur { scale: .85; transform-origin: 0 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .hm-courier-layer { display: none; }
+}
+
+/* ── Secondary controls: ONE set of tokens (this page only). A tinted fill + a hairline border, no shadow. The 1px border is taken out of the padding (the --*-pad values), so every control
+   keeps its size. Primary buttons, form fields, static labels and the cursor pills do not read these. ── */
+.hm-scope {
+  --hm-btn2-bg: #E9E9E9; --hm-btn2-bg-hover: #E2E2E2; --hm-btn2-border: #D6D6D6; --hm-btn2-border-hover: #C8C8C8;       /* secondary buttons on the light canvas (#f2f2f2) */
+  --hm-btn2-pad: 10px 21px;
+  --hm-dark-fill: rgba(255,255,255,0.08); --hm-dark-fill-hover: rgba(255,255,255,0.13); --hm-dark-border: rgba(255,255,255,0.14);   /* on the dark cards (#222): lighter fill, lighter hairline */
+  --hm-dark-btn-pad: 10px 21px;
+  --hm-pill-radius: 5px; --hm-pill-fill: rgba(255,255,255,0.10);                                                         /* compact category pills on dark cards: lighter fill, NO border */
+}
+@media (prefers-reduced-motion: reduce) { .hm-hero-cta-secondary, .hm-dp-cta-secondary { transition: none; } }
+
+/* ── Typography: no single-word last lines (found by measuring every wrapped block at 768 / 1000 / 1280). Wrapping only; sizes, weights and copy are untouched. Titles balance their lines;
+   descriptions use `pretty`, which refuses a one-word last line. Both fall back to normal wrapping where unsupported. ── */
+.hm-proj-card-text { text-wrap: pretty; }
+.hm-proj-title { text-wrap: balance; }
+p.hm-f16, .hm-card-body, .hm-dp-body { text-wrap: pretty; }
