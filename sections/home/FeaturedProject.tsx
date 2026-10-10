@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { motion, useInView, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { useReduceMotionSafe } from "@/lib/home/useReduceMotionSafe";
 import { usePathname } from "next/navigation";
 import { MdDesignServices, MdAccountTree, MdWidgets, MdGroups, MdVerified } from "react-icons/md";
 import SectionHeadingV3 from "@/components/home/SectionHeadingV3";
@@ -24,7 +25,7 @@ const stats = [
 const R = (a: number, b: number) => [a, b];
 function ZenoVisual() {
   const ref = useRef<HTMLDivElement>(null);
-  const reduce = !!useReducedMotion();
+  const reduce = useReduceMotionSafe();   // hydrates as "no preference" like the server, then switches (see the hook)
   const [small, setSmall] = useState(false);
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 599px)");
@@ -46,29 +47,34 @@ function ZenoVisual() {
   const brX = useTransform(p, R(0.5, 0.95), [d, 0]);
   const botY = useTransform(p, R(0.5, 0.95), [d, 0]);
   const botOp = useTransform(p, R(0.5, 0.95), R(0, 1));
-  const m = (style: Record<string, unknown>) => (reduce ? undefined : style);
+  // Reduced motion: every overlay sits in its FINAL state. The values must be explicit: the server renders the scroll-driven starting values inline (opacity 0, offsets) and hydration never
+  // removes inline styles, and framer-motion does not overwrite a scroll-driven value with a static one in place, so the text, pattern and phone stayed hidden / shifted for visitors with Reduce Motion on.
+  const FINAL = { x: 0, y: 0, opacity: 1 };
+  // Changing the key when the preference becomes known remounts these elements, so they start from the explicit final state instead of inheriting the server-rendered inline styles.
+  const mk = reduce ? "static" : "live";
+  const m = (style: Record<string, unknown>) => (reduce ? FINAL : style);
   return (
     <div ref={ref} className="hm-feature-img-wrap hm-zv" data-run={onScreen && !reduce ? "1" : undefined} style={{ borderRadius: 8, overflow: "hidden", width: "100%" }}>
       <img className="hm-zv-bg" src="/Zeno%20image/bg.png" alt="" loading="lazy" decoding="async" draggable={false} />
       <div className="hm-zv-pat">
         <div className="hm-zv-spin">
-          <motion.img src="/Zeno%20image/patterns.png" alt="" loading="lazy" decoding="async" draggable={false}
-            style={reduce ? { rotate: 29 } : { rotate: 29, opacity: patOp }} />
+          <motion.img key={`pat-${mk}`} src="/Zeno%20image/patterns.png" alt="" loading="lazy" decoding="async" draggable={false}
+            style={reduce ? { rotate: 29, opacity: 1 } : { rotate: 29, opacity: patOp }} />
         </div>
       </div>
       <div className="hm-zv-phone">
         {/* motion lives on the wrapper; the original asset is rendered as-is by a plain <img> */}
-        <motion.div className="hm-zv-phone-in" style={m({ y: phoneY, opacity: phoneOp })}>
+        <motion.div key={`phone-${mk}`} className="hm-zv-phone-in" style={m({ y: phoneY, opacity: phoneOp })}>
           <img src="/Zeno%20image/ZENO%20App.png" alt="ZENO app home screen held in a hand" width={1159} height={1200} decoding="async" draggable={false} />
         </motion.div>
       </div>
-      <motion.div className="hm-zv-t hm-zv-tl" style={m({ x: tlX, y: tlY, opacity: topOp })}>
+      <motion.div key={`tl-${mk}`} className="hm-zv-t hm-zv-tl" style={m({ x: tlX, y: tlY, opacity: topOp })}>
         <p className="hm-zv-h">Smarter charging.<br />Cheaper every time.</p>
         <p className="hm-zv-sub">Zeno charges your EV automatically at the cheapest electricity hour of the day, right from your phone.</p>
       </motion.div>
-      <motion.div className="hm-zv-t hm-zv-tr" style={m({ x: trX, opacity: topOp })}>ZENO</motion.div>
-      <motion.div className="hm-zv-t hm-zv-bl" style={m({ x: blX, y: botY, opacity: botOp })}>Driven by savings</motion.div>
-      <motion.div className="hm-zv-t hm-zv-br" style={m({ x: brX, y: botY, opacity: botOp })}>Designed for simplicity</motion.div>
+      <motion.div key={`tr-${mk}`} className="hm-zv-t hm-zv-tr" style={m({ x: trX, opacity: topOp })}>ZENO</motion.div>
+      <motion.div key={`bl-${mk}`} className="hm-zv-t hm-zv-bl" style={m({ x: blX, y: botY, opacity: botOp })}>Driven by savings</motion.div>
+      <motion.div key={`br-${mk}`} className="hm-zv-t hm-zv-br" style={m({ x: brX, y: botY, opacity: botOp })}>Designed for simplicity</motion.div>
     </div>
   );
 }
