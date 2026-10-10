@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { useInView, useReducedMotion } from "framer-motion";
+import { useInView } from "framer-motion";
+import { useReduceMotionSafe } from "@/lib/home/useReduceMotionSafe";
 import { usePathname } from "next/navigation";
 import SectionHeadingV3 from "@/components/home/SectionHeadingV3";
 import { C, revealStyle, col } from "@/lib/home/tokensV2";
@@ -95,7 +96,7 @@ export default function DeviPaksha() {
   const introRef = useRef(null);
   const cardRef = useRef(null);
   const statsRef = useRef(null);
-  const reduce = !!useReducedMotion();
+  const reduce = useReduceMotionSafe();   // hydrates as "no preference" like the server, then switches (see the hook)
   const introInView = useInView(introRef, { once: true, margin: "0px" }) || reduce;   // reduced motion: everything is shown immediately
   const cardInView = useInView(cardRef, { once: true, margin: "0px" }) || reduce;
   // Count-up trigger: watches the stats grid itself (not the whole section/card),
