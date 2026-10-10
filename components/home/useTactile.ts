@@ -8,9 +8,9 @@
 import { useEffect, useRef, useState, type RefObject } from "react";
 import { animate, useMotionValue, useReducedMotion, type AnimationPlaybackControls } from "framer-motion";
 
-/** True on hover-capable fine pointers (mouse/trackpad) when the user hasn't asked for reduced motion. */
+/** True on hover-capable fine pointers (mouse/trackpad), and on touch screens where the caller opts in. Reduced motion does NOT switch interaction off: dragging an object is direct
+ *  manipulation, so it stays; what reduced motion calms is the movement that follows it (the spring home in useTactile, the autonomous Hero events, the idle wobble). */
 export function useInteractive(enabled = true, touch = false) {
-  const reduce = useReducedMotion();
   const [fine, setFine] = useState(false);
   useEffect(() => {
     const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
@@ -20,7 +20,7 @@ export function useInteractive(enabled = true, touch = false) {
     return () => mq.removeEventListener("change", upd);
   }, []);
   // hover-capable fine pointers always; touch screens only where the caller opts in (the Hero / Footer object stages)
-  return enabled && !reduce && (fine || touch);
+  return enabled && (fine || touch);
 }
 
 // ── alpha hit-test: only the opaque pixels of an object react ──
@@ -81,6 +81,7 @@ export function useTactile({ imgRef, hoverRef, rotDeg = 0, enabled, onHeld, canv
   const dx = useMotionValue(initial?.x ?? 0), dy = useMotionValue(initial?.y ?? 0), rot = useMotionValue(0), lift = useMotionValue(1);
   const [held, setHeld] = useState(false);
   const drag = useRef<DragState | null>(null);
+  const reduce = useReducedMotion();   // reduced motion: the object still follows the pointer 1:1, but returns with a short, plain ease (no overshoot, no wobble)
   const inside = useRef(false), lastCheck = useRef(0);
   const anims = useRef<AnimationPlaybackControls[]>([]);
 
@@ -168,6 +169,15 @@ export function useTactile({ imgRef, hoverRef, rotDeg = 0, enabled, onHeld, canv
     setHeld(false); onHeld?.(false);
     inside.current = over(e);           // still on the object: it goes straight back to its hovered (picked-up) look
     setHover(inside.current);
+    if (reduce) {
+      anims.current = [
+        animate(dx, 0, { duration: 0.22, ease: "easeOut", onComplete: () => dx.set(0) }),
+        animate(dy, 0, { duration: 0.22, ease: "easeOut", onComplete: () => dy.set(0) }),
+        animate(rot, 0, { duration: 0.22, ease: "easeOut", onComplete: () => rot.set(0) }),
+        animate(lift, 1, { duration: 0.15, ease: "easeOut" }),
+      ];
+      return;
+    }
     // quick return, ~10% overshoot, then a small rotation wobble; every spring starts from zero velocity so a flick can't overshoot the canvas.
     rot.jump(rot.get() + clamp(dx.get() / 40, -2.5, 2.5));   // from the current rotation, never reset to zero
     // overshoot is capped at ~8px however far it was dragged: damping ratio is derived from the drag distance (>=0.55, so short drags keep the playful ~10% overshoot)
