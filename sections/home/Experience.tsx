@@ -69,6 +69,13 @@ function ExperienceCard({ e, delay, isNew }: { e: typeof experience[0]; delay: n
       {isNew && (
         <p style={{ fontSize: 14, fontWeight: 500, color: "var(--hm-black, #222222)", lineHeight: 1.6 }}>{e.desc}</p>
       )}
+
+      {/* The EU startup entry is partly confidential. Pointer users get the cursor cue (ID_POOL.startup); this line is the same cue for screen readers and for touch, where there is no hover. */}
+      {e.id === "startup" && (
+        <span style={{ position: "absolute", width: 1, height: 1, margin: -1, padding: 0, overflow: "hidden", clip: "rect(0 0 0 0)", whiteSpace: "nowrap", border: 0 }}>
+          Part of this work is confidential. Get in touch to hear more.
+        </span>
+      )}
     </div>
   );
 }

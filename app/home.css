@@ -372,7 +372,7 @@ html.hm-cursor-on :is(input:not([type="submit"], [type="button"], [type="checkbo
 }
 
 /* Logo marquee (components/experiment/LogoMarquee.tsx): decorative, one CSS animation, edges dissolve into whatever the page background is (a mask, so no colour is hard-coded). */
-.hm-logo-marquee { --lm-gap: 48px; --lm-scale: 1; max-width: 768px; margin: 0 auto; min-height: 107px; padding: 0; display: flex; align-items: center; overflow: hidden; contain: paint; pointer-events: none; user-select: none;
+.hm-logo-marquee { --lm-gap: 48px; --lm-scale: 1; max-width: min(768px, calc(100% - 16px)); margin: 0 auto; min-height: 107px; padding: 0; display: flex; align-items: center; overflow: hidden; contain: paint; pointer-events: none; user-select: none;
   -webkit-mask-image: linear-gradient(to right, transparent 0, #000 18%, #000 82%, transparent 100%); mask-image: linear-gradient(to right, transparent 0, #000 18%, #000 82%, transparent 100%); }
 .hm-lm-track { display: flex; width: max-content; animation: hm-lm-move 70s linear infinite; }
 .hm-lm-seq { display: flex; align-items: center; gap: var(--lm-gap); padding: 0 var(--lm-gap) 0 0; margin: 0; list-style: none; flex-shrink: 0; }

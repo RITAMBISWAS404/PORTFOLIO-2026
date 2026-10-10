@@ -13,8 +13,8 @@
 // delivery is still the current one, so a stale callback can never finish an old delivery.
 //
 // REVERT: set COURIER_ENABLED to false (headings render exactly as before and no Courier is drawn), or remove <Courier /> from app/page.tsx.
-import { setPill } from "./Cursor";
-import { COURIER, pickOne } from "@/lib/home/cursorCopy";
+import { setPill, setCursorColor } from "./Cursor";
+import { COURIER, pickFresh, courierColor } from "@/lib/home/cursorCopy";
 
 export const COURIER_ENABLED = true;
 
@@ -177,7 +177,8 @@ function run(d: Delivery) {
 
   // ── the stay: just BELOW the heading text, so the pill never covers a word ──
   const P: Pt = { x: tipT.x + 10, y: textBottom + 4 };
-  let phrase = pickOne(COURIER.delivered); if (phrase === lastPhrase) phrase = pickOne(COURIER.delivered); lastPhrase = phrase;
+  const phrase = pickFresh(COURIER.delivered); lastPhrase = phrase;
+  setCursorColor(body, courierColor(d.host.textContent?.trim() || phrase));   // one colour per delivery, from the Hero helpers' palette; fixed before the Courier appears, never changed mid-flight
   setPill(body, phrase, true);
   const estW = phrase.length * 6.6 + 18;
   body.toggleAttribute("data-flip-x", P.x + 13 + estW + 8 > vx1);
