@@ -35,6 +35,42 @@ export function markHeroIconPlaced(id: "hero-1" | "hero-2") {
   waiting.forEach(cb => cb());
 }
 
+// The slot widening runs on its own clock (a timer starts it, its finish event releases the icon), a little behind the cursor's path. The cursor holds still this much longer than the slot needs, so the
+// release always happens while it is still holding the icon in place; before this it sometimes fired after the cursor had already started to step away, and the carried copy was 2-3px off at the swap.
+const RELEASE_LAG = 70;
+const SAMPLE_MS = 10;      // keyframe spacing of the Courier's path: well under one 60 Hz frame, so the speed seen on screen never beats against the sampling (28 ms made it uneven frame to frame)
+
+/** The small "set down" after a release, animated on the heading's own icon image (see handOff). They are cancelled with the delivery. */
+const settling = new Set<Animation>();
+
+/**
+ * The release, as one continuous motion. Until now the carried copy simply vanished and the heading's own icon appeared in the same frame: the two never agree exactly (the cursor has already started
+ * to step away, so the carried copy is a pixel or two off the slot, and the heading's icon is mid-way through its own idle tilt), so the icon visibly jumped. This reads the carried copy's ACTUAL pose
+ * at the moment of release, and returns a function that (called right after the heading's own icon is shown) starts the real icon at exactly that pose, undoing its idle tilt, and eases it to rest with a
+ * hair of push along the approach and back. The animation is on the icon's inner image (the idle tilt lives on its parent), so nothing else is touched and it is gone when it ends.
+ */
+function handOff(slot: HTMLElement, icon: HTMLElement, cargo: HTMLElement, fd: Pt): () => void {
+  const none = () => undefined;
+  const from = cargo.querySelector<Element>("img, svg"), to = slot.querySelector<HTMLElement | SVGElement>("img, svg");
+  if (!from || !to) return none;
+  const idleEl = icon.classList.contains("hm-sh-icon") ? icon : icon.querySelector<HTMLElement>(".hm-hs-idle") ?? icon;
+  const fr = from.getBoundingClientRect(), tr = to.getBoundingClientRect();
+  if (!fr.width || !tr.width) return none;
+  const M = new DOMMatrix(getComputedStyle(idleEl).transform === "none" ? undefined : getComputedStyle(idleEl).transform);
+  // where the carried copy is, relative to where the icon rests (its idle translation removed from the measured position)
+  const dx = fr.left + fr.width / 2 - (tr.left + tr.width / 2) + M.e, dy = fr.top + fr.height / 2 - (tr.top + tr.height / 2) + M.f;
+  if (Math.hypot(dx, dy) > 40) return none;                                              // not a hand-off at all (the layout moved under it): just show the icon
+  const start = M.inverse().multiply(new DOMMatrix().translate(dx, dy));                // net pose = the carried copy's, whatever the idle tilt is right now
+  return () => {
+    const a = to.animate([
+      { transform: start.toString(), easing: "cubic-bezier(.2,.8,.3,1)" },
+      { transform: `translate(${(fd.x * 1.4).toFixed(2)}px, ${(fd.y * 1.4).toFixed(2)}px)`, offset: 0.5, easing: "cubic-bezier(.4,0,.3,1)" },
+      { transform: "none" },
+    ], { duration: 280, fill: "none" });
+    settling.add(a); a.onfinish = a.oncancel = () => settling.delete(a);
+  };
+}
+
 export type Rig = { layer: HTMLElement; root: HTMLElement; body: HTMLElement; cargo: HTMLElement };
 export type Delivery = {
   host: HTMLElement;              // the h2
@@ -98,6 +134,7 @@ function hideCourier() {
 }
 
 export function cancelAll() {
+  settling.forEach(a => { try { a.cancel(); } catch { /* done */ } }); settling.clear();
   const c = cur; cur = null; busy = false;
   if (c) { c.timers.forEach(clearTimeout); c.io.disconnect(); c.anims.forEach(a => { a.onfinish = null; a.oncancel = null; try { a.cancel(); } catch { /* done */ } }); hideCourier(); c.d.open(); c.d.done(); }
   queue.splice(0).forEach(instant);
@@ -200,11 +237,10 @@ function run(d: Delivery) {
   const E = exits[Math.floor(R() * exits.length)];      // independent of the entry; always along the line below the heading (or straight down), never back over it
 
   // ── timeline (ms), built from this delivery's personality ──
-  // Everything below is a smooth path through a few waypoints sampled every ~28ms (linear between samples), so it is continuous and jitter-free; it always ends at tipT exactly.
+  // Everything below is a smooth path through a few waypoints sampled every ~SAMPLE_MS (linear between samples), so it is continuous and jitter-free; it always ends at tipT exactly.
   const ease = (u: number) => (1 - Math.cos(Math.PI * u)) / 2;                       // sine in-out
   const easeOut = (u: number) => 1 - (1 - u) * (1 - u);
   const easeOut3 = (u: number) => 1 - Math.pow(1 - u, 3);
-  const easeIn3 = (u: number) => u * u * u;
   const easeCubic = (u: number) => (u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2);
   const norm = (v: Pt): Pt => { const l = Math.hypot(v.x, v.y) || 1; return { x: v.x / l, y: v.y / l }; };
   const fd = norm({ x: tipT.x - A.x, y: tipT.y - A.y });                            // the direction of the final approach
@@ -237,21 +273,21 @@ function run(d: Delivery) {
   };
   const kfs: { t: number; p: Pt }[] = []; let tc = 0, cursor = pathPts[0];
   const put = (t: number, p: Pt) => { tc = Math.max(t, kfs.length ? kfs[kfs.length - 1].t + 0.5 : 0); kfs.push({ t: tc, p }); cursor = p; };
-  const seg = (to: Pt, ms: number, fn: (u: number) => number, n = Math.max(3, Math.round(ms / 28))) => { const from = cursor, t0 = tc; for (let i = 1; i <= n; i++) put(t0 + (ms * i) / n, lerp(from, to, fn(i / n))); };
+  const seg = (to: Pt, ms: number, fn: (u: number) => number, n = Math.max(3, Math.round(ms / SAMPLE_MS))) => { const from = cursor, t0 = tc; for (let i = 1; i <= n; i++) put(t0 + (ms * i) / n, lerp(from, to, fn(i / n))); };
   let tA = D;
-  const NS = Math.max(24, Math.round(D / 28));
+  const NS = Math.max(24, Math.round(D / SAMPLE_MS));
   for (let i = 0; i <= NS; i++) { const t = (D * i) / NS, s = sAt(t); if (tA === D && s >= sA - 1e-6 && !pushMod) tA = t; put(t, atS(Math.min(1, s) * Ltot)); }
   if (!pushMod) kfs[kfs.length - 1].p = tipT;                                          // exact destination
 
   // the push (only when this delivery has a mischievous one): A -> tipT in a few deliberate moves
-  if (prof.push === "nudge") { const N1 = lerp(A, tipT, 0.7), N2 = { x: N1.x - fd.x * 10 * k, y: N1.y - fd.y * 10 * k }; seg(N1, 120 * k, easeOut3); seg(N2, 100 * k, ease); seg(tipT, 190 * k, ease); }
+  if (prof.push === "nudge") { const N1 = lerp(A, tipT, 0.7), N2 = { x: N1.x - fd.x * 10 * k, y: N1.y - fd.y * 10 * k }; seg(N1, 120 * k, ease); seg(N2, 100 * k, ease); seg(tipT, 190 * k, ease); }
   else if (prof.push === "sidestep") { const nn = { x: -fd.y, y: fd.x }, A2 = { x: A.x + nn.x * 12 * k * prof.dsign, y: A.y + nn.y * 12 * k * prof.dsign }; seg(A2, 110 * k, ease); seg(tipT, 300 * k, ease); }
-  else if (prof.push === "quick") seg(tipT, 230 * k, easeIn3);
+  else if (prof.push === "quick") seg(tipT, 230 * k, easeCubic);   // in-out: it arrives slowing down, never at full speed into a dead stop (the icon is in hand)
   const over = prof.overshoot;                                                         // a small, damped overshoot past the slot, then back
-  if (over) { seg({ x: tipT.x + fd.x * over, y: tipT.y + fd.y * over }, 110 * k, easeOut3); seg(tipT, 140 * k, ease); }
+  if (over) { seg({ x: tipT.x + fd.x * over, y: tipT.y + fd.y * over }, 110 * k, ease); seg(tipT, 140 * k, ease); }   // starts from rest like the approach that ends just before it: no kick
   const arrived = tc;
   const slotMs = Math.round(620 * k), slotStart = (pushMod ? D : tA) + 40;
-  const hand = Math.round(Math.max(slotStart + slotMs, arrived + (prof.pause ? 130 : 60) * k));       // the release: the slot's spring has finished, the icon has arrived (and, sometimes, a beat's pause)
+  const hand = Math.round(Math.max(slotStart + slotMs + RELEASE_LAG * k, arrived + (prof.pause ? 130 : 60) * k));       // the release: the slot's spring has finished, the icon has arrived (and, sometimes, a beat's pause)
   put(hand, tipT);
   if (prof.recoil) seg({ x: tipT.x - fd.x * 8 * k, y: tipT.y - fd.y * 8 * k }, 70 * k, easeOut3);   // a tiny recoil once the icon is down
   const goMs = Math.round(210 * k);
@@ -267,7 +303,7 @@ function run(d: Delivery) {
   const exitEase = prof.exit === "dart" ? 2.4 : prof.exitPow;
   for (let i = 1; i <= 14; i++) { const u = i / 14; put(exitStart + exitMs * u, bez(exitFrom, EC2, E, Math.pow(u, exitEase))); }   // out through the edge, accelerating
   const total = Math.round(tc);
-  const tr = (p: Pt) => `translate(${Math.round(p.x * 2) / 2}px, ${Math.round(p.y * 2) / 2}px)`;
+  const tr = (p: Pt) => `translate(${Math.round(p.x * 100) / 100}px, ${Math.round(p.y * 100) / 100}px)`;     // hundredths of a pixel: snapping to half pixels turns the slow last stretch into visible stair-steps
   const keyframes: Keyframe[] = kfs.map(f => ({ transform: tr(f.p), offset: Math.min(1, f.t / total), easing: "linear" }));
   keyframes[0].offset = 0; keyframes[keyframes.length - 1].offset = 1;
   root.dataset.seed = String(seed); root.dataset.profile = `${prof.style}/${prof.push}/${prof.exit}${prof.hesitate ? "/hes" : ""}${prof.overshoot ? "/over" : ""}${prof.pause ? "/pause" : ""}${prof.recoil ? "/recoil" : ""}`;
@@ -292,7 +328,8 @@ function run(d: Delivery) {
       { width: `${slotW}px`, margin: "0px", offset: 1 },
     ], { duration: slotMs, fill: "none" });
     run_.anims.push(sa);
-    sa.onfinish = () => { if (cur !== run_) return; root.removeAttribute("data-carry"); cargo.replaceChildren(); d.done(); };   // same task: the carried copy goes, the slot's own icon shows
+    // the release: in ONE task the carried copy goes and the heading's own icon shows, starting exactly where the carried copy was (handOff) and settling from there
+    sa.onfinish = () => { if (cur !== run_) return; const settle = handOff(slot, icon, cargo, fd); root.removeAttribute("data-carry"); cargo.replaceChildren(); d.done(); settle(); };
   }, slotStart);
   later(() => root.setAttribute("data-say", ""), hand + goMs * 0.7);
 
