@@ -20,7 +20,7 @@ function Sequence({ hidden }: { hidden?: boolean }) {
 
 export default function LogoMarquee() {
   return (
-    <div className="hm-logo-marquee" role="group" aria-label="Communities and teams I've worked with">
+    <div className="hm-logo-marquee" role="group" aria-label="Communities and teams I've worked with" data-cursor-kind="info" data-cursor-id="logo-marquee">
       <div className="hm-lm-track">
         <Sequence />
         <Sequence hidden />

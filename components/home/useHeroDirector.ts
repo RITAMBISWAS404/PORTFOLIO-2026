@@ -19,7 +19,7 @@ import { useEffect, useRef, type MutableRefObject, type RefObject } from "react"
 import { animate, type MotionValue } from "framer-motion";
 import { ASSET_BY_ID } from "./heroObjects";
 import {
-  footprint, makeBoardMask, placedFrom, planAdd, planFull, planReplacement, remember, shapeFor, separation, shareIn, silhouetteOverlap, validShape, visibleArea,
+  footprint, makeBoardMask, placedFrom, planAdd, planFull, planRefill, planReplacement, remember, shapeFor, separation, shareIn, silhouetteOverlap, validShape, visibleArea,
   type Env, type Existing, type Move, type Placed, type Plan, type Rect, type Shape,
 } from "./heroComposer";
 import type { ActorHandle } from "./HeroActors";
@@ -67,7 +67,10 @@ type Task = { op: number; asset: string; actor: string; item?: string; state: Ta
 
 // Clippy's introduction runs once per page session (a module flag survives remounts and Strict Mode's double effect).
 let introDone = false;
-const INTRO_AFTER_READY = [1800, 2600] as const, MIN_GAP_MS = 12000;
+// Pacing: once the board is whole, a real event is followed by a pause of PACE_WORK ms and an event that found nothing to do is retried after PACE_MISS (backing off); a vacancy is mended almost at once
+// (PACE_FIX). The old pauses (12 s minimum, then 16-26 s after EVERY event, a no-op included) left the Hero still for most of a minute, and a lost replacement was never mended.
+const INTRO_AFTER_READY = [1800, 2600] as const, MIN_GAP_MS = 4000;
+const PACE_WORK = [4000, 7500] as const, PACE_MISS = [2500, 4000] as const, PACE_FIX = [1500, 3000] as const;
 
 const IDLES = ["glasses", "flame", "earphones", "ok"];
 /** "OPEN TO NEW OPPOTITIES :P" printed on the board artwork (2592 x 960 px image), padded: the one small protected region. Measured from the PNG. */
@@ -112,7 +115,7 @@ export function useHeroDirector(args: Args) {
     // the placement coordinator's shared state: destinations claimed by in-flight restocking operations, and the last time a placement began
     res: new Map<number, { pl: Placed; shape: Shape }>(), lastStart: 0, rejected: 0,
     // scheduling: last pointer activity on the board / anywhere on the page, when the last event finished, and whether the last ambient event actually took something
-    lastEnd: 0, took: false,
+    lastEnd: 0, took: false, owedArea: 0, miss: 0,   // owedArea: visible area taken by a theft whose replacement has not arrived yet; miss: events in a row that found nothing to do
     // placement transactions: one record per planned piece, committed exactly once (S.done); dev counters feed the diagnostics attributes
     badAssets: new Set<string>(), tasks: new Map<number, Task>(), done: new Set<number>(), committed: 0, failed: 0, failLog: [] as string[],
   }).current;
@@ -506,7 +509,7 @@ export function useHeroDirector(args: Args) {
       return { i, k: Math.random() ** (1 / w) };
     }).sort((a, b) => b.k - a.k);
     for (const { i: cand } of keyed) {
-      plan = planReplacement({ env: e, existing: existing(new Set([cand.id])), removed: footprint(placedOf(cand)), removedArea: visibleArea(placedOf(cand)), present: avoid(), maxCount: counts.max });
+      plan = planReplacement({ env: e, existing: existing(new Set([cand.id])), removed: footprint(placedOf(cand)), removedArea: visibleArea(placedOf(cand)), present: avoid(), maxCount: counts.max, single: true });   // single: the one piece restores the whole area taken
       if (plan && plan.placed.length) { target = cand; break; }
     }
     if (!target || !plan) return;
@@ -524,11 +527,35 @@ export function useHeroDirector(args: Args) {
     if (R.dead) return;
     p.show(false);
     if (!took) return;
-    S.took = true;
+    S.took = true; S.owedArea = visibleArea(placedOf(target));      // the board is one object short from here until the replacement is really down (see refill)
     if (!go("replacing")) return;
     if (plan.moves.length) await applyMoves(R, plan.moves);       // make room first, gently
     await sleep(R, rnd(700, 2000));
     await restockWaves(R, [...ready0], 1, e);                           // one restocker brings the one replacement
+    if (A.current.itemsRef.current.length >= counts.base) S.owedArea = 0;
+  }
+
+  /**
+   * Mend a vacancy: an object was taken and its replacement never arrived (a destination the visitor had just dragged something onto, a run that was cancelled by a resize / a hidden tab / a shake,
+   * a failed load). The scheduler runs this BEFORE any new theft, and a theft is never started on a board that is short, so the board cannot stay gapped or go quiet because of a lost task.
+   * One restocker brings one piece sized to what was taken; a failed attempt simply leaves the vacancy for the next, backed-off, try.
+   */
+  async function refill(R: Run) {
+    const { itemsRef, counts } = A.current;
+    if (!restockers().length || itemsRef.current.length >= counts.base) return;
+    const e = env();
+    const plan = planRefill({ env: e, existing: existing(), owedArea: S.owedArea, present: avoid(), maxCount: counts.max });
+    if (!plan || !plan.placed.length) return;
+    const one = plan.placed.slice(0, 1);
+    seedTo({ ...plan, placed: one }, "refill", e);
+    remember(one.map(x => x.asset.id));
+    const ready = await loadedPlan(one);
+    if (R.dead || !ready.length) return;
+    if (!go("stealing") || !go("replacing")) return;
+    if (plan.moves.length) await applyMoves(R, plan.moves);
+    await sleep(R, rnd(300, 800));
+    await restockWaves(R, [...ready], 1, e);
+    if (itemsRef.current.length >= counts.base) { S.took = true; S.owedArea = 0; }
   }
 
   async function scatterAndRestock(R: Run) {
@@ -628,10 +655,10 @@ export function useHeroDirector(args: Args) {
   }
 
 
-  async function runEvent(kind: "ambient" | "shake") {
-    if (kind === "ambient" && S.phase !== "idle") return;                   // a theft only ever starts from a calm board; a shake always starts (it interrupts first)
+  async function runEvent(kind: "ambient" | "refill" | "shake") {
+    if (kind !== "shake" && S.phase !== "idle") return;                   // a theft only ever starts from a calm board; a shake always starts (it interrupts first)
     const R: Run = { dead: false }; S.run = R; S.took = false;
-    try { await (kind === "ambient" ? ambient(R) : scatterAndRestock(R)); }
+    try { await (kind === "ambient" ? ambient(R) : kind === "refill" ? refill(R) : scatterAndRestock(R)); }
     finally {
       if (S.run === R) {
         A.current.clippy.current?.show(false); hideRestockers(); S.res.clear(); dbgRes();
@@ -681,6 +708,12 @@ export function useHeroDirector(args: Args) {
     //   later  occasional: one theft every 16-28 s at most (uneven, never on a fixed beat) and never within MIN_GAP_MS of the last event; never while dragging, shaking, recovering, hidden, off-screen or with the pointer on the board; no backlog when resuming
     let readySince = 0, introAt = 0, introTries = 0;
     const boardReady = () => { const img = A.current.boardImgRef.current; return S.inView && !document.hidden && !!img && img.complete && img.naturalWidth > 0 && A.current.itemsRef.current.length > 0; };
+    /** The pause before the next event, from how the last one went: short while a vacancy is open, a normal beat after real work, backing off after events that found nothing to do. */
+    const pace = () => {
+      if (A.current.itemsRef.current.length < A.current.counts.base) { if (!S.took) S.miss++; else S.miss = 0; return S.miss > 3 ? rnd(...PACE_MISS) * 2 : rnd(...PACE_FIX); }
+      if (S.took) { S.miss = 0; return rnd(...PACE_WORK); }
+      S.miss++; return Math.min(8000, rnd(...PACE_MISS) * (1 + 0.5 * Math.min(S.miss, 3)));
+    };
     const arm = (ms: number) => {
       clearTimeout(S.timer);
       S.timer = setTimeout(async () => {
@@ -693,14 +726,14 @@ export function useHeroDirector(args: Args) {
           if (now - readySince < introAt) return void arm(250);
           await runEvent("ambient");
           if (S.took || ++introTries >= 3) introDone = true;                    // only a real theft counts; a few failed tries (nothing safe to take) end the intro too
-          if (alive) arm(introDone ? rnd(16000, 26000) : 3000);
+          if (alive) arm(introDone ? pace() : 3000);
           return;
         }
-        const calm = now - S.lastActive > 2500, quiet = now - S.lastEnd > MIN_GAP_MS;
-        if (stable && calm && quiet) {
-          await runEvent("ambient");
-          if (alive) arm(rnd(16000, 28000));                                    // a long, uneven pause; stillness alone never triggers anything
-        } else if (alive) arm(rnd(4000, 7000));
+        const calm = now - S.lastActive > 2500, quiet = now - S.lastEnd > MIN_GAP_MS, vacancy = A.current.itemsRef.current.length < A.current.counts.base;
+        if (stable && calm && (quiet || vacancy)) {
+          await runEvent(vacancy ? "refill" : "ambient");                      // a vacancy is mended first, and never waits out the quiet gap
+          if (alive) arm(pace());                                               // uneven by construction (random ranges); stillness alone never triggers anything
+        } else if (alive) arm(rnd(1500, 3000));
       }, ms);
     };
     // back from a hidden tab: no catch-up; a fresh, short quiet period first

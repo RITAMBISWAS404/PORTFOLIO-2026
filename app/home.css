@@ -379,6 +379,7 @@ html.hm-cursor-on :is(input:not([type="submit"], [type="button"], [type="checkbo
 .hm-lm-item { flex: none; position: relative; width: calc(var(--w) * var(--lm-scale)); height: calc(var(--h) * var(--lm-scale)); }   /* height scales WITH the width, so logos are never distorted */
 .hm-lm-item img { position: absolute; display: block; max-width: none; user-select: none; filter: grayscale(100%); opacity: var(--lo, 0.28); }   /* every logo fully grayscale at render time (the files are untouched), ~28% opacity; no hover state, border, card or shadow */
 @keyframes hm-lm-move { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+@media (hover: hover) and (pointer: fine) { .hm-logo-marquee { pointer-events: auto; } }   /* a hover target for the cursor pill ("Communities & Organizations"); nothing in the strip is interactive and touch devices are untouched */
 @media (max-width: 767px) { .hm-logo-marquee { --lm-gap: 32px; --lm-scale: 0.82; min-height: 102px; } }
 @media (max-width: 479px) { .hm-logo-marquee { --lm-gap: 22px; --lm-scale: 0.7; } }
 @media (prefers-reduced-motion: reduce) {
