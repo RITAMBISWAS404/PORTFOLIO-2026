@@ -16,6 +16,7 @@ import TwoColTable from "@/components/TwoColTable";
 import ThreeColTable from "@/components/ThreeColTable";
 import DecisionBase from "@/components/Decision";
 import { C, col, tagStyle, revealStyle } from "@/lib/tokensV2";
+import { FLAT_CARD_VARS } from "@/lib/caseStudySurfaces";
 
 /* ── Callout variants — thin wrappers around IconCard ────────────── */
 
@@ -134,7 +135,7 @@ function Divider() {
 export default function ZenoPage() {
 
   return (
-    <main style={{ position: "relative", background: "var(--exp-bg)" }} className="new-palette">
+    <main style={{ position: "relative", background: "var(--exp-bg)", ...FLAT_CARD_VARS }} className="new-palette">
       <GridLines />
       <PageNav />
 

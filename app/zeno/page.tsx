@@ -17,19 +17,25 @@ import TwoColTable from "@/components/TwoColTable";
 import ThreeColTable from "@/components/ThreeColTable";
 import DecisionBase from "@/components/Decision";
 import { C, col, revealStyle } from "@/lib/tokensV2";
+import { FLAT_CARD_VARS } from "@/lib/caseStudySurfaces";
+import OrangeCursor from "@/components/home/OrangeCursor";
+import { zenoCursor, ZENO_COLOR } from "@/lib/caseStudyCursor";
+import "../cursor.css";
+
+const BRAND = ZENO_COLOR;   // ZENO blue: card icons, decision labels and the cursor
 
 /* ── Callout variants — thin wrappers around CardV3 ────────────── */
 
 function Quote({ text }: { text: string }) {
-  return <CardV3 icon={MdFormatQuote} label="Perspective" body={`“${text}”`} noHover />;
+  return <CardV3 icon={MdFormatQuote} label="Perspective" body={`“${text}”`} noHover iconColor={BRAND} cursorId="callout-quote" />;
 }
 
 function Lesson({ text }: { text: string }) {
-  return <CardV3 icon={MdSchool} label="Lesson" body={text} noHover />;
+  return <CardV3 icon={MdSchool} label="Lesson" body={text} noHover iconColor={BRAND} cursorId="callout-lesson" />;
 }
 
 function Insight({ text }: { text: string }) {
-  return <CardV3 icon={MdLightbulb} label="Insight" body={text} noHover />;
+  return <CardV3 icon={MdLightbulb} label="Insight" body={text} noHover iconColor={BRAND} cursorId="callout-insight" />;
 }
 
 /* ── Scroll reveal wrapper ──────────────────────────────────────── */
@@ -42,16 +48,16 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 
 /* ── Decision block ─────────────────────────────────────────────── */
 
-function Decision(props: { num: string; title: string; first?: boolean; children: React.ReactNode }) {
-  return <DecisionBase {...props} lineClassName="zeno-decision-line" />;
+function Decision(props: { num: string; title: string; first?: boolean; cursorId: string; children: React.ReactNode }) {
+  return <DecisionBase {...props} lineClassName="zeno-decision-line" labelColor={BRAND} />;
 }
 
 /* ── Image placeholder ──────────────────────────────────────────── */
 
-function ZenoImg({ src, alt }: { src: string; alt: string }) {
+function ZenoImg({ src, alt, cursorId }: { src: string; alt: string; cursorId?: string }) {
   return (
     <img
-      src={src} alt={alt} loading="lazy"
+      src={src} alt={alt} loading="lazy" data-cursor-id={cursorId}
       style={{ width: "100%", height: "auto", display: "block", borderRadius: 8, border: `1px solid ${C.border}` }}
     />
   );
@@ -73,6 +79,7 @@ const NAV_SECTIONS = [
 function PageNav() {
   const [active,  setActive]  = useState("zeno-overview");
   const [visible, setVisible] = useState(false);
+  const navRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     // Track active section
@@ -84,24 +91,31 @@ function PageNav() {
       if (el) activeObs.observe(el);
     });
 
-    // Show nav only once "What Zeno Does" is well into the viewport
-    const overviewEl = document.getElementById("zeno-overview");
-    const visObs = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          setVisible(true);
-        } else {
-          setVisible(e.boundingClientRect.top < 0);
-        }
-      });
-    }, { rootMargin: "0px 0px -60% 0px" });
-    if (overviewEl) visObs.observe(overviewEl);
+        const overviewEl = document.getElementById("zeno-overview");
+    const footerEl = document.getElementById("zeno-footer");
+    let raf = 0;
+    // The nav is shown from the moment the case study content begins (the overview reaches the upper 40% of the screen) until the footer reaches the nav's own bottom edge,
+    // measured from the real elements, so it never overlaps the footer on any viewport height. It comes back as soon as the footer moves away again.
+    const update = () => {
+      raf = 0;
+      const nav = navRef.current;
+      if (!overviewEl || !nav) return;
+      const started = overviewEl.getBoundingClientRect().top < window.innerHeight * 0.4;
+      const footerReached = !!footerEl && footerEl.getBoundingClientRect().top <= nav.getBoundingClientRect().bottom;
+      setVisible(started && !footerReached);
+    };
+    const schedule = () => { if (!raf) raf = requestAnimationFrame(update); };
+    update();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    const ro = new ResizeObserver(schedule);   // the page grows as images load: re-check against the new footer position
+    ro.observe(document.body);
 
-    return () => { activeObs.disconnect(); visObs.disconnect(); };
+    return () => { activeObs.disconnect(); window.removeEventListener("scroll", schedule); window.removeEventListener("resize", schedule); ro.disconnect(); if (raf) cancelAnimationFrame(raf); };
   }, []);
 
   return (
-    <nav className="zeno-page-nav" style={{ opacity: visible ? 1 : 0, pointerEvents: visible ? "all" : "none", transition: "opacity 0.4s ease" }}>
+    <nav ref={navRef} className="zeno-page-nav" data-cursor-id="zeno-page-nav" style={{ opacity: visible ? 1 : 0, pointerEvents: visible ? "all" : "none", transition: "opacity 0.4s ease" }}>
       {NAV_SECTIONS.map(({ id, label }) => {
         const isActive = active === id;
         return (
@@ -127,7 +141,7 @@ function PageNav() {
 }
 
 function Divider() {
-  return <div style={{ width: "100%", height: 1, background: "var(--color-border)" }} />;
+  return <div style={{ width: "100%", height: 0, borderTop: "1px solid var(--color-border)" }} />;
 }
 
 /* ── Page ──────────────────────────────────────────────────────── */
@@ -136,13 +150,14 @@ export default function ZenoPage() {
 
   return (
     <ThemeProvider defaultTheme="light">
+      <OrangeCursor color={zenoCursor.color} labelFor={zenoCursor.labelFor} />
       <NavbarNew homePath="/" />
-      <main style={{ position: "relative" }} className="v3-white-bg">
+      <main style={{ position: "relative", ...FLAT_CARD_VARS }} className="v3-white-bg">
         <GridLines />
         <PageNav />
 
       {/* ── HERO ────────────────────────────────────────────── */}
-      <section style={{ ...col, paddingBottom: 0 }} className="v3-section">
+      <section data-cursor-id="zeno-hero" style={{ ...col, paddingBottom: 0 }} className="v3-section">
         <Reveal>
           <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 24 }}>
             <div className="v3-identity-logo" style={{ overflow: "hidden", flexShrink: 0 }}>
@@ -158,14 +173,14 @@ export default function ZenoPage() {
             How I Turned a Data-Heavy EV App Into a Four-Second Experience.
           </h1>
 
-          <CardV3 icon={MdLock} label="Confidential Note" noHover
+          <CardV3 iconColor={BRAND} icon={MdLock} label="Confidential Note" cursorId="zeno-confidential" noHover
             body="Zeno is a portfolio-safe recreation of a product I designed for a Copenhagen-based EV startup. With the company's permission, I rebuilt it under a new brand. Every decision, constraint, and insight here is real. Only the branding changed." />
         </Reveal>
       </section>
 
       {/* ── HERO IMAGE ──────────────────────────────────────── */}
       <div style={{ ...col, paddingBottom: 0 }} className="v3-section">
-        <div className="zeno-hero-img-wrap" style={{ borderRadius: 8, overflow: "hidden", width: "100%" }}>
+        <div className="zeno-hero-img-wrap" data-cursor-id="zeno-hero-image" style={{ borderRadius: 8, overflow: "hidden", width: "100%" }}>
           <picture>
             <source media="(min-width: 768px)" srcSet="/images/zeno/hero-16_9.png" />
             <img
@@ -181,10 +196,10 @@ export default function ZenoPage() {
       <section style={{ ...col }} className="v3-section">
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div className="zeno-stats-grid">
-            <CardV3 label="35+ High Fidelity Screens" body="Covers every key user flow from onboarding through dashboard, analytics, and account settings." delay={0}    noHover icon={MdSmartphone} />
-            <CardV3 label="5 Complete User Flows"     body="Onboarding, dashboard, charging session, analytics, and settings." delay={0.08} noHover icon={MdAccountTree} />
-            <CardV3 label="40+ Reusable Components"   body="A full design system built using Figma variables and design tokens for UI consistency." delay={0.16} noHover icon={MdWidgets} />
-            <CardV3 label="2 Month Design Sprint"     body="Blank file to production-ready designs, shipped end to end in just 2 months." delay={0.24} noHover icon={MdDirectionsRun} />
+            <CardV3 iconColor={BRAND} label="35+ High Fidelity Screens" cursorId="zeno-stat-screens" body="Covers every key user flow from onboarding through dashboard, analytics, and account settings." delay={0}    noHover icon={MdSmartphone} />
+            <CardV3 iconColor={BRAND} label="5 Complete User Flows" cursorId="zeno-stat-flows"     body="Onboarding, dashboard, charging session, analytics, and settings." delay={0.08} noHover icon={MdAccountTree} />
+            <CardV3 iconColor={BRAND} label="40+ Reusable Components" cursorId="zeno-stat-components"   body="A full design system built using Figma variables and design tokens for UI consistency." delay={0.16} noHover icon={MdWidgets} />
+            <CardV3 iconColor={BRAND} label="2 Month Design Sprint" cursorId="zeno-stat-sprint"     body="Blank file to production-ready designs, shipped end to end in just 2 months." delay={0.24} noHover icon={MdDirectionsRun} />
           </div>
         </div>
       </section>
@@ -192,7 +207,7 @@ export default function ZenoPage() {
       <Divider />
 
       {/* ── 01 WHAT ZENO DOES ───────────────────────────────── */}
-      <section id="zeno-overview" style={{ ...col }} className="v3-section">
+      <section id="zeno-overview" data-cursor-id="zeno-overview" style={{ ...col }} className="v3-section">
         <SectionHeadingV3 title="What Zeno Does" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
@@ -204,7 +219,7 @@ export default function ZenoPage() {
             <Quote text="You set the departure time. You set the target charge. The algorithm finds the cheapest hour and does the rest." />
           </Reveal>
           <Reveal delay={0.12}>
-            <CardV3 icon={MdPerson} label="My Role" noHover
+            <CardV3 iconColor={BRAND} icon={MdPerson} label="My Role" cursorId="zeno-role" noHover
               body="Sole designer from day one. No existing product, no design system, no prior work to inherit. Only a vision from the CEO and CTO and a blank Figma file. What I know now about design systems, component thinking, and stakeholder communication came directly from the pressure of this project. Everything here was built from scratch." />
           </Reveal>
         </div>
@@ -213,7 +228,7 @@ export default function ZenoPage() {
       <Divider />
 
       {/* ── 02 THE PROBLEM ──────────────────────────────────── */}
-      <section id="zeno-problem" style={{ ...col }} className="v3-section">
+      <section id="zeno-problem" data-cursor-id="zeno-problem" style={{ ...col }} className="v3-section">
         <SectionHeadingV3 title="The Problem" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
@@ -243,7 +258,7 @@ export default function ZenoPage() {
       <Divider />
 
       {/* ── 03 RESEARCH ─────────────────────────────────────── */}
-      <section id="zeno-research" style={{ ...col }} className="v3-section">
+      <section id="zeno-research" data-cursor-id="zeno-research" style={{ ...col }} className="v3-section">
         <SectionHeadingV3 title="Research and Early Thinking" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
@@ -252,9 +267,9 @@ export default function ZenoPage() {
             </p>
           </Reveal>
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-            <CardV3 icon={MdDescription}  label="Built for engineers"   body="Technical vocabulary with no softening. Everything assumed power-user knowledge." noHover delay={0.06} />
-            <CardV3 icon={MdVisibility}   label="Information overload"  body="Every metric visible at once. No hierarchy, no breathing room. Overwhelming to scan." noHover delay={0.12} />
-            <CardV3 icon={MdAccessibility} label="Accessibility barrier" body="Older users hit a wall before trying a single feature. The learning curve was immediate." noHover delay={0.18} />
+            <CardV3 iconColor={BRAND} icon={MdDescription}  label="Built for engineers" cursorId="zeno-research-card"   body="Technical vocabulary with no softening. Everything assumed power-user knowledge." noHover delay={0.06} />
+            <CardV3 iconColor={BRAND} icon={MdVisibility}   label="Information overload" cursorId="zeno-research-card"  body="Every metric visible at once. No hierarchy, no breathing room. Overwhelming to scan." noHover delay={0.12} />
+            <CardV3 iconColor={BRAND} icon={MdAccessibility} label="Accessibility barrier" cursorId="zeno-research-card" body="Older users hit a wall before trying a single feature. The learning curve was immediate." noHover delay={0.18} />
           </div>
           <Reveal delay={0.1}>
             <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.7 }}>
@@ -262,7 +277,7 @@ export default function ZenoPage() {
             </p>
           </Reveal>
           <Reveal delay={0.14}>
-            <ZenoImg src="/images/zeno/design-references.png" alt="Design References" />
+            <ZenoImg cursorId="zeno-references" src="/images/zeno/design-references.png" alt="Design References" />
           </Reveal>
           <Reveal delay={0.16}>
             <Quote text="This product needed to feel like an assistant, not a control panel." />
@@ -273,7 +288,7 @@ export default function ZenoPage() {
       <Divider />
 
       {/* ── 04 ONBOARDING FLOW ──────────────────────────────── */}
-      <section id="zeno-onboarding" style={{ ...col }} className="v3-section">
+      <section id="zeno-onboarding" data-cursor-id="zeno-onboarding" style={{ ...col }} className="v3-section">
         <SectionHeadingV3 title="Onboarding Flow" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
@@ -285,10 +300,10 @@ export default function ZenoPage() {
             <Insight text="Six focused steps felt lighter than any single long form. Users always knew exactly what they were being asked to do." />
           </Reveal>
           <Reveal delay={0.12}>
-            <ZenoImg src="/images/zeno/onboarding-wireframes.png" alt="Onboarding Wireframes" />
+            <ZenoImg cursorId="zeno-wireframes" src="/images/zeno/onboarding-wireframes.png" alt="Onboarding Wireframes" />
           </Reveal>
           <Reveal delay={0.16}>
-            <ZenoImg src="/images/zeno/onboarding-screens.png" alt="Onboarding Screens" />
+            <ZenoImg cursorId="zeno-onboarding-screens" src="/images/zeno/onboarding-screens.png" alt="Onboarding Screens" />
           </Reveal>
         </div>
       </section>
@@ -296,7 +311,7 @@ export default function ZenoPage() {
       <Divider />
 
       {/* ── 05 DASHBOARD EXPLORATION ────────────────────────── */}
-      <section id="zeno-dashboard" style={{ ...col }} className="v3-section">
+      <section id="zeno-dashboard" data-cursor-id="zeno-dashboard" style={{ ...col }} className="v3-section">
         <SectionHeadingV3 title="Dashboard Exploration" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
@@ -305,7 +320,7 @@ export default function ZenoPage() {
             </p>
           </Reveal>
           <Reveal delay={0.06}>
-            <ZenoImg src="/images/zeno/concept-sketches.png" alt="Concept Sketches" />
+            <ZenoImg cursorId="zeno-sketches" src="/images/zeno/concept-sketches.png" alt="Concept Sketches" />
           </Reveal>
           <Reveal delay={0.1}>
             <ThreeColTable
@@ -331,8 +346,8 @@ export default function ZenoPage() {
         <SectionHeadingV3 title="The Decision Journey" />
         <div className="mt-section">
 
-          <Decision num="01" title="From widgets to grouped components" first>
-            <ZenoImg src="/images/zeno/dashboard-comparison.png" alt="Dashboard Comparison" />
+          <Decision num="01" cursorId="zeno-d1" title="From widgets to grouped components" first>
+            <ZenoImg cursorId="zeno-d1-image" src="/images/zeno/dashboard-comparison.png" alt="Dashboard Comparison" />
             <TwoColTable
               headers={["Widget Concept", "Final Grouped Dashboard"]}
               rows={[
@@ -344,7 +359,7 @@ export default function ZenoPage() {
             <Lesson text="Good design is often about deciding what not to show separately, not what to cut entirely." />
           </Decision>
 
-          <Decision num="02" title="Defending white space">
+          <Decision num="02" cursorId="zeno-d2" title="Defending white space">
             <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.7 }}>
               Stakeholders suggested reducing spacing around the charging indicator to fit more data. I pushed back with user reasoning, not preference. Older users reading a dense screen work harder to find what they need. White space was doing real usability work.
             </p>
@@ -354,8 +369,8 @@ export default function ZenoPage() {
             <Lesson text='"This looks cleaner" loses. "Here is what our user is doing at 7am" wins.' />
           </Decision>
 
-          <Decision num="03" title="Target SoC and Departure Time hidden behind a tap">
-            <ZenoImg src="/images/zeno/interaction-detail.png" alt="Interaction Detail" />
+          <Decision num="03" cursorId="zeno-d3" title="Target SoC and Departure Time hidden behind a tap">
+            <ZenoImg cursorId="zeno-d3-image" src="/images/zeno/interaction-detail.png" alt="Interaction Detail" />
             <TwoColTable
               headers={["Problem with surface placement", "Solution"]}
               rows={[
@@ -367,15 +382,15 @@ export default function ZenoPage() {
             <Lesson text="When a setting controls something important, accidental input justifies removing it from the main surface." />
           </Decision>
 
-          <Decision num="04" title="The vehicle image">
-            <ZenoImg src="/images/zeno/vehicle-integration.png" alt="Vehicle Integration" />
+          <Decision num="04" cursorId="zeno-d4" title="The vehicle image">
+            <ZenoImg cursorId="zeno-d4-image" src="/images/zeno/vehicle-integration.png" alt="Vehicle Integration" />
             <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.7 }}>
               The vehicle image was in the very first concept sketch, not a late addition. During design review, the CEO and I noticed how Tesla showed your actual car, not a generic icon. I proposed the same. Building it took time: vehicle APIs, custom assets, model cutouts. But the sketch shows I knew from the beginning this was the right direction.
             </p>
             <Lesson text="Sometimes the most impactful decision is not about layout. It is about making someone feel something about their product." />
           </Decision>
 
-          <Decision num="05" title="What got cut, and where it went">
+          <Decision num="05" cursorId="zeno-d5" title="What got cut, and where it went">
             <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.7 }}>
               Beta users opened the app, checked battery percentage, glanced at the ready-by time, and closed it. Four seconds. Everything else went unlooked at.
             </p>
@@ -392,8 +407,8 @@ export default function ZenoPage() {
             <Insight text="A dashboard answers the most important question the user has right now. Everything else waits one tap away." />
           </Decision>
 
-          <Decision num="06" title="The feature we built, shipped, and removed">
-            <ZenoImg src="/images/zeno/usage-analytics.png" alt="Usage Analytics" />
+          <Decision num="06" cursorId="zeno-d6" title="The feature we built, shipped, and removed">
+            <ZenoImg cursorId="zeno-d6-image" src="/images/zeno/usage-analytics.png" alt="Usage Analytics" />
             <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.7 }}>
               We designed a double-ring clock widget showing the algorithm&apos;s charging schedule. Inner ring for today, outer ring for the next day. Electricity price data in Denmark does not reset at midnight, so sessions could spill past 12am. The two rings solved that technically.
             </p>
@@ -417,7 +432,7 @@ export default function ZenoPage() {
       <Divider />
 
       {/* ── 06 FINAL PRODUCT ────────────────────────────────── */}
-      <section id="zeno-product" style={{ ...col }} className="v3-section">
+      <section id="zeno-product" data-cursor-id="zeno-product" style={{ ...col }} className="v3-section">
         <SectionHeadingV3 title="The Final Product" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Reveal>
@@ -428,44 +443,32 @@ export default function ZenoPage() {
           <Reveal delay={0.06}>
             <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.6 }}>One task per screen. Clear conditional logic at every step.</p>
           </Reveal>
-          <Reveal delay={0.08}> <ZenoImg src="/images/zeno/final-onboarding.png" alt="Onboarding" /></Reveal>
+          <Reveal delay={0.08}> <ZenoImg cursorId="zeno-final-onboarding" src="/images/zeno/final-onboarding.png" alt="Onboarding" /></Reveal>
           <Reveal delay={0.12}>
             <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.6 }}>One screen. Everything visible immediately. No hunting, no scrolling.</p>
           </Reveal>
-          <Reveal delay={0.14}> <ZenoImg src="/images/zeno/final-dashboard.png"  alt="Dashboard"  /></Reveal>
+          <Reveal delay={0.14}> <ZenoImg cursorId="zeno-final-dashboard" src="/images/zeno/final-dashboard.png"  alt="Dashboard"  /></Reveal>
           <Reveal delay={0.18}>
             <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.6 }}>Everything removed from the dashboard lives here.</p>
           </Reveal>
-          <Reveal delay={0.20}> <ZenoImg src="/images/zeno/final-analytics.png"  alt="Analytics"  /></Reveal>
+          <Reveal delay={0.20}> <ZenoImg cursorId="zeno-final-analytics" src="/images/zeno/final-analytics.png"  alt="Analytics"  /></Reveal>
           <Reveal delay={0.24}>
             <p className="f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.6 }}>Assembly rather than invention. The design system paid off here.</p>
           </Reveal>
-          <Reveal delay={0.26}> <ZenoImg src="/images/zeno/final-settings.png"   alt="Settings"   /></Reveal>
-          <Reveal delay={0.22}>
-            <div className="btn-row">
-              <a href="https://www.figma.com/design/HQiowSEZWtefmjVP5cqZuY/ZENO?node-id=0-1&p=f&t=ZuWU0JArTeGN7yjv-0"
-                target="_blank" rel="noopener noreferrer"
-                style={{ display: "flex", alignItems: "center", gap: 10, background: "rgba(0,0,0,0.08)", color: C.t1, padding: "11px 22px", borderRadius: 9999, fontSize: 14, fontWeight: 600, textDecoration: "none", border: "none", transition: "background 0.25s, transform 0.25s" }}
-                onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = "rgba(0,0,0,0.12)"; (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-2px)"; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = "rgba(0,0,0,0.05)"; (e.currentTarget as HTMLAnchorElement).style.transform = ""; }}
-              >
-                View in Figma
-              </a>
-            </div>
-          </Reveal>
+          <Reveal delay={0.26}> <ZenoImg cursorId="zeno-final-settings" src="/images/zeno/final-settings.png"   alt="Settings"   /></Reveal>
         </div>
       </section>
 
       <Divider />
 
       {/* ── 07 REFLECTION ───────────────────────────────────── */}
-      <section id="zeno-reflection" style={{ ...col }} className="v3-section">
+      <section id="zeno-reflection" data-cursor-id="zeno-reflection" style={{ ...col }} className="v3-section">
         <SectionHeadingV3 title="Reflection" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div className="zeno-reflection-grid">
-            <CardV3 icon={MdLayers} label="Build the design system first"      body="Manual component updates across 35+ screens for months. Design tokens and component libraries should be day one, not an afterthought." noHover delay={0}    />
-            <CardV3 icon={MdGroups} label="Test with real users earlier"        body="Decisions debated for days became obvious the first time a real user touched the screen."                                              noHover delay={0.08} />
-            <CardV3 icon={MdArticle} label="Document decisions as they happen"   body="One sentence per key decision, written at the time, would have made this case study significantly more accurate."                       noHover delay={0.16} />
+            <CardV3 iconColor={BRAND} icon={MdLayers} label="Build the design system first" cursorId="zeno-reflect-system"      body="Manual component updates across 35+ screens for months. Design tokens and component libraries should be day one, not an afterthought." noHover delay={0}    />
+            <CardV3 iconColor={BRAND} icon={MdGroups} label="Test with real users earlier" cursorId="zeno-reflect-test"        body="Decisions debated for days became obvious the first time a real user touched the screen."                                              noHover delay={0.08} />
+            <CardV3 iconColor={BRAND} icon={MdArticle} label="Document decisions as they happen" cursorId="zeno-reflect-doc"   body="One sentence per key decision, written at the time, would have made this case study significantly more accurate."                       noHover delay={0.16} />
           </div>
           <Reveal delay={0.2}>
             <Quote text="Simplicity is not the absence of complexity. It is evidence that someone worked very hard to hide it in exactly the right places." />
@@ -477,7 +480,7 @@ export default function ZenoPage() {
 
       {/* ── BACK TO TOP ─────────────────────────────────────── */}
       <div style={{ ...col, display: "flex", justifyContent: "flex-start" }} className="v3-section">
-        <button
+        <button data-cursor-id="back-to-top"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           style={{
             display: "flex", alignItems: "center", gap: 10,
@@ -495,7 +498,7 @@ export default function ZenoPage() {
       </div>
 
       {/* ── FOOTER ──────────────────────────────────────────── */}
-      <div style={{ marginTop: 48 }}>
+      <div id="zeno-footer" style={{ marginTop: 48 }}>
         <Footer />
       </div>
 
@@ -515,7 +518,7 @@ export default function ZenoPage() {
         @media (min-width: 1200px) { .zeno-page-nav { display: flex; } }
         .zeno-hero-img-wrap { aspect-ratio: 4 / 3; }
         @media (min-width: 768px) { .zeno-hero-img-wrap { aspect-ratio: 16 / 9; } }
-        .zeno-decision-line { height: 1px; background: var(--color-border); margin: 16px -16px; }
+        .zeno-decision-line { height: 0; border-top: 1px solid var(--color-border); margin: 16px -16px; }
         @media (min-width: 768px) { .zeno-decision-line { margin: 24px -24px; } }
         .zeno-stats-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
         .zeno-meta-grid  { display: grid; grid-template-columns: 1fr; gap: 16px; }

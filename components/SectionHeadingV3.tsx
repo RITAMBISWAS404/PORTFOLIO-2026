@@ -28,9 +28,10 @@ export default function SectionHeadingV3({ num, title, eyebrow: eyebrowText, eye
   const after = hasIcon ? words.slice(iconAfter).join(" ") : "";
 
   return (
+    <>
     <div ref={ref} style={{
       opacity: inView ? 1 : 0,
-      transform: inView ? "translateY(0)" : "translateY(14px)",
+      transform: inView ? "none" : "translateY(14px)",
       transition: "opacity 0.55s ease, transform 0.55s cubic-bezier(.22,1,.36,1)",
     }}>
       {eyebrowText && (
@@ -53,7 +54,9 @@ export default function SectionHeadingV3({ num, title, eyebrow: eyebrowText, eye
           </>
         )}
       </h2>
-      <div className="v3-heading-line" />
     </div>
+    {/* the underline is outside the moving wrapper: a structural line is never inside a transformed (composited, fractionally offset) layer */}
+    <div className="v3-heading-line" style={{ opacity: inView ? 1 : 0, transition: "opacity 0.55s ease" }} />
+    </>
   );
 }

@@ -155,11 +155,17 @@ textarea { resize: none; }
 }
 
 /* SectionHeadingV3 underline — reaches the rail */
-.v3-heading-line { height: 1px; background: var(--color-border); margin-left: -16px; margin-right: -16px; }
+.v3-heading-line { height: 0; border-top: 1px solid var(--color-border); margin-left: -16px; margin-right: -16px; }
 @media (min-width: 768px) {
   .v3-heading-line { margin-left: -24px; margin-right: -24px; }
 }
-.new-palette .v3-heading-line { background: var(--exp-grid-border); }
+.new-palette .v3-heading-line { border-top-color: var(--exp-grid-border); }
+
+/* Page rails (components/GridLines): 1px borders positioned on whole CSS pixels, so they stay 1px wide at any viewport width.
+   round() snaps the half-pixel offset an odd viewport width gives calc(50% - 384px); browsers without round() use the plain calc above it. */
+.grid-rail { position: absolute; top: 0; bottom: 0; width: 0; border-left: 1px solid var(--exp-grid-border, var(--color-border)); pointer-events: none; }
+.grid-rail-l { left: max(8px, calc(50% - 384px)); left: max(8px, round(down, calc(50% - 384px), 1px)); }
+.grid-rail-r { right: max(8px, calc(50% - 384px)); right: max(8px, round(down, calc(50% - 384px), 1px)); }
 
 /* Responsive body text: 14px mobile → 16px desktop */
 .f16 { font-size: 14px; }

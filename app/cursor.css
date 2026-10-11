@@ -1,0 +1,17 @@
+/* The custom cursor's styles for the case-study pages (/zeno, /shopez). These are the same rules as the "Cursor characters" block in app/home.css
+   (`.hm-oc`, `.hm-cur*`, `html.hm-cursor-on`) so the cursor looks identical; home.css is left untouched. Keep the two in sync. */
+.hm-oc { position: fixed; left: 0; top: 0; width: 0; height: 0; z-index: 2147483000; pointer-events: none; opacity: 0; transition: opacity 0.12s ease-out; }
+.hm-oc[data-on] { opacity: 1; }
+.hm-oc[data-hide] { opacity: 0; }
+.hm-cur { position: absolute; left: 0; top: 0; width: 0; height: 0; pointer-events: none; }
+.hm-cur-glyph { position: absolute; left: 0; top: 0; display: block; }
+.hm-cur-pill { position: absolute; left: 13px; top: 15px; height: 20px; border-radius: 9999px; overflow: hidden; display: flex; align-items: center; justify-content: center; color: #fff;
+  font: 600 11px/1 'Plus Jakarta Sans', sans-serif; letter-spacing: 0.01em; white-space: nowrap; transition: width 0.16s cubic-bezier(.22,1,.36,1); }
+.hm-cur-text { display: block; transition: opacity 0.07s ease-out; }
+.hm-cur[data-flip-x] .hm-cur-pill { left: auto; right: 10px; }
+.hm-cur[data-flip-y] .hm-cur-pill { top: auto; bottom: 12px; }
+html.hm-cursor-on, html.hm-cursor-on * { cursor: none !important; }
+html.hm-cursor-on :is(input:not([type="submit"], [type="button"], [type="checkbox"], [type="radio"]), textarea, [contenteditable=""], [contenteditable="true"]) { cursor: text !important; }
+@media (prefers-reduced-motion: reduce) {
+  .hm-oc, .hm-cur-pill, .hm-cur-text { transition: none !important; }
+}
