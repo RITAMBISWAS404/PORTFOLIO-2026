@@ -23,6 +23,7 @@ import {
   type Env, type Existing, type Move, type Placed, type Plan, type Rect, type Shape,
 } from "./heroComposer";
 import type { ActorHandle } from "./HeroActors";
+import { heroIconsPlaced, onHeroIconsPlaced } from "./courierController";
 import { CLIPPY, pickFresh } from "@/lib/home/cursorCopy";
 
 export type HeroItem = {
@@ -69,7 +70,9 @@ type Task = { op: number; asset: string; actor: string; item?: string; state: Ta
 let introDone = false;
 // Pacing: once the board is whole, a real event is followed by a pause of PACE_WORK ms and an event that found nothing to do is retried after PACE_MISS (backing off); a vacancy is mended almost at once
 // (PACE_FIX). The old pauses (12 s minimum, then 16-26 s after EVERY event, a no-op included) left the Hero still for most of a minute, and a lost replacement was never mended.
-const INTRO_AFTER_READY = [1800, 2600] as const, MIN_GAP_MS = 4000;
+// Clippy's first theft waits for the Hero sequence (the Courier placing the two heading icons, see courierController.ts), then begins a beat later so the Courier has stepped away. HERO_WAIT_MAX is only a
+// deadlock guard (the Courier never starts, e.g. its heading was removed): measured from the first moment the board is stable, it is far longer than the sequence ever takes.
+const INTRO_AFTER_PLACED = [900, 1500] as const, MIN_GAP_MS = 4000, HERO_WAIT_MAX = 20000;
 const PACE_WORK = [4000, 7500] as const, PACE_MISS = [2500, 4000] as const, PACE_FIX = [1500, 3000] as const;
 
 const IDLES = ["glasses", "flame", "earphones", "ok"];
@@ -704,9 +707,9 @@ export function useHeroDirector(args: Args) {
     window.addEventListener("pointermove", act, { passive: true }); window.addEventListener("pointerdown", act, { passive: true });
     let alive = true;
     // ── Clippy's scheduler: ONE timer chain, and it only ever starts an event from a stable "idle" board ──
-    //   intro  once per page session: ~2 s after the board is visible and ready, Clippy takes one object (retried until it really has)
+    //   intro  once per page session: after the Courier has placed BOTH Hero icons (and the board is visible and ready), a beat later Clippy takes one object (retried until it really has)
     //   later  occasional: one theft every 16-28 s at most (uneven, never on a fixed beat) and never within MIN_GAP_MS of the last event; never while dragging, shaking, recovering, hidden, off-screen or with the pointer on the board; no backlog when resuming
-    let readySince = 0, introAt = 0, introTries = 0;
+    let readySince = 0, introAt = 0, introTries = 0, stableSince = 0, introBusy = false;
     const boardReady = () => { const img = A.current.boardImgRef.current; return S.inView && !document.hidden && !!img && img.complete && img.naturalWidth > 0 && A.current.itemsRef.current.length > 0; };
     /** The pause before the next event, from how the last one went: short while a vacancy is open, a normal beat after real work, backing off after events that found nothing to do. */
     const pace = () => {
@@ -722,9 +725,13 @@ export function useHeroDirector(args: Args) {
         const stable = S.phase === "idle" && !heldAny() && boardReady();
         if (!introDone) {
           if (!stable) { readySince = 0; return void arm(400); }
-          if (!readySince) { readySince = now; introAt = rnd(...INTRO_AFTER_READY); }
+          if (!stableSince) stableSince = now;
+          // the Hero sequence is still running: wait for it (onHeroIconsPlaced re-arms this the moment it ends; the 400 ms re-check is the fallback)
+          if (!heroIconsPlaced() && now - stableSince < HERO_WAIT_MAX) { readySince = 0; return void arm(400); }
+          if (!readySince) { readySince = now; introAt = rnd(...INTRO_AFTER_PLACED); }
           if (now - readySince < introAt) return void arm(250);
-          await runEvent("ambient");
+          introBusy = true;
+          try { await runEvent("ambient"); } finally { introBusy = false; }
           if (S.took || ++introTries >= 3) introDone = true;                    // only a real theft counts; a few failed tries (nothing safe to take) end the intro too
           if (alive) arm(introDone ? pace() : 3000);
           return;
@@ -743,8 +750,9 @@ export function useHeroDirector(args: Args) {
     const ro = new ResizeObserver(([e]) => { const w = e?.contentRect.width ?? lastW; if (Math.abs(w - lastW) > 2) { lastW = w; if (S.phase !== "idle") abortAll(); } }); ro.observe(el);   // only a real width change invalidates the choreography
     S.lastEnd = performance.now();
     arm(400);
+    const offPlaced = onHeroIconsPlaced(() => { if (alive && !introDone && !introBusy) arm(0); });   // react to the end of the Hero sequence at once, with no polling delay
     return () => {
-      alive = false; clearTimeout(S.timer);
+      alive = false; clearTimeout(S.timer); offPlaced();
       io.disconnect(); ro.disconnect();
       window.removeEventListener("pointermove", act); window.removeEventListener("pointerdown", act);
       document.removeEventListener("visibilitychange", vis);

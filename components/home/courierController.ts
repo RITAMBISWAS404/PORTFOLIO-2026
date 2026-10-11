@@ -21,6 +21,20 @@ export const COURIER_ENABLED = true;
 /** Headings that have had their delivery this page session (a reload resets it; scrolling back never replays it). */
 export const delivered = new Set<string>();
 
+// The Hero sequence: the Courier places the two heading icons ("hero-1", "hero-2"). The home page's board director waits for exactly this before Clippy's first theft, so the visitor watches
+// one thing at a time (the icons arriving), then the board starts to move. `markHeroIconPlaced` is the one place a Hero icon is recorded as placed, and it tells whoever is waiting.
+const heroWaiters = new Set<() => void>();
+/** Both Hero icons are in (or the Courier is switched off, so there is no sequence to wait for). */
+export const heroIconsPlaced = () => !COURIER_ENABLED || (delivered.has("hero-1") && delivered.has("hero-2"));
+/** Call `cb` once, when the second Hero icon has been placed. Returns an unsubscribe (a waiter that is no longer wanted must be removed, or it would outlive its component). */
+export function onHeroIconsPlaced(cb: () => void) { heroWaiters.add(cb); return () => { heroWaiters.delete(cb); }; }
+export function markHeroIconPlaced(id: "hero-1" | "hero-2") {
+  delivered.add(id);
+  if (!heroIconsPlaced()) return;
+  const waiting = [...heroWaiters]; heroWaiters.clear();
+  waiting.forEach(cb => cb());
+}
+
 export type Rig = { layer: HTMLElement; root: HTMLElement; body: HTMLElement; cargo: HTMLElement };
 export type Delivery = {
   host: HTMLElement;              // the h2
