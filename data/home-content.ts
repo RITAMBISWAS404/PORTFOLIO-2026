@@ -23,13 +23,14 @@ export const zeno = {
   ],
 };
 
-// Selected Projects. `usp` = the one orange takeaway per card. Claims limited to what the repo already states
-// ("hackathon-winning" ShopEZ eyebrow in the earlier data; 10,000+ registered users in the EV startup experience entry).
+// Selected Projects. Card structure: eyebrow (project name only), heading (head = [before, orange phrase, after]), pills.
+// Facts come from the repo only: /shopez case study (camera-first billing, hackathon win, UPI/cash/credit), the earlier card data (agritech IoT B.Tech project, Framer website, M monogram identity).
+// `title` stays as the plain-text name (image alt + key).
 export const projects = [
-  { id: "shopez", title: "ShopEZ - AI Kirana Billing App", sub: "Built at hackathon, redesigned.", tags: ["AI","RETAIL","MOBILE"], img: "/images/retail.png", cardImg: "/images/SHOPEZ.png", href: "/shopez", icon: "/images/retail-logo.png", eyebrow: "PRODUCT CONCEPT", desc: "Camera-first billing for the neighbourhood kirana store.", usp: "Hackathon-winning AI workflow" },
-  { id: "smart-agri", title: "Smart Agriculture IoT App", sub: "AI-powered crop management tool.", tags: ["AGRITECH","MOBILE","UI DESIGN"], img: "/images/smart farming.png", cardImg: "/images/IoT APP.png", href: "https://www.figma.com/design/YjLXUm3ewgTPgoWfI6Ubz2/Smart-Farming-Assistant?node-id=0-1&t=rZMf4eRmUfzfHB6z-1", icon: "/images/smart-farming-logo.png", eyebrow: "B.TECH PROJECT · ONGOING", desc: "Mobile interface connecting farmers with live field and crop data.", usp: "Real IoT hardware, research-backed" },
-  { id: "ev-website", title: "EV Charging Startup Website", sub: "UX/UI design and Framer build.", tags: ["WEB DESIGN","FRAMER","ENERGY"], img: "/images/ev website.png", cardImg: "/images/EV.png", href: "https://enkelenergi.framer.website/", icon: "/images/ev-logo.png", eyebrow: "COPENHAGEN · STARTUP", desc: "Customer-facing site alongside the broader charging product.", usp: "Helped bring in the first 10K+ customers" },
-  { id: "manokamna", title: "Manokamna Interior Designs", sub: "Brand identity case study.", tags: ["LOGO DESIGN","VISUAL SYSTEM"], img: "/images/interior.png", cardImg: "/images/BRAND LOGO.png", href: "https://www.notion.so/Manokamna-Interior-Designs-31830418f5cc80fa91b5f6afaddd5574?source=copy_link", icon: "/images/interior-logo.png", eyebrow: "BRAND IDENTITY · INTERIOR", desc: "Identity for a premium design studio.", usp: "M monogram woven into the identity" },
+  { id: "shopez", title: "ShopEZ - AI Kirana Billing App", eyebrow: "ShopEZ", head: ["Kirana billing that begins the moment you ", "point the camera", ""], tags: ["AI BILLING","KIRANA RETAIL","MOBILE APP"], img: "/images/retail.png", cardImg: "/images/SHOPEZ.png", href: "/shopez", icon: "/images/retail-logo.png" },
+  { id: "smart-agri", title: "Smart Agriculture IoT App", eyebrow: "Smart Agriculture IoT App", head: ["Turning ", "live field and crop data", " into something a farmer can act on"], tags: ["AGRITECH","IOT","MOBILE APP"], img: "/images/smart farming.png", cardImg: "/images/IoT APP.png", href: "https://www.figma.com/design/YjLXUm3ewgTPgoWfI6Ubz2/Smart-Farming-Assistant?node-id=0-1&t=rZMf4eRmUfzfHB6z-1", icon: "/images/smart-farming-logo.png" },
+  { id: "ev-website", title: "EV Charging Startup Website", eyebrow: "EV Charging Startup Website", head: ["Copenhagen EV website for a startup reaching its ", "first 10K+ registered users", ""], tags: ["UX/UI DESIGN","FRAMER BUILD","EV CHARGING"], img: "/images/ev website.png", cardImg: "/images/EV.png", href: "https://enkelenergi.framer.website/", icon: "/images/ev-logo.png" },
+  { id: "manokamna", title: "Manokamna Interior Designs", eyebrow: "Manokamna", head: ["An interior design studio's identity, built outward from its ", "M monogram", ""], tags: ["LOGO DESIGN","VISUAL SYSTEM","INTERIOR DESIGN"], img: "/images/interior.png", cardImg: "/images/BRAND LOGO.png", href: "https://www.notion.so/Manokamna-Interior-Designs-31830418f5cc80fa91b5f6afaddd5574?source=copy_link", icon: "/images/interior-logo.png" },
 ];
 
 export const process = [
@@ -136,15 +137,16 @@ export const stackDesc: Record<string, string> = {
   ProtoPie:      "Advanced interaction prototyping for complex animations and micro-interactions.",
 };
 
+// Footer links ("Find me online"). The Email row copies the address instead of navigating (see sections/home/Socials.tsx). X and Instagram are removed: both profiles are inactive.
 export const socials = [
-  { name: "LinkedIn",  handle: "in/ritamhere", href: "https://linkedin.com/in/ritamhere" },
-  { name: "X",         handle: "bisaucee",     href: "https://x.com/bisaucee" },
-  { name: "Instagram", handle: "_ritam_here",  href: "https://instagram.com/_ritam_here" },
+  { name: "LinkedIn", handle: "in/ritamhere",             href: "https://linkedin.com/in/ritamhere" },
+  { name: "Resume",   handle: "Take a look",               href: "https://drive.google.com/file/d/1e_gww9qRd1-NlabFvdBWOcTKMSKv8nzE/view" },
+  { name: "Email",    handle: "biswasritam404@gmail.com", href: "mailto:biswasritam404@gmail.com" },
 ];
 
 export const navLinks = [
   { label: "WORK",       href: "#featured" },
-  { label: "HIGHLIGHTS", href: "#devi-paksha" },
+  { label: "HIGHLIGHT", href: "#devi-paksha" },
   { label: "ABOUT",      href: "#about" },
   { label: "EXPERIENCE", href: "#experience" },
   { label: "CONTACT",    href: "#contact" },

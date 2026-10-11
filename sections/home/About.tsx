@@ -3,7 +3,7 @@ import { useRef, useState, useSyncExternalStore } from "react";
 import { usePathname } from "next/navigation";
 import { useInView } from "framer-motion";
 import { Copy, Check } from "lucide-react";
-import { MdConstruction, MdBook, MdSelfImprovement } from "react-icons/md";
+import { MdWork, MdBook, MdSelfImprovement } from "react-icons/md";
 import SectionHeadingV3 from "@/components/home/SectionHeadingV3";
 import CardV3 from "@/components/home/CardV3";
 import { C, revealStyle, col } from "@/lib/home/tokensV2";
@@ -19,14 +19,14 @@ const tools = [...TOOL_ORDER.filter(n => stack.includes(n)), ...stack.filter(n =
 const info = [
   { label: "Designation", value: "Product Designer" },
   { label: "Experience",  value: "" },   // calculated from DESIGN_EXPERIENCE_START at runtime (see below)
-  { label: "Location",    value: "Kolkata, WB" },
-  { label: "Education",   value: "IIIT Kalyani '27" },
+  { label: "Location",    value: "Kolkata, India" },
+  { label: "Education",   value: "IIIT Kalyani (Grad. 2027)" },   // rendered with the graduation detail muted (see below)
   { label: "Email",       value: EMAIL },
 ];
 
 const cards = [
-  { id: "about-building", title: "Currently Building", body: "Building a dating app. Fixing everyone's love life except mine.", icon: MdConstruction },
-  { id: "about-reading",  title: "Outside of Design",  body: "Reading \"Before the Coffee Gets Cold.\" Coffee is clearly involved.", icon: MdBook },
+  { id: "about-reading", title: "Outside of Design",     body: "Reading \"Before the Coffee Gets Cold.\" Coffee is clearly involved.", icon: MdBook },
+  { id: "about-open",    title: "Open to Opportunities", body: "Open to product design opportunities across India and internationally.", icon: MdWork },
 ];
 
 const subscribeNever = () => () => {};
@@ -125,14 +125,16 @@ export default function About() {
                   </div>
                   {isEmail ? (
                     <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                      <div className="hm-f16" style={{ fontWeight: 600, color: "var(--hm-card-fg, #ffffff)" }}>{value}</div>
+                      <a href={`mailto:${EMAIL}`} data-cursor-kind="contact" className="hm-f16 hm-about-mail" style={{ fontWeight: 600, color: "var(--hm-card-fg, #ffffff)" }}>{value}</a>
                       <button onClick={copyEmail} data-cursor-kind="copy" data-cursor-state={copied ? "done" : undefined} className="hm-about-copy" aria-label={copied ? "Email copied" : "Copy email address"} title="Copy email">
                         {copied ? <Check size={14} strokeWidth={2.5} /> : <Copy size={14} strokeWidth={2} />}
                         <span className="hm-about-copy-msg" aria-live="polite">{copied ? "Copied" : ""}</span>
                       </button>
                     </div>
                   ) : (
-                    <div className="hm-f16" style={{ fontWeight: 600, color: "var(--hm-card-fg, #ffffff)" }} suppressHydrationWarning={label === "Experience"}>{value}</div>
+                    <div className="hm-f16" style={{ fontWeight: 600, color: "var(--hm-card-fg, #ffffff)" }} suppressHydrationWarning={label === "Experience"}>
+                      {label === "Education" ? <>IIIT Kalyani <span style={{ fontWeight: 500, whiteSpace: "nowrap", color: "var(--hm-about-muted, rgba(255,255,255,0.65))" }}>(Grad. 2027)</span></> : value}
+                    </div>
                   )}
                 </div>
               );
@@ -200,6 +202,11 @@ export default function About() {
           .hm-toolkit-track { animation: none; width: auto; flex-wrap: wrap; }
           .hm-tk-dup, .hm-tk-fade { display: none !important; }
         }
+
+        /* Email address: a mailto link that reads as plain text until hovered or focused (the copy button beside it is unchanged) */
+        .hm-about-mail { text-decoration: none; text-underline-offset: 3px; text-decoration-thickness: 1px; overflow-wrap: anywhere; }
+        .hm-about-mail:hover { text-decoration: underline; }
+        .hm-about-mail:focus-visible { outline: 2px solid #ffffff; outline-offset: 3px; border-radius: 2px; text-decoration: underline; }
 
         /* Email copy: clear hover / focus, small "Copied" confirmation */
         .hm-about-copy { background: none; border: none; cursor: pointer; padding: 4px 6px; display: flex; align-items: center; gap: 6px; flex-shrink: 0; border-radius: 8px;
