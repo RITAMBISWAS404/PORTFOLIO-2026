@@ -66,7 +66,7 @@ function ZenoVisual() {
       <div className="hm-zv-phone">
         {/* motion lives on the wrapper; the original asset is rendered as-is by a plain <img> */}
         <motion.div key={`phone-${mk}`} className="hm-zv-phone-in" style={m({ y: phoneY, opacity: phoneOp })}>
-          <img src="/Zeno%20image/ZENO%20App.png" alt="ZENO app home screen held in a hand" width={1159} height={1200} decoding="async" draggable={false} />
+          <img loading="lazy" src="/Zeno%20image/ZENO%20App.png" alt="ZENO app home screen held in a hand" width={1159} height={1200} decoding="async" draggable={false} />
         </motion.div>
       </div>
       <motion.div key={`tl-${mk}`} className="hm-zv-t hm-zv-tl" style={m({ x: tlX, y: tlY, opacity: topOp })}>
@@ -104,7 +104,7 @@ export default function FeaturedProject() {
           {/* Identity */}
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
             <div className="hm-v3-identity-logo" style={{ overflow: "hidden", flexShrink: 0 }}>
-              <img src="/images/zeno logo.png" alt="ZENO" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              <img loading="lazy" src="/images/zeno logo.png" alt="ZENO" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             </div>
             <div>
               <div className="hm-f16" style={{ fontWeight: 600, color: C.t1 }}>{zeno.name}</div>

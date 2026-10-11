@@ -1,14 +1,19 @@
 "use client";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { usePathname } from "next/navigation";
 import { useAppReady } from "@/lib/AppReadyContext";
 
 export default function LoadingScreen() {
   const [progress, setProgress] = useState(0);
   const [done,     setDone]     = useState(false);
   const { setReady } = useAppReady();
+  // The landing page (/) has its own asset-readiness loader (components/readiness, mounted by components/home/HomeGate.tsx); this timer-based one stays out of that route and runs unchanged
+  // everywhere else (case studies, /game-on, ...)
+  const skip = usePathname() === "/";
 
   useEffect(() => {
+    if (skip) return;
     const DURATION = 1800; // 1.8s fill
     const start = performance.now();
 
@@ -31,7 +36,9 @@ export default function LoadingScreen() {
     };
 
     requestAnimationFrame(tick);
-  }, []);
+  }, [skip, setReady]);
+
+  if (skip) return null;
 
   return (
     <AnimatePresence>

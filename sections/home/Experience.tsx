@@ -15,7 +15,7 @@ function LogoIcon({ src, alt, fallback, fallbackBg }: { src?: string; alt: strin
   if (src) {
     return (
       <div className="hm-v3-hm-logo" style={{ overflow: "hidden", flexShrink: 0, background: "#ffffff" }}>
-        <img src={src} alt={alt} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+        <img loading="lazy" src={src} alt={alt} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
       </div>
     );
   }

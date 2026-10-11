@@ -66,7 +66,7 @@ function Layer({ o, L, interactive, canvasId }: { o: Obj; L: Layout; interactive
           >
             <picture className="hm-hs-pic">
               <source media={L.hideWhen} srcSet={BLANK} />
-              <img ref={imgRef} src={`${BASE}${o.src}`} alt="" draggable={false}
+              <img loading="lazy" ref={imgRef} src={`${BASE}${o.src}`} alt="" draggable={false}
                 style={{ display: "block", width: "100%", height: "auto", transform: `rotate(${o.rot}deg)` }} />
             </picture>
           </motion.div>
@@ -86,7 +86,7 @@ function Stage({ layout }: { layout: "desktop" | "mobile" }) {
       <div className={layout === "mobile" ? "hm-hs-boardclip" : undefined} style={layout === "mobile" ? undefined : { display: "contents" }}>
       <picture className="hm-hs-pic">
         <source media={L.hideWhen} srcSet={BLANK} />
-        <img src={`${BASE}${BOARD.src}`} alt="" draggable={false}
+        <img loading="lazy" src={`${BASE}${BOARD.src}`} alt="" draggable={false}
           style={{ position: "absolute", left: `${(b.cx / L.w) * 100}%`, top: `${(b.cy / L.h) * 100}%`, width: `${((BOARD.aw * b.s) / L.w) * 100}%`, maxWidth: "none", height: "auto", transform: `translate(-50%, -50%) rotate(${b.rot}deg)`, display: "block" }} />
       </picture>
       </div>

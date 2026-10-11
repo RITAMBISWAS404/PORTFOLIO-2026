@@ -92,7 +92,7 @@ export default function About() {
             position: "relative",   // the photo is positioned inside this box (below), so its intrinsic size can never size the container
             boxShadow: isNew ? "0px 2px 8px 0px rgba(0,0,0,0.05)" : "var(--hm-light-card-shadow, 0px 2px 9px 0px rgba(0,0,0,0.05))",
           }}>
-            <img
+            <img loading="lazy"
               src={photoSrc}
               alt="Ritam Biswas"
               style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block" }}
@@ -161,7 +161,7 @@ export default function About() {
                       overflow: "hidden",
                       background: "var(--hm-about-item-bg, rgba(255,255,255,0.08))",
                     }}>
-                      <img src={c.img} alt={dup ? "" : name} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+                      <img loading="lazy" src={c.img} alt={dup ? "" : name} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
                     </div>
                   );
                 })}

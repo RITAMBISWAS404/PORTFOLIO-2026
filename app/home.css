@@ -506,3 +506,6 @@ h2[data-courier] .hm-sh-icon { visibility: hidden; }
 .hm-proj-card-text { text-wrap: pretty; }
 .hm-proj-title { text-wrap: balance; }
 p.hm-f16, .hm-card-body, .hm-dp-body { text-wrap: pretty; }
+
+/* Readiness loader (components/readiness): an <img> whose request failed is marked by the tracker; show nothing rather than the browser's broken-image glyph (its box, and so the layout, is unchanged). */
+.hm-scope img[data-readiness-failed] { visibility: hidden; }
