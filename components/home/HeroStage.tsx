@@ -10,6 +10,7 @@
 import { useEffect, useLayoutEffect, useRef, useState, type MutableRefObject } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { useTactile, useInteractive, opaqueAt } from "./useTactile";
+import { registerHeroHit, type Hit } from "./heroHit";
 import { ASSET_BY_ID } from "./heroObjects";
 import { useHeroDirector, type HeroItem, type ItemCtl } from "./useHeroDirector";
 import { Actor, type ActorHandle } from "./HeroActors";
@@ -50,8 +51,8 @@ const LAYOUTS: Record<"desktop" | "mobile", Layout> = {
 const initialItems = (L: Layout): HeroItem[] =>
   L.objects.map(o => ({ id: o.key, assetId: o.key, cx: o.cx, cy: o.cy, w: o.aw * o.s, rot: o.rot, idle: o.key }));
 
-function Layer({ item, L, interactive, ctls, onHeld }: {
-  item: HeroItem; L: Layout; interactive: boolean; ctls: MutableRefObject<Map<string, ItemCtl>>; onHeld: (id: string, held: boolean) => void;
+function Layer({ item, L, interactive, ctls, onHeld, onDrag }: {
+  item: HeroItem; L: Layout; interactive: boolean; ctls: MutableRefObject<Map<string, ItemCtl>>; onHeld: (id: string, held: boolean) => void; onDrag: (id: string) => void;
 }) {
   const asset = ASSET_BY_ID[item.assetId];
   const imgRef = useRef<HTMLImageElement>(null);
@@ -61,6 +62,7 @@ function Layer({ item, L, interactive, ctls, onHeld }: {
   const t = useTactile({
     imgRef, hoverRef, rotDeg: item.rot, enabled: interactive && !locked, allowTouch: true, initial: item.start,
     onHeld: h => { heldRef.current = h; onHeld(item.id, h); },
+    onDragMove: () => onDrag(item.id),
   });
   // A rebase moved this object's resting pose by `shift`; the offsets drop by the same amount in the same frame, so nothing moves on screen.
   const shiftN = item.shift?.n;
@@ -115,12 +117,38 @@ export default function HeroStage({ layout }: { layout: "desktop" | "mobile" }) 
     frame: { w: L.w, h: L.h }, counts, board: L.board, boardImgRef: boardImg, stageRef, shakeRef, itemsRef, setItems, ctls, clippy: clippyRef, restockers: restockerRefs, motionOk: !reduce,
   });
   const b = L.board;
+  // What is under a point: an opaque object pixel (topmost object first: paint order is DOM order), else an opaque board pixel, else nothing. The same test drives the cursor label and the click.
+  const hitAt = (x: number, y: number): Hit => {
+    const st = stageRef.current;
+    if (st) {
+      const els = st.querySelectorAll<HTMLElement>("[data-item]");
+      for (let i = els.length - 1; i >= 0; i--) {
+        const el = els[i], img = el.querySelector("img");
+        if (!img || !el.querySelector("[data-int]")) continue;                 // a carried (locked) object is not interactive
+        if (opaqueAt(img, x, y, itemsRef.current.find(it => it.id === el.dataset.item)?.rot ?? 0)) return "object";
+      }
+    }
+    return boardImg.current && opaqueAt(boardImg.current, x, y, 0) ? "board" : "none";
+  };
+  const hitRef = useRef(hitAt);
+  useEffect(() => { hitRef.current = hitAt; });
+  useEffect(() => { const st = stageRef.current; return st ? registerHeroHit(st, (x, y) => hitRef.current(x, y)) : undefined; }, []);
+  // The shake is ONE delegated click on the stage: it must start on the exposed board (not on an object, not on a transparent patch), end on it, move little, and not be the end of a drag. Keyboard activation
+  // (detail 0 on the board button) always shakes. Everything else, including the release of a drag over the board, is ignored.
+  const down = useRef<{ hit: Hit; x: number; y: number } | null>(null);
+  const onStageClick = (e: React.MouseEvent) => {
+    const d = down.current; down.current = null;
+    if (e.detail === 0) { if ((e.target as Element).closest(".hm-hs-boardbtn")) director.shake(); return; }
+    if (!d || d.hit !== "board" || director.recentDrag() || Math.hypot(e.clientX - d.x, e.clientY - d.y) > 8) return;
+    if (hitAt(e.clientX, e.clientY) !== "board") return;
+    director.shake();
+  };
   return (
-    <div ref={stageRef} className={`hm-hs-stage hm-hs-stage-${layout}`} style={{ aspectRatio: `${L.w} / ${L.h}` }}>
+    <div ref={stageRef} className={`hm-hs-stage hm-hs-stage-${layout}`} style={{ aspectRatio: `${L.w} / ${L.h}` }}
+      onPointerDownCapture={e => { down.current = { hit: hitAt(e.clientX, e.clientY), x: e.clientX, y: e.clientY }; }} onClick={onStageClick}>
       <div className={layout === "mobile" ? "hm-hs-boardclip" : "hm-hs-boardwrap"}>
         <div ref={shakeRef} className="hm-hs-shake">
           <button type="button" className="hm-hs-boardbtn" data-cursor-kind="board" data-ycur="" aria-label="Shake the pegboard"
-            onClick={e => { if (e.detail !== 0 && boardImg.current && !opaqueAt(boardImg.current, e.clientX, e.clientY, 0)) return; director.shake(); }}
             style={{ left: `${(b.cx / L.w) * 100}%`, top: `${(b.cy / L.h) * 100}%`, width: `${(b.w / L.w) * 100}%`, transform: "translate(-50%, -50%)" }}>
             <picture className="hm-hs-pic">
               <source media={L.hideWhen} srcSet={BLANK} />
@@ -129,7 +157,7 @@ export default function HeroStage({ layout }: { layout: "desktop" | "mobile" }) 
           </button>
         </div>
       </div>
-      {items.map(it => <Layer key={it.id} item={it} L={L} interactive={interactive} ctls={ctls} onHeld={director.itemHeld} />)}
+      {items.map(it => <Layer key={it.id} item={it} L={L} interactive={interactive} ctls={ctls} onHeld={director.itemHeld} onDrag={director.dragMove} />)}
       <Actor ref={clippyRef} name={CLIPPY.name} color={CLIPPY.color} />
       {RESTOCKERS.map((r, i) => <Actor key={r.name} ref={restockerRefs[i]} name={r.name} color={r.color} carry={r.carry} placed={r.placed} />)}
     </div>

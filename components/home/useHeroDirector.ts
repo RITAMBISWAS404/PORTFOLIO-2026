@@ -16,10 +16,10 @@
 // new pose becomes the object's resting pose. Visitor drags always win: grabbing an object cancels whatever the director was doing with it,
 // and an object that is held (or being carried) is never picked, scattered, stolen, collected, nudged or rebased.
 import { useEffect, useRef, type MutableRefObject, type RefObject } from "react";
-import { animate, type MotionValue } from "framer-motion";
+import { animate, type AnimationPlaybackControls, type MotionValue } from "framer-motion";
 import { ASSET_BY_ID } from "./heroObjects";
 import {
-  footprint, makeBoardMask, placedFrom, planAdd, planFull, planRefill, planReplacement, remember, shapeFor, separation, shareIn, silhouetteOverlap, validShape, visibleArea,
+  footprint, makeBoardMask, measureShapes, placedFrom, planAdd, planFull, planRefill, planReplacement, remember, shapeFor, separation, shareIn, silhouetteOverlap, validShape, visibleArea,
   type Env, type Existing, type Move, type Placed, type Plan, type Rect, type Shape,
 } from "./heroComposer";
 import type { ActorHandle } from "./HeroActors";
@@ -71,8 +71,10 @@ let introDone = false;
 // Pacing: once the board is whole, a real event is followed by a pause of PACE_WORK ms and an event that found nothing to do is retried after PACE_MISS (backing off); a vacancy is mended almost at once
 // (PACE_FIX). The old pauses (12 s minimum, then 16-26 s after EVERY event, a no-op included) left the Hero still for most of a minute, and a lost replacement was never mended.
 // Clippy's first theft waits for the Hero sequence (the Courier placing the two heading icons, see courierController.ts), then begins a beat later so the Courier has stepped away. HERO_WAIT_MAX is only a
-// deadlock guard (the Courier never starts, e.g. its heading was removed): measured from the first moment the board is stable, it is far longer than the sequence ever takes.
+// deadlock guard (the Courier never starts, e.g. its heading was removed): measured from the first moment the board is stable, it is far longer than the sequence ever takes. (Same values as the landing page.)
 const INTRO_AFTER_PLACED = [900, 1500] as const, MIN_GAP_MS = 4000, HERO_WAIT_MAX = 20000;
+// Gap filling (see fillGap): the shortest time between two checks, the smallest pocket that can ever count (share of the usable board), and how much bigger than the approved composition's own pocket it must be.
+const GAP_COOLDOWN = 20000, GAP_FLOOR = 0.12, GAP_REL = 1.2;
 const PACE_WORK = [4000, 7500] as const, PACE_MISS = [2500, 4000] as const, PACE_FIX = [1500, 3000] as const;
 
 const IDLES = ["glasses", "flame", "earphones", "ok"];
@@ -117,6 +119,10 @@ export function useHeroDirector(args: Args) {
     timeouts: new Set<ReturnType<typeof setTimeout>>(), recentSteals: [] as { asset: string; zone: string }[], mask: undefined as ((x: number, y: number) => boolean) | undefined, rebase: 0,
     // the placement coordinator's shared state: destinations claimed by in-flight restocking operations, and the last time a placement began
     res: new Map<number, { pl: Placed; shape: Shape }>(), lastStart: 0, rejected: 0,
+    // the scheduler's own "arm the next check" (set by the scheduler effect), so a shake that ends can hand the clock back to it; drag contact: running nudges per object and the offset last commanded
+    kick: undefined as ((ms: number) => void) | undefined, pushed: new Map<string, AnimationPlaybackControls[]>(), pushTarget: new Map<string, P>(), dragRaf: 0, dragEnv: undefined as Env | undefined, interrupting: false,
+    // gaps: when the board was last checked for a conspicuous hole, and the largest empty pocket of the approved composition (the reference); ripple: bumped by every drag / shake so a stale ripple is void; the end of the last drag
+    gapAt: 0, gapRef: 0, rippleGen: 0, lastDragEnd: 0,
     // scheduling: last pointer activity on the board / anywhere on the page, when the last event finished, and whether the last ambient event actually took something
     lastEnd: 0, took: false, owedArea: 0, miss: 0,   // owedArea: visible area taken by a theft whose replacement has not arrived yet; miss: events in a row that found nothing to do
     // placement transactions: one record per planned piece, committed exactly once (S.done); dev counters feed the diagnostics attributes
@@ -195,7 +201,7 @@ export function useHeroDirector(args: Args) {
   const reg = (R: Run, h: Handle, owner?: string) => {
     S.live.add(h);
     if (owner) { let set = S.byItem.get(owner); if (!set) S.byItem.set(owner, (set = new Set())); set.add(h); }
-    return () => { S.live.delete(h); if (owner) S.byItem.get(owner)?.delete(h); };
+    return () => { S.live.delete(h); if (owner) { const set = S.byItem.get(owner); set?.delete(h); if (set && !set.size) S.byItem.delete(owner); } };
   };
   const sleep = (R: Run, ms: number) => new Promise<void>(res => {
     if (R.dead) return res();
@@ -300,6 +306,10 @@ export function useHeroDirector(args: Args) {
   };
   const release = (op: number) => { S.res.delete(op); dbgRes(); };
 
+  // drag contact (see "physical contact" below): stopping the springs that are nudging neighbours. Declared up here because the abort / interrupt paths use them.
+  const stopPush = (id: string) => { S.pushed.get(id)?.forEach(a => a.stop()); S.pushed.delete(id); };
+  const stopPushes = () => { S.pushed.forEach(list => list.forEach(a => a.stop())); S.pushed.clear(); S.pushTarget.clear(); if (S.dragRaf) { cancelAnimationFrame(S.dragRaf); S.dragRaf = 0; } };
+
   // ── placement transactions ──
   const dbgTasks = () => {
     const st = A.current.stageRef.current; if (!st || process.env.NODE_ENV === "production") return;
@@ -314,7 +324,12 @@ export function useHeroDirector(args: Args) {
       t.why = why;
       if (why !== "interrupted" && why !== "cancelled" && why !== "aborted") { S.failed++; const line = `op${t.op} ${t.asset} (${t.actor}) at ${t.state}: ${why}`; S.failLog.push(line); if (process.env.NODE_ENV !== "production") console.warn("[hero] placement failed:", line); }   // cancellations are expected, not failures
     }
-    t.state = state; S.tasks.set(t.op, t); dbgTasks();
+    t.state = state; S.tasks.set(t.op, t); pruneTasks(); dbgTasks();
+  };
+  /** Finished tasks are history, not state: keep the newest few for the diagnostics and drop the rest, so a long session never accumulates them (or the work each task update does over them). */
+  const pruneTasks = () => {
+    if (S.tasks.size <= 24) return;
+    for (const [op, t] of S.tasks) { if (S.tasks.size <= 24) break; if (t.state === "committed" || t.state === "failed") { S.tasks.delete(op); S.done.delete(op); } }
   };
   /** Is the object really there? In state, controllable, rendered with a decoded image and a real size. null = yes, otherwise the reason it is not. */
   const verifyRendered = (id: string): string | null => {
@@ -503,20 +518,29 @@ export function useHeroDirector(args: Args) {
     // complete arrangement is chosen (never the removed object's coordinates). Objects whose removal leaves no valid composition are skipped;
     // if none qualifies, nothing is stolen and the board stays as it is.
     const e = env();
+    if (!S.gapRef) S.gapRef = measureShapes(e, existing().map(x => x.p)).emptyLargest;   // the reference: how empty the board looks before its first theft
     let target: HeroItem | undefined, plan: Plan | null = null;
     // Choose the victim with constrained randomness: weighted so recently stolen assets and regions are unlikely again, never an object on the
     // protected text, and never one whose removal would leave no valid composition.
     const recent = S.recentSteals, sh = (it: HeroItem) => shapeFor(placedOf(it));
+    // How many objects the vacated area becomes. A small object is normally swapped one for one; a medium one is one object or a small pair; a large one is often two or three smaller objects, which fill the
+    // gap better than one piece that is not big enough for it. Never above the board's capacity, and never past base + 2 in the steady state (a shake may fill the board to its maximum; the swap then stays 1 for 1).
+    const piecesFor = (victim: Placed, others: number) => {
+      const room = Math.max(1, Math.min(3, A.current.counts.max - others, A.current.counts.base + 2 - others)), r = Math.random(), cat = victim.asset.cat;
+      const want = cat === "large" ? (r < 0.5 ? 2 : r < 0.78 ? 3 : 1) : cat === "medium" ? (r < 0.6 ? 1 : 2) : (r < 0.92 ? 1 : 2);
+      return Math.max(1, Math.min(want, room));
+    };
     const keyed = prey.filter(i => shareIn(sh(i), e.exclusions) <= 0.02).map(i => {
       const w = (recent.some(x => x.asset === i.assetId) ? 0.15 : 1) * 0.4 ** recent.filter(x => x.zone === zoneOf(i)).length;
       return { i, k: Math.random() ** (1 / w) };
     }).sort((a, b) => b.k - a.k);
     for (const { i: cand } of keyed) {
-      plan = planReplacement({ env: e, existing: existing(new Set([cand.id])), removed: footprint(placedOf(cand)), removedArea: visibleArea(placedOf(cand)), present: avoid(), maxCount: counts.max, single: true });   // single: the one piece restores the whole area taken
+      const rest = existing(new Set([cand.id])), vp = placedOf(cand), k = piecesFor(vp, rest.length), base = { env: e, existing: rest, removed: footprint(vp), removedArea: visibleArea(vp), present: avoid(), maxCount: counts.max };
+      plan = planReplacement({ ...base, pieces: k });                                              // k pieces share the area taken (k = 1: one piece restores all of it)
+      if ((!plan || !plan.placed.length) && k > 1) plan = planReplacement({ ...base, single: true });   // no room for a cluster: fall back to one suitably sized piece
       if (plan && plan.placed.length) { target = cand; break; }
     }
     if (!target || !plan) return;
-    plan = { ...plan, placed: plan.placed.slice(0, 1) };           // one object taken, one brought back: a quiet swap, not a refill
     seedTo(plan, "replace", e);
     remember(plan.placed.map(x => x.asset.id));
     // nothing is stolen unless its replacement is a real, loadable object (a bad asset is recorded and skipped; the next event plans without it)
@@ -533,9 +557,33 @@ export function useHeroDirector(args: Args) {
     S.took = true; S.owedArea = visibleArea(placedOf(target));      // the board is one object short from here until the replacement is really down (see refill)
     if (!go("replacing")) return;
     if (plan.moves.length) await applyMoves(R, plan.moves);       // make room first, gently
-    await sleep(R, rnd(700, 2000));
-    await restockWaves(R, [...ready0], 1, e);                           // one restocker brings the one replacement
+    await sleep(R, rnd(700, 2000));                                               // the landing page's beat between the steal and the replacement setting off
+    await restockWaves(R, [...ready0], Math.min(2, ready0.length), e);   // one restocker per piece, at most two at a time
     if (A.current.itemsRef.current.length >= counts.base) S.owedArea = 0;
+    await fillGap(R);                                                     // the swap is complete: is a conspicuous hole left anywhere?
+  }
+
+  /**
+   * Is there a meaningful hole on the board, and would one more object really improve it? Evaluated once after a COMPLETED event (never per frame), at most once per GAP_COOLDOWN whatever the outcome
+   * (so the same gap is never worked on again and again), never above base + 2 objects, and only through the same reserve / carry-in machinery as every other placement (so it cannot overlap another
+   * operation or claim the same space). The occupancy model is the composer's own: the usable board rasterised into ~20 px cells, covered by the objects' real silhouettes, with the largest connected pocket
+   * farther than 44 px from any object measured. "Conspicuous" is relative to the approved composition's own largest pocket (the visitor's reference for how empty is normal), with a floor. The candidate must
+   * shrink the largest pocket by at least a fifth; otherwise nothing is placed. Bounded: one object, 16 seeded attempts.
+   */
+  async function fillGap(R: Run) {
+    const { itemsRef, counts } = A.current;
+    const now = performance.now();
+    if (R.dead || !restockers().length || itemsRef.current.length >= counts.base + 2 || now - S.gapAt < GAP_COOLDOWN) return;
+    S.gapAt = now;
+    const e = env(), ex = existing(), before = measureShapes(e, ex.map(x => x.p));
+    if (before.emptyLargest < Math.max(GAP_FLOOR, S.gapRef * GAP_REL)) return;          // nothing conspicuous: leave the natural negative space alone
+    const plan = planAdd({ env: e, existing: ex, maxNew: 1, minNew: 1, present: avoid(), attempts: 16 });
+    if (!plan || !plan.placed.length || !plan.stats || plan.stats.emptyLargest > before.emptyLargest * 0.8) return;
+    seedTo({ ...plan, placed: plan.placed.slice(0, 1) }, "gap", e);
+    const ready = await loadedPlan(plan.placed.slice(0, 1));
+    if (R.dead || !ready.length) return;
+    remember(ready.map(x => x.asset.id));
+    await restockWaves(R, ready, 1, e);
   }
 
   /**
@@ -628,6 +676,7 @@ export function useHeroDirector(args: Args) {
     S.timeouts.forEach(clearTimeout); S.timeouts.clear();
     A.current.clippy.current?.show(false); hideRestockers();
     A.current.shakeRef.current?.removeAttribute("data-shake");
+    stopPushes(); S.rippleGen++;
     // objects that were mid-event settle back to their resting poses; an object being carried out is simply gone
     S.carrying.forEach((kind, id) => { if (kind === "out") removeItem(id); else { const c = ctl(id); c?.lock(false); } });
     S.carrying.clear();
@@ -649,7 +698,9 @@ export function useHeroDirector(args: Args) {
     S.timeouts.forEach(clearTimeout); S.timeouts.clear();
     A.current.clippy.current?.show(false); hideRestockers();
     A.current.shakeRef.current?.removeAttribute("data-shake");
-    A.current.ctls.current.forEach(c => { if (c.isHeld()) c.release(); });     // a drag ends in place; the later pointer-up is ignored by the hook
+    stopPushes(); S.rippleGen++;                                                 // nudged neighbours stay where they are; the scatter starts from there
+    S.interrupting = true;                                                       // ending the drag must not start the neighbours' settle: the scatter owns every offset from here
+    try { A.current.ctls.current.forEach(c => { if (c.isHeld()) c.release(); }); } finally { S.interrupting = false; }     // a drag ends in place; the later pointer-up is ignored by the hook
     S.carrying.forEach((_, id) => { ctl(id)?.lock(false); });                    // carried objects are released where they are
     S.carrying.clear();
     S.res.clear(); dbgRes();
@@ -658,10 +709,11 @@ export function useHeroDirector(args: Args) {
   }
 
 
-  async function runEvent(kind: "ambient" | "refill" | "shake") {
-    if (kind !== "shake" && S.phase !== "idle") return;                   // a theft only ever starts from a calm board; a shake always starts (it interrupts first)
+  async function runEvent(kind: "ambient" | "refill" | "shake"): Promise<{ took: boolean; dead: boolean }> {
+    if (kind !== "shake" && S.phase !== "idle") return { took: false, dead: false };   // a theft only ever starts from a calm board; a shake always starts (it interrupts first)
     const R: Run = { dead: false }; S.run = R; S.took = false;
-    try { await (kind === "ambient" ? ambient(R) : kind === "refill" ? refill(R) : scatterAndRestock(R)); }
+    let took = false;
+    try { await (kind === "ambient" ? ambient(R) : kind === "refill" ? refill(R) : scatterAndRestock(R)); took = S.run === R && S.took; }
     finally {
       if (S.run === R) {
         A.current.clippy.current?.show(false); hideRestockers(); S.res.clear(); dbgRes();
@@ -672,6 +724,7 @@ export function useHeroDirector(args: Args) {
     }
     // a shake that found nothing valid to plan leaves the board untouched; objects the interrupt left displaced settle back to rest
     if (kind === "shake" && S.run === R && !R.dead && S.phase === "idle") settleBack();
+    return { took, dead: R.dead };
   }
 
   const shake = () => {
@@ -679,12 +732,120 @@ export function useHeroDirector(args: Args) {
     // Every click is answered at once and nothing is ever queued: the newest shake invalidates whatever was running and owns the board.
     introDone = true;
     interrupt();
-    void runEvent("shake");
+    // the interrupted run's scheduler step stands down (it was told it is dead); when THIS shake completes it hands the clock back, so the clipper resumes on a normal beat
+    void runEvent("shake").then(r => { if (!r.dead) S.kick?.(rnd(...PACE_WORK)); });
+  };
+
+  // ── physical contact: a dragged object nudges the ones it runs into ──
+  // Only while an object is being dragged, once per animation frame at most (coalesced), and only object against object. For every other free object the target offset is computed from its RESTING pose:
+  // if the dragged object (or a neighbour that has already been nudged) touches it, it slides away along the line between them, just far enough to clear (about its own half-size at most), staying on the
+  // visible board and off the protected zones; if that is not possible it moves as far as it can and the contact is simply left (layering is allowed, there is no loop). The result is a spring on the
+  // object's own offset, so it follows the drag smoothly and returns to zero as soon as nothing touches it. Nothing is stored: a nudge is never a new resting position. Cost: a few shape tests per frame
+  // while a drag is in progress, none otherwise.
+  const NUDGE_GAP = 6, NUDGE_STEP = 5;     // frame px
+  const shapeAt = (p: Placed, o: P) => shapeFor({ ...p, cx: p.cx + o.x, cy: p.cy + o.y });
+  const touching = (a: Shape, b: Shape) => { const sp = separation(a.o, b.o); return sp < NUDGE_GAP && (sp < -2 || silhouetteOverlap(a, b) > 0.004); };
+  const resolveContacts = (dragId: string) => {
+    const dc = ctl(dragId), dit = item(dragId);
+    if (!dc || !dit || !dc.isHeld() || S.phase === "scattering") return;
+    const e = S.dragEnv; if (!e) return;
+    const g = geo(), rg = e.region, dragged = shapeFor(livePlaced(dit));
+    const free = A.current.itemsRef.current.filter(i => i.id !== dragId && !locked(i.id));
+    const rest = new Map(free.map(i => [i.id, placedOf(i)] as const)), restShape = new Map(free.map(i => [i.id, shapeFor(rest.get(i.id)!)] as const));
+    const order = free.filter(i => Math.hypot(restShape.get(i.id)!.o.x - dragged.o.x, restShape.get(i.id)!.o.y - dragged.o.y) < 900)
+      .sort((a, b) => Math.hypot(restShape.get(a.id)!.o.x - dragged.o.x, restShape.get(a.id)!.o.y - dragged.o.y) - Math.hypot(restShape.get(b.id)!.o.x - dragged.o.x, restShape.get(b.id)!.o.y - dragged.o.y)).slice(0, 8);
+    const target = new Map<string, P>(), moved = new Map<string, Shape>();      // moved: the shape of each nudged neighbour at its target, an obstacle for the others
+    for (let pass = 0; pass < 3; pass++) {
+      let changed = false;
+      for (const it of order) {
+        if (target.size >= 4 && !target.has(it.id)) continue;                    // a bounded neighbourhood: never the whole board
+        const base = rest.get(it.id)!, bs = restShape.get(it.id)!;
+        const others: Shape[] = [dragged, ...[...moved].filter(([id]) => id !== it.id).map(([, sh]) => sh)];
+        if (!others.some(o => touching(bs, o))) { if (target.has(it.id)) { target.delete(it.id); moved.delete(it.id); changed = true; } continue; }
+        const from = others.reduce((best, o) => (Math.hypot(o.o.x - bs.o.x, o.o.y - bs.o.y) < Math.hypot(best.o.x - bs.o.x, best.o.y - bs.o.y) ? o : best), others[0]);
+        let ax = bs.o.x - from.o.x, ay = bs.o.y - from.o.y; const al = Math.hypot(ax, ay);
+        if (al < 1) { const t = (it.id.charCodeAt(0) % 8) * 0.785; ax = Math.cos(t); ay = Math.sin(t); } else { ax /= al; ay /= al; }
+        const maxMove = Math.min(160, Math.max(bs.ex, bs.ey) + 30);
+        let best: P | null = null;
+        for (const ang of [0, 0.7, -0.7]) {                                        // straight away first, then 40 degrees either side
+          const c = Math.cos(ang), s2 = Math.sin(ang), dx = ax * c - ay * s2, dy = ax * s2 + ay * c;
+          for (let t = NUDGE_STEP; t <= maxMove && !best; t += NUDGE_STEP) {
+            const o = { x: dx * t, y: dy * t }, sh = shapeAt(base, o);
+            const inside = sh.o.x - sh.ex > rg.l + 2 && sh.o.x + sh.ex < rg.r - 2 && sh.o.y - sh.ey > rg.t - sh.ey * 0.4 && sh.o.y + sh.ey < rg.b - 2 && shareIn(sh, e.exclusions) <= 0.02;
+            if (inside && !others.some(x => touching(sh, x))) best = o;
+          }
+          if (best) break;
+        }
+        if (!best) best = { x: ax * maxMove * 0.6, y: ay * maxMove * 0.6 };      // nowhere clear: a partial slide, then the contact is left (layering is allowed)
+        const prev = target.get(it.id);
+        if (!prev || Math.hypot(prev.x - best.x, prev.y - best.y) > 1) { target.set(it.id, best); moved.set(it.id, shapeAt(base, best)); changed = true; }
+      }
+      if (!changed) break;
+    }
+    // apply: every object that is, or was, nudged moves toward its target (zero when nothing touches it now)
+    const ids = new Set<string>([...target.keys(), ...S.pushTarget.keys()]);
+    ids.forEach(id => {
+      const c = ctl(id); if (!c || locked(id)) return;
+      const want = target.get(id) ?? { x: 0, y: 0 }, was = S.pushTarget.get(id) ?? { x: 0, y: 0 };
+      if (Math.hypot(want.x - was.x, want.y - was.y) < 1.5) return;
+      const spring = A.current.motionOk ? { type: "spring" as const, stiffness: 320, damping: 28, mass: 0.7 } : { duration: 0.18, ease: "easeOut" as const };
+      stopPush(id);
+      S.pushed.set(id, [animate(c.dx, want.x * g.s, spring), animate(c.dy, want.y * g.s, spring)]);
+      if (want.x === 0 && want.y === 0) S.pushTarget.delete(id); else S.pushTarget.set(id, want);
+    });
+  };
+  const dragMove = (id: string) => {
+    if (S.dragRaf) return;
+    S.dragRaf = requestAnimationFrame(() => { S.dragRaf = 0; resolveContacts(id); });
+  };
+  const RIPPLE_R = 640, RIPPLE_AMP = 22;     // frame px: how far a landing is felt, and the strongest nudge (next to the object)
+  const settleSpring = { type: "spring" as const, stiffness: 210, damping: 10, mass: 0.9 };    // under-damped: two or three small swings, then still
+  const track = (id: string, list: AnimationPlaybackControls[]) => {
+    S.pushed.set(id, list);
+    Promise.all(list.map(a => a.finished.then(() => undefined, () => undefined))).then(() => { if (S.pushed.get(id) === list) S.pushed.delete(id); });
+  };
+  /**
+   * The drag is over. 1) Neighbours that were being nudged aside go home at once (an under-damped settle). 2) The object is about to land on its resting spot, so a ripple starts there: every free object within
+   * RIPPLE_R is nudged AWAY from that spot by an amount that fades with distance (exp(-d/260)) and with how short the carry was, a moment later the farther it is (a wave, about 2200 px/s), with a degree or two
+   * of tilt, and each then settles on the same under-damped spring. One hop only (a ripple never triggers another), every nudge is a few px, springs return to exactly zero (the resting layout is never
+   * changed), and a newer drag or shake voids any ripple that has not started yet. Reduced motion: neighbours just ease home, no ripple.
+   */
+  const releaseContacts = (id: string) => {
+    if (S.dragRaf) { cancelAnimationFrame(S.dragRaf); S.dragRaf = 0; }
+    const it = item(id), dc = ctl(id), g = geo(), motion = A.current.motionOk, gen = ++S.rippleGen;
+    const travel = dc ? Math.hypot(dc.dx.get(), dc.dy.get()) / g.s : 0;          // how far from home it was let go (frame px): a longer carry lands harder
+    const free = A.current.itemsRef.current.filter(o => o.id !== id && !!ctl(o.id) && !locked(o.id));
+    free.forEach(o => {
+      if (!S.pushTarget.has(o.id)) return;
+      const c = ctl(o.id)!; stopPush(o.id);
+      if (motion) track(o.id, [animate(c.dx, 0, settleSpring), animate(c.dy, 0, settleSpring)]);
+      else track(o.id, [animate(c.dx, 0, { duration: 0.22, ease: "easeOut" }), animate(c.dy, 0, { duration: 0.22, ease: "easeOut" })]);
+    });
+    S.pushTarget.clear();
+    if (!motion || !it) return;
+    const home = shapeFor(placedOf(it)).o, strength = clamp(0.5 + travel / 260, 0.5, 1);
+    for (const o of free) {
+      const sh = shapeFor(placedOf(o)), dx = sh.o.x - home.x, dy = sh.o.y - home.y, d = Math.hypot(dx, dy);
+      const amp = d < RIPPLE_R ? RIPPLE_AMP * strength * Math.exp(-d / 260) : 0;
+      if (amp < 1.6) continue;                                                      // too weak to see: not worth moving
+      const ux = d ? dx / d : 1, uy = d ? dy / d : 0, delay = 60 + d / 2.4;
+      const t = setTimeout(() => {
+        S.timeouts.delete(t);
+        if (S.rippleGen !== gen) return;                                            // a newer drag or a shake owns the board
+        const c = ctl(o.id); if (!c || locked(o.id) || c.isHeld()) return;
+        stopPush(o.id);
+        c.dx.jump(c.dx.get() + ux * amp * g.s); c.dy.jump(c.dy.get() + uy * amp * g.s); c.rot.jump(c.rot.get() + sgn() * Math.min(2.4, amp * 0.18));
+        track(o.id, [animate(c.dx, 0, settleSpring), animate(c.dy, 0, settleSpring), animate(c.rot, 0, { type: "spring", stiffness: 240, damping: 10, mass: 0.8 })]);
+      }, delay);
+      S.timeouts.add(t);
+    }
   };
 
   /** Called by each object when the visitor picks it up or lets it go. */
   const itemHeld = (id: string, held: boolean) => {
     S.lastActive = performance.now();
+    if (held) { S.dragEnv = env(); S.pushTarget.clear(); S.rippleGen++; }   // one measurement of the world per drag (heading, CTAs, printed text); a ripple still to come is void
+    else { S.lastDragEnd = performance.now(); if (!S.interrupting) releaseContacts(id); S.dragEnv = undefined; }
     if (!held) {
       // dragging is over: back to a normal board shortly after the last object is released
       const t = setTimeout(() => { S.timeouts.delete(t); if (S.phase === "user-interacting" && !heldAny()) { go("idle"); S.lastEnd = performance.now(); } }, 700);
@@ -712,9 +873,11 @@ export function useHeroDirector(args: Args) {
     let readySince = 0, introAt = 0, introTries = 0, stableSince = 0, introBusy = false;
     const boardReady = () => { const img = A.current.boardImgRef.current; return S.inView && !document.hidden && !!img && img.complete && img.naturalWidth > 0 && A.current.itemsRef.current.length > 0; };
     /** The pause before the next event, from how the last one went: short while a vacancy is open, a normal beat after real work, backing off after events that found nothing to do. */
-    const pace = () => {
-      if (A.current.itemsRef.current.length < A.current.counts.base) { if (!S.took) S.miss++; else S.miss = 0; return S.miss > 3 ? rnd(...PACE_MISS) * 2 : rnd(...PACE_FIX); }
-      if (S.took) { S.miss = 0; return rnd(...PACE_WORK); }
+    // The landing page's cadence, unchanged: after a real event a 4-7.5 s pause; an event that found nothing to do is retried after a capped, slightly lengthening pause; a vacancy is mended almost at once.
+    // `took` is what the event that just ended reported, not whatever a newer run left in shared state (a shake that interrupts a theft no longer leaves its stale result behind).
+    const pace = (took: boolean) => {
+      if (A.current.itemsRef.current.length < A.current.counts.base) { if (!took) S.miss++; else S.miss = 0; return S.miss > 3 ? rnd(...PACE_MISS) * 2 : rnd(...PACE_FIX); }
+      if (took) { S.miss = 0; return rnd(...PACE_WORK); }
       S.miss++; return Math.min(8000, rnd(...PACE_MISS) * (1 + 0.5 * Math.min(S.miss, 3)));
     };
     const arm = (ms: number) => {
@@ -731,15 +894,17 @@ export function useHeroDirector(args: Args) {
           if (!readySince) { readySince = now; introAt = rnd(...INTRO_AFTER_PLACED); }
           if (now - readySince < introAt) return void arm(250);
           introBusy = true;
-          try { await runEvent("ambient"); } finally { introBusy = false; }
-          if (S.took || ++introTries >= 3) introDone = true;                    // only a real theft counts; a few failed tries (nothing safe to take) end the intro too
-          if (alive) arm(introDone ? pace() : 3000);
+          let res: Awaited<ReturnType<typeof runEvent>>;
+          try { res = await runEvent("ambient"); } finally { introBusy = false; }
+          if (!alive || res.dead) return;                                        // a shake took the board over: it hands the clock back when it ends (see shake)
+          if (res.took || ++introTries >= 3) introDone = true;                  // only a real theft counts; a few failed tries (nothing safe to take) end the intro too
+          arm(introDone ? pace(res.took) : 3000);
           return;
         }
         const calm = now - S.lastActive > 2500, quiet = now - S.lastEnd > MIN_GAP_MS, vacancy = A.current.itemsRef.current.length < A.current.counts.base;
         if (stable && calm && (quiet || vacancy)) {
-          await runEvent(vacancy ? "refill" : "ambient");                      // a vacancy is mended first, and never waits out the quiet gap
-          if (alive) arm(pace());                                               // uneven by construction (random ranges); stillness alone never triggers anything
+          const res = await runEvent(vacancy ? "refill" : "ambient");          // a vacancy is mended first, and never waits out the quiet gap
+          if (alive && !res.dead) arm(pace(res.took));                          // uneven by construction (random ranges); stillness alone never triggers anything; a dead run leaves the clock to the shake that killed it
         } else if (alive) arm(rnd(1500, 3000));
       }, ms);
     };
@@ -749,10 +914,11 @@ export function useHeroDirector(args: Args) {
     let lastW = el.getBoundingClientRect().width;
     const ro = new ResizeObserver(([e]) => { const w = e?.contentRect.width ?? lastW; if (Math.abs(w - lastW) > 2) { lastW = w; if (S.phase !== "idle") abortAll(); } }); ro.observe(el);   // only a real width change invalidates the choreography
     S.lastEnd = performance.now();
+    S.kick = arm;
     arm(400);
     const offPlaced = onHeroIconsPlaced(() => { if (alive && !introDone && !introBusy) arm(0); });   // react to the end of the Hero sequence at once, with no polling delay
     return () => {
-      alive = false; clearTimeout(S.timer); offPlaced();
+      alive = false; clearTimeout(S.timer); S.kick = undefined; stopPushes(); offPlaced();
       io.disconnect(); ro.disconnect();
       window.removeEventListener("pointermove", act); window.removeEventListener("pointerdown", act);
       document.removeEventListener("visibilitychange", vis);
@@ -761,5 +927,7 @@ export function useHeroDirector(args: Args) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [args.motionOk]);
 
-  return { shake, itemHeld };
+  /** True while an object is held and for a moment after one is let go: the board must not read the end of a drag as a click. */
+  const recentDrag = () => heldAny() || performance.now() - S.lastDragEnd < 450;
+  return { shake, itemHeld, dragMove, recentDrag };
 }

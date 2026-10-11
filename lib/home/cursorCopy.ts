@@ -12,6 +12,8 @@
 // VISITORS: Clippy and the Restockers have their own colours and vocabularies below; they never share state with the user's pill.
 // Copy rules: two words ideally, three at most, warm and a little sarcastic, true to what the element does.
 
+import { heroHitAt } from "@/components/home/heroHit";
+
 export type Identity = { color: string };
 
 export const YOU_LABEL = "You";
@@ -41,7 +43,7 @@ export const KIND_LABEL: Record<CursorKind, string> = {
   again: "Go again",              // resets the contact form
   copy: "Borrow it",              // copies the email address
   drag: "Grab it",                // a pegboard object or a draggable sticker
-  board: "Shake it",              // clicking the pegboard shakes it and re-stocks it
+  board: "Click to shake",        // clicking the pegboard shakes it and re-stocks it
   toolkit: "Tool time",           // the toolkit marquee (it pauses under the pointer)
   link: "Into the wild",
   control: "Let's go",
@@ -67,7 +69,7 @@ export const KIND_POOL: Partial<Record<CursorKind, readonly string[]>> = {
   again: ["Go again", "One more time", "Encore"],
   copy: ["Borrow it", "Take it", "Yours to keep"],
   drag: ["Grab it", "Pick me up", "Handle gently"],
-  board: ["Shake it", "Give it a shake", "Press for chaos"],
+  board: ["Click to shake"],
   toolkit: ["Tool time", "Well equipped", "Handy things"],
   link: ["Into the wild", "Off we go", "Leaving politely"],
   control: ["Let's go", "Go on", "Press away"],
@@ -160,8 +162,17 @@ function variantFor(host: Element, pool: readonly string[]): string {
 }
 
 /** The phrase for the hovered element, or null when it is not an eligible target (the pill then stays on "You"). */
-export function cursorLabelFor(target: Element | null): string | null {
+/** The board's instruction: shown only where a click really shakes it (an exposed, opaque part of the green board). */
+export const BOARD_LABEL = "Click to shake";
+export function cursorLabelFor(target: Element | null, at?: { x: number; y: number }): string | null {
   if (!target) return null;
+  // On the Hero stage the label follows what is REALLY under the pointer (alpha-tested, same rule as the click): the exposed board says how to shake it, a transparent patch of an object's or the board's
+  // box says nothing, and an opaque object pixel falls through to the object's own label below.
+  if (at && target.closest(".hm-hs-stage")) {
+    const hit = heroHitAt(at.x, at.y);
+    if (hit === "board") return BOARD_LABEL;
+    if (hit === "none") return null;
+  }
   const host = target.closest<HTMLElement>("[data-cursor-kind], [data-cursor]");
   if (host) {
     const d = host.dataset;
