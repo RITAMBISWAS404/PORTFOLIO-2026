@@ -111,9 +111,11 @@ export default function DeviPaksha() {
       <p ref={introRef} className="hm-f16 hm-mt-section" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.6, ...revealStyle(introInView) }}>
         It started with a chai conversation about{" "}
         <strong style={{ color: "var(--hm-hero-b, #222222)", fontWeight: 600 }}>viral playlist sites</strong>{" "}
-        and one simple question: why not make one for Durga Puja? So we built{" "}
-        <strong style={{ color: "var(--hm-hero-b, #222222)", fontWeight: 600 }}>Devi Paksha</strong>, a playful mix of
-        Bengali culture, nostalgia and Mahalaya music. A casual &ldquo;why not?&rdquo; turned into something people actually used.
+        and one question: why not make one for Durga Puja? We built{" "}
+        <strong style={{ color: "var(--hm-hero-b, #222222)", fontWeight: 600 }}>Devi Paksha</strong>, blending Bengali culture,
+        nostalgia and Mahalaya music. I focused on{" "}
+        <strong style={{ color: "var(--hm-hero-b, #222222)", fontWeight: 600 }}>UI design and illustrations</strong>,
+        with light UX refinements.
       </p>
 
       <div ref={cardRef} className="hm-dp-grid hm-mt-el">
@@ -181,7 +183,9 @@ export default function DeviPaksha() {
           position: relative; overflow: hidden; border-radius: 8px;
           aspect-ratio: 9 / 16; width: 100%; height: 100%;
         }
-        .hm-dp-video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; border-radius: 8px; }
+        .hm-dp-video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; border-radius: 8px; pointer-events: none; }
+        /* The reel is a cross-origin player (autoplay, muted, looping, no controls), so nothing in it needs the pointer. Letting the iframe take pointer events hid them from the page: the custom
+           cursor froze at the video's edge and the native cursor showed inside it. With pointer-events off the page keeps tracking the pointer (and the card sits under html.hm-cursor-on's cursor: none). */
 
         .hm-dp-info-cell { display: flex; flex-direction: column; gap: 16px; min-width: 0; }   /* two cards, one gap */
         .hm-dp-card { border-radius: 8px; background: var(--hm-card-bg, #222222); padding: 16px; box-sizing: border-box; overflow: hidden; }

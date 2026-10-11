@@ -86,23 +86,27 @@ export const ID_LABEL: Record<string, string> = {
   "devi-paksha-site": "Plot twist",
   "devi-paksha-reel": "Roll the reel",
   // selected projects
-  shopez: "Ring it up",                 // AI billing for kirana stores
-  "smart-agri": "Field notes",          // smart agriculture IoT
-  "ev-website": "Plug in",              // EV charging startup website
-  manokamna: "Home sweet logo",         // interior-design brand identity
+  // the Selected Projects cards name what the link opens (touch devices have no pill, so the cards carry no destination text)
+  shopez: "Case study",                 // Notion
+  "smart-agri": "Figma file",           // Figma
+  "ev-website": "Framer website",       // live Framer site
+  manokamna: "Logo case study",         // Notion
   // hero
   "hero-work": "Show me",
   "hero-talk": "Say hello",
+  // the logo strip: clubs, communities, organisations and companies (hover only; the strip keeps its own accessible label)
+  "logo-marquee": "Communities & Organizations",
+  "hero-resume": "Paper trail",         // the Hero's resume link (opens Google Drive in a new tab)
   // about
   "about-photo": "That's me",
-  "about-building": "Rizz.exe stopped working",   // the unannounced dating app
+  "about-open": "Door's open",                   // Open to Opportunities
   "about-reading": "Down bad for fiction",      // Outside of Design
   // ZENO feature cards (information only)
   "zeno-design": "Make it make sense",
   "zeno-architecture": "Less friction",
   "zeno-system": "Consistent chaos",
-  "zeno-users": "Quite a few",
-  // experience (data/experiment-content.ts ids)
+  "zeno-four": "Blink and done",
+  // experience (data/home-content.ts ids)
   bedr: "Current chapter",
   startup: "Let's talk privately",     // (ID_POOL.startup varies it)
   gdg: "Brand era",

@@ -3,19 +3,20 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useReduceMotionSafe } from "@/lib/home/useReduceMotionSafe";
 import { usePathname } from "next/navigation";
-import { MdDesignServices, MdAccountTree, MdWidgets, MdGroups, MdVerified } from "react-icons/md";
+import { MdDesignServices, MdAccountTree, MdWidgets, MdTimer, MdVerified } from "react-icons/md";
 import SectionHeadingV3 from "@/components/home/SectionHeadingV3";
 import CardV3 from "@/components/home/CardV3";
 import { zeno } from "@/data/home-content";
 import { C, revealStyle, col } from "@/lib/home/tokensV2";
 
-// Ownership -> product thinking -> systems thinking -> outcome. "10K+" matches the verified wording in data/experiment-content.ts
-// ("live with 10,000+ registered users in Denmark"): stated as the product's reach during Ritam's ownership, not as an effect of the design.
+// Ownership -> product thinking -> systems thinking -> focus. Sourced from the case study (app/zeno/page.tsx) and data/home-content.ts: end-to-end ownership, a Figma-variable design system,
+// "live with 10,000+ registered users in Denmark" (the product's reach), and decision 05 (the dashboard keeps battery %, time remaining and ready-by; the rest moves one tap away).
+// No counts and no research claim: the Four-Second card describes the design decision, not beta-user evidence.
 const stats = [
-  { id: "zeno-design",       label: "Product Design",          body: "End-to-end product design spanning research, information architecture, UX, UI and developer handoff.", icon: MdDesignServices },
-  { id: "zeno-architecture", label: "Experience Architecture", body: "Structured the core onboarding, charging and dashboard experiences around the actions users actually came to the app for.", icon: MdAccountTree },
-  { id: "zeno-system",       label: "Design System",           body: "A reusable component and variable-based system built to keep the product consistent and scalable as it evolved.", icon: MdWidgets },
-  { id: "zeno-users",        label: "10K+ Users",              body: "Product experience designed through ZENO's launch and early growth to 10,000+ registered users in Denmark.", icon: MdGroups },
+  { id: "zeno-design",       label: "Product Design",          body: "Owned the design end to end, from early exploration through developer handoff.", icon: MdDesignServices },
+  { id: "zeno-architecture", label: "Experience Architecture", body: "Organised onboarding, charging and the dashboard around the actions users need.", icon: MdAccountTree },
+  { id: "zeno-system",       label: "Design System",           body: "A reusable, variable-based component system that keeps the product consistent as it grows.", icon: MdWidgets },
+  { id: "zeno-four",         label: "Four-Second Experience",  body: "Prioritised battery status and ready-by information for a focused charging journey.", icon: MdTimer },
 ];
 
 // ZENO visual: the production composition rebuilt from layers (bg, pattern, hand+phone) with real HTML text on top.
@@ -113,13 +114,19 @@ export default function FeaturedProject() {
 
           {/* Description */}
           <p className="hm-f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.6 }}>
-            ZENO{" "}
+            As{" "}
             <strong style={{ color: "var(--hm-hero-b, #222222)", fontWeight: 600 }}>
-              turns a data-heavy EV charging app into a four-second experience
+              the founding product designer
             </strong>
-            . The work spanned research, information architecture, UX, UI and developer handoff, with a
-            focus on deciding what deserved attention, what could wait, and how to make the core
-            charging experience feel effortless.
+            , I shaped ZENO&apos;s EV charging experience across{" "}
+            <strong style={{ color: "var(--hm-hero-b, #222222)", fontWeight: 600 }}>
+              research, information architecture, UX, UI and developer handoff
+            </strong>
+            , helping bring the core charging journey into focus for{" "}
+            <strong style={{ color: "var(--hm-hero-b, #222222)", fontWeight: 600 }}>
+              10,000+ registered users in Denmark
+            </strong>
+            .
           </p>
         </div>
 
@@ -129,6 +136,11 @@ export default function FeaturedProject() {
             <CardV3 key={s.label} label={s.label} body={s.body} delay={i * 0.08} icon={s.icon} cursorId={s.id} />
           ))}
         </div>
+
+        {/* Confidentiality: this is a recreation, not the original product (the longer explanation lives on the case study page) */}
+        <p className="hm-mt-el" style={{ fontSize: 13, fontWeight: 500, lineHeight: 1.5, color: `color-mix(in srgb, ${C.t2} 88%, ${C.bg})`, textWrap: "pretty" }}>
+          Portfolio recreation of an EV charging experience I worked on at a Copenhagen-based startup. Original product and company details are confidential.
+        </p>
 
         {/* CTAs */}
         <div className="hm-btn-row hm-mt-el">

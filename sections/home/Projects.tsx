@@ -22,15 +22,15 @@ function ProjectCardBleed({p,delay,isNew}:{p:typeof projects[0];delay:number;isN
         color:"inherit", textDecoration:"none",
         background:"var(--hm-black, #222222)",
       }}>
-        {/* Text: eyebrow, title, short description, orange USP, then pills pinned to the bottom */}
+        {/* Text: eyebrow (name), heading with one orange phrase, then pills pinned to the bottom */}
         <div className="hm-proj-card-text" style={{
           display:"flex", flexDirection:"column", justifyContent:"space-between", gap:16,
         }}>
           <div style={{display:"flex",flexDirection:"column",gap:8}}>
             <div style={{fontSize:12,fontWeight:600,color:"#909090",letterSpacing:"0.06em",textTransform:"uppercase"}}>{p.eyebrow}</div>
-            <div className="hm-proj-title" style={{fontWeight:600,color:"#ffffff",lineHeight:1.3}}>{p.title}</div>
-            <p className="hm-f16" style={{margin:0,fontWeight:500,color:"rgba(255,255,255,0.72)",lineHeight:1.55}}>{p.desc}</p>
-            <div style={{fontSize:14,fontWeight:600,color:"#ED7454",lineHeight:1.4,marginTop:4}}>{p.usp}</div>
+            <div className="hm-proj-title" style={{fontWeight:600,color:"#ffffff",lineHeight:1.3,textWrap:"balance"}}>
+              {p.head[0]}<span style={{color:"#ED7454"}}>{p.head[1]}</span>{p.head[2]}
+            </div>
           </div>
           <div style={{display:"flex",flexWrap:"wrap",gap:8}}>
             {p.tags.map(t=>(

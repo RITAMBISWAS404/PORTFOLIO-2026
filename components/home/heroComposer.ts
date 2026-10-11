@@ -281,6 +281,7 @@ export type PlanOpts = {
   env: Env; existing: Existing[];
   maxNew: number; minNew?: number; present: Set<string>;
   areaTarget?: number; wantNew?: number;     // replacement: visible area to restore and the number of pieces it should become
+  strictArea?: boolean;                      // one piece must restore the whole area: the candidates closest in size to it dominate (the usual preference has a floor, so a much smaller piece stays likely)
   avoid?: Obb;                               // where the removed object was: the first piece should not simply reuse that spot
   attempts?: number; seed?: number;
 };
@@ -323,7 +324,10 @@ function build(o: PlanOpts, g: Grid, f: number, existingShapes: Shape[], rng: Rn
         const q = (x.long * f) / 2 / (clearPx * 1.35 + 1);
         let w = CAT_W[x.cat] * x.weight * (recent.includes(x.id) ? 0.25 : 1) * Math.exp(-(Math.log(q) ** 2) / 0.55);
         if (q > 1.5) w *= 0.03;
-        if (remaining !== undefined && remaining > 0) { const ideal = remaining / Math.max(1, (o.wantNew ?? 1) - placed.length), l = Math.log(assetArea(x, f, o.env.s) / ideal); w *= 0.2 + Math.exp(-(l * l) / 1.2); }
+        if (remaining !== undefined && remaining > 0) {
+          const ideal = remaining / Math.max(1, (o.wantNew ?? 1) - placed.length), l = Math.log(assetArea(x, f, o.env.s) / ideal);
+          w *= o.strictArea ? Math.max(1e-4, Math.exp(-(l * l) / 0.3)) : 0.2 + Math.exp(-(l * l) / 1.2);
+        }
         return w;
       }, rng);
       if (!a) break;
@@ -382,15 +386,26 @@ export function planNudge(o: PlanOpts): Plan | null {
 }
 
 /** Replacement for removed objects: pieces count follows the area removed and the free room (1 to 3, never above the cap). Falls back to a nudge. */
-export function planReplacement(o: { env: Env; existing: Existing[]; removed: Obb; removedArea: number; present: Set<string>; maxCount: number; seed?: number }): Plan | null {
+export function planReplacement(o: { env: Env; existing: Existing[]; removed: Obb; removedArea: number; present: Set<string>; maxCount: number; seed?: number; single?: boolean }): Plan | null {
   const rg = o.env.region, f = areaFactor(o.env.region, o.env.s);
   const free = (rg.r - rg.l) * (rg.b - rg.t) - o.existing.reduce((s, e) => s + visibleArea(e.p), 0);
   const target = Math.min(0.85 * o.removedArea, 0.55 * free);
-  const maxNew = Math.max(0, Math.min(3, o.maxCount - o.existing.length));
+  const maxNew = Math.max(0, Math.min(o.single ? 1 : 3, o.maxCount - o.existing.length));
   if (!maxNew) return null;
   const areas = ROTATION_POOL.map(a => assetArea(a, f, o.env.s)).sort((x, y) => x - y), median = areas[Math.floor(areas.length / 2)];
-  const wantNew = clamp(Math.round(target / median), 1, maxNew);
-  const opts: PlanOpts = { env: o.env, existing: o.existing, maxNew, minNew: 1, wantNew, present: o.present, areaTarget: target, avoid: o.removed, attempts: 26, seed: o.seed };
+  // `single`: ONE piece must restore the whole removed area. Otherwise the area is split across the pieces the plan wants, so the first piece is only a share of it (a caller that keeps
+  // just the first piece, as a quiet one-for-one swap does, then brings back something much smaller than what was taken).
+  const wantNew = o.single ? 1 : clamp(Math.round(target / median), 1, maxNew);
+  const opts: PlanOpts = { env: o.env, existing: o.existing, maxNew, minNew: 1, wantNew, present: o.present, areaTarget: target, avoid: o.removed, attempts: 26, seed: o.seed, strictArea: !!o.single };
+  return planAdd(opts) ?? planNudge(opts);
+}
+
+/** One piece for a vacancy that was left behind (an object was taken and its replacement never arrived). `owedArea` is the visible area that was removed (0 = unknown: fit the biggest hole). */
+export function planRefill(o: { env: Env; existing: Existing[]; owedArea: number; present: Set<string>; maxCount: number; seed?: number }): Plan | null {
+  const rg = o.env.region, free = (rg.r - rg.l) * (rg.b - rg.t) - o.existing.reduce((s, e) => s + visibleArea(e.p), 0);
+  if (o.maxCount - o.existing.length < 1) return null;
+  const target = o.owedArea > 0 ? Math.min(0.85 * o.owedArea, 0.55 * free) : undefined;
+  const opts: PlanOpts = { env: o.env, existing: o.existing, maxNew: 1, minNew: 1, wantNew: 1, present: o.present, areaTarget: target, attempts: 26, seed: o.seed, strictArea: target !== undefined };
   return planAdd(opts) ?? planNudge(opts);
 }
 

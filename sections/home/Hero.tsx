@@ -92,7 +92,7 @@ export default function Hero() {
         {/* Body */}
         <motion.div variants={item}>
           <p className="hm-f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.6 }}>
-            Making digital products easier to use than the coffee machine in most offices.
+            Previously a Founding Product Designer at a Copenhagen-based EV startup.
           </p>
         </motion.div>
 
@@ -105,13 +105,13 @@ export default function Hero() {
           }}>
             View my Work
           </a>
-          <a href="#contact" data-cursor-kind="cta" data-cursor-id="hero-talk" className="hm-hero-cta hm-hero-cta-secondary" style={{
+          <a href="https://drive.google.com/file/d/1e_gww9qRd1-NlabFvdBWOcTKMSKv8nzE/view" target="_blank" rel="noopener noreferrer" data-cursor-kind="cta" data-cursor-id="hero-resume" className="hm-hero-cta hm-hero-cta-secondary" style={{
             display: "flex", alignItems: "center", gap: 10,
             background: "var(--hm-btn2-bg, rgba(0,0,0,0.08))", color: C.t1, padding: "var(--hm-btn2-pad, 11px 22px)",   // quiet tinted fill + hairline border; the 1px border is taken out of the padding, so the size is unchanged
             borderRadius: isNew ? 0 : 9999, fontSize: 14, fontWeight: 600, textDecoration: "none",
             border: "1px solid var(--hm-btn2-border, transparent)",
           }}>
-            Let&apos;s Talk
+            View Resume
           </a>
         </motion.div>
       </motion.div>
