@@ -3,7 +3,7 @@
 // bookkeeping the section-heading component does for itself: collapse each icon's slot before paint (so the heading is complete by default and only collapses when a delivery is
 // really going to happen), reserve the heading's final height, start once the Hero is revealed AND on screen, and make sure every exit path opens the slots again.
 import { useEffect, useLayoutEffect, type RefObject } from "react";
-import { COURIER_ENABLED, deliver, delivered, type Delivery } from "./courierController";
+import { COURIER_ENABLED, deliver, delivered, markHeroIconPlaced, type Delivery } from "./courierController";
 
 type Args = { ready: boolean; h1: RefObject<HTMLElement | null>; wrap: RefObject<HTMLElement | null>; slots: RefObject<HTMLElement | null>[] };
 
@@ -35,7 +35,7 @@ export function useHeroCourier({ ready, h1, wrap, slots }: Args) {
     const jobs: Delivery[] = els.map((el, i) => ({
       host: heading, wrap: box, eyebrow: null, slotEl: el!, padBottom: 0, alive: () => alive,
       open: () => { if (el!.getAttribute("data-slot") === "pending") el!.setAttribute("data-slot", "open"); },
-      done: () => { el!.removeAttribute("data-slot"); delivered.add(`hero-${i + 1}`); finishIfAllDone(); },
+      done: () => { el!.removeAttribute("data-slot"); markHeroIconPlaced(i === 0 ? "hero-1" : "hero-2"); finishIfAllDone(); },
     }));
     const start = () => { if (started || !revealed || !visible || !alive) return; started = true; jobs.forEach(j => deliver(j)); };
     timers.push(setTimeout(() => { revealed = true; start(); }, REVEAL_MS));
