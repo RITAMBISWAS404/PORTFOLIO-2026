@@ -5,6 +5,7 @@ import { useAnimate, stagger } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { navLinks } from "@/data/content";
 import { useAppReady } from "@/lib/AppReadyContext";
+import { useNavAutoHide } from "@/lib/useNavAutoHide";
 
 export default function NavbarNew({ homePath = "/new" }: { homePath?: string }) {
   const [active,   setActive]   = useState("");
@@ -51,6 +52,10 @@ export default function NavbarNew({ homePath = "/new" }: { homePath?: string }) 
     };
     run();
   }, [isMobile, ready, scope.current]);
+
+  // Desktop auto-hide: the same behaviour and timing as the landing page navbar (floats out on a deliberate downward scroll, back in on an upward one).
+  const wrapRef = useRef<HTMLDivElement>(null), afterNav = useRef(false);
+  useNavAutoHide(wrapRef, afterNav, isMobile || !isLiveHome);   // only the live pages (/zeno, /shopez here); /new and /experience keep the static navbar
 
   const closeMenu = useCallback(() => setMenuOpen(false), []);
 
@@ -133,7 +138,7 @@ export default function NavbarNew({ homePath = "/new" }: { homePath?: string }) 
 
   // ─── DESKTOP: floating pill ─────────────────────────────────────────────────
   return (
-    <div style={{
+    <div ref={wrapRef} onClickCapture={e => { if ((e.target as Element).closest?.('a[href*="#"]')) afterNav.current = true; }} style={{
       position: "fixed", top: 18, left: 0, right: 0,
       zIndex: 1000, pointerEvents: "none",
       padding: "0 24px", display: "flex", justifyContent: "center",
