@@ -282,6 +282,7 @@ export type PlanOpts = {
   maxNew: number; minNew?: number; present: Set<string>;
   areaTarget?: number; wantNew?: number;     // replacement: visible area to restore and the number of pieces it should become
   strictArea?: boolean;                      // one piece must restore the whole area: the candidates closest in size to it dominate (the usual preference has a floor, so a much smaller piece stays likely)
+  exact?: number;                            // replacement: place exactly this many pieces (fewer only when no valid spot is left), never "a few more while a big hole is open"
   avoid?: Obb;                               // where the removed object was: the first piece should not simply reuse that spot
   attempts?: number; seed?: number;
 };
@@ -306,9 +307,9 @@ function build(o: PlanOpts, g: Grid, f: number, existingShapes: Shape[], rng: Rn
     cells.sort((a, b) => b.h - a.h);
     const top = cells.slice(0, 10), best = top[0].h || 1;
     const holePx = Math.min(dObj[top[0].i], 14) * CELL_PX;
-    if (placed.length >= minNew && holePx < stopPx) break;                                       // no conspicuous hole left
+    if (placed.length >= (o.exact ?? minNew) && holePx < stopPx) break;                          // no conspicuous hole left
     // replacement: the area-matched number of pieces first; more (up to maxNew) only while a big hole is still open somewhere on the board
-    if (o.wantNew !== undefined && placed.length >= o.wantNew && holePx < 56 * f) break;
+    if (o.wantNew !== undefined && placed.length >= o.wantNew && (o.exact !== undefined || holePx < 56 * f)) break;
     const nearRemoved = (i: number) => { if (!o.avoid || placed.length) return false; const c = cellCentre(g, o.env, i); return Math.abs(c.x - o.avoid.x) < o.avoid.hw * 0.4 && Math.abs(c.y - o.avoid.y) < o.avoid.hh * 0.4; };
     const pick = pickWeighted(top, c => (c.h / best) ** 3 * (nearRemoved(c.i) ? 0.3 : 1), rng);
     if (!pick) break;                                                                           // every usable cell is covered or blocked
@@ -386,17 +387,18 @@ export function planNudge(o: PlanOpts): Plan | null {
 }
 
 /** Replacement for removed objects: pieces count follows the area removed and the free room (1 to 3, never above the cap). Falls back to a nudge. */
-export function planReplacement(o: { env: Env; existing: Existing[]; removed: Obb; removedArea: number; present: Set<string>; maxCount: number; seed?: number; single?: boolean }): Plan | null {
+export function planReplacement(o: { env: Env; existing: Existing[]; removed: Obb; removedArea: number; present: Set<string>; maxCount: number; seed?: number; single?: boolean; pieces?: number }): Plan | null {
   const rg = o.env.region, f = areaFactor(o.env.region, o.env.s);
   const free = (rg.r - rg.l) * (rg.b - rg.t) - o.existing.reduce((s, e) => s + visibleArea(e.p), 0);
   const target = Math.min(0.85 * o.removedArea, 0.55 * free);
-  const maxNew = Math.max(0, Math.min(o.single ? 1 : 3, o.maxCount - o.existing.length));
+  const maxNew = Math.max(0, Math.min(o.pieces ?? (o.single ? 1 : 3), o.maxCount - o.existing.length));
   if (!maxNew) return null;
   const areas = ROTATION_POOL.map(a => assetArea(a, f, o.env.s)).sort((x, y) => x - y), median = areas[Math.floor(areas.length / 2)];
   // `single`: ONE piece must restore the whole removed area. Otherwise the area is split across the pieces the plan wants, so the first piece is only a share of it (a caller that keeps
   // just the first piece, as a quiet one-for-one swap does, then brings back something much smaller than what was taken).
-  const wantNew = o.single ? 1 : clamp(Math.round(target / median), 1, maxNew);
-  const opts: PlanOpts = { env: o.env, existing: o.existing, maxNew, minNew: 1, wantNew, present: o.present, areaTarget: target, avoid: o.removed, attempts: 26, seed: o.seed, strictArea: !!o.single };
+  // `pieces`: the caller has decided how many objects the vacated area becomes (see the director: it depends on how big the stolen object was); one piece restores the whole area
+  const wantNew = o.pieces !== undefined ? clamp(o.pieces, 1, Math.max(1, maxNew)) : o.single ? 1 : clamp(Math.round(target / median), 1, maxNew);
+  const opts: PlanOpts = { env: o.env, existing: o.existing, maxNew, minNew: 1, wantNew, present: o.present, areaTarget: target, avoid: o.removed, attempts: 26, seed: o.seed, strictArea: !!o.single || wantNew === 1, exact: o.pieces !== undefined ? wantNew : undefined };
   return planAdd(opts) ?? planNudge(opts);
 }
 

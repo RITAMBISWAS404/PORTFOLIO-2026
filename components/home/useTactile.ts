@@ -68,9 +68,11 @@ function heroCanvas(canvasId = "hero") {
 const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
 type DragState = { id: number; sx: number; sy: number; ox: number; oy: number; minX: number; maxX: number; minY: number; maxY: number };
 
-export function useTactile({ imgRef, hoverRef, rotDeg = 0, enabled, onHeld, canvasId, passThrough = false, allowTouch = false, initial }: {
+export function useTactile({ imgRef, hoverRef, rotDeg = 0, enabled, onHeld, onDragMove, canvasId, passThrough = false, allowTouch = false, initial }: {
   imgRef: RefObject<HTMLImageElement | null>; hoverRef: RefObject<HTMLElement | null>;
   rotDeg?: number; enabled: boolean; onHeld?: (held: boolean) => void; canvasId?: string;
+  /** Called after every pointer move of an active drag (the Hero uses it so other objects can be nudged aside; the callback is expected to coalesce work itself). */
+  onDragMove?: () => void;
   /** Overlapping objects (Footer): when the pointer is on this object's transparent pixels, hand the event to the object underneath instead of swallowing it. */
   passThrough?: boolean;
   /** Let a finger pick the object up (Pointer Events); a touch that does not start on the object still scrolls the page. */
@@ -140,6 +142,7 @@ export function useTactile({ imgRef, hoverRef, rotDeg = 0, enabled, onHeld, canv
       if (e.pointerId !== d.id) return;
       dx.set(clamp(d.ox + e.clientX - d.sx, d.minX, d.maxX));
       dy.set(clamp(d.oy + e.clientY - d.sy, d.minY, d.maxY));
+      onDragMove?.();
       return;
     }
     if (!enabled || !isMouse(e)) return;
@@ -180,8 +183,8 @@ export function useTactile({ imgRef, hoverRef, rotDeg = 0, enabled, onHeld, canv
     }
     // quick return, ~10% overshoot, then a small rotation wobble; every spring starts from zero velocity so a flick can't overshoot the canvas.
     rot.jump(rot.get() + clamp(dx.get() / 40, -2.5, 2.5));   // from the current rotation, never reset to zero
-    // overshoot is capped at ~8px however far it was dragged: damping ratio is derived from the drag distance (>=0.55, so short drags keep the playful ~10% overshoot)
-    const dist = Math.hypot(dx.get(), dy.get()), f = clamp(8 / Math.max(dist, 1), 0.01, 0.13), lf = Math.log(f);
+    // overshoot is capped at ~12px however far it was dragged: damping ratio is derived from the drag distance (>=0.5, so short drags keep the playful ~15% overshoot)
+    const dist = Math.hypot(dx.get(), dy.get()), f = clamp(12 / Math.max(dist, 1), 0.01, 0.17), lf = Math.log(f);
     const zeta = -lf / Math.sqrt(Math.PI * Math.PI + lf * lf);
     const home = { type: "spring" as const, stiffness: 380, damping: 2 * zeta * Math.sqrt(380 * 0.8), mass: 0.8, velocity: 0 };
     anims.current = [
