@@ -209,18 +209,18 @@ export default function GrassCard() {
             style={{ ["--gh" as string]: `${g.h.toFixed(1)}px`, ["--gp" as string]: g.img.padBottom, ["--gs" as string]: `${g.sink.toFixed(1)}px`, ["--gl" as string]: `${g.left.toFixed(1)}px`, ["--ga" as string]: `${g.amp.toFixed(2)}deg`, ["--gr" as string]: `${g.rot.toFixed(2)}deg`,
               ["--gd" as string]: `${g.dur.toFixed(2)}s`, ["--gdl" as string]: `${g.delay.toFixed(2)}s`, zIndex: g.z, aspectRatio: `${g.img.w} / ${g.img.h}` }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={g.img.src} alt="" width={g.img.w} height={g.img.h} draggable={false} data-asset={g.img.id} style={g.flip ? { transform: "scaleX(-1)" } : undefined} />
+            <img loading="lazy" src={g.img.src} alt="" width={g.img.w} height={g.img.h} draggable={false} data-asset={g.img.id} style={g.flip ? { transform: "scaleX(-1)" } : undefined} />
           </div>
         ))}
       </div>
       <div className="hm-gr-bees" aria-hidden="true">
         <div ref={bee1} className="hm-gr-bee">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={BEE.src} alt="" width={BEE.w} height={BEE.h} draggable={false} data-asset="bee" />
+          <img loading="lazy" src={BEE.src} alt="" width={BEE.w} height={BEE.h} draggable={false} data-asset="bee" />
         </div>
         <div ref={bee2} className="hm-gr-bee">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={BEE.src} alt="" width={BEE.w} height={BEE.h} draggable={false} data-asset="bee" />
+          <img loading="lazy" src={BEE.src} alt="" width={BEE.w} height={BEE.h} draggable={false} data-asset="bee" />
         </div>
       </div>
     </div>

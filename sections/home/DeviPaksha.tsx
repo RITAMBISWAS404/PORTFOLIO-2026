@@ -132,7 +132,7 @@ export default function DeviPaksha() {
           <div className="hm-dp-card" style={{ boxShadow: isNew ? "0px 2px 8px 0px rgba(0,0,0,0.05)" : "0px 2px 9px 0px rgba(0,0,0,0.05)" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
               <div className="hm-v3-identity-logo" style={{ overflow: "hidden", flexShrink: 0 }}>
-                <img src={DEVI_PAKSHA_LOGO_SRC} alt="Devi Paksha" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+                <img loading="lazy" src={DEVI_PAKSHA_LOGO_SRC} alt="Devi Paksha" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
               </div>
               <div>
                 <div className="hm-f16" style={{ fontWeight: 600, color: "var(--hm-card-fg, #ffffff)" }}>Devi Paksha</div>

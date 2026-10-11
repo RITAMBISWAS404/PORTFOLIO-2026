@@ -14,6 +14,7 @@ import NavbarNew from "@/components/home/NavbarNew";
 import OrangeCursor from "@/components/home/OrangeCursor";
 import Courier from "@/components/home/Courier";
 import { ThemeProvider } from "@/lib/home/ThemeContext";
+import HomeGate from "@/components/home/HomeGate";
 
 // The production landing page. It is an independent copy of the approved /experiment-live implementation (namespace: components/home, sections/home,
 // lib/home, data/home-content.ts, app/home.css; CSS classes use the `hm-` prefix), so later experiments on /experiment-live cannot change it.
@@ -25,6 +26,7 @@ function Divider() {
 
 export default function Home() {
   return (
+    <HomeGate>
     <ThemeProvider defaultTheme="light">
       <div className="hm-scope hm-flat-b">
         <OrangeCursor />
@@ -53,5 +55,6 @@ export default function Home() {
         </main>
       </div>
     </ThemeProvider>
+    </HomeGate>
   );
 }
