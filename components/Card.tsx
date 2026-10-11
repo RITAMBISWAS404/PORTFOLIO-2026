@@ -41,9 +41,9 @@ export default function Card({ label, num, body, delay = 0, bg, iconColor = "#ff
       style={{
         position: "relative",
         background: isColored ? (chipIcon ? "#ffffff" : `var(--exp-card-bg, ${bg})`) : (glow || "var(--color-card)"),
-        border: isColored ? (border ?? (chipIcon ? "1px solid rgba(0,0,0,0.1)" : "none")) : "none",
+        border: isColored ? `var(--cs-card-border, ${border ?? (chipIcon ? "1px solid rgba(0,0,0,0.1)" : "none")})` : "none",
         borderRadius: 8, padding: 16,
-        boxShadow: isShopez ? "0px 2px 9px 0px rgba(0,0,0,0.05)" : "none",
+        boxShadow: isColored ? `var(--cs-card-shadow, ${isShopez ? "0px 2px 9px 0px rgba(0,0,0,0.05)" : "none"})` : (isShopez ? "0px 2px 9px 0px rgba(0,0,0,0.05)" : "none"),
         display: "flex", flexDirection: "column", gap: 8, cursor: "default",
         overflow: "hidden",
         ...revealStyle(inView, delay),

@@ -3,18 +3,11 @@
 // Fixed vertical rails flanking the 768px content column.
 // On screens narrower than 768px the lines collapse to the viewport edges.
 export default function GridLines() {
-  const lineStyle: React.CSSProperties = {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    width: 1,
-    background: "var(--exp-grid-border, var(--color-border))",
-    pointerEvents: "none",
-  };
+  // The rails are 1px borders (see .grid-rail in globals.css), positioned on whole CSS pixels.
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none" }}>
-      <div style={{ ...lineStyle, left:  "max(8px, calc(50% - 384px))" }} />
-      <div style={{ ...lineStyle, right: "max(8px, calc(50% - 384px))" }} />
+      <div className="grid-rail grid-rail-l" />
+      <div className="grid-rail grid-rail-r" />
     </div>
   );
 }

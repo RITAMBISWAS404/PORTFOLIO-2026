@@ -13,9 +13,12 @@ import { useEffect, useRef } from "react";
 import { CursorBody, setPill, snapPx } from "./Cursor";
 import { cursorLabelFor, YOU, YOU_LABEL } from "@/lib/home/cursorCopy";
 
+/** Defaults are the home page's identity and copy. A case study passes its own brand colour and label resolver (lib/caseStudyCursor.ts). */
+type Props = { color?: string; labelFor?: (target: Element | null) => string | null };
+
 const TEXTUAL = 'input:not([type="submit"]):not([type="button"]):not([type="checkbox"]):not([type="radio"]), textarea, [contenteditable=""], [contenteditable="true"]';
 
-export default function OrangeCursor() {
+export default function OrangeCursor({ color = YOU.color, labelFor = cursorLabelFor }: Props = {}) {
   const root = useRef<HTMLDivElement>(null), body = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const el = root.current, cur = body.current;
@@ -43,7 +46,7 @@ export default function OrangeCursor() {
       x = e.clientX; y = e.clientY;
       const t = e.target instanceof Element ? e.target : null, text = !!t?.closest(TEXTUAL);
       el.toggleAttribute("data-hide", text);
-      request(text ? YOU_LABEL : cursorLabelFor(t) ?? YOU_LABEL);
+      request(text ? YOU_LABEL : labelFor(t) ?? YOU_LABEL);
       if (!live) { live = true; html.classList.add("hm-cursor-on"); }
       el.setAttribute("data-on", "");
       if (!raf) raf = requestAnimationFrame(apply);
@@ -54,7 +57,7 @@ export default function OrangeCursor() {
     const refresh = () => {
       if (!live) return;
       const t = document.elementFromPoint(x, y);
-      request(t?.closest(TEXTUAL) ? YOU_LABEL : cursorLabelFor(t) ?? YOU_LABEL);
+      request(t?.closest(TEXTUAL) ? YOU_LABEL : labelFor(t) ?? YOU_LABEL);
     };
     // Scrolling moves content under a pointer that is not moving, and no pointer event follows: re-read the target once per frame so the pill never names what is no longer there.
     let scrollRaf = 0;
@@ -82,6 +85,6 @@ export default function OrangeCursor() {
     sync();
     fine.addEventListener("change", onChange);
     return () => { fine.removeEventListener("change", onChange); disable(); };
-  }, []);
-  return <div ref={root} className="hm-oc" aria-hidden="true"><CursorBody ref={body} color={YOU.color} label={YOU_LABEL} /></div>;
+  }, [labelFor]);
+  return <div ref={root} className="hm-oc" aria-hidden="true"><CursorBody ref={body} color={color} label={YOU_LABEL} /></div>;
 }

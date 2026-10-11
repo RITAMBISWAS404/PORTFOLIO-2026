@@ -37,8 +37,8 @@ export const tagHv=(e:React.MouseEvent,on:boolean)=>{
 };
 export const revealStyle=(inView:boolean,delay=0):React.CSSProperties=>({
   opacity:inView?1:0,
-  filter:inView?"blur(0px)":"blur(6px)",
-  transform:inView?"translateY(0)":"translateY(16px)",
+  filter:inView?"none":"blur(6px)",
+  transform:inView?"none":"translateY(16px)",
   transition:`opacity 0.7s ${ease} ${delay}s, filter 0.7s ${ease} ${delay}s, transform 0.7s ${ease} ${delay}s`,
 });
 export const inputBase:React.CSSProperties={
