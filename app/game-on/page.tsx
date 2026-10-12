@@ -508,9 +508,9 @@ export default function GameOnPage() {
             <P>The decisions I would defend most are about where to add friction and where to remove it. Creating a game, auto-accepting and a mandatory note each moved effort or control to the wrong place.</P>
           </Reveal>
           <div className="go-three-grid">
-            <CardV3 icon={MdVerifiedUser} label="Friction builds trust" body="Show the organiser and let players introduce themselves before joining." iconColor={BRAND} noHover delay={0} cursorId="go-reflect-trust" />
-            <CardV3 icon={MdMessage} label="Keep the note optional" body="A note can help, but requiring one adds friction." iconColor={BRAND} noHover delay={0.08} cursorId="go-reflect-optional" />
-            <CardV3 icon={MdAltRoute} label="Design the missing states" body="Declined requests, empty states and full-game notifications remain to be designed." iconColor={BRAND} noHover delay={0.16} cursorId="go-reflect-edge" />
+            <CardV3 icon={MdVerifiedUser} label="Build trust" body="Show the organiser and let players introduce themselves before joining." iconColor={BRAND} noHover delay={0} cursorId="go-reflect-trust" />
+            <CardV3 icon={MdMessage} label="Keep it optional" body="A note can help, but requiring one adds friction." iconColor={BRAND} noHover delay={0.08} cursorId="go-reflect-optional" />
+            <CardV3 icon={MdAltRoute} label="Plan edge cases" body="Declined requests, empty states and full-game notifications remain to be designed." iconColor={BRAND} noHover delay={0.16} cursorId="go-reflect-edge" />
           </div>
           <Reveal delay={0.1}>
             <P>What I would test first, in this order: whether hosts read the notes at all, whether the age range excludes people a host would have welcomed, and whether players want to see a price before they ask to join. The first checks the 3x claim, the second checks decision 4, and the third checks the assumption I would be least surprised to see fail.</P>
