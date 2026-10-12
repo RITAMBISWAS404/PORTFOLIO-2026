@@ -33,8 +33,11 @@ export type HeroItem = {
   start?: { x: number; y: number };                       // screen-px offset an object is mounted with (carried in from off-board)
   shift?: { n: number; x: number; y: number; rot: number };   // last rebase, screen px / degrees; the Layer subtracts it from its offsets in a layout effect
 };
+export type Box = { l: number; t: number; r: number; b: number };
 export type ItemCtl = {
   dx: MotionValue<number>; dy: MotionValue<number>; rot: MotionValue<number>; lift: MotionValue<number>;
+  fade: MotionValue<number>;                            // opacity (1 except while scattering)
+  bounds: () => Box | null;                             // the visible-content box of the object right now, viewport px
   isHeld: () => boolean; lock: (on: boolean) => void;
   release: () => void;                                  // end a drag in place (no spring home)
 };
@@ -494,7 +497,7 @@ export function useHeroDirector(args: Args) {
     A.current.ctls.current.forEach(c => {
       if (c.isHeld()) return;
       animate(c.dx, 0, { type: "spring", stiffness: 260, damping: 26 }); animate(c.dy, 0, { type: "spring", stiffness: 260, damping: 26 });
-      animate(c.rot, 0, { duration: 0.35 }); animate(c.lift, 1, { duration: 0.2 });
+      animate(c.rot, 0, { duration: 0.35 }); animate(c.lift, 1, { duration: 0.2 }); animate(c.fade, 1, { duration: 0.2 });
     });
   };
   /** Preload every planned asset. A failure is recorded (and the asset is excluded from later plans); it is never silently dropped. */
@@ -609,6 +612,23 @@ export function useHeroDirector(args: Args) {
     if (itemsRef.current.length >= counts.base) { S.took = true; S.owedArea = 0; }
   }
 
+  /**
+   * The rectangle that really clips on this page right now, in viewport px: the viewport (without its scrollbar), narrowed on each axis by every ancestor of the stage that clips that axis (on the
+   * desktop page that is <main> clipping sideways; on the phone layout the stage frame as well). An object that leaves this rectangle is cut off, so it must be gone (transparent) before it gets there.
+   */
+  const clipRect = (): Box => {
+    const root = document.documentElement; let l = 0, t = 0, r = root.clientWidth, b = root.clientHeight;
+    for (let e: HTMLElement | null = A.current.stageRef.current as HTMLElement | null; e && e !== document.body && e !== root; e = e.parentElement) {
+      const cs = getComputedStyle(e), q = e.getBoundingClientRect();
+      if (cs.overflowX !== "visible") { l = Math.max(l, q.left); r = Math.min(r, q.right); }
+      if (cs.overflowY !== "visible") { t = Math.max(t, q.top); b = Math.min(b, q.bottom); }
+    }
+    return { l, t, r, b };
+  };
+  /** Exponential ease-in: almost nothing at first, then accelerating to exactly 1 (f = 0..1). */
+  const fadeCurve = (f: number, k: number) => (Math.exp(k * f) - 1) / (Math.exp(k) - 1);      // k: how strongly it holds back at first (the end slope is ~k x the average)
+  const FADE_S = 0.42;                       // how long a scattered object takes to fade out (s)
+
   async function scatterAndRestock(R: Run) {
     const { frame, shakeRef, counts } = A.current;
     if (!restockers().length) return;
@@ -631,6 +651,7 @@ export function useHeroDirector(args: Args) {
     if (sh) { sh.removeAttribute("data-shake"); void sh.getBoundingClientRect(); sh.setAttribute("data-shake", "1"); const t = setTimeout(() => sh.removeAttribute("data-shake"), 600); S.timeouts.add(t); }
     const g = geo(), olds = A.current.itemsRef.current.filter(i => !locked(i.id));
     const cx0 = frame.w / 2, cy0 = frame.h / 2, reach = Math.max(frame.w, frame.h);
+    const K = clipRect();        // what clips, measured once for this burst (a viewport / layout of any size)
     await Promise.all(olds.map(async o => {
       const c = ctl(o.id); if (!c) return;
       await sleep(R, rnd(0, 160));
@@ -639,10 +660,34 @@ export function useHeroDirector(args: Args) {
       const vx = o.cx + x0 / g.s - cx0, vy = o.cy + y0 / g.s - cy0;
       const ang = (Math.hypot(vx, vy) < 1 ? rnd(0, Math.PI * 2) : Math.atan2(vy, vx)) + rnd(-0.95, 0.95);
       const dist = reach * rnd(0.75, 1.15), dr = sgn() * rnd(40, 170);
-      await tween(R, rnd(0.6, 0.95), t => 1 - (1 - t) * (1 - t) * (1 - t), t => {
+      // THE FADE, scheduled from the object's own path. The flight is dist * (1-(1-t)^3) over `dur`, so for each object we know WHEN its VISIBLE bounds reach the clip edge it is heading for (and
+      // when they are half cut: `tc`). The fade is timed to finish exactly then, so an object has gone before it can be seen to be cut off, and it lasts FADE_S seconds (a window that holds at any
+      // screen size and any speed, instead of a pixel band that makes a fast object blink out); if the object is nearer the edge than that allows it starts at once and takes what time there is.
+      // An object whose path does not reach the clip (a short flight) is timed to finish at the end of its flight instead. The curve is exponential ease-in: barely anything at first, then out.
+      // Opacity only ever goes down during a burst, so a repeated shake continues from where it was. (Edge geometry is measured once, from the object's actual visible bounds.)
+      const ux = Math.cos(ang), uy = Math.sin(ang), b0 = c.bounds(), dur = rnd(0.6, 0.95), Dtot = dist * g.s;
+      const pathGap = (b: Box) => { let m = Infinity; if (ux > 0.08) m = Math.min(m, (K.r - b.r) / ux); if (ux < -0.08) m = Math.min(m, (b.l - K.l) / -ux); if (uy > 0.08) m = Math.min(m, (K.b - b.b) / uy); if (uy < -0.08) m = Math.min(m, (b.t - K.t) / -uy); return m; };
+      const size = b0 ? Math.max(b0.r - b0.l, b0.b - b0.t) : 0, gap0 = b0 ? pathGap(b0) : 0;
+      // Flight easing: cubic ease-out (a burst that settles), as before. An object that starts so near its edge that it would be fully outside in less than the fade needs has the start of ITS flight
+      // softened (blended with a smoothstep, so it leaves gently and picks up speed); everything else, the large majority, keeps the original curve exactly (w = 0).
+      const flight = (w: number) => (t: number) => (1 - w) * (1 - (1 - t) * (1 - t) * (1 - t)) + w * t * t * (3 - 2 * t);
+      const invert = (w: number, y: number) => { const f = flight(w); let lo = 0, hi = 1; for (let n = 0; n < 24; n++) { const m = (lo + hi) / 2; if (f(m) < y) lo = m; else hi = m; } return hi; };
+      const when = (w: number, D: number) => (Dtot > D ? dur * invert(w, D / Dtot) : dur);                                          // seconds into the flight at which the path has covered D
+      const dHalf = Math.max(gap0 + 0.5 * size, 0.05 * size), dOut = Math.max(gap0 + size, 0.05 * size);                           // path distance until the visible bounds are half cut / fully outside
+      let w = 0;
+      if (b0 && Dtot > dOut) while (w < 0.9 && when(w, dOut) < FADE_S) w += 0.1;
+      const tHalf = b0 ? when(w, dHalf) : dur, tOut = b0 ? when(w, dOut) : dur;
+      // gone by the time it is half cut; but an object that is nearer the edge than the fade needs is allowed to carry on fading while it leaves (up to fully outside) rather than blink out
+      const tc = Math.max(tHalf, Math.min(FADE_S, tOut));
+      const win = Math.min(FADE_S, tc), onset = tc - win, ts0 = performance.now();
+      const k = 0.3 + 1.5 * clamp(win / 0.35, 0, 1);                      // an object that has little time (it started near the edge) gets a nearly linear fade: gentler per frame than a steep tail
+      await tween(R, dur, flight(w), t => {
         if (c.isHeld()) return;                                          // grabbed mid-flight: the visitor wins, it stays
         c.dx.set(x0 + Math.cos(ang) * dist * g.s * t); c.dy.set(y0 + Math.sin(ang) * dist * g.s * t); c.rot.set(r0 + dr * t);
+        const el = (performance.now() - ts0) / 1000;
+        c.fade.set(Math.min(c.fade.get(), 1 - fadeCurve(clamp((el - onset) / win, 0, 1), k)));
       }, o.id);
+      if (!R.dead && !c.isHeld()) c.fade.set(0);                         // the flight is over: gone (it is removed from the board right after)
     }));
     if (R.dead) return;
     // B. clear: the old instances are removed (the asset library is untouched); nothing a visitor picked up in the meantime is removed
