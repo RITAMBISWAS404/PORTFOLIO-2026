@@ -2,8 +2,8 @@
 import { useRef, useState, useEffect } from "react";
 import { useInView } from "framer-motion";
 import {
-  MdViewList, MdTimeline, MdFormatQuote, MdLightbulb, MdInfo, MdPerson,
-  MdCake, MdNearMe, MdVerifiedUser, MdMobileFriendly, MdEditNote, MdTune,
+  MdAltRoute, MdTimeline, MdFormatQuote, MdLightbulb, MdInfo, MdPerson,
+  MdCake, MdNearMe, MdVerifiedUser, MdMobileFriendly, MdEditNote,
 } from "react-icons/md";
 import Footer from "@/sections/v3/Footer";
 import GridLines from "@/components/GridLines";
@@ -195,7 +195,7 @@ export default function GameOnPage() {
         <div className="go-stats-grid">
           <CardV3 label="One focused flow" body="Dashboard, Event Info, Request to Join, My Request and All Set, on the happy path." delay={0}    noHover iconColor={BRAND} icon={MdMobileFriendly} cursorId="go-stat-screens" />
           <CardV3 label="Directions weighed" body="Create a Game, Browse and Join, Sports Feed and Court Booking. One was chosen." delay={0.08} noHover iconColor={BRAND} icon={MdTimeline} cursorId="go-stat-directions" />
-          <CardV3 label="Sketched before designed" body="The whole flow was drawn on paper before it was designed in Figma." delay={0.16} noHover iconColor={BRAND} icon={MdEditNote} cursorId="go-stat-sketches" />
+          <CardV3 label="Sketched first" body="The whole flow was drawn on paper before it was designed in Figma." delay={0.16} noHover iconColor={BRAND} icon={MdEditNote} cursorId="go-stat-sketches" />
         </div>
       </section>
 
@@ -509,8 +509,8 @@ export default function GameOnPage() {
           </Reveal>
           <div className="go-three-grid">
             <CardV3 icon={MdVerifiedUser} label="Friction builds trust" body="Security came from a visible organiser and a note, not extra steps. Keeping the organiser in the decision mattered more than automating it away." iconColor={BRAND} noHover delay={0}    cursorId="go-reflect-trust" />
-            <CardV3 icon={MdTune} label="Keep the note optional" body="The note nudges instead of forcing, because a required field costs the most at the moment someone is deciding." iconColor={BRAND} noHover delay={0.08} cursorId="go-reflect-optional" />
-            <CardV3 icon={MdViewList} label="Draw the unhappy paths" body="Declined requests, applied-state indicators, empty states and the full-game Notify Me state still need designing." iconColor={BRAND} noHover delay={0.16} cursorId="go-reflect-edge" />
+            <CardV3 icon={MdEditNote} label="Keep the note optional" body="The note nudges instead of forcing, because a required field costs the most at the moment someone is deciding." iconColor={BRAND} noHover delay={0.08} cursorId="go-reflect-optional" />
+            <CardV3 icon={MdAltRoute} label="Draw the unhappy paths" body="Declined requests, applied-state indicators, empty states and the full-game Notify Me state still need designing." iconColor={BRAND} noHover delay={0.16} cursorId="go-reflect-edge" />
           </div>
           <Reveal delay={0.1}>
             <P>What I would test first, in this order: whether hosts read the notes at all, whether the age range excludes people a host would have welcomed, and whether players want to see a price before they ask to join. The first checks the 3x claim, the second checks decision 4, and the third checks the assumption I would be least surprised to see fail.</P>
@@ -558,7 +558,7 @@ export default function GameOnPage() {
         @media (min-width: 1200px) { .go-page-nav { display: flex; } }
         .go-decision-line { height: 0; border-top: 1px solid var(--color-border); margin: 16px -16px; }
         @media (min-width: 768px) { .go-decision-line { margin: 24px -24px; } }
-        @media (min-width: 1000px) { .go-three-grid .card-heading { white-space: nowrap; } }
+        @media (min-width: 1000px) { .go-stats-grid .card-heading, .go-three-grid .card-heading { white-space: nowrap; } }
         .go-stats-grid, .go-three-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
         @media (min-width: 600px) { .go-stats-grid, .go-three-grid { grid-template-columns: 1fr 1fr 1fr; } }
         .go-pair { display: grid; grid-template-columns: 1fr; gap: 16px; align-items: start; }
