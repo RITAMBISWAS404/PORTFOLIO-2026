@@ -8,7 +8,7 @@
 // There is NO pointer parallax: objects move when idle-animating, touched, dragged, or when the director (useHeroDirector) acts: Clippy steals an
 // object and the Restocker brings another; clicking the board shakes it, scatters the objects and restocks. The initial composition is always the approved one.
 import { useEffect, useLayoutEffect, useRef, useState, type MutableRefObject } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useMotionValue, useReducedMotion } from "framer-motion";
 import { useTactile, useInteractive, opaqueAt } from "./useTactile";
 import { registerHeroHit, type Hit } from "./heroHit";
 import { ASSET_BY_ID } from "./heroObjects";
@@ -59,8 +59,9 @@ function Layer({ item, L, interactive, ctls, onHeld, onDrag }: {
   const hoverRef = useRef<HTMLElement | null>(null);
   const heldRef = useRef(false);
   const [locked, setLocked] = useState(!!item.start);   // an object being carried in cannot be grabbed until it is set down
+  const fade = useMotionValue(1);                       // opacity: 1 always, except while the director scatters the object (it fades out as it leaves the visible area)
   const t = useTactile({
-    imgRef, hoverRef, rotDeg: item.rot, enabled: interactive && !locked, allowTouch: true, initial: item.start,
+    imgRef, hoverRef, rotDeg: item.rot, enabled: interactive && !locked, allowTouch: true, initial: item.start, fade,
     onHeld: h => { heldRef.current = h; onHeld(item.id, h); },
     onDragMove: () => onDrag(item.id),
   });
@@ -72,11 +73,26 @@ function Layer({ item, L, interactive, ctls, onHeld, onDrag }: {
     t.dx.set(t.dx.get() - sh.x); t.dy.set(t.dy.get() - sh.y); t.rot.set(t.rot.get() - sh.rot);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shiftN]);
+  // The bounds of what is actually VISIBLE of this object right now, in viewport px: the image's visible-content box (measured from its alpha, see heroOcc) turned by the object's current
+  // rotation about the image centre, as an axis-aligned box. (The scatter's fade uses it: transparent margins of the file must not count as "still on screen".)
+  const bounds = () => {
+    const im = imgRef.current;
+    if (!im || !im.offsetWidth) return null;
+    const r = im.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2, W = im.offsetWidth, H = im.offsetHeight;
+    const [x0, y0, x1, y1] = asset.vis, th = ((item.rot + t.rot.get()) * Math.PI) / 180, co = Math.cos(th), si = Math.sin(th);
+    let l = Infinity, tp = Infinity, rt = -Infinity, bt = -Infinity;
+    for (const [fx, fy] of [[x0, y0], [x1, y0], [x1, y1], [x0, y1]]) {
+      const px = (fx / asset.w - 0.5) * W, py = (fy / asset.h - 0.5) * H, X = cx + px * co - py * si, Y = cy + px * si + py * co;
+      l = Math.min(l, X); rt = Math.max(rt, X); tp = Math.min(tp, Y); bt = Math.max(bt, Y);
+    }
+    return { l, t: tp, r: rt, b: bt };
+  };
   useEffect(() => {
     const map = ctls.current;
-    map.set(item.id, { dx: t.dx, dy: t.dy, rot: t.rot, lift: t.lift, isHeld: () => heldRef.current, lock: setLocked, release: t.cancelDrag });
+    map.set(item.id, { dx: t.dx, dy: t.dy, rot: t.rot, lift: t.lift, fade, bounds, isHeld: () => heldRef.current, lock: setLocked, release: t.cancelDrag });
     return () => { map.delete(item.id); };
-  }, [ctls, item.id, t.dx, t.dy, t.rot, t.lift, t.cancelDrag]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ctls, item.id, t.dx, t.dy, t.rot, t.lift, t.cancelDrag, fade]);
   return (
     <div className="hm-hs-obj" data-item={item.id} style={{
       left: `${(item.cx / L.w) * 100}%`, top: `${(item.cy / L.h) * 100}%`, width: `${(item.w / L.w) * 100}%`,
@@ -86,7 +102,7 @@ function Layer({ item, L, interactive, ctls, onHeld, onDrag }: {
         <div ref={el => { hoverRef.current = el; }} className="hm-hs-hover" style={{ ["--tilt" as string]: `${item.rot < 0 ? -0.9 : 0.9}deg` }}>
           <motion.div
             className="hm-hs-drag" data-int={interactive && !locked ? "1" : undefined} data-cursor-kind={interactive && !locked ? "drag" : undefined} data-ycur={interactive ? "" : undefined} data-held={t.held ? "1" : undefined}
-            style={{ x: t.dx, y: t.dy, rotate: t.rot, scale: t.lift }} {...t.handlers}
+            style={{ x: t.dx, y: t.dy, rotate: t.rot, scale: t.lift, opacity: fade }} {...t.handlers}
           >
             <picture className="hm-hs-pic">
               <source media={L.hideWhen} srcSet={BLANK} />
@@ -125,6 +141,7 @@ export default function HeroStage({ layout }: { layout: "desktop" | "mobile" }) 
       for (let i = els.length - 1; i >= 0; i--) {
         const el = els[i], img = el.querySelector("img");
         if (!img || !el.querySelector("[data-int]")) continue;                 // a carried (locked) object is not interactive
+        if ((ctls.current.get(el.dataset.item ?? "")?.fade.get() ?? 1) < 0.5) continue;   // a scattered, mostly faded object is not there any more
         if (opaqueAt(img, x, y, itemsRef.current.find(it => it.id === el.dataset.item)?.rot ?? 0)) return "object";
       }
     }

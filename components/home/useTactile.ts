@@ -6,7 +6,7 @@
 // Mouse/pen everywhere; touch only where a stage opts in (allowTouch). A touch drag starts only when the finger lands on an opaque pixel of an object,
 // and only until release does a non-passive touchmove cancel page scroll, so scrolling is untouched everywhere else. No React render per pointer move (motion values).
 import { useEffect, useRef, useState, type RefObject } from "react";
-import { animate, useMotionValue, useReducedMotion, type AnimationPlaybackControls } from "framer-motion";
+import { animate, useMotionValue, useReducedMotion, type AnimationPlaybackControls, type MotionValue } from "framer-motion";
 
 /** True on hover-capable fine pointers (mouse/trackpad), and on touch screens where the caller opts in. Reduced motion does NOT switch interaction off: dragging an object is direct
  *  manipulation, so it stays; what reduced motion calms is the movement that follows it (the spring home in useTactile, the autonomous Hero events, the idle wobble). */
@@ -68,7 +68,7 @@ function heroCanvas(canvasId = "hero") {
 const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
 type DragState = { id: number; sx: number; sy: number; ox: number; oy: number; minX: number; maxX: number; minY: number; maxY: number };
 
-export function useTactile({ imgRef, hoverRef, rotDeg = 0, enabled, onHeld, onDragMove, canvasId, passThrough = false, allowTouch = false, initial }: {
+export function useTactile({ imgRef, hoverRef, rotDeg = 0, enabled, onHeld, onDragMove, canvasId, passThrough = false, allowTouch = false, initial, fade }: {
   imgRef: RefObject<HTMLImageElement | null>; hoverRef: RefObject<HTMLElement | null>;
   rotDeg?: number; enabled: boolean; onHeld?: (held: boolean) => void; canvasId?: string;
   /** Called after every pointer move of an active drag (the Hero uses it so other objects can be nudged aside; the callback is expected to coalesce work itself). */
@@ -77,6 +77,8 @@ export function useTactile({ imgRef, hoverRef, rotDeg = 0, enabled, onHeld, onDr
   passThrough?: boolean;
   /** Let a finger pick the object up (Pointer Events); a touch that does not start on the object still scrolls the page. */
   allowTouch?: boolean;
+  /** Opacity of the object (Hero director: it fades while scattered). Below half it is not there any more for the pointer: not hoverable, not grabbable. */
+  fade?: MotionValue<number>;
   /** Starting offset in px (Hero director: an object that is carried in begins away from its resting spot). */
   initial?: { x: number; y: number };
 }) {
@@ -96,7 +98,7 @@ export function useTactile({ imgRef, hoverRef, rotDeg = 0, enabled, onHeld, onDr
   const blockScroll = useRef((ev: TouchEvent) => { if (ev.cancelable) ev.preventDefault(); });
   const stopBlock = () => window.removeEventListener("touchmove", blockScroll.current);
   useEffect(() => () => { stop(); stopBlock(); }, []);
-  const over = (e: React.PointerEvent) => !!imgRef.current && opaqueAt(imgRef.current, e.clientX, e.clientY, rotDeg);
+  const over = (e: React.PointerEvent) => !!imgRef.current && !(fade && fade.get() < 0.5) && opaqueAt(imgRef.current, e.clientX, e.clientY, rotDeg);
 
   const setHover = (on: boolean) => {
     const el = hoverRef.current;
