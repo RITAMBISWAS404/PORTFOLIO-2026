@@ -90,6 +90,7 @@ export const ID_LABEL: Record<string, string> = {
   // selected projects
   // the Selected Projects cards name what the link opens (touch devices have no pill, so the cards carry no destination text)
   shopez: "Case study",                 // Notion
+  gameon: "Case study",
   "smart-agri": "Figma file",           // Figma
   "ev-website": "Framer website",       // live Framer site
   manokamna: "Logo case study",         // Notion
