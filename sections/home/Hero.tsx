@@ -105,7 +105,7 @@ export default function Hero() {
           }}>
             View my Work
           </a>
-          <a href="https://drive.google.com/file/d/1WQawpG5UjWrxPHxfzmk7chCTPw4r6t7A/view" target="_blank" rel="noopener noreferrer" data-cursor-kind="cta" data-cursor-id="hero-resume" className="hm-hero-cta hm-hero-cta-secondary" style={{
+          <a href="https://drive.google.com/file/d/1Jt9EQvYeNBdH3JnhU8e--4qNHByIu6Qo/view" target="_blank" rel="noopener noreferrer" data-cursor-kind="cta" data-cursor-id="hero-resume" className="hm-hero-cta hm-hero-cta-secondary" style={{
             display: "flex", alignItems: "center", gap: 10,
             background: "var(--hm-btn2-bg, rgba(0,0,0,0.08))", color: C.t1, padding: "var(--hm-btn2-pad, 11px 22px)",   // quiet tinted fill + hairline border; the 1px border is taken out of the padding, so the size is unchanged
             borderRadius: isNew ? 0 : 9999, fontSize: 14, fontWeight: 600, textDecoration: "none",
