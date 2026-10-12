@@ -2,7 +2,7 @@
 import { useRef, useState, useEffect } from "react";
 import { useInView } from "framer-motion";
 import {
-  MdAltRoute, MdTimeline, MdFormatQuote, MdLightbulb, MdInfo, MdPerson,
+  MdAltRoute, MdMessage, MdTimeline, MdFormatQuote, MdLightbulb, MdInfo, MdPerson,
   MdCake, MdNearMe, MdVerifiedUser, MdMobileFriendly, MdEditNote,
 } from "react-icons/md";
 import Footer from "@/sections/v3/Footer";
@@ -509,7 +509,7 @@ export default function GameOnPage() {
           </Reveal>
           <div className="go-three-grid">
             <CardV3 icon={MdVerifiedUser} label="Friction builds trust" body="Security came from a visible organiser and a note, not extra steps. Keeping the organiser in the decision mattered more than automating it away." iconColor={BRAND} noHover delay={0}    cursorId="go-reflect-trust" />
-            <CardV3 icon={MdEditNote} label="Keep the note optional" body="The note nudges instead of forcing, because a required field costs the most at the moment someone is deciding." iconColor={BRAND} noHover delay={0.08} cursorId="go-reflect-optional" />
+            <CardV3 icon={MdMessage} label="Keep the note optional" body="The note nudges instead of forcing, because a required field costs the most at the moment someone is deciding." iconColor={BRAND} noHover delay={0.08} cursorId="go-reflect-optional" />
             <CardV3 icon={MdAltRoute} label="Draw the unhappy paths" body="Declined requests, applied-state indicators, empty states and the full-game Notify Me state still need designing." iconColor={BRAND} noHover delay={0.16} cursorId="go-reflect-edge" />
           </div>
           <Reveal delay={0.1}>

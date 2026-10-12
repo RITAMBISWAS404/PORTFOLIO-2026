@@ -36,11 +36,11 @@ export default function CardV3({ label, body, delay = 0, icon: Icon, noHover = f
       </div>
       <p className="card-body" style={{ fontWeight: 500, color: "#666666", lineHeight: 1.6 }}>{body}</p>
       <style>{`
-        .card-icon { width: 20px !important; height: 20px !important; }
+        .card-icon { width: 20px !important; height: 20px !important; flex-shrink: 0; }
         .card-heading { font-size: 14px; line-height: 1.6; }
         .card-body { font-size: 14px; }
         @media (min-width: 768px) {
-          .card-icon { width: 24px !important; height: 24px !important; }
+          .card-icon { width: 24px !important; height: 24px !important; flex-shrink: 0; }
           .card-heading { font-size: 16px; }
         }
       `}</style>
