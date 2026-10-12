@@ -3,7 +3,7 @@ import { useRef, useState, useEffect } from "react";
 import { useInView } from "framer-motion";
 import {
   MdViewList, MdTimeline, MdFormatQuote, MdLightbulb, MdInfo, MdPerson,
-  MdCake, MdNearMe, MdVerifiedUser, MdMobileFriendly, MdEditNote, MdTouchApp,
+  MdCake, MdNearMe, MdVerifiedUser, MdMobileFriendly, MdEditNote, MdTune,
 } from "react-icons/md";
 import Footer from "@/sections/v3/Footer";
 import GridLines from "@/components/GridLines";
@@ -193,9 +193,9 @@ export default function GameOnPage() {
       {/* ── STATS ───────────────────────────────────────────── */}
       <section data-cursor-id="go-stats" style={{ ...col }} className="v3-section">
         <div className="go-stats-grid">
-          <CardV3 label="5 Screens" body="Dashboard, Event Info, Request to Join, My Request and All Set." delay={0}    noHover iconColor={BRAND} icon={MdMobileFriendly} cursorId="go-stat-screens" />
-          <CardV3 label="4 Directions" body="Create a Game, Browse and Join, Sports Feed and Court Booking. One was chosen." delay={0.08} noHover iconColor={BRAND} icon={MdTimeline} cursorId="go-stat-directions" />
-          <CardV3 label="2 Sketch Sheets" body="The whole flow was drawn on paper before it was designed in Figma." delay={0.16} noHover iconColor={BRAND} icon={MdEditNote} cursorId="go-stat-sketches" />
+          <CardV3 label="One focused flow" body="Dashboard, Event Info, Request to Join, My Request and All Set, on the happy path." delay={0}    noHover iconColor={BRAND} icon={MdMobileFriendly} cursorId="go-stat-screens" />
+          <CardV3 label="Directions weighed" body="Create a Game, Browse and Join, Sports Feed and Court Booking. One was chosen." delay={0.08} noHover iconColor={BRAND} icon={MdTimeline} cursorId="go-stat-directions" />
+          <CardV3 label="Sketched before designed" body="The whole flow was drawn on paper before it was designed in Figma." delay={0.16} noHover iconColor={BRAND} icon={MdEditNote} cursorId="go-stat-sketches" />
         </div>
       </section>
 
@@ -509,7 +509,7 @@ export default function GameOnPage() {
           </Reveal>
           <div className="go-three-grid">
             <CardV3 icon={MdVerifiedUser} label="Friction builds trust" body="Security came from a visible organiser and a note, not extra steps. Keeping the organiser in the decision mattered more than automating it away." iconColor={BRAND} noHover delay={0}    cursorId="go-reflect-trust" />
-            <CardV3 icon={MdTouchApp} label="Keep the note optional" body="The note nudges instead of forcing, because a required field costs the most at the moment someone is deciding." iconColor={BRAND} noHover delay={0.08} cursorId="go-reflect-optional" />
+            <CardV3 icon={MdTune} label="Keep the note optional" body="The note nudges instead of forcing, because a required field costs the most at the moment someone is deciding." iconColor={BRAND} noHover delay={0.08} cursorId="go-reflect-optional" />
             <CardV3 icon={MdViewList} label="Draw the unhappy paths" body="Declined requests, applied-state indicators, empty states and the full-game Notify Me state still need designing." iconColor={BRAND} noHover delay={0.16} cursorId="go-reflect-edge" />
           </div>
           <Reveal delay={0.1}>
