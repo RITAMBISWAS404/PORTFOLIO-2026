@@ -56,7 +56,7 @@ function GoImg({ file, alt, w, h, caption, bare = false, cursorId }: { file: str
     <figure data-cursor-id={cursorId} style={{ display: "flex", flexDirection: "column", gap: 8, width: "100%", margin: 0 }}>
       <img
         src={IMG + file} alt={alt} width={w} height={h} loading="lazy" decoding="async"
-        style={{ width: "100%", height: "auto", display: "block", borderRadius: bare ? 0 : 8, border: bare ? "none" : `1px solid ${C.border}` }}
+        style={{ width: "100%", height: "auto", display: "block", borderRadius: 8, border: `1px solid ${C.border}` }}
       />
       {caption && <figcaption style={{ fontSize: 12, fontWeight: 500, color: C.t3, textAlign: "center", lineHeight: 1.5 }}>{caption}</figcaption>}
     </figure>
@@ -185,7 +185,7 @@ export default function GameOnPage() {
           <img
             src={IMG + "hero-phone.webp"} width={2400} height={1350} decoding="async"
             alt="The GameON dashboard on a tilted smartphone beside the line Find your game: Live sports near you, sport filter chips, and a live Sunday 5v5 Kickabout game card with a Follow button."
-            style={{ width: "100%", height: "auto", display: "block" }}
+            style={{ width: "100%", height: "auto", display: "block", borderRadius: 8, border: `1px solid ${C.border}` }}
           />
         </div>
       </div>
@@ -508,9 +508,9 @@ export default function GameOnPage() {
             <P>The decisions I would defend most are about where to add friction and where to remove it. Creating a game, auto-accepting and a mandatory note each moved effort or control to the wrong place.</P>
           </Reveal>
           <div className="go-three-grid">
-            <CardV3 icon={MdVerifiedUser} label="Spend friction where trust is built" body="Security came from a visible organiser and a note, not extra steps. Keeping the organiser in the decision mattered more than automating it away." iconColor={BRAND} noHover delay={0}    cursorId="go-reflect-trust" />
-            <CardV3 icon={MdTouchApp} label="Make the helpful step optional" body="The note nudges instead of forcing, because a required field costs the most at the moment someone is deciding." iconColor={BRAND} noHover delay={0.08} cursorId="go-reflect-optional" />
-            <CardV3 icon={MdViewList} label="Draw the unhappy paths next" body="Declined requests, applied-state indicators, empty states and the full-game Notify Me state still need designing." iconColor={BRAND} noHover delay={0.16} cursorId="go-reflect-edge" />
+            <CardV3 icon={MdVerifiedUser} label="Friction builds trust" body="Security came from a visible organiser and a note, not extra steps. Keeping the organiser in the decision mattered more than automating it away." iconColor={BRAND} noHover delay={0}    cursorId="go-reflect-trust" />
+            <CardV3 icon={MdTouchApp} label="Keep the note optional" body="The note nudges instead of forcing, because a required field costs the most at the moment someone is deciding." iconColor={BRAND} noHover delay={0.08} cursorId="go-reflect-optional" />
+            <CardV3 icon={MdViewList} label="Draw the unhappy paths" body="Declined requests, applied-state indicators, empty states and the full-game Notify Me state still need designing." iconColor={BRAND} noHover delay={0.16} cursorId="go-reflect-edge" />
           </div>
           <Reveal delay={0.1}>
             <P>What I would test first, in this order: whether hosts read the notes at all, whether the age range excludes people a host would have welcomed, and whether players want to see a price before they ask to join. The first checks the 3x claim, the second checks decision 4, and the third checks the assumption I would be least surprised to see fail.</P>
@@ -558,6 +558,7 @@ export default function GameOnPage() {
         @media (min-width: 1200px) { .go-page-nav { display: flex; } }
         .go-decision-line { height: 0; border-top: 1px solid var(--color-border); margin: 16px -16px; }
         @media (min-width: 768px) { .go-decision-line { margin: 24px -24px; } }
+        @media (min-width: 1000px) { .go-three-grid .card-heading { white-space: nowrap; } }
         .go-stats-grid, .go-three-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
         @media (min-width: 600px) { .go-stats-grid, .go-three-grid { grid-template-columns: 1fr 1fr 1fr; } }
         .go-pair { display: grid; grid-template-columns: 1fr; gap: 16px; align-items: start; }
