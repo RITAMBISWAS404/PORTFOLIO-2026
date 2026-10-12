@@ -157,6 +157,7 @@ export default function GameOnPage() {
       <section data-cursor-id="go-hero" style={{ ...col, paddingBottom: 0 }} className="v3-section">
         <Reveal>
           <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 24 }}>
+            <img src={IMG + "logo.webp"} width={256} height={256} alt="GameON logo" decoding="async" style={{ width: 56, height: 56, flexShrink: 0, display: "block", borderRadius: 12 }} />
             <div>
               <div className="f16" style={{ fontWeight: 700, color: C.t1, letterSpacing: "-0.01em" }}>Game<span style={{ color: BRAND }}>ON</span></div>
               <div className="f16" style={{ fontWeight: 500, color: C.t2 }}>Find a nearby game, with no club to join</div>
@@ -180,11 +181,11 @@ export default function GameOnPage() {
 
       {/* ── HERO IMAGE ──────────────────────────────────────── */}
       <div style={{ ...col, paddingBottom: 0 }} className="v3-section">
-        <div data-cursor-id="go-hero-image" className="go-hero-panel">
+        <div data-cursor-id="go-hero-image">
           <img
-            src={IMG + "hero-phone.webp"} width={1600} height={1571} decoding="async"
-            alt="The GameON dashboard on a tilted smartphone: Live sports near you, sport filter chips, and a live Sunday 5v5 Kickabout game card with a Follow button."
-            style={{ width: "100%", maxWidth: 520, height: "auto", display: "block" }}
+            src={IMG + "hero-phone.webp"} width={2400} height={1350} decoding="async"
+            alt="The GameON dashboard on a tilted smartphone beside the line Find your game: Live sports near you, sport filter chips, and a live Sunday 5v5 Kickabout game card with a Follow button."
+            style={{ width: "100%", height: "auto", display: "block" }}
           />
         </div>
       </div>
@@ -234,7 +235,7 @@ export default function GameOnPage() {
             <P>The player is someone who has not played in a while, is new to the app, and does not know the host. The table follows that one player. The middle column is the question I assumed they have at each step, which is my design intent and not research. The right column is the call I made to answer it.</P>
           </Reveal>
           <Reveal delay={0.06}>
-            <GoImg file="flow-five-screens.webp" w={2800} h={1243} bare cursorId="go-flow-image"
+            <GoImg file="flow-five-screens.webp" w={2400} h={1292} bare cursorId="go-flow-image"
               alt="The five screens of the primary flow in a row: Dashboard, Event Info, Request to Join, My Request and All Set, shown in the dark red-accented UI."
               caption="The primary flow, from the dashboard to the confirmed state." />
           </Reveal>
@@ -281,43 +282,26 @@ export default function GameOnPage() {
 
           <Decision num="02" title="Why a request to join carries an optional note, and is never auto-accepted" cursorId="go-d2">
             <P>Joining means asking a host to say yes to a stranger. My first idea was to remove that question: auto-accept anyone verified. I dropped it, because it takes the organiser out of a decision that belongs to them, and a verified user can still be the wrong fit for a specific game.</P>
-            <div className="go-split">
-              <GoImg file="phone-request-sheet.webp" w={786} h={1704} bare cursorId="go-d2-image"
-                alt="The Request to join bottom sheet over a blurred event screen, with an optional note field holding a short introduction, a 112 of 300 character count, a Send request button and a Maybe later button." />
-              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                <P>That left the host deciding on a faceless request. So I borrowed LinkedIn&apos;s connect with a note: up to 300 characters, so a request arrives as an introduction. The host reads it, and can open the requester&apos;s profile, games played and rating, before accepting.</P>
-                <P>I considered making the note mandatory and rejected it. A required field costs the most at the moment someone is deciding, which is the drop-off point I least wanted to touch. So the sheet nudges, and Maybe later sits under the primary button as plain text with no visual weight.</P>
-                <P>The sheet&apos;s copy says hosts approve requests with notes 3x faster. That number is a claim written into the concept. I did not measure it, and it would need real data before it belonged in a product. The working mockups show the copy getting there: an early version said only that hosts approve faster with a friendly intro.</P>
-              </div>
-            </div>
-            <div className="go-split">
-              <GoImg file="phone-my-request.webp" w={786} h={1704} bare cursorId="go-d3-image"
-                alt="The My Request screen: a Request sent illustration, a red Pending host approval chip, and a card showing the note the user sent to Rohan, with event details below and a Browse more games button." />
-              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                <P>After sending, the player waits, which is where a note could feel like it vanished. The pending screen echoes it back, so the player sees exactly what the host received. A Pending host approval chip says nothing is confirmed yet, and Browse more games stops the wait from being a dead end.</P>
-                <P>What is still unknown is whether hosts read the notes at all, and whether a note raises approval or only adds writing for the player. That is the first thing I would test.</P>
-              </div>
-            </div>
+            <GoImg file="phone-request-sheet.webp" w={2400} h={1824} bare cursorId="go-d2-image"
+              alt="The Request to join bottom sheet with an optional note holding a short introduction, a 112 of 300 character count and a Send request button, and the My Request screen echoing the same note back to the player." />
+            <P>That left the host deciding on a faceless request. So I borrowed LinkedIn&apos;s connect with a note: up to 300 characters, so a request arrives as an introduction. The host reads it, and can open the requester&apos;s profile, games played and rating, before accepting.</P>
+            <P>I considered making the note mandatory and rejected it. A required field costs the most at the moment someone is deciding, which is the drop-off point I least wanted to touch. So the sheet nudges, and Maybe later sits under the primary button as plain text with no visual weight.</P>
+            <P>The sheet&apos;s copy says hosts approve requests with notes 3x faster. That number is a claim written into the concept. I did not measure it, and it would need real data before it belonged in a product. The working mockups show the copy getting there: an early version said only that hosts approve faster with a friendly intro.</P>
+            <P>After sending, the player waits, which is where a note could feel like it vanished. The pending screen echoes it back, so the player sees exactly what the host received. A Pending host approval chip says nothing is confirmed yet, and Browse more games stops the wait from being a dead end.</P>
+            <P>What is still unknown is whether hosts read the notes at all, and whether a note raises approval or only adds writing for the player. That is the first thing I would test.</P>
           </Decision>
 
           <Decision num="03" title="Why the organiser comes before the date, time and place" cursorId="go-d3">
-            <GoImg file="crop-organiser-card.webp" w={786} h={165} cursorId="go-d3-organiser"
-              alt="The organiser card at the top of the Event Info screen: Rohan, 34 with a verified badge, 24 games organised and a 4.9 rating."
-              caption="The organiser card is the first thing on the Event Info screen." />
             <P>The research said people are uneasy about who shows up. The alternative was to lead with when and where, the facts needed to decide. I reversed that: if the host does not feel trustworthy, the time and place do not matter, so the player reads the person first.</P>
             <P>It also answered the stranger concern inside the flow, without adding a step. The cost is that the practical facts sit one card lower, and the verified badge only signals trust, because real verification was out of scope. I did not test whether players read the card in this order.</P>
           </Decision>
 
           <Decision num="04" title="Why every card shows an age range and a distance, and no skill level" cursorId="go-d4">
-            <div className="go-split go-split-wide">
-              <GoImg file="crop-meta-grid.webp" w={786} h={350} cursorId="go-d4-image"
-                alt="The Event Info details grid: Date and Time Today 6:00 PM, Ages 25 to 40, and Location Salt Lake Stadium with 1.2 km away." />
-              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                <P>Matching by skill level was the alternative, and the research pointed somewhere else: people want to play with someone in the same phase of life. Skill cannot be verified. Age can. So each card answers the question people actually ask, is this my kind of crowd?</P>
-                <P>Distance sits beside it, because a great game 15 km away on a Sunday morning is not practical. The host sets the age range and players cannot change it, which keeps the crowd the host intended.</P>
-                <P>The trade-off is exclusion. An age range can shut out someone who would have fit the game perfectly, and a mixed-skill game has no skill signal at all. Both rest on desk research, not on players, so they stay assumptions.</P>
-              </div>
-            </div>
+            <GoImg file="crop-meta-grid.webp" w={2400} h={1024} bare cursorId="go-d4-image"
+              alt="Age range and distance shown side by side on a game card and on the Event Info details grid: Ages 25 to 40, and 1.2 km away." />
+            <P>Matching by skill level was the alternative, and the research pointed somewhere else: people want to play with someone in the same phase of life. Skill cannot be verified. Age can. So each card answers the question people actually ask, is this my kind of crowd?</P>
+            <P>Distance sits beside it, because a great game 15 km away on a Sunday morning is not practical. The host sets the age range and players cannot change it, which keeps the crowd the host intended.</P>
+            <P>The trade-off is exclusion. An age range can shut out someone who would have fit the game perfectly, and a mixed-skill game has no skill signal at all. Both rest on desk research, not on players, so they stay assumptions.</P>
           </Decision>
 
           <Decision num="05" title="Why I took the cost out of the screens" cursorId="go-d5">
@@ -335,16 +319,6 @@ export default function GameOnPage() {
       <section data-cursor-id="go-small" style={{ ...col }} className="v3-section">
         <SectionHeadingV3 title="Smaller calls that kept the screens consistent" />
         <div className="mt-section" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-          <Reveal>
-            <div className="go-pair">
-              <GoImg file="crop-card-live-follow.webp" w={676} h={645} cursorId="go-cta-live" alt="A live game card with a Follow button." caption="Live: Follow" />
-              <GoImg file="crop-card-upcoming-join.webp" w={726} h={407} cursorId="go-cta-join" alt="An upcoming game card with spots available and a Join button." caption="Upcoming with spots: Join" />
-            </div>
-          </Reveal>
-          <Reveal delay={0.06}>
-            <GoImg file="crop-player-cards.webp" w={726} h={425} cursorId="go-player-cards"
-              alt="Two player cards in a horizontal strip: Rohan, 34 and Priya, 28, each with a verified badge, a sport badge on the avatar, a distance, and a Connect button." />
-          </Reveal>
           <Reveal delay={0.08}>
             <TwoColTable
               headers={["Decision", "Reasoning"]}
@@ -413,7 +387,7 @@ export default function GameOnPage() {
 
           <div className="go-screen-block" data-cursor-id="go-screen-dashboard">
             <div className="go-screen-label" style={{ color: BRAND }}>SCREEN 01 · DASHBOARD</div>
-            <GoImg file="screens-dashboard.webp" w={1612} h={1704} bare alt="The Dashboard screen at the top and scrolled: sport filter chips, a Happening now live card, Players near you cards and a Games this week list." />
+            <GoImg file="screens-dashboard.webp" w={2400} h={1787} bare alt="The Dashboard screen at the top and scrolled: sport filter chips, a Happening now live card, Players near you cards and a Games this week list." />
             <TwoColTable
               headers={["Element", "The call"]}
               rows={[
@@ -425,7 +399,7 @@ export default function GameOnPage() {
 
           <div className="go-screen-block" data-cursor-id="go-screen-event">
             <div className="go-screen-label" style={{ color: BRAND }}>SCREEN 02 · EVENT INFO</div>
-            <GoImg file="screens-event-info.webp" w={1612} h={1704} bare alt="The Event Info screen at the top and scrolled: a sport illustration, organiser card, meta grid, a players fill bar showing 7 joined and 3 spots open, rules chips and an About this game note." />
+            <GoImg file="screens-event-info.webp" w={2400} h={1938} bare alt="The Event Info screen at the top and scrolled: a sport illustration, organiser card, meta grid, a players fill bar showing 7 joined and 3 spots open, rules chips and an About this game note." />
             <TwoColTable
               headers={["Element", "The call"]}
               rows={[
@@ -439,7 +413,7 @@ export default function GameOnPage() {
 
           <div className="go-screen-block" data-cursor-id="go-screen-request">
             <div className="go-screen-label" style={{ color: BRAND }}>SCREEN 03 · REQUEST TO JOIN</div>
-            <GoImg file="screens-request-join.webp" w={1612} h={1704} bare alt="Event Info on the left and the Request to join bottom sheet on the right, over a blurred version of the same screen." />
+            <P>This screen is shown in decision 02, with the note echoed back on the next screen.</P>
             <TwoColTable
               headers={["Element", "The call"]}
               rows={[
@@ -451,7 +425,7 @@ export default function GameOnPage() {
 
           <div className="go-screen-block" data-cursor-id="go-screen-pending">
             <div className="go-screen-label" style={{ color: BRAND }}>SCREEN 04 · MY REQUEST</div>
-            <GoImg file="screens-my-request.webp" w={1612} h={1704} bare alt="The My Request screen at the top and scrolled, with the Request sent illustration, the echoed note, and the event details with a players fill bar." />
+            <GoImg file="screens-my-request.webp" w={2400} h={1799} bare alt="The My Request screen at the top and scrolled, with the Request sent illustration, the echoed note, and the event details with a players fill bar." />
             <TwoColTable
               headers={["Element", "The call"]}
               rows={[
@@ -464,7 +438,7 @@ export default function GameOnPage() {
 
           <div className="go-screen-block" data-cursor-id="go-screen-confirmed">
             <div className="go-screen-label" style={{ color: BRAND }}>SCREEN 05 · ALL SET</div>
-            <GoImg file="screens-all-set.webp" w={1612} h={1704} bare alt="The All Set screen at the top and scrolled: a Request accepted illustration, a blue Confirmed chip, event details, and three next-step cards: Get directions, Join the group chat and Invite a friend." />
+            <GoImg file="screens-all-set.webp" w={2400} h={1785} bare alt="The All Set screen at the top and scrolled: a Request accepted illustration, a blue Confirmed chip, event details, and three next-step cards: Get directions, Join the group chat and Invite a friend." />
             <TwoColTable
               headers={["Element", "The call"]}
               rows={[
@@ -584,16 +558,8 @@ export default function GameOnPage() {
         @media (min-width: 1200px) { .go-page-nav { display: flex; } }
         .go-decision-line { height: 0; border-top: 1px solid var(--color-border); margin: 16px -16px; }
         @media (min-width: 768px) { .go-decision-line { margin: 24px -24px; } }
-        .go-hero-panel { width: 100%; background: #F6F6F6; border: 1px solid var(--color-border); border-radius: 8px; display: flex; justify-content: center; padding: 24px 16px; overflow: hidden; }
         .go-stats-grid, .go-three-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
         @media (min-width: 600px) { .go-stats-grid, .go-three-grid { grid-template-columns: 1fr 1fr 1fr; } }
-        .go-split { display: grid; grid-template-columns: 1fr; gap: 24px; align-items: start; }
-        .go-split > figure:first-child { max-width: 300px; margin: 0 auto; }
-        @media (min-width: 640px) {
-          .go-split { grid-template-columns: 260px 1fr; }
-          .go-split > figure:first-child { max-width: none; margin: 0; }
-          .go-split-wide { grid-template-columns: 300px 1fr; }
-        }
         .go-pair { display: grid; grid-template-columns: 1fr; gap: 16px; align-items: start; }
         @media (min-width: 640px) { .go-pair { grid-template-columns: 1fr 1fr; } }
         .go-screen-block { display: flex; flex-direction: column; gap: 16px; }
