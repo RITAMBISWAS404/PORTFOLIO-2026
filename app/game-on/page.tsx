@@ -507,10 +507,28 @@ export default function GameOnPage() {
           <Reveal>
             <P>The decisions I would defend most are about where to add friction and where to remove it. Creating a game, auto-accepting and a mandatory note each moved effort or control to the wrong place.</P>
           </Reveal>
-          <div className="go-three-grid">
-            <CardV3 icon={MdVerifiedUser} label="Friction builds trust" body="Security came from a visible organiser and a note, not extra steps. Keeping the organiser in the decision mattered more than automating it away." iconColor={BRAND} noHover delay={0}    cursorId="go-reflect-trust" />
-            <CardV3 icon={MdMessage} label="Keep the note optional" body="The note nudges instead of forcing, because a required field costs the most at the moment someone is deciding." iconColor={BRAND} noHover delay={0.08} cursorId="go-reflect-optional" />
-            <CardV3 icon={MdAltRoute} label="Draw the unhappy paths" body="Declined requests, applied-state indicators, empty states and the full-game Notify Me state still need designing." iconColor={BRAND} noHover delay={0.16} cursorId="go-reflect-edge" />
+          <div className="go-rows">
+            <div className="go-row" data-cursor-id="go-reflect-trust">
+              <MdVerifiedUser className="go-row-icon" color={BRAND} aria-hidden />
+              <div className="go-row-text">
+                <div className="go-row-head">Friction builds trust</div>
+                <p className="go-row-body">A visible organiser and an optional note help players approach a new game without unnecessary steps.</p>
+              </div>
+            </div>
+            <div className="go-row" data-cursor-id="go-reflect-optional">
+              <MdMessage className="go-row-icon" color={BRAND} aria-hidden />
+              <div className="go-row-text">
+                <div className="go-row-head">Keep the note optional</div>
+                <p className="go-row-body">A personal introduction helps, but requiring one could discourage players from joining.</p>
+              </div>
+            </div>
+            <div className="go-row" data-cursor-id="go-reflect-edge">
+              <MdAltRoute className="go-row-icon" color={BRAND} aria-hidden />
+              <div className="go-row-text">
+                <div className="go-row-head">Design the missing states</div>
+                <p className="go-row-body">Declined requests, empty states, applied indicators and full-game notifications still need designing.</p>
+              </div>
+            </div>
           </div>
           <Reveal delay={0.1}>
             <P>What I would test first, in this order: whether hosts read the notes at all, whether the age range excludes people a host would have welcomed, and whether players want to see a price before they ask to join. The first checks the 3x claim, the second checks decision 4, and the third checks the assumption I would be least surprised to see fail.</P>
@@ -559,6 +577,14 @@ export default function GameOnPage() {
         .go-decision-line { height: 0; border-top: 1px solid var(--color-border); margin: 16px -16px; }
         @media (min-width: 768px) { .go-decision-line { margin: 24px -24px; } }
         @media (min-width: 1000px) { .go-stats-grid .card-heading, .go-three-grid .card-heading { white-space: nowrap; } }
+        .go-rows { display: flex; flex-direction: column; border: 1px solid var(--color-border); border-radius: 8px; background: #ffffff; }
+        .go-row { display: flex; align-items: flex-start; gap: 16px; padding: 20px 16px; }
+        .go-row + .go-row { border-top: 1px solid var(--color-border); }
+        .go-row-icon { width: 24px; height: 24px; flex: 0 0 24px; margin-top: 1px; }
+        .go-row-text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+        .go-row-head { font-size: 16px; font-weight: 600; line-height: 1.6; color: #222222; }
+        .go-row-body { font-size: 14px; font-weight: 500; line-height: 1.6; color: #666666; }
+        @media (min-width: 768px) { .go-row { padding: 24px; gap: 20px; } }
         .go-stats-grid, .go-three-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
         @media (min-width: 600px) { .go-stats-grid, .go-three-grid { grid-template-columns: 1fr 1fr 1fr; } }
         .go-pair { display: grid; grid-template-columns: 1fr; gap: 16px; align-items: start; }
