@@ -140,7 +140,7 @@ export const stackDesc: Record<string, string> = {
 // Footer links ("Find me online"). The Email row copies the address instead of navigating (see sections/home/Socials.tsx). X and Instagram are removed: both profiles are inactive.
 export const socials = [
   { name: "LinkedIn", handle: "in/ritamhere",             href: "https://linkedin.com/in/ritamhere" },
-  { name: "Resume",   handle: "Take a look",               href: "https://drive.google.com/file/d/1WQawpG5UjWrxPHxfzmk7chCTPw4r6t7A/view" },
+  { name: "Resume",   handle: "Take a look",               href: "https://drive.google.com/file/d/1Jt9EQvYeNBdH3JnhU8e--4qNHByIu6Qo/view" },
   { name: "Email",    handle: "biswasritam404@gmail.com", href: "mailto:biswasritam404@gmail.com" },
 ];
 
