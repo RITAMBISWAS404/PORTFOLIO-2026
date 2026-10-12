@@ -8,6 +8,7 @@ import { ANCHOR_LABEL, KIND_LABEL } from "@/lib/home/cursorCopy";
 
 export const ZENO_COLOR = "#36A1E1";
 export const SHOPEZ_COLOR = "#8B5CF6";
+export const GAMEON_COLOR = "#F04040";   // the red of GameON's own UI (sampled from its buttons)
 
 type Labels = Record<string, string>;
 export type CaseCursor = { color: string; labelFor: (target: Element | null) => string | null };
@@ -143,5 +144,66 @@ const SHOPEZ_LABELS: Labels = {
   "back-to-top": "Back up top",
 };
 
+// ── GameON (local-only preview at /game-on) ───────────────────────────────
+const GAMEON_LABELS: Labels = {
+  "callout-quote": "Quotable",
+  "callout-insight": "Take note",
+  // hero
+  "go-hero": "Find your game",
+  "go-note": "Concept, not launched",
+  "go-role": "Solo concept",
+  "go-hero-image": "Meet GameON",
+  "go-stats": "The short version",
+  "go-stat-screens": "Five screens",
+  "go-stat-directions": "Four directions",
+  "go-stat-sketches": "Paper first",
+  // problem
+  "go-problem": "No one to play",
+  "go-research": "Desk research",
+  "go-research-card": "A pattern",
+  // exploration
+  "go-exploration": "Tried and dropped",
+  "go-iterations": "Three mockups",
+  "go-sheet-1": "Dashboard sketches",
+  "go-sheet-2": "Request sketches",
+  "go-directions": "Four ways in",
+  // decisions
+  "go-decisions": "Five decisions",
+  "go-d1": "Why Browse and Join",
+  "go-d2": "A real introduction",
+  "go-d2-image": "Note, optionally",
+  "go-d3": "Trust first",
+  "go-d3-organiser": "Organiser on top",
+  "go-d3-image": "While you wait",
+  "go-d4": "Age and distance",
+  "go-d4-image": "Is this my crowd?",
+  "go-d5": "Cost, off screen",
+  "go-cta-live": "Follow the live one",
+  "go-cta-join": "Spots open",
+  "go-small": "Small calls",
+  "go-player-cards": "Name, age, distance",
+  // flow and screens
+  "go-flow": "One user, one goal",
+  "go-journey": "The player's questions",
+  "go-flow-image": "Home to confirmed",
+  "go-screens": "Screen by screen",
+  "go-screen-dashboard": "The dashboard",
+  "go-screen-event": "Event info",
+  "go-screen-request": "The request sheet",
+  "go-screen-pending": "Pending state",
+  "go-screen-confirmed": "You're in",
+  // the rest
+  "go-assumptions": "What I assumed",
+  "go-metrics": "Hypotheses only",
+  "go-reflection": "Looking back",
+  "go-reflect-trust": "Trust, lightly",
+  "go-reflect-optional": "Optional by design",
+  "go-reflect-edge": "Edges next",
+  // controls
+  "go-page-nav": "Jump ahead",
+  "back-to-top": "Back up top",
+};
+
 export const zenoCursor = make(ZENO_COLOR, ZENO_LABELS);
 export const shopezCursor = make(SHOPEZ_COLOR, SHOPEZ_LABELS);
+export const gameOnCursor = make(GAMEON_COLOR, GAMEON_LABELS);
