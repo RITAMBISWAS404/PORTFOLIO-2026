@@ -10,7 +10,7 @@ import { zeno } from "@/data/home-content";
 import { C, revealStyle, col } from "@/lib/home/tokensV2";
 
 // Ownership -> product thinking -> systems thinking -> focus. Sourced from the case study (app/zeno/page.tsx) and data/home-content.ts: end-to-end ownership, a Figma-variable design system,
-// "live with 10,000+ registered users in Denmark" (the product's reach), and decision 05 (the dashboard keeps battery %, time remaining and ready-by; the rest moves one tap away).
+// "live with 5,000+ registered users in Denmark" (the product's reach), and decision 05 (the dashboard keeps battery %, time remaining and ready-by; the rest moves one tap away).
 // No counts and no research claim: the Four-Second card describes the design decision, not beta-user evidence.
 const stats = [
   { id: "zeno-design",       label: "Product Design",          body: "Owned the design end to end, from early exploration through developer handoff.", icon: MdDesignServices },
@@ -124,7 +124,7 @@ export default function FeaturedProject() {
             </strong>
             , helping bring the core charging journey into focus for{" "}
             <strong style={{ color: "var(--hm-hero-b, #222222)", fontWeight: 600 }}>
-              10,000+ registered users in Denmark
+              5,000+ registered users in Denmark
             </strong>
             .
           </p>

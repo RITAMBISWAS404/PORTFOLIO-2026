@@ -55,7 +55,7 @@ export const experience = [
     id: "startup",
     role: "Founding Product Designer at", company: "EU Smart Energy Startup",
     logo: "🔒", logoBg: "#1a1a1a", img: "/images/stealth.png",
-    desc: "Built an EV charging app for iOS and Android from scratch. Owned research, UI design, the full design system, and developer handoff. Now live with 10,000+ registered users in Denmark.",
+    desc: "Built an EV charging app for iOS and Android from scratch. Owned research, UI design, the full design system, and developer handoff. Now live with 5,000+ registered users in Denmark.",
     meta: "Jan 2024 – Jun 2026 | Remote | Denmark",
   },
   {

@@ -29,7 +29,7 @@ export const zeno = {
 export const projects = [
   { id: "shopez", title: "ShopEZ - AI Kirana Billing App", eyebrow: "ShopEZ", head: ["Kirana billing that begins the moment you ", "point the camera", ""], tags: ["AI BILLING","KIRANA RETAIL","MOBILE APP"], img: "/images/retail.png", cardImg: "/images/SHOPEZ.png", href: "/shopez", icon: "/images/retail-logo.png" },
   { id: "smart-agri", title: "Smart Agriculture IoT App", eyebrow: "Smart Agriculture IoT App", head: ["Turning ", "live field and crop data", " into something a farmer can act on"], tags: ["AGRITECH","IOT","MOBILE APP"], img: "/images/smart farming.png", cardImg: "/images/IoT APP.png", href: "https://www.figma.com/design/YjLXUm3ewgTPgoWfI6Ubz2/Smart-Farming-Assistant?node-id=0-1&t=rZMf4eRmUfzfHB6z-1", icon: "/images/smart-farming-logo.png" },
-  { id: "ev-website", title: "EV Charging Startup Website", eyebrow: "EV Charging Startup Website", head: ["Copenhagen EV website for a startup reaching its ", "first 10K+ registered users", ""], tags: ["UX/UI DESIGN","FRAMER BUILD","EV CHARGING"], img: "/images/ev website.png", cardImg: "/images/EV.png", href: "https://enkelenergi.framer.website/", icon: "/images/ev-logo.png" },
+  { id: "ev-website", title: "EV Charging Startup Website", eyebrow: "EV Charging Startup Website", head: ["Copenhagen EV website for a startup reaching its ", "first 5K+ registered users", ""], tags: ["UX/UI DESIGN","FRAMER BUILD","EV CHARGING"], img: "/images/ev website.png", cardImg: "/images/EV.png", href: "https://enkelenergi.framer.website/", icon: "/images/ev-logo.png" },
   { id: "manokamna", title: "Manokamna Interior Designs", eyebrow: "Manokamna", head: ["An interior design studio's identity, built outward from its ", "M monogram", ""], tags: ["LOGO DESIGN","VISUAL SYSTEM","INTERIOR DESIGN"], img: "/images/interior.png", cardImg: "/images/BRAND LOGO.png", href: "https://www.notion.so/Manokamna-Interior-Designs-31830418f5cc80fa91b5f6afaddd5574?source=copy_link", icon: "/images/interior-logo.png" },
 ];
 
@@ -58,7 +58,7 @@ export const experience = [
     id: "startup",
     role: "Founding Product Designer at", company: "EU Smart Energy Startup",
     logo: "🔒", logoBg: "#1a1a1a", img: "/images/stealth.png",
-    desc: "Built an EV charging app for iOS and Android from scratch. Owned research, UI design, the full design system, and developer handoff. Now live with 10,000+ registered users in Denmark.",
+    desc: "Built an EV charging app for iOS and Android from scratch. Owned research, UI design, the full design system, and developer handoff. Now live with 5,000+ registered users in Denmark.",
     meta: "Jan 2024 – Jun 2026 | Remote | Denmark",
   },
   {
