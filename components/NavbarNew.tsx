@@ -17,7 +17,7 @@ export default function NavbarNew({ homePath = "/new" }: { homePath?: string }) 
   const pathname = usePathname();
   const isHome = pathname === homePath || (homePath !== "/" && pathname?.startsWith(`${homePath}/`));
   // Squared-off corners are the live/case-study treatment — /new and /new/zeno keep the rounded pill.
-  const isLiveHome = pathname === "/" || pathname === "/zeno" || pathname === "/shopez";
+  const isLiveHome = pathname === "/" || pathname === "/zeno" || pathname === "/shopez" || pathname === "/game-on";
   const resolveHref = (href: string) => isHome ? href : `${homePath}${href}`;
   const logoSrc = "/images/logo_light.png";
 
