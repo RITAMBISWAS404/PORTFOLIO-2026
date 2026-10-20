@@ -1,0 +1,44 @@
+/* Wall of Portfolios badge experiment: all rules are scoped to .wop-* classes. The floating badge is the artwork alone: no radius, border, outline, shadow or transform. */
+.wop-badge { display: none; }
+@media (min-width: 1024px) and (hover: hover) {
+  .wop-badge {
+    display: block; position: fixed; right: 24px; bottom: 18px;   /* the navbar's own gutters: 24px at the sides, 18px from the top */ z-index: 900;
+    width: 119px; aspect-ratio: 94 / 44; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; cursor: pointer;
+  }
+  .wop-badge img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; object-fit: contain; }
+  .wop-badge { transition: transform 0.2s cubic-bezier(.22, 1, .36, 1); }   /* same lift and easing as .hm-hero-cta */
+  .wop-badge:hover { transform: translateY(-2px); }
+  .wop-badge:focus-visible { outline: 2px solid #222222; outline-offset: 4px; }
+}
+.wop-overlay {
+  position: fixed; inset: 0; z-index: 1100; display: flex; align-items: center; justify-content: center; padding: 24px;
+  background: rgba(10, 10, 12, 0.6); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  animation: wop-fade 220ms ease-out both;
+}
+.wop-stage { position: relative; z-index: 0; perspective: 900px; animation: wop-pop 280ms cubic-bezier(.22, 1, .36, 1) both; }
+.wop-silver { position: relative; z-index: 1; transform-style: preserve-3d; will-change: transform; aspect-ratio: 1572 / 2968; width: min(86vw, calc((100vh - 160px) * 1572 / 2968), 400px); }
+.wop-silver img { display: block; width: 100%; height: 100%; object-fit: contain; }
+/* SVG fallback only: the SVG sits on a 1000x1000 white canvas, so it is cropped and rounded to the pill (x 304-697, y 130-872). */
+.wop-silver.is-svg { overflow: hidden; border-radius: 50% / 26.48%; aspect-ratio: 392.89 / 741.914; width: min(86vw, calc((100vh - 160px) * 392.89 / 741.914), 400px); }
+.wop-silver.is-svg img { position: absolute; max-width: none; width: calc(1000 / 392.89 * 100%); height: auto; left: calc(-304 / 392.89 * 100%); top: calc(-130 / 741.914 * 100%); }
+/* Object burst: objects are created and moved by the component's physics loop (burst() in WopBadge.tsx), behind the pill (the silver pill is z-index 1). */
+.wop-burst { position: absolute; left: 50%; top: 50%; width: 0; height: 0; z-index: 0; }
+.wop-obj { position: absolute; left: 0; top: 0; width: max-content; opacity: 0; will-change: transform; transform: translate(-50%, -50%); }
+.wop-obj img { display: block; max-width: none; }
+.wop-silver { cursor: pointer; }
+.wop-close {
+  position: fixed; top: 16px; right: 16px; z-index: 1; width: 44px; height: 44px; border-radius: 9999px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.14); color: #ffffff; border: 0; transition: background 160ms ease;
+}
+.wop-close:hover { background: rgba(255, 255, 255, 0.26); }
+.wop-close:focus-visible { outline: 2px solid #ffffff; outline-offset: 2px; }
+.wop-overlay.is-closing { animation: wop-fade-out 200ms ease-in both; }
+.wop-overlay.is-closing .wop-stage { animation: wop-pop-out 200ms ease-in both; }
+@keyframes wop-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes wop-fade-out { from { opacity: 1; } to { opacity: 0; } }
+@keyframes wop-pop { from { opacity: 0; transform: scale(0.95) translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes wop-pop-out { from { opacity: 1; transform: none; } to { opacity: 0; transform: scale(0.97) translateY(6px); } }
+@media (prefers-reduced-motion: reduce) {
+  .wop-overlay, .wop-stage, .wop-overlay.is-closing, .wop-overlay.is-closing .wop-stage { animation: none; }
+  .wop-badge, .wop-close { transition: none; }
+}
