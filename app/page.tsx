@@ -13,6 +13,7 @@ import GridLines from "@/components/home/GridLines";
 import NavbarNew from "@/components/home/NavbarNew";
 import OrangeCursor from "@/components/home/OrangeCursor";
 import Courier from "@/components/home/Courier";
+import WopBadge from "@/components/home/WopBadge";
 import { ThemeProvider } from "@/lib/home/ThemeContext";
 import HomeGate from "@/components/home/HomeGate";
 
@@ -34,6 +35,7 @@ export default function Home() {
         <main style={{ position: "relative" }} className="hm-v3-home">
           <GridLines />
           <Courier />
+          <WopBadge />
           <Hero />
           <Divider />
           <LogoMarquee />
