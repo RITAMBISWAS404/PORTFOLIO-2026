@@ -13,10 +13,10 @@ import { C, revealStyle, col } from "@/lib/home/tokensV2";
 // "live with 5,000+ registered users in Denmark" (the product's reach), and decision 05 (the dashboard keeps battery %, time remaining and ready-by; the rest moves one tap away).
 // No counts and no research claim: the Four-Second card describes the design decision, not beta-user evidence.
 const stats = [
-  { id: "zeno-design",       label: "Product Design",          body: "Owned the design end to end, from early exploration through developer handoff.", icon: MdDesignServices },
-  { id: "zeno-architecture", label: "Experience Architecture", body: "Organised onboarding, charging and the dashboard around the actions users need.", icon: MdAccountTree },
-  { id: "zeno-system",       label: "Design System",           body: "A reusable, variable-based component system that keeps the product consistent as it grows.", icon: MdWidgets },
-  { id: "zeno-four",         label: "Four-Second Experience",  body: "Prioritised battery status and ready-by information for a focused charging journey.", icon: MdTimer },
+  { id: "zeno-design",       label: "From Zero to Launch",     body: "Helped shape the product from early exploration to developer handoff, making key UX decisions along the way.", icon: MdDesignServices },
+  { id: "zeno-architecture", label: "Less Noise, More Clarity", body: "Structured onboarding, charging, and dashboard flows around what drivers actually needed to do.", icon: MdAccountTree },
+  { id: "zeno-system",       label: "Built to Scale",          body: "Created a reusable, variable-based design system to keep the experience consistent as the product evolved.", icon: MdWidgets },
+  { id: "zeno-four",         label: "The Four-Second Rule",    body: "Prioritized battery status and ready-by information so drivers could understand their charging at a glance.", icon: MdTimer },
 ];
 
 // ZENO visual: the production composition rebuilt from layers (bg, pattern, hand+phone) with real HTML text on top.
@@ -118,11 +118,7 @@ export default function FeaturedProject() {
             <strong style={{ color: "var(--hm-hero-b, #222222)", fontWeight: 600 }}>
               the founding product designer
             </strong>
-            , I shaped ZENO&apos;s EV charging experience across{" "}
-            <strong style={{ color: "var(--hm-hero-b, #222222)", fontWeight: 600 }}>
-              research, information architecture, UX, UI and developer handoff
-            </strong>
-            , helping bring the core charging journey into focus for{" "}
+            , I helped shape ZENO&apos;s EV charging experience from early ideas to launch. The challenge? Figuring out what drivers actually needed, cutting through the complexity, and making everyday charging feel effortless for{" "}
             <strong style={{ color: "var(--hm-hero-b, #222222)", fontWeight: 600 }}>
               5,000+ registered users in Denmark
             </strong>

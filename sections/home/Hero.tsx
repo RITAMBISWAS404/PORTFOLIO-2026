@@ -92,7 +92,7 @@ export default function Hero() {
         {/* Body */}
         <motion.div variants={item}>
           <p className="hm-f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.6 }}>
-            Previously a Founding Product Designer at a Copenhagen-based EV startup.
+            From figuring out what’s worth solving to obsessing over the tiniest details. Previously a Founding Product Designer at a Copenhagen-based EV startup.
           </p>
         </motion.div>
 

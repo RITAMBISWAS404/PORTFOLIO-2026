@@ -96,6 +96,8 @@ export default function DeviPaksha() {
   const introRef = useRef(null);
   const cardRef = useRef(null);
   const statsRef = useRef(null);
+  const [focused, setFocused] = useState(false), [tapped, setTapped] = useState(false);   // keyboard focus and tap explain the disabled button on the button itself (hover uses the custom cursor)
+  useEffect(() => { if (!tapped) return; const id = setTimeout(() => setTapped(false), 3500); return () => clearTimeout(id); }, [tapped]);
   const reduce = useReduceMotionSafe();   // hydrates as "no preference" like the server, then switches (see the hook)
   const introInView = useInView(introRef, { once: true, margin: "0px" }) || reduce;   // reduced motion: everything is shown immediately
   const cardInView = useInView(cardRef, { once: true, margin: "0px" }) || reduce;
@@ -109,13 +111,10 @@ export default function DeviPaksha() {
       <SectionHeadingV3 title="More Than Expected" eyebrow="A RECENT FLEX" iconSrc="/images/Flex.png" iconAfter={2} />
 
       <p ref={introRef} className="hm-f16 hm-mt-section" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.6, ...revealStyle(introInView) }}>
-        It started with a chai conversation about{" "}
-        <strong style={{ color: "var(--hm-hero-b, #222222)", fontWeight: 600 }}>viral playlist sites</strong>{" "}
-        and one question: why not make one for Durga Puja? We built{" "}
-        <strong style={{ color: "var(--hm-hero-b, #222222)", fontWeight: 600 }}>Devi Paksha</strong>, blending Bengali culture,
-        nostalgia and Mahalaya music. I focused on{" "}
-        <strong style={{ color: "var(--hm-hero-b, #222222)", fontWeight: 600 }}>UI design and illustrations</strong>,
-        with light UX refinements.
+        What started as a random chai conversation about{" "}
+        <strong style={{ color: "var(--hm-hero-b, #222222)", fontWeight: 600 }}>viral music websites</strong>{" "}
+        turned into{" "}
+        <strong style={{ color: "var(--hm-hero-b, #222222)", fontWeight: 600 }}>Devi Paksha</strong>, our own little Durga Puja experiment. A mix of Bengali nostalgia, Mahalaya music, and a bit of vibe coding that somehow turned into something much bigger than we expected.
       </p>
 
       <div ref={cardRef} className="hm-dp-grid hm-mt-el">
@@ -162,10 +161,15 @@ export default function DeviPaksha() {
           {/* Bottom group: CTAs */}
           <div className="hm-dp-result-group">
             <div className="hm-btn-row">
-              <a href={WEBSITE_URL} target="_blank" rel="noopener noreferrer" data-cursor-kind="external" data-cursor-id="devi-paksha-site" className="hm-dp-cta hm-dp-cta-primary" style={{ borderRadius: isNew ? 8 : 9999 }}>
-                Visit Website
-              </a>
-              <a href={REEL_URL} target="_blank" rel="noopener noreferrer" data-cursor-kind="external" data-cursor-id="devi-paksha-reel" className="hm-dp-cta hm-dp-cta-secondary" style={{ borderRadius: isNew ? 8 : 9999 }}>
+              <button type="button" aria-disabled="true" aria-label="Visit Website (unavailable)" aria-describedby="hm-dp-site-desc" data-cursor="Taking a post-Puja break! ✨" data-cursor-id="devi-paksha-site"
+                className="hm-dp-cta hm-dp-cta-secondary hm-dp-cta-off" style={{ borderRadius: isNew ? 8 : 9999 }}
+                onClick={e => { e.preventDefault(); setTapped(true); }}
+                onFocus={() => setFocused(true)} onBlur={() => { setFocused(false); setTapped(false); }}>
+                {focused || tapped ? "Post-Puja break ✨" : "Visit Website"}
+              </button>
+              <span id="hm-dp-site-desc" className="hm-dp-sr">Unavailable: the Devi Paksha website is offline for now, taking a post-Puja break.</span>
+              <span role="status" className="hm-dp-sr">{focused || tapped ? "The Devi Paksha website is offline for now, taking a post-Puja break." : ""}</span>
+              <a href={REEL_URL} target="_blank" rel="noopener noreferrer" data-cursor-kind="external" data-cursor-id="devi-paksha-reel" className="hm-dp-cta hm-dp-cta-primary" style={{ borderRadius: isNew ? 8 : 9999 }}>
                 Watch the Reel
               </a>
             </div>
@@ -200,7 +204,10 @@ export default function DeviPaksha() {
         .hm-dp-stat-value { font-weight: 700; letter-spacing: -0.01em; color: #ED7454; line-height: 1.15; }
         .hm-dp-stat-label  { font-size: 11px; font-weight: 600; color: var(--hm-card-heading, rgba(255,255,255,0.50)); letter-spacing: 0.05em; margin-top: 4px; }
 
-        .hm-dp-result-group { margin-top: auto; padding-top: 24px; }   /* anchored to the bottom; 24px is the minimum gap above it */
+        .hm-dp-result-group { margin-top: auto; padding-top: 24px; }
+        .hm-dp-sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+        .hm-dp-cta-off { opacity: 0.5; cursor: default; font-family: inherit; }
+        .hm-dp-cta-off:hover, .hm-dp-cta-off:active { transform: none; background: var(--hm-dark-fill, rgba(255,255,255,0.10)); }   /* anchored to the bottom; 24px is the minimum gap above it */
 
         /* CTAs: same shapes as before; hover lift, press state, clear focus ring */
         .hm-dp-cta { display: flex; align-items: center; justify-content: center; padding: 11px 22px; font-size: 14px; font-weight: 600; text-decoration: none; border: none; transition: opacity 0.25s, background 0.25s, border-color 0.25s, transform 0.2s cubic-bezier(.22,1,.36,1); }
