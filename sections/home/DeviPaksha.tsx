@@ -96,8 +96,6 @@ export default function DeviPaksha() {
   const introRef = useRef(null);
   const cardRef = useRef(null);
   const statsRef = useRef(null);
-  const [focused, setFocused] = useState(false), [tapped, setTapped] = useState(false);   // keyboard focus and tap explain the disabled button on the button itself (hover uses the custom cursor)
-  useEffect(() => { if (!tapped) return; const id = setTimeout(() => setTapped(false), 3500); return () => clearTimeout(id); }, [tapped]);
   const reduce = useReduceMotionSafe();   // hydrates as "no preference" like the server, then switches (see the hook)
   const introInView = useInView(introRef, { once: true, margin: "0px" }) || reduce;   // reduced motion: everything is shown immediately
   const cardInView = useInView(cardRef, { once: true, margin: "0px" }) || reduce;
@@ -161,14 +159,11 @@ export default function DeviPaksha() {
           {/* Bottom group: CTAs */}
           <div className="hm-dp-result-group">
             <div className="hm-btn-row">
-              <button type="button" aria-disabled="true" aria-label="Visit Website (unavailable)" aria-describedby="hm-dp-site-desc" data-cursor="Taking a post-Puja break! ✨" data-cursor-id="devi-paksha-site"
-                className="hm-dp-cta hm-dp-cta-secondary hm-dp-cta-off" style={{ borderRadius: isNew ? 8 : 9999 }}
-                onClick={e => { e.preventDefault(); setTapped(true); }}
-                onFocus={() => setFocused(true)} onBlur={() => { setFocused(false); setTapped(false); }}>
-                {focused || tapped ? "Post-Puja break ✨" : "Visit Website"}
+              <button type="button" aria-disabled="true" aria-describedby="hm-dp-site-desc" data-cursor="Taking a post-Puja break!" data-cursor-id="devi-paksha-site"
+                className="hm-dp-cta hm-dp-cta-secondary hm-dp-cta-off" style={{ borderRadius: isNew ? 8 : 9999 }}>
+                Visit Website
               </button>
               <span id="hm-dp-site-desc" className="hm-dp-sr">Unavailable: the Devi Paksha website is offline for now, taking a post-Puja break.</span>
-              <span role="status" className="hm-dp-sr">{focused || tapped ? "The Devi Paksha website is offline for now, taking a post-Puja break." : ""}</span>
               <a href={REEL_URL} target="_blank" rel="noopener noreferrer" data-cursor-kind="external" data-cursor-id="devi-paksha-reel" className="hm-dp-cta hm-dp-cta-primary" style={{ borderRadius: isNew ? 8 : 9999 }}>
                 Watch the Reel
               </a>
