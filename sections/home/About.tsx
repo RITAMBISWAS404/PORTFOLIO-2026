@@ -65,17 +65,18 @@ export default function About() {
       <SectionHeadingV3 title="A Bit About Me" eyebrow="OBLIGATORY INTRODUCTION" icon={MdSelfImprovement} iconSrc="/images/About%20me.png" iconAfter={3} />
 
       {/* Bio */}
-      <p ref={bioRef} className="hm-f16 hm-mt-section"
-        style={{ fontWeight: 500, color: C.t2, lineHeight: 1.7, ...revealStyle(bioInView) }}>
-        Namaste!{" "}
-        <strong style={{ color: "var(--hm-hero-b, #222222)", fontWeight: 600 }}>
-          I&apos;m Ritam Biswas, a Product Designer with a CS background.
-        </strong>{" "}
-        I started out in graphic design and illustration, mostly chasing good visuals, until I realized that a
-        beautiful interface means very little if nobody can use it. That shift from{" "}
-        <strong style={{ color: "var(--hm-hero-b, #222222)", fontWeight: 600 }}>visual design to UX</strong>{" "}
-        is what eventually led me to Product Design.
-      </p>
+      <div ref={bioRef} className="hm-mt-section" style={{ display: "flex", flexDirection: "column", gap: 16, ...revealStyle(bioInView) }}>
+        <p className="hm-f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.7 }}>
+          Namaste! I&apos;m Ritam Biswas, a{" "}
+          <strong style={{ color: "var(--hm-hero-b, #222222)", fontWeight: 600 }}>Product Designer with a CS background.</strong>{" "}
+          I started out in graphic design and illustration, mostly chasing good visuals, until I realized there&apos;s more to design than making things look pretty.
+        </p>
+        <p className="hm-f16" style={{ fontWeight: 500, color: C.t2, lineHeight: 1.7 }}>
+          These days, I enjoy figuring out{" "}
+          <strong style={{ color: "var(--hm-hero-b, #222222)", fontWeight: 600 }}>what&apos;s worth building, why it matters, and how to make it work.</strong>{" "}
+          From untangling messy problems to obsessing over the tiniest details, I guess I never really stopped loving the visual side of things either.
+        </p>
+      </div>
 
       {/* Bento grid */}
       <div ref={bentRef} className="hm-about-bento hm-mt-el">
